@@ -11,7 +11,7 @@ const dummyProjects = [
     {
         // id: 'LMS-2026',
         title: 'Guidance in developing SKB test questions for the Functional Position of Legislative Affairs',
-        category: 'Organizational Development',
+        category: 'TESTING',
     },
     {
         // id: 'EVT-2025',
