@@ -38,7 +38,7 @@ class AuthController extends Controller
         $token = $user->createToken('admin_token')->plainTextToken;
 
         // 4. Kirim response ke Frontend (temanmu)
-        return response()->json([   
+        return response()->json([
             'success' => true,
             'message' => 'Login berhasil',
             'data' => [
