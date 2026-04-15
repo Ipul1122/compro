@@ -10,7 +10,7 @@ import 'swiper/css/effect-fade';
 const dummyProjects = [
     {
         // id: 'LMS-2026',
-        title: 'Guidance in developing SKB test questions for the Functional Position of Legislative Affairs',
+        title: 'Guidance in Developing SKB Test Questions for the Functional Position of Legislative Affairs',
         category: 'TESTING',
     },
     {
@@ -272,8 +272,7 @@ onUnmounted(() => {
                             <div class="mt-4 w-20 h-1 bg-gradient-to-r from-brand to-transparent rounded-full"></div>
                         </h1>
 
-                        <p
-                            class="mt-8 text-sm md:text-lg text-slate-600 uppercase tracking-widest leading-relaxed max-w-xl">
+                        <p class="mt-8 text-sm md:text-lg text-slate-600 tracking-widest leading-relaxed max-w-xl">
                             Completed more than hundreds of projects and is trusted by state owned enterprises
                             as the best service provider vendor.
                         </p>
@@ -316,6 +315,105 @@ onUnmounted(() => {
                 </div>
             </section>
 
+            <section id="about" class="py-24 bg-white overflow-hidden">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+
+                        <div class="w-full lg:w-1/2 relative group">
+                            <div
+                                class="absolute -top-6 -left-6 w-32 h-32 bg-brand/10 rounded-full blur-3xl group-hover:bg-brand/20 transition-all duration-700">
+                            </div>
+
+                            <div
+                                class="relative rounded-3xl overflow-hidden shadow-2xl transition-transform duration-500 hover:scale-[1.02]">
+                                <img src="" alt="Our Creative Team"
+                                    class="w-full h-[400px] md:h-[500px] object-cover" />
+
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
+                            </div>
+
+                            <div
+                                class="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-xl border border-slate-50 hidden md:block">
+                                <p class="text-3xl font-black text-brand">10+</p>
+                                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">Years Experience
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="w-full lg:w-1/2">
+                            <div class="space-y-6">
+                                <div>
+                                    <h2 class="text-xs font-bold text-brand uppercase tracking-[0.3em] mb-4">Who We Are
+                                    </h2>
+                                    <h3
+                                        class="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter leading-tight">
+                                        About <span class="text-brand">Us</span>
+                                    </h3>
+                                </div>
+
+                                <p class="text-lg text-slate-600 leading-relaxed">
+                                    At WebCakrawala, we bridge the gap between complex technology and intuitive user
+                                    experiences.
+                                    Based in Indonesia, our collective of developers and creators specializes in
+                                    crafting high-performance
+                                    web solutions that are as beautiful as they are functional.
+                                </p>
+
+                                <p class="text-slate-600 leading-relaxed">
+                                    From building automated SaaS platforms to integrating advanced AI models like Gemini
+                                    and Whisper,
+                                    we push the boundaries of the modern web to ensure your business stays ahead of the
+                                    curve.
+                                </p>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+                                    <div class="flex gap-4 p-4 rounded-2xl transition-colors hover:bg-slate-50">
+                                        <div
+                                            class="flex-shrink-0 w-12 h-12 bg-white shadow-sm rounded-xl flex items-center justify-center text-brand border border-slate-100">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-slate-900">Fast Performance</h4>
+                                            <p class="text-sm text-slate-500">Speed-optimized architectures for better
+                                                SEO and UX.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex gap-4 p-4 rounded-2xl transition-colors hover:bg-slate-50">
+                                        <div
+                                            class="flex-shrink-0 w-12 h-12 bg-white shadow-sm rounded-xl flex items-center justify-center text-brand border border-slate-100">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9.75 17L9 21l3-2 3 2-.75-4M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-slate-900">AI Integration</h4>
+                                            <p class="text-sm text-slate-500">Leveraging the latest in AI to automate
+                                                your workflow.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="pt-8">
+                                    <a href="#contact"
+                                        class="inline-flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-black hover:bg-brand transition-all duration-300 shadow-xl hover:shadow-brand/20 active:scale-95">
+                                        Work With Us
+                                        <span class="text-xl">→</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
             <section id="our-project" class="py-24 bg-white">
                 <div class="max-w-7xl mx-auto px-6">
 
@@ -324,7 +422,7 @@ onUnmounted(() => {
                         <div class="max-w-2xl">
                             <h2 class="text-xs font-bold text-brand uppercase tracking-[0.3em] mb-4">Selected Works</h2>
                             <h3 class="text-5xl font-black text-slate-900 tracking-tighter leading-none">
-                                Our Project <br /> <span class="text-slate-400">Cakrawala Parama Internasional</span>
+                                Our Projects <br /> <span class="text-slate-400">Cakrawala Parama Internasional</span>
                             </h3>
                         </div>
                     </div>
@@ -720,7 +818,7 @@ onUnmounted(() => {
                             </p>
 
                             <div class="mt-12 space-y-12">
-                                <div class="group">
+                                <!-- <div class="group">
                                     <h3 class="text-xl font-bold text-slate-900 flex items-center gap-3">
                                         <span class="text-brand text-sm font-black">01</span>
                                         Special Intimate Wedding
@@ -734,11 +832,11 @@ onUnmounted(() => {
                                             <div class="w-1 h-1 rounded-full bg-brand"></div> {{ item }}
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <div>
                                     <h3 class="text-xl font-bold text-slate-900 flex items-center gap-3">
-                                        <span class="text-brand text-sm font-black">02</span>
+                                        <span class="text-brand text-sm font-black">01</span>
                                         National & International Events
                                     </h3>
                                     <ul
@@ -934,22 +1032,28 @@ onUnmounted(() => {
                 </div>
             </section>
 
-            <section id="clients" class="py-16 bg-slate-50 border-y border-slate-200">
+            <section id="clients" class="py-16 bg-slate-50 border-y border-slate-200 overflow-hidden">
                 <div class="py-24">
                     <div class="max-w-7xl mx-auto px-6">
                         <div class="text-center mb-16">
                             <h2 class="text-xs font-bold text-brand uppercase tracking-[0.3em] mb-4">Trusted Partners
                             </h2>
                             <p class="text-3xl font-black text-slate-900 tracking-tighter">Collaborating with the finest
-                                institutions.
-                            </p>
+                                institutions.</p>
                         </div>
 
-                        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-8 items-center">
-                            <div v-for="(logo, index) in partnerLogos" :key="index"
-                                class="group flex items-center justify-center p-4 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
-                                <img :src="logo" :alt="'Partner Logo ' + index"
-                                    class="max-h-12 w-auto object-contain transform group-hover:scale-110 transition-transform duration-300" />
+                        <div class="relative flex overflow-hidden">
+                            <div class="flex marquee-content gap-12 items-center py-4">
+                                <div v-for="(logo, index) in partnerLogos" :key="'a-' + index"
+                                    class="flex-shrink-0 group flex items-center justify-center grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+                                    <img :src="logo" :alt="'Partner Logo ' + index"
+                                        class="max-h-12 w-40 object-contain transform group-hover:scale-110 transition-transform duration-300" />
+                                </div>
+                                <div v-for="(logo, index) in partnerLogos" :key="'b-' + index"
+                                    class="flex-shrink-0 group flex items-center justify-center grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+                                    <img :src="logo" :alt="'Partner Logo ' + index"
+                                        class="max-h-12 w-40 object-contain transform group-hover:scale-110 transition-transform duration-300" />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1126,5 +1230,50 @@ body.modal-open {
 
 .hover\:border-brand:hover {
     border-color: #ea4435;
+}
+
+/* The animation moves the content 50% because we doubled the logos */
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.marquee-content {
+    animation: marquee 30s linear infinite;
+    display: flex;
+    width: max-content;
+    /* Important: makes container as wide as all logos */
+}
+
+/* Pause animation when user hovers */
+.marquee-content:hover {
+    animation-play-state: paused;
+}
+
+/* Optional: Add a fade effect to the edges */
+#clients .relative::before,
+#clients .relative::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 100px;
+    height: 100%;
+    z-index: 2;
+}
+
+#clients .relative::before {
+    left: 0;
+    background: linear-gradient(to right, #f8fafc, transparent);
+    /* Matches bg-slate-50 */
+}
+
+#clients .relative::after {
+    right: 0;
+    background: linear-gradient(to left, #f8fafc, transparent);
 }
 </style>

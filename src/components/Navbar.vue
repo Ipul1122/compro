@@ -39,13 +39,14 @@ const handleLanguageToggle = () => {
                         <div class="hidden md:flex items-center gap-1">
                             <a href="#home"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Home</a>
+                            <a href="#about"
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">About
+                                Us</a>
                             <a href="#our-project"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Our
-                                Project</a>
-                            <a href="#psikotest"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Psikotest</a>
+                                Projects</a>
                             <a href="#our-services"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Service</a>
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Services</a>
                             <a href="#clients"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Client</a>
 
@@ -89,7 +90,7 @@ const handleLanguageToggle = () => {
                     <a href="#our-services" @click="isMenuOpen = false"
                         class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">Service</a>
                     <a href="#clients" @click="isMenuOpen = false"
-                        class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">Client</a>
+                        class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">Clients</a>
                     <div class="pt-2 pb-2 border-t border-slate-50 flex items-center justify-between px-4">
                         <span class="text-sm font-bold text-slate-500">Switch Language</span>
                         <button @click="handleLanguageToggle"
