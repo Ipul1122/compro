@@ -7,7 +7,7 @@ import axios from 'axios'
  * baseURL should be the root of your Laravel server.
  * Do NOT include '/api/login' here, or your other API calls will break.
  */
-axios.defaults.baseURL = 'http://localhost:8000'
+axios.defaults.baseURL = 'http://localhost:8000/'
 axios.defaults.withCredentials = true
 
 const router = useRouter()
