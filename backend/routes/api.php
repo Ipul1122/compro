@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,5 +53,6 @@ Route::middleware('auth:sanctum')->group(function () {
         // CRUD Category (Hanya method Store, Update, Destroy, Show berdasarkan ID)
         // Method Index() sudah ada di public route, tapi kalau admin butuh route sendiri bisa pakai apiResource
         Route::apiResource('categories', CategoryController::class);
+        Route::apiResource('articles', ArticleController::class);
     });
 });

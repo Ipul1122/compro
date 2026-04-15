@@ -16,5 +16,8 @@ class Category extends Model
         'meta_description'
     ];
 
-    
+    public function articles()
+    {
+        return $this->hasMany(Article::class);
+    }    
 }
