@@ -11,13 +11,28 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::latest()->get();
-        return response()->json([
-            'status' => 'success',
-            'data' => $categories
-        ]);
-    }
+        // 1. Optimasi: Ambil kolom seperlunya
+        $categories = Category::select('id', 'name', 'slug', 'created_at')
+            // 2. Optimasi: Menghitung total artikel relasi secara efisien (akan muncul kolom 'articles_count')
+            ->withCount('articles')
+            ->latest()
+            // 3. Pagination 10
+            ->paginate(10);
 
+        return response()->json([
+            'success' => true,
+            'message' => 'List Data Categories',
+            'data'    => $categories->items(),
+            'pagination' => [
+                'total'        => $categories->total(),
+                'per_page'     => $categories->perPage(),
+                'current_page' => $categories->currentPage(),
+                'last_page'    => $categories->lastPage(),
+                'next_page_url'=> $categories->nextPageUrl(),
+                'prev_page_url'=> $categories->previousPageUrl(),
+            ]
+        ], 200);
+    }
     public function store(Request $request)
     {
         $request->validate([
