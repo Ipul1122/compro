@@ -45,4 +45,39 @@ class DashboardController extends Controller
             ]
         ], 200);
     }
+
+    public function globalSearch(Request $request)
+    {
+        $keyword = $request->search;
+
+        // Jika tidak ada keyword yang diketik, kembalikan array kosong
+        if (!$keyword) {
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'articles' => [],
+                    'categories' => []
+                ]
+            ], 200);
+        }
+
+        // Cari 5 artikel yang cocok
+        $articles = Article::select('id', 'title', 'slug', 'image')
+            ->where('title', 'like', '%' . $keyword . '%')
+            ->take(5)->get();
+
+        // Cari 5 kategori yang cocok
+        $categories = Category::select('id', 'name', 'slug')
+            ->where('name', 'like', '%' . $keyword . '%')
+            ->take(5)->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Hasil pencarian global',
+            'data'    => [
+                'articles'   => $articles,
+                'categories' => $categories
+            ]
+        ], 200);
+    }
 }

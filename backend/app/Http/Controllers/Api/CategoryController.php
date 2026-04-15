@@ -7,17 +7,21 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
+
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // 1. Optimasi: Ambil kolom seperlunya
-        $categories = Category::select('id', 'name', 'slug', 'created_at')
-            // 2. Optimasi: Menghitung total artikel relasi secara efisien (akan muncul kolom 'articles_count')
+        $query = Category::select('id', 'name', 'slug', 'created_at')
             ->withCount('articles')
-            ->latest()
-            // 3. Pagination 10
-            ->paginate(10);
+            ->latest();
+
+        // 🔍 FITUR PENCARIAN (Berdasarkan Nama Kategori)
+        if ($request->has('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        $categories = $query->paginate(10);
 
         return response()->json([
             'success' => true,
@@ -28,8 +32,6 @@ class CategoryController extends Controller
                 'per_page'     => $categories->perPage(),
                 'current_page' => $categories->currentPage(),
                 'last_page'    => $categories->lastPage(),
-                'next_page_url'=> $categories->nextPageUrl(),
-                'prev_page_url'=> $categories->previousPageUrl(),
             ]
         ], 200);
     }
