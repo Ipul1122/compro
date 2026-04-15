@@ -3,10 +3,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
-/** * AXIOS CONFIGURATION
- * baseURL should be the root of your Laravel server.
- * Do NOT include '/api/login' here, or your other API calls will break.
- */
+// Axios Configuration
 axios.defaults.baseURL = 'http://localhost:8000'
 axios.defaults.withCredentials = true
 
@@ -21,25 +18,24 @@ const handleLogin = async () => {
     errorMessage.value = ''
 
     try {
-        // 1. Get CSRF Cookie (Necessary for Laravel Sanctum stateful auth)
-        // This hits: http://localhost:8000/sanctum/csrf-cookie
+        // 1. Get CSRF Cookie
         await axios.get('/sanctum/csrf-cookie')
 
         // 2. Attempt Login
-        // This hits: http://localhost:8000/api/login
         const response = await axios.post('/api/login', {
             email: email.value,
             password: password.value
         })
 
-        // 3. On Success
-        console.log('Login successful', response.data)
+        // 3. SUCCESS: Save user data to localStorage
+        // This ensures the dashboard can display the real name and email
+        if (response.data.user) {
+            localStorage.setItem('user', JSON.stringify(response.data.user))
+        }
 
-        // Redirect to your admin dashboard
         router.push('/admin')
 
     } catch (error) {
-        // 4. Handle Errors
         if (error.response && error.response.status === 401) {
             errorMessage.value = 'The credentials you entered are incorrect.'
         } else if (error.response && error.response.status === 422) {
@@ -47,7 +43,6 @@ const handleLogin = async () => {
         } else {
             errorMessage.value = 'Unable to connect to the server. Please try again later.'
         }
-        console.error('Login Error:', error)
     } finally {
         isLoading.value = false
     }
@@ -66,7 +61,6 @@ const handleLogin = async () => {
             </div>
 
             <div class="bg-white p-8 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-slate-100">
-
                 <div v-if="errorMessage"
                     class="mb-6 p-4 bg-red-50 border border-red-100 text-red-600 text-sm rounded-xl font-bold">
                     {{ errorMessage }}
@@ -74,26 +68,25 @@ const handleLogin = async () => {
 
                 <form @submit.prevent="handleLogin" class="space-y-6">
                     <div>
-                        <label for="email" class="block text-sm font-bold text-slate-700 mb-2">Email Address</label>
-                        <input v-model="email" type="email" id="email" placeholder="name@company.com"
-                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand focus:ring-2 focus:ring-brand/10 outline-none transition-all"
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Email Address</label>
+                        <input v-model="email" type="email"
+                            class="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/10 transition-all"
                             required />
                     </div>
-
                     <div>
                         <div class="flex justify-between mb-2">
-                            <label for="password" class="block text-sm font-bold text-slate-700">Password</label>
+                            <label class="block text-sm font-bold text-slate-700">Password</label>
                             <a href="#" class="text-xs font-bold text-brand hover:underline">Forgot?</a>
                         </div>
-                        <input v-model="password" type="password" id="password" placeholder="••••••••"
-                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand focus:ring-2 focus:ring-brand/10 outline-none transition-all"
+                        <input v-model="password" type="password"
+                            class="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/10 transition-all"
                             required />
                     </div>
 
                     <button type="submit" :disabled="isLoading"
-                        class="w-full bg-slate-900 text-white py-4 rounded-xl font-black hover:bg-brand transition-all shadow-lg hover:shadow-brand/30 active:scale-[0.98] disabled:opacity-70 flex justify-center items-center">
+                        class="w-full bg-slate-900 text-white py-4 rounded-xl font-black hover:bg-brand transition-all shadow-lg hover:shadow-brand/30 disabled:opacity-70 flex justify-center items-center">
                         <span v-if="!isLoading">Sign In</span>
-                        <span v-else class="flex gap-2">
+                        <span v-else class="flex gap-1">
                             <span class="w-2 h-2 bg-white rounded-full animate-bounce"></span>
                             <span class="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:0.2s]"></span>
                             <span class="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:0.4s]"></span>
@@ -101,13 +94,6 @@ const handleLogin = async () => {
                     </button>
                 </form>
             </div>
-
-            <p class="text-center mt-8 text-sm text-slate-500">
-                Not an admin?
-                <router-link to="/" class="font-bold text-slate-900 hover:text-brand transition-colors">
-                    Back to Home
-                </router-link>
-            </p>
         </div>
     </div>
 </template>
