@@ -3,10 +3,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
-/** * AXIOS CONFIGURATION
- * baseURL should be the root of your Laravel server.
- * Do NOT include '/api/login' here, or your other API calls will break.
- */
+// Axios Configuration
 axios.defaults.baseURL = 'http://localhost:8000'
 axios.defaults.withCredentials = true
 
@@ -36,7 +33,7 @@ const handleLogin = async () => {
             localStorage.setItem('user', JSON.stringify(response.data.user))
         }
 
-        router.push('/admin')
+        router.push('/view/dashboard')
 
     } catch (error) {
         if (error.response && error.response.status === 401) {
