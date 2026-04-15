@@ -12,32 +12,32 @@ class ArticleController extends Controller
 {
     public function index(Request $request)
     {
-        // 1. Optimasi: Pilih kolom yang diperlukan saja (Hide 'content' agar query lebih ringan)
         $query = Article::select('id', 'category_id', 'title', 'slug', 'image', 'published', 'total_view', 'created_at')
-            // 2. Optimasi: Eager load category dan ambil kolom nama & id saja dari tabel category
             ->with('category:id,name,slug') 
             ->latest();
 
-        // Filter berdasarkan status
+        // Filter berdasarkan status (draft/publish)
         if ($request->has('published')) {
             $query->where('published', $request->published);
         }
 
-        // 3. Pagination: 10 item per halaman
+        // 🔍 FITUR PENCARIAN (Berdasarkan Judul)
+        if ($request->has('search')) {
+            // Menggunakan 'like' dan '%' agar bisa mencari kata di tengah kalimat
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
         $articles = $query->paginate(10);
 
-        // Custom struktur JSON agar rapi antara data dan meta-pagination
         return response()->json([
             'success' => true,
             'message' => 'List Data Articles',
-            'data'    => $articles->items(), // Mengambil array data utamanya saja
+            'data'    => $articles->items(),
             'pagination' => [
-                'total'        => $articles->total(), // Total seluruh data di database
-                'per_page'     => $articles->perPage(), // Jumlah data per halaman (10)
-                'current_page' => $articles->currentPage(), // Halaman saat ini
-                'last_page'    => $articles->lastPage(), // Halaman terakhir
-                'next_page_url'=> $articles->nextPageUrl(), // Link URL untuk halaman selanjutnya
-                'prev_page_url'=> $articles->previousPageUrl(), // Link URL untuk halaman sebelumnya
+                'total'        => $articles->total(),
+                'per_page'     => $articles->perPage(),
+                'current_page' => $articles->currentPage(),
+                'last_page'    => $articles->lastPage(),
             ]
         ], 200);
     }
