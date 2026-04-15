@@ -30,7 +30,7 @@ onMounted(() => {
         }, 4000)
     } else {
         // 3. Security: Redirect to login if no data found
-        router.push('/login')
+        router.push('/view/login')
     }
 })
 
@@ -41,7 +41,7 @@ const toggleSidebar = () => {
 const logout = () => {
     // Clear session and redirect
     localStorage.removeItem('user')
-    router.push('/login')
+    router.push('/view/login')
 }
 </script>
 
