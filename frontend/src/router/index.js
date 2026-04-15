@@ -13,6 +13,13 @@ const routes = [
     name: "indonesia",
     component: IdLanguage,
   },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("@/views/LoginView.vue"),
+    // This 'meta' tag helps us tell App.vue to hide the Navbar
+    meta: { hideNavbar: true },
+  },
 ];
 
 const router = createRouter({
