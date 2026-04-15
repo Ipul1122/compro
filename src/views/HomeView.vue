@@ -326,7 +326,7 @@ onUnmounted(() => {
 
                             <div
                                 class="relative rounded-3xl overflow-hidden shadow-2xl transition-transform duration-500 hover:scale-[1.02]">
-                                <img src="" alt="Our Creative Team"
+                                <img src="/src/img/skyscraper.jpg" alt="Our Creative Team"
                                     class="w-full h-[400px] md:h-[500px] object-cover" />
 
                                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
@@ -378,8 +378,7 @@ onUnmounted(() => {
                                         </div>
                                         <div>
                                             <h4 class="font-bold text-slate-900">Fast Performance</h4>
-                                            <p class="text-sm text-slate-500">Speed-optimized architectures for better
-                                                SEO and UX.</p>
+                                            <p class="text-sm text-slate-500">Speed-optimized architectures.</p>
                                         </div>
                                     </div>
 
@@ -490,7 +489,7 @@ onUnmounted(() => {
                 </div>
             </section>
 
-            <section id="services" class="py-24 bg-slate-50 border-y border-slate-200 relative overflow-hidden">
+            <!-- <section id="services" class="py-24 bg-slate-50 border-y border-slate-200 relative overflow-hidden">
                 <div class="absolute top-1/2 -right-[10%] w-[30%] h-[60%] bg-brand/5 blur-[120px] rounded-full -z-10">
                 </div>
 
@@ -562,7 +561,7 @@ onUnmounted(() => {
 
                     </div>
                 </div>
-            </section>
+            </section> -->
 
             <section id="our-services" class="py-32 relative overflow-hidden bg-white">
                 <div class="max-w-7xl mx-auto px-4">
@@ -743,6 +742,80 @@ onUnmounted(() => {
 
                             <div
                                 class="absolute -bottom-6 -right-6 w-full h-full border-2 border-brand/20 rounded-[2rem] -z-10 group-hover:translate-x-4 group-hover:translate-y-4 transition-transform duration-500">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section id="services" class="py-24 bg-slate-50 border-y border-slate-200 relative overflow-hidden">
+                <div class="absolute top-1/2 -right-[10%] w-[30%] h-[60%] bg-brand/5 blur-[120px] rounded-full -z-10">
+                </div>
+
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+                        <div class="order-1 lg:order-1">
+                            <div class="relative group">
+                                <div
+                                    class="aspect-video lg:aspect-square w-full bg-slate-200 rounded-2xl border border-slate-200 overflow-hidden flex items-center justify-center shadow-xl relative z-10">
+
+                                    <img src="/src/img/section-two.jpg" alt="Assessment Service"
+                                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-br from-slate-900/60 to-transparent opacity-50 z-10">
+                                    </div>
+
+                                    <p
+                                        class="relative z-20 text-white font-bold italic opacity-0 group-hover:opacity-100 transition-opacity">
+                                        Assessment Center
+                                    </p>
+                                </div>
+
+                                <div
+                                    class="absolute -bottom-4 -left-4 w-full h-full border-2 border-brand/20 rounded-2xl z-0 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="psikotest" class="order-2 lg:order-2">
+                            <div
+                                class="inline-block px-3 py-1 rounded-full bg-brand/10 border border-brand/20 text-brand text-xs font-bold uppercase tracking-widest mb-6">
+                                Specialized Service
+                            </div>
+
+                            <h2 class="text-3xl md:text-5xl font-bold leading-tight text-slate-900">
+                                Psikotest and Assessment <br class="hidden md:block" />
+                                Center Service <span
+                                    class="text-slate-500 text-2xl md:text-3xl font-medium block mt-2">Online &
+                                    Offline</span>
+                            </h2>
+
+                            <p class="mt-6 text-lg text-slate-600 leading-relaxed">
+                                Measuring competencies and performance to assess the suitability for their current
+                                position
+                                and to identify potential for transfer or promotion to other roles.
+                            </p>
+
+                            <ul class="mt-8 space-y-4">
+                                <li class="flex items-center gap-3 text-slate-700">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-brand"></div>
+                                    <span>Comprehensive Performance Analytics</span>
+                                </li>
+                                <li class="flex items-center gap-3 text-slate-700">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-brand"></div>
+                                    <span>Tailored Promotion Identification</span>
+                                </li>
+                            </ul>
+
+                            <div class="mt-10">
+                                <button
+                                    class="group flex items-center gap-2 text-brand font-bold hover:gap-4 transition-all">
+                                    Learn More About Assessments
+                                    <span>→</span>
+                                </button>
                             </div>
                         </div>
 
