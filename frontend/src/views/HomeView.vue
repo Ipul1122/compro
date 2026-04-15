@@ -450,7 +450,7 @@ onUnmounted(() => {
                                 </p>
                             </div>
 
-                            <div class="w-full md:w-1/4 flex flex-col justify-end items-start md:items-end h-full">
+                            <!-- <div class="w-full md:w-1/4 flex flex-col justify-end items-start md:items-end h-full">
                                 <button
                                     class="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-900 group-hover:gap-4 transition-all">
                                     Detail Project
@@ -460,7 +460,7 @@ onUnmounted(() => {
                                         </path>
                                     </svg>
                                 </button>
-                            </div>
+                            </div> -->
 
                         </div>
                     </div>

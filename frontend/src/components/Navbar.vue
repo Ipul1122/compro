@@ -48,7 +48,7 @@ const handleLanguageToggle = () => {
                             <a href="#our-services"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Services</a>
                             <a href="#clients"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Client</a>
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Clients</a>
 
                             <button @click="handleLanguageToggle"
                                 class="ml-2 flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-brand hover:text-brand transition-all active:scale-95">
