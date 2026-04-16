@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
+    // backend/app/Http/Controllers/Api/ArticleController.php
+
     public function index(Request $request)
     {
         $query = Article::select('id', 'category_id', 'title', 'slug', 'image', 'published', 'total_view', 'created_at', 'updated_at')
@@ -17,13 +19,17 @@ class ArticleController extends Controller
             ->latest();
 
         // Filter berdasarkan status (draft/publish)
-        if ($request->has('published')) {
+        if ($request->filled('published')) {
             $query->where('published', $request->published);
         }
 
-        // 🔍 FITUR PENCARIAN (Berdasarkan Judul)
-        if ($request->has('search')) {
-            // Menggunakan 'like' dan '%' agar bisa mencari kata di tengah kalimat
+        // Filter berdasarkan kategori (Baru)
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        // Fitur Pencarian Judul
+        if ($request->filled('search')) {
             $query->where('title', 'like', '%' . $request->search . '%');
         }
 
@@ -34,7 +40,7 @@ class ArticleController extends Controller
             'message' => 'List Data Articles',
             'data'    => $articles->items(),
             'pagination' => [
-                'total'        => $articles->total(),
+                'total'        => $articles->total(), // Ini untuk informasi total artikel
                 'per_page'     => $articles->perPage(),
                 'current_page' => $articles->currentPage(),
                 'last_page'    => $articles->lastPage(),
