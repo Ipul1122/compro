@@ -47,7 +47,7 @@ class CategoryController extends Controller
             'name' => $request->name,
             'slug' => Str::slug($request->name),
             'meta_title' => $request->meta_title ?? $request->name,
-            'meta_description' => $request->meta_description,
+            'meta_description' => $request->meta_description ?? 'Kumpulan artikel dan informasi terbaru seputar kategori ' . $request->name,
         ]);
 
         return response()->json([
@@ -80,7 +80,7 @@ class CategoryController extends Controller
             'name' => $request->name,
             'slug' => Str::slug($request->name),
             'meta_title' => $request->meta_title ?? $request->name,
-            'meta_description' => $request->meta_description,
+            'meta_description' => $request->meta_description ?? 'Kumpulan artikel dan informasi terbaru seputar kategori ' . $request->name,
         ]);
 
         return response()->json([
