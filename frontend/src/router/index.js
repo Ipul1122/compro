@@ -5,6 +5,7 @@ import NotFoundView from '../views/NotFoundView.vue'
 import CategoryIndex from '../views/admin/category/IndexView.vue'
 import CategoryEdit from '../views/admin/category/EditView.vue'
 import ArticleIndex from '../views/admin/articles/IndexView.vue'
+import ArticleCreate from '../views/admin/articles/TambahView.vue'
 import ArticleEdit from '../views/admin/articles/EditView.vue'
 
 const routes = [
@@ -56,7 +57,13 @@ const routes = [
     component: ArticleIndex 
   },
   {
-    // edir articles
+    // create articles (Tambahkan ini sebelum route edit)
+    path: '/admin/articles/create',
+    name: 'admin.articles.create',
+    component: ArticleCreate
+  },
+  {
+    // edit articles
     path: '/admin/articles/edit/:id',
     name: 'admin.articles.edit',
     component: ArticleEdit

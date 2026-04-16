@@ -62,7 +62,7 @@ class ArticleController extends Controller
         // Upload Image
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $image->storeAs('public/articles', $image->hashName());
+            $image->storeAs('articles', $image->hashName(), 'public');
             $data['image'] = $image->hashName();
         }
 
@@ -120,12 +120,13 @@ class ArticleController extends Controller
         // Handle Image Update
         if ($request->hasFile('image')) {
             // Hapus gambar lama
+            // Hapus gambar lama
             if ($article->image) {
-                Storage::delete('public/articles/' . $article->image);
+                Storage::disk('public')->delete('articles/' . $article->image);
             }
             // Upload gambar baru
             $image = $request->file('image');
-            $image->storeAs('public/articles', $image->hashName());
+            $image->storeAs('articles', $image->hashName(), 'public');
             $data['image'] = $image->hashName();
         }
 
@@ -144,7 +145,7 @@ class ArticleController extends Controller
 
         // Hapus gambar
         if ($article->image) {
-            Storage::delete('public/articles/' . $article->image);
+            Storage::disk('public')->delete('articles/' . $article->image);
         }
 
         $article->delete();

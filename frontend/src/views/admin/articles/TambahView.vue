@@ -10,27 +10,31 @@
           <button @click="isSidebarOpen = !isSidebarOpen" class="lg:hidden p-2 text-slate-600 hover:bg-slate-50 rounded-lg cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
           </button>
-          <h2 class="text-base md:text-lg font-bold text-slate-900 uppercase tracking-tight">Edit Article</h2>
+          <h2 class="text-base md:text-lg font-bold text-slate-900 uppercase tracking-tight">Tambah Artikel</h2>
         </div>
       </nav>
 
       <main class="p-4 md:p-8">
         <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm max-w-4xl mx-auto">
-          <h2 class="text-2xl font-black text-slate-900 uppercase tracking-tight mb-8">Ubah Artikel</h2>
+          <h2 class="text-2xl font-black text-slate-900 uppercase tracking-tight mb-8">Buat Artikel Baru</h2>
 
-          <div v-if="isLoading" class="text-center py-10 font-bold text-black animate-pulse text-sm">Memuat data...</div>
-
-          <form v-else @submit.prevent="updateArticle" enctype="multipart/form-data">
+          <form @submit.prevent="storeArticle" enctype="multipart/form-data">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <div class="md:col-span-2">
+              
+              <div>
                 <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Judul Artikel</label>
-                <input v-model="form.title" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black" required>
+                <input v-model="form.title" @input="handleTitleInput" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black" required placeholder="Masukkan judul artikel">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Slug</label>
+                <input v-model="form.slug" type="text" disabled class="w-full border border-slate-300 p-3 rounded-xl outline-none font-bold text-slate-500 bg-slate-100 cursor-not-allowed" placeholder="otomatis-mengikuti-judul">
               </div>
 
               <div>
                 <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Kategori</label>
                 <select v-model="form.category_id" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-white" required>
-                  <option value="">Pilih Kategori</option>
+                  <option value="" disabled>Pilih Kategori</option>
                   <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
                 </select>
               </div>
@@ -45,34 +49,38 @@
 
               <div class="md:col-span-2">
                 <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Isi Konten</label>
-                <textarea v-model="form.content" rows="8" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-medium text-black" required></textarea>
+                <textarea v-model="form.content" rows="8" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-medium text-black" required placeholder="Tulis isi artikel di sini..."></textarea>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Title (SEO)</label>
+                <input v-model="form.meta_title" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black" placeholder="Judul untuk SEO">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Keywords (SEO)</label>
+                <input v-model="form.meta_keywords" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black" placeholder="pisahkan, dengan, koma">
               </div>
 
               <div class="md:col-span-2">
-                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Gambar Utama (Kosongkan jika tidak diubah)</label>
-                
+                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Description (SEO)</label>
+                <textarea v-model="form.meta_description" rows="3" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-medium text-black" placeholder="Deskripsi singkat untuk SEO..."></textarea>
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Gambar Utama</label>
                 <div class="flex flex-col items-start gap-4">
-                  
-                  <img 
-                    v-if="previewImage || currentImageUrl" 
-                    :src="previewImage || currentImageUrl" 
-                    class="w-full max-w-2xl aspect-video rounded-xl object-cover border border-slate-200 shadow-sm" 
-                  />
-                  
-                  <input 
-                    type="file" 
-                    @change="handleFileChange" 
-                    class="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-900 file:text-white hover:file:bg-[#ea4435] cursor-pointer"
-                  >
+                  <img v-if="previewImage" :src="previewImage" class="w-full max-w-2xl aspect-video rounded-xl object-cover border border-slate-200 shadow-sm" />
+                  <input type="file" @change="handleFileChange" accept="image/*" class="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-900 file:text-white hover:file:bg-[#ea4435] cursor-pointer" required>
                 </div>
               </div>
             </div>
 
             <div class="flex gap-3 pt-4 border-t border-slate-100">
               <button type="submit" :disabled="isSaving" class="bg-slate-900 text-white px-8 py-3 rounded-xl text-sm font-bold hover:bg-[#ea4435] transition-colors cursor-pointer disabled:opacity-50">
-                {{ isSaving ? 'Menyimpan...' : 'Simpan Perubahan' }}
+                {{ isSaving ? 'Menyimpan...' : 'Simpan Artikel' }}
               </button>
-              <router-link to="/admin/articles" class="bg-slate-100 text-slate-600 px-8 py-3 rounded-xl text-sm font-bold hover:bg-slate-200 transition-colors text-center">Kembali</router-link>
+              <router-link to="/admin/articles" class="bg-slate-100 text-slate-600 px-8 py-3 rounded-xl text-sm font-bold hover:bg-slate-200 transition-colors text-center">Batal</router-link>
             </div>
           </form>
         </div>
@@ -83,113 +91,103 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import axios from 'axios';
 import Sidebar from '@/components/admin/Sidebar.vue';
 import { getImageUrl } from '@/utils/imageHelper';
 
-const route = useRoute();
 const router = useRouter();
 
 // UI States
 const isSidebarOpen = ref(false);
 const currentView = ref('articles');
-const isLoading = ref(true);
 const isSaving = ref(false);
 
 // Data States
 const categories = ref([]);
-const currentImageUrl = ref(null);
 const previewImage = ref(null);
+
 const form = ref({
     title: '',
+    slug: '',
     category_id: '',
     content: '',
+    meta_title: '',
+    meta_description: '',
+    meta_keywords: '',
     published: 'publish',
     image: null
 });
 
 onMounted(async () => {
     await fetchCategories();
-    await fetchArticleDetail();
 });
 
 const fetchCategories = async () => {
     try {
-        // Jangan lupa sertakan Bearer Token jika route ini di dalam grup auth:sanctum
         const token = localStorage.getItem('token');
         const response = await axios.get('http://localhost:8000/api/admin/categories/list', {
             headers: { Authorization: `Bearer ${token}` }
         });
-        
-        // Sekarang responsnya sudah pasti array data kategori
         categories.value = response.data.data;
     } catch (err) { 
-        console.error(err); 
+        console.error("Error fetching categories:", err); 
     }
 };
 
-const fetchArticleDetail = async () => {
-    isLoading.value = true;
-    try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get(`http://localhost:8000/api/admin/articles/${route.params.id}`, {
-            headers: { Authorization: `Bearer ${token}` }
-        });
-        const data = response.data.data;
-        
-        form.value.title = data.title;
-        form.value.category_id = data.category_id;
-        form.value.content = data.content;
-        form.value.published = data.published;
+// Auto Generate Slug
+const generateSlug = (text) => {
+    return text.toString().toLowerCase()
+        .replace(/\s+/g, '-')           
+        .replace(/[^\w\-]+/g, '')       
+        .replace(/\-\-+/g, '-')         
+        .replace(/^-+/, '')             
+        .replace(/-+$/, '');            
+};
 
-        // Gunakan utility function untuk consistency
-        if (data.image) {
-            currentImageUrl.value = getImageUrl(data.image);
-        } else {
-            currentImageUrl.value = null;
-        }
-
-    } catch (err) {
-        console.error(err);
-        router.push('/admin/articles');
-    } finally {
-        isLoading.value = false;
-    }
+// Fungsi ini akan terus mengupdate slug setiap kali judul diketik
+const handleTitleInput = () => {
+    form.value.slug = generateSlug(form.value.title);
 };
 
 const handleFileChange = (e) => {
     const file = e.target.files[0];
-    form.value.image = file;
-    previewImage.value = URL.createObjectURL(file);
+    if (file) {
+        form.value.image = file;
+        previewImage.value = URL.createObjectURL(file);
+    }
 };
 
-const updateArticle = async () => {
+const storeArticle = async () => {
     isSaving.value = true;
     try {
         const token = localStorage.getItem('token');
         const formData = new FormData();
-        formData.append('_method', 'PUT'); // RAHASIA: Method Spoofing
+        
         formData.append('title', form.value.title);
+        formData.append('slug', form.value.slug); // Slug tetap terkirim meski inputnya disabled
         formData.append('category_id', form.value.category_id);
         formData.append('content', form.value.content);
+        formData.append('meta_title', form.value.meta_title || form.value.title); 
+        formData.append('meta_description', form.value.meta_description);
+        formData.append('meta_keywords', form.value.meta_keywords);
         formData.append('published', form.value.published);
         
         if (form.value.image) {
             formData.append('image', form.value.image);
         }
 
-        await axios.post(`http://localhost:8000/api/admin/articles/${route.params.id}`, formData, {
+        await axios.post('http://localhost:8000/api/admin/articles', formData, {
             headers: { 
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data'
             }
         });
 
-        alert('Artikel berhasil diperbarui!');
+        alert('Artikel berhasil ditambahkan!');
         router.push('/admin/articles');
     } catch (err) {
-        alert('Gagal memperbarui artikel. Periksa inputan Anda.');
+        alert('Gagal menyimpan artikel. Pastikan semua field wajib terisi.');
         console.error(err);
     } finally {
         isSaving.value = false;
