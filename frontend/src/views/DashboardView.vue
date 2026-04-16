@@ -1,7 +1,8 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import Sidebar from '@/components/admin/Sidebar.vue' 
 
 const router = useRouter()
 const isSidebarOpen = ref(false)
@@ -9,7 +10,7 @@ const isProfileOpen = ref(false)
 const showSuccessNotif = ref(false)
 
 // Navigation State
-const currentView = ref('dashboard') // 'dashboard' or 'articles'
+const currentView = ref('dashboard')
 
 const user = ref({ name: 'Admin', email: '' })
 
@@ -75,36 +76,11 @@ const formatDate = (date) => {
             </div>
         </transition>
 
-        <aside :class="isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
-            class="fixed lg:sticky top-0 inset-y-0 left-0 w-64 bg-slate-900 flex flex-col z-[70] transition-transform duration-300 ease-in-out h-screen">
-            <div class="p-6 border-b border-slate-800 flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                    <div class="h-8 w-8 bg-[#ea4435] rounded-lg flex items-center justify-center text-white font-black">
-                        W</div>
-                    <span class="text-white font-bold tracking-tight text-xl">Cakrawala</span>
-                </div>
-            </div>
-
-            <nav class="flex-1 p-4 space-y-2">
-                <button @click="currentView = 'dashboard'; isSidebarOpen = false"
-                    :class="currentView === 'dashboard' ? 'bg-[#ea4435] text-white' : 'text-slate-400 hover:bg-slate-800'"
-                    class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all cursor-pointer">
-                    Dashboard
-                </button>
-                <button @click="currentView = 'articles'; isSidebarOpen = false"
-                    :class="currentView === 'articles' ? 'bg-[#ea4435] text-white' : 'text-slate-400 hover:bg-slate-800'"
-                    class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all cursor-pointer">
-                    Articles
-                </button>
-            </nav>
-
-            <div class="p-4 mt-auto border-t border-slate-800">
-                <button @click="handleLogout"
-                    class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-red-500/10 hover:text-red-500 transition-all font-bold text-sm cursor-pointer">
-                    Sign Out
-                </button>
-            </div>
-        </aside>
+        <Sidebar 
+            v-model:is-open="isSidebarOpen" 
+            v-model:current-view="currentView"
+            @logout="handleLogout"
+        />
 
         <div class="flex-1 flex flex-col min-w-0">
             <nav
@@ -118,8 +94,8 @@ const formatDate = (date) => {
                                 d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
-                    <h2 class="text-base md:text-lg font-bold text-slate-900 truncate">
-                        {{ currentView === 'dashboard' ? 'Admin Overview' : 'Manage Articles' }}
+                    <h2 class="text-base md:text-lg font-bold text-slate-900 truncate uppercase tracking-tight">
+                        {{ currentView === 'dashboard' ? 'Overview' : currentView }}
                     </h2>
                 </div>
 
@@ -172,7 +148,7 @@ const formatDate = (date) => {
                     <div class="p-6 border-b border-slate-50 flex justify-between items-center">
                         <h3 class="font-black text-slate-900 uppercase tracking-tight">Article List</h3>
                         <button
-                            class="bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#ea4435] transition-colors">Create
+                            class="bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#ea4435] transition-colors cursor-pointer">Create
                             New</button>
                     </div>
 
@@ -218,8 +194,8 @@ const formatDate = (date) => {
                                     </td>
                                     <td class="px-6 py-4 text-right">
                                         <button
-                                            class="text-slate-400 hover:text-slate-900 mr-3 transition-colors">Edit</button>
-                                        <button class="text-red-400 hover:text-red-600 transition-colors">Del</button>
+                                            class="text-slate-400 hover:text-slate-900 mr-3 transition-colors cursor-pointer">Edit</button>
+                                        <button class="text-red-400 hover:text-red-600 transition-colors cursor-pointer">Del</button>
                                     </td>
                                 </tr>
                             </tbody>

@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import IdLanguage from "@/components/IdLanguage.vue";
 import NotFoundView from '../views/NotFoundView.vue'
+import CategoryIndex from '../views/admin/category/IndexView.vue'
+import CategoryEdit from '../views/admin/category/EditView.vue'
 
 const routes = [
   {
@@ -32,6 +34,18 @@ const routes = [
     component: () => import("@/views/DashboardView.vue"),
     // This 'meta' tag helps us tell App.vue to hide the Navbar
     meta: { hideNavbar: true },
+  },
+
+  {
+    path: '/admin/categories',
+    name: 'admin.categories.index',
+    component: CategoryIndex,
+    meta: { requiresAuth: true }
+  },
+  {
+  path: '/admin/categories/edit/:id',
+  name: 'admin.categories.edit',
+  component: CategoryEdit
   },
 ];
 
