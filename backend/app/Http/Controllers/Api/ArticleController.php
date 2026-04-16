@@ -12,7 +12,7 @@ class ArticleController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Article::select('id', 'category_id', 'title', 'slug', 'image', 'published', 'total_view', 'created_at')
+        $query = Article::select('id', 'category_id', 'title', 'slug', 'image', 'published', 'total_view', 'created_at', 'updated_at')
             ->with('category:id,name,slug') 
             ->latest();
 

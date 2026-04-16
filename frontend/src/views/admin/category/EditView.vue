@@ -1,6 +1,6 @@
 <template>
   <div class="flex min-h-screen bg-slate-50 relative overflow-x-hidden">
-    <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-slate-900/50 z-[60] lg:hidden backdrop-blur-sm cursor-pointer"></div>
+    <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-slate-900/50 z-60 lg:hidden backdrop-blur-sm cursor-pointer"></div>
     
     <Sidebar 
       v-model:is-open="isSidebarOpen" 
@@ -10,7 +10,7 @@
     />
 
     <div class="flex-1 flex flex-col min-w-0">
-      <nav class="h-20 bg-white border-b border-slate-100 px-4 md:px-8 flex items-center justify-between sticky top-0 z-[50]">
+      <nav class="h-20 bg-white border-b border-slate-100 px-4 md:px-8 flex items-center justify-between sticky top-0 z-50">
         <div class="flex items-center gap-4">
           <button @click="isSidebarOpen = !isSidebarOpen" class="lg:hidden p-2 text-slate-600 hover:bg-slate-50 rounded-lg cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

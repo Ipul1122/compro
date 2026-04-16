@@ -4,6 +4,7 @@ import IdLanguage from "@/components/IdLanguage.vue";
 import NotFoundView from '../views/NotFoundView.vue'
 import CategoryIndex from '../views/admin/category/IndexView.vue'
 import CategoryEdit from '../views/admin/category/EditView.vue'
+import ArticleIndex from '../views/admin/articles/IndexView.vue'
 
 const routes = [
   {
@@ -46,6 +47,11 @@ const routes = [
   path: '/admin/categories/edit/:id',
   name: 'admin.categories.edit',
   component: CategoryEdit
+  },
+  {
+  path: '/admin/articles',
+  name: 'admin.articles.index',
+  component: ArticleIndex 
   },
 ];
 
