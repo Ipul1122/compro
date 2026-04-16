@@ -293,7 +293,7 @@ const closeModal = () => {
                         <h1 class="relative z-10 flex flex-col gap-2">
                             <span
                                 class="text-brand font-black uppercase tracking-[0.4em] text-[10px] md:text-xs mb-2 flex items-center gap-3">
-                                <span class="w-8 h-[1px] bg-brand/50"></span>
+                                <span class="w-8 h-px bg-brand/50"></span>
                                 Established Excellence
                             </span>
 

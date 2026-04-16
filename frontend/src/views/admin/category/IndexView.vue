@@ -64,7 +64,7 @@
                   <td class="px-6 py-4 text-center font-bold text-slate-700 text-sm">{{ cat.articles_count }}</td>
                   <td class="px-6 py-4 text-right">
                     <router-link :to="`/admin/categories/edit/${cat.id}`" class="text-slate-400 hover:text-yellow-500 mr-4 transition-colors text-sm font-bold">Edit</router-link>
-                    <button @click="deleteCategory(cat.id)" class="text-red-400 hover:text-red-600 transition-colors text-sm font-bold cursor-pointer">Hapus</button>
+                   <button @click="confirmDelete(cat.id)" class="text-red-400 hover:text-red-600 transition-colors text-sm font-bold cursor-pointer">Hapus</button>
                   </td>
                 </tr>
                 <tr v-if="!store.loading && store.categories.length === 0">
@@ -110,6 +110,25 @@
         </form>
       </div>
     </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div v-if="isDeleteModalOpen" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-[200]">
+      <div class="bg-white p-6 rounded-3xl w-full max-w-sm shadow-2xl text-center scale-100 transition-transform">
+        <div class="w-16 h-16 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        
+        <h3 class="text-lg font-black text-slate-900 mb-2 tracking-tight">Hapus Kategori?</h3>
+        <p class="text-xs text-slate-500 mb-6 font-medium leading-relaxed">Tindakan ini tidak dapat dibatalkan. Kategori ini akan dihapus secara permanen dari sistem.</p>
+        
+        <div class="flex justify-center gap-3">
+          <button @click="isDeleteModalOpen = false" class="px-5 py-3 text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors cursor-pointer w-full">Batal</button>
+          <button @click="executeDelete" class="px-5 py-3 text-sm font-bold text-white bg-red-500 hover:bg-red-600 rounded-xl transition-colors cursor-pointer w-full shadow-lg shadow-red-500/30">Ya, Hapus</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -120,7 +139,7 @@ import Sidebar from '@/components/admin/Sidebar.vue';
 import { useCategoryStore } from '@/stores/category';
 
 const router = useRouter();
-const route = useRoute(); // Inisialisasi route untuk membaca URL
+const route = useRoute(); 
 const store = useCategoryStore();
 
 // Layout State
@@ -167,12 +186,16 @@ const fetchData = (page = 1) => {
 };
 
 // Navigasi Sidebar
+// Fungsi Navigasi Global untuk Sidebar
 const handleNavigation = (view) => {
-  if (view === 'dashboard' || view === 'articles') {
-    router.push('/admin/dashboard'); 
+  if (view === 'dashboard') {
+    router.push('/view/dashboard');
+  } else if (view === 'categories') {
+    router.push('/admin/categories');
+  } else if (view === 'articles') {
+    router.push('/admin/articles'); 
   }
 };
-
 const handleLogout = () => {
   localStorage.removeItem('user');
   localStorage.removeItem('token');
@@ -200,10 +223,28 @@ const submitForm = async () => {
   }
 };
 
-const deleteCategory = async (id) => {
-  if (confirm("Yakin ingin menghapus kategori ini?")) {
-    await store.destroyCategory(id);
-    fetchData(store.pagination.current_page); // Tetap di halaman yang sama setelah hapus
+// Tambahkan 2 baris state ini di bawah variabel isModalOpen
+const isDeleteModalOpen = ref(false);
+const deleteId = ref(null);
+
+// HAPUS FUNGSI deleteCategory YANG LAMA, GANTI DENGAN 2 FUNGSI INI:
+const confirmDelete = (id) => {
+  deleteId.value = id;
+  isDeleteModalOpen.value = true;
+};
+
+const executeDelete = async () => {
+  if (!deleteId.value) return;
+  
+  try {
+    await store.destroyCategory(deleteId.value);
+    fetchData(store.pagination.current_page); // Refresh data
+  } catch (err) {
+    alert("Gagal menghapus kategori!");
+  } finally {
+    // Tutup popover & reset ID
+    isDeleteModalOpen.value = false;
+    deleteId.value = null;
   }
 };
 </script>
