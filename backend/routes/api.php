@@ -51,8 +51,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index']);
         Route::get('/dashboard/search', [DashboardController::class, 'globalSearch']);
         
+        // Endpoint khusus untuk dropdown form (Get All tanpa pagination)
+        Route::get('categories/list', [CategoryController::class, 'list']);
         // CRUD Category (Hanya method Store, Update, Destroy, Show berdasarkan ID)
-        // Method Index() sudah ada di public route, tapi kalau admin butuh route sendiri bisa pakai apiResource
         Route::apiResource('categories', CategoryController::class);
         Route::apiResource('articles', ArticleController::class);
     });

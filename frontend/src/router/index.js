@@ -5,6 +5,7 @@ import NotFoundView from '../views/NotFoundView.vue'
 import CategoryIndex from '../views/admin/category/IndexView.vue'
 import CategoryEdit from '../views/admin/category/EditView.vue'
 import ArticleIndex from '../views/admin/articles/IndexView.vue'
+import ArticleEdit from '../views/admin/articles/EditView.vue'
 
 const routes = [
   {
@@ -26,7 +27,6 @@ const routes = [
     path: "/view/login",
     name: "login",
     component: () => import("@/views/LoginView.vue"),
-    // This 'meta' tag helps us tell App.vue to hide the Navbar
     meta: { hideNavbar: true },
   },
   {
@@ -44,14 +44,22 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
-  path: '/admin/categories/edit/:id',
-  name: 'admin.categories.edit',
-  component: CategoryEdit
+    // edit categories
+    path: '/admin/categories/edit/:id',
+    name: 'admin.categories.edit',
+    component: CategoryEdit
   },
   {
-  path: '/admin/articles',
-  name: 'admin.articles.index',
-  component: ArticleIndex 
+    // index articles
+    path: '/admin/articles',
+    name: 'admin.articles.index',
+    component: ArticleIndex 
+  },
+  {
+    // edir articles
+    path: '/admin/articles/edit/:id',
+    name: 'admin.articles.edit',
+    component: ArticleEdit
   },
 ];
 

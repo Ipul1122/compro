@@ -8,7 +8,7 @@ const router = useRouter()
 const isSidebarOpen = ref(false)
 const isProfileOpen = ref(false)
 
-const currentView = ref('articles') // Menandai menu aktif di Sidebar
+const currentView = ref('articles')
 const user = ref({ name: 'Admin', email: '' })
 
 const articles = ref([])
@@ -24,16 +24,13 @@ onMounted(() => {
     }
 })
 
-// Fungsi memanggil API List Article (Bisa diganti dengan Pinia nanti jika diperlukan)
 const fetchArticles = async () => {
     isLoading.value = true
     try {
-        // Jangan lupa menggunakan interceptor/token authorization jika route diproteksi
         const token = localStorage.getItem('token')
         const response = await axios.get('http://localhost:8000/api/admin/articles', {
             headers: { Authorization: `Bearer ${token}` }
         })
-        // Asumsi data dibungkus pagination Laravel (response.data.data)
         articles.value = response.data.data || response.data
     } catch (error) {
         console.error("Error fetching articles:", error)
@@ -62,6 +59,25 @@ const formatDate = (dateString) => {
         day: 'numeric', month: 'short', year: 'numeric'
     })
 }
+
+// FUNGSI URL GAMBAR YANG DIPERBARUI
+const getImageUrl = (imagePath) => {
+    if (!imagePath) return '/img/LOGO-KUNING.png'; 
+    if (imagePath.startsWith('http')) return imagePath;
+
+    const apiUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+    const baseUrl = apiUrl.replace(/\/api\/?$/, '');
+    
+    // Hapus 'public/' DAN slash '/' di awal string untuk menghindari double slash (//)
+    const cleanPath = imagePath.replace(/^public\//, '').replace(/^\//, '');
+    
+    return `${baseUrl}/storage/${cleanPath}`;
+};
+
+// HANDLER JIKA GAMBAR GAGAL DIMUAT / ERROR 404 DARI SERVER
+const handleImageError = (event) => {
+    event.target.src = '/img/LOGO-KUNING.png';
+};
 </script>
 
 <template>
@@ -112,14 +128,11 @@ const formatDate = (dateString) => {
                             <thead class="bg-slate-50 border-y border-slate-100">
                                 <tr>
                                     <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase">Category</th>
-                                    
                                     <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase">Article</th>
                                     <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase">Status</th>
                                     <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase text-center">Views</th>
                                     <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase">Created</th>
-                                    
                                     <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase">Updated</th>
-                                    
                                     <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase text-right">Action</th>
                                 </tr>
                             </thead>
@@ -136,7 +149,12 @@ const formatDate = (dateString) => {
                                     
                                     <td class="px-6 py-4">
                                         <div class="flex items-center gap-3">
-                                            <img :src="article.image || 'https://via.placeholder.com/150'" class="w-12 h-12 rounded-lg object-cover bg-slate-100 shrink-0" />
+                                            <img 
+                                                :src="getImageUrl(article.image)" 
+                                                @error="handleImageError"
+                                                class="w-12 h-12 rounded-lg object-cover bg-slate-100 shrink-0" 
+                                                alt="Article Image" 
+                                            />
                                             <div class="max-w-[200px]">
                                                 <p class="text-sm font-bold text-slate-900 truncate">{{ article.title }}</p>
                                                 <p class="text-[10px] text-slate-400 truncate">{{ article.slug }}</p>
@@ -163,8 +181,23 @@ const formatDate = (dateString) => {
                                     </td>
                                     
                                     <td class="px-6 py-4 text-right">
-                                        <button class="text-slate-400 hover:text-slate-900 mr-4 transition-colors cursor-pointer text-sm font-bold">Edit</button>
-                                        <button class="text-red-400 hover:text-red-600 transition-colors cursor-pointer text-sm font-bold">Del</button>
+                                        <div class="flex justify-end gap-2">
+                                            <router-link :to="`/admin/articles/edit/${article.id}`" 
+                                                class="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+                                                title="Edit Artikel">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                </svg>
+                                            </router-link>
+
+                                            <button @click="confirmDelete(article.id)" 
+                                                class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all cursor-pointer"
+                                                title="Hapus Artikel">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr v-if="!isLoading && articles.length === 0">
