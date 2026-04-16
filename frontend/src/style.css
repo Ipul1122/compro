@@ -27,5 +27,5 @@ body::before {
   opacity: 0.03; /* Keep it very faint! */
   pointer-events: none;
   z-index: 50;
-  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  /* background-image: url("https://grainy-gradients.vercel.app/noise.svg"); */
 }

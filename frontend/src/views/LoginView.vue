@@ -18,7 +18,7 @@ const handleLogin = async () => {
     errorMessage.value = ''
 
     try {
-        // 1. Get CSRF Cookie
+        // 1. Get CSRF Cookie (Bisa tetap dipertahankan jika butuh proteksi ekstra)
         await axios.get('/sanctum/csrf-cookie')
 
         // 2. Attempt Login
@@ -27,13 +27,20 @@ const handleLogin = async () => {
             password: password.value
         })
 
-        // 3. SUCCESS: Save user data to localStorage
-        // This ensures the dashboard can display the real name and email
-        if (response.data.user) {
-            localStorage.setItem('user', JSON.stringify(response.data.user))
-        }
+        // 3. SUCCESS: Cek apakah respons success bernilai true
+        if (response.data.success) {
+            // PERBAIKAN: Gunakan response.data.data.user sesuai struktur API
+            localStorage.setItem('user', JSON.stringify(response.data.data.user))
+            
+            // TAMBAHAN WAJIB: Simpan token untuk otorisasi endpoint dashboard/admin
+            localStorage.setItem('token', response.data.data.token)
+            
+            // Set default header axios agar otomatis mengirim token di request berikutnya
+            axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data.token}`
 
-        router.push('/view/dashboard')
+            // Redirect ke dashboard
+            router.push('/view/dashboard')
+        }
 
     } catch (error) {
         if (error.response && error.response.status === 401) {

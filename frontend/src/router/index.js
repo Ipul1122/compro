@@ -1,12 +1,18 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import IdLanguage from "@/components/IdLanguage.vue";
+import NotFoundView from '../views/NotFoundView.vue'
 
 const routes = [
   {
     path: "/",
     name: "home",
     component: HomeView,
+  },
+  {
+      path: '/:pathMatch(.*)*', 
+      name: 'NotFound',
+      component: NotFoundView
   },
   {
     path: "/id",
