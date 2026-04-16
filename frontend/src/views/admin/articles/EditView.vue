@@ -22,9 +22,15 @@
 
           <form v-else @submit.prevent="updateArticle" enctype="multipart/form-data">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              <div class="md:col-span-2">
+              
+              <div>
                 <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Judul Artikel</label>
-                <input v-model="form.title" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black" required>
+                <input v-model="form.title" @input="handleTitleInput" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black" required>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Slug</label>
+                <input v-model="form.slug" type="text" disabled class="w-full border border-slate-300 p-3 rounded-xl outline-none font-bold text-slate-500 bg-slate-100 cursor-not-allowed" placeholder="otomatis-mengikuti-judul">
               </div>
 
               <div>
@@ -48,17 +54,29 @@
                 <textarea v-model="form.content" rows="8" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-medium text-black" required></textarea>
               </div>
 
+              <div>
+                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Title (SEO)</label>
+                <input v-model="form.meta_title" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black" placeholder="Judul untuk SEO">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Keywords (SEO)</label>
+                <input v-model="form.meta_keywords" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black" placeholder="pisahkan, dengan, koma">
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Description (SEO)</label>
+                <textarea v-model="form.meta_description" rows="3" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-medium text-black" placeholder="Deskripsi singkat untuk SEO..."></textarea>
+              </div>
+
               <div class="md:col-span-2">
                 <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Gambar Utama (Kosongkan jika tidak diubah)</label>
-                
                 <div class="flex flex-col items-start gap-4">
-                  
                   <img 
                     v-if="previewImage || currentImageUrl" 
                     :src="previewImage || currentImageUrl" 
                     class="w-full max-w-2xl aspect-video rounded-xl object-cover border border-slate-200 shadow-sm" 
                   />
-                  
                   <input 
                     type="file" 
                     @change="handleFileChange" 
@@ -101,10 +119,16 @@ const isSaving = ref(false);
 const categories = ref([]);
 const currentImageUrl = ref(null);
 const previewImage = ref(null);
+
+// Menambahkan field baru ke form object
 const form = ref({
     title: '',
+    slug: '',
     category_id: '',
     content: '',
+    meta_title: '',
+    meta_description: '',
+    meta_keywords: '',
     published: 'publish',
     image: null
 });
@@ -116,13 +140,10 @@ onMounted(async () => {
 
 const fetchCategories = async () => {
     try {
-        // Jangan lupa sertakan Bearer Token jika route ini di dalam grup auth:sanctum
         const token = localStorage.getItem('token');
         const response = await axios.get('http://localhost:8000/api/admin/categories/list', {
             headers: { Authorization: `Bearer ${token}` }
         });
-        
-        // Sekarang responsnya sudah pasti array data kategori
         categories.value = response.data.data;
     } catch (err) { 
         console.error(err); 
@@ -138,12 +159,17 @@ const fetchArticleDetail = async () => {
         });
         const data = response.data.data;
         
+        // Memasukkan data ke dalam state form
         form.value.title = data.title;
+        form.value.slug = data.slug || '';
         form.value.category_id = data.category_id;
         form.value.content = data.content;
+        form.value.meta_title = data.meta_title || '';
+        form.value.meta_description = data.meta_description || '';
+        form.value.meta_keywords = data.meta_keywords || '';
         form.value.published = data.published;
 
-        // Gunakan utility function untuk consistency
+        // Gunakan utility function untuk consistency URL gambar
         if (data.image) {
             currentImageUrl.value = getImageUrl(data.image);
         } else {
@@ -152,10 +178,25 @@ const fetchArticleDetail = async () => {
 
     } catch (err) {
         console.error(err);
+        alert('Gagal memuat data artikel.');
         router.push('/admin/articles');
     } finally {
         isLoading.value = false;
     }
+};
+// Auto Generate Slug
+const generateSlug = (text) => {
+    return text.toString().toLowerCase()
+        .replace(/\s+/g, '-')           
+        .replace(/[^\w\-]+/g, '')       
+        .replace(/\-\-+/g, '-')         
+        .replace(/^-+/, '')             
+        .replace(/-+$/, '');            
+};
+
+// Fungsi mengupdate slug saat judul diubah
+const handleTitleInput = () => {
+    form.value.slug = generateSlug(form.value.title);
 };
 
 const handleFileChange = (e) => {
@@ -169,10 +210,15 @@ const updateArticle = async () => {
     try {
         const token = localStorage.getItem('token');
         const formData = new FormData();
-        formData.append('_method', 'PUT'); // RAHASIA: Method Spoofing
+        
+        formData.append('_method', 'PUT'); // Method Spoofing
         formData.append('title', form.value.title);
+        formData.append('slug', form.value.slug);
         formData.append('category_id', form.value.category_id);
         formData.append('content', form.value.content);
+        formData.append('meta_title', form.value.meta_title || form.value.title); 
+        formData.append('meta_description', form.value.meta_description || '');
+        formData.append('meta_keywords', form.value.meta_keywords || '');
         formData.append('published', form.value.published);
         
         if (form.value.image) {
