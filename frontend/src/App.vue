@@ -1,14 +1,20 @@
 <script setup>
-import Navbar from '@/components/Navbar.vue'
-import { useRoute } from 'vue-router' // 1. Add this import
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+// Pastikan path import Navbar di bawah ini sesuai dengan struktur folder lu
+import Navbar from './components/Navbar.vue'; 
 
-const route = useRoute() // 2. Create the route variable
+const route = useRoute();
+
+// Fungsi untuk mengecek apakah URL saat ini adalah halaman Admin
+const isAdminRoute = computed(() => {
+  // Jika URL diawali dengan '/admin', maka nilainya true
+  return route.path.startsWith('/admin');
+});
 </script>
 
 <template>
-  <div>
-    <Navbar v-if="!route.meta.hideNavbar" />
+  <Navbar v-if="!isAdminRoute" />
 
-    <router-view />
-  </div>
+  <router-view></router-view>
 </template>

@@ -9,7 +9,7 @@
             </div>
         </div>
 
-        <nav class="flex-1 p-4 space-y-2">
+        <nav class="flex-1 p-4 space-y-2 overflow-y-auto custom-scrollbar">
             <button @click="changeView('dashboard')"
                 :class="currentView === 'dashboard' ? 'bg-[#ea4435] text-white' : 'text-slate-400 hover:bg-slate-800'"
                 class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all cursor-pointer">
@@ -62,5 +62,20 @@ const changeView = (view) => {
 button,
 .cursor-pointer {
     cursor: pointer !important;
+}
+
+/* Custom Scrollbar khusus untuk Sidebar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #334155; 
+    border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #475569; 
 }
 </style>

@@ -100,4 +100,17 @@ class CategoryController extends Controller
             'message' => 'Kategori berhasil dihapus'
         ]);
     }
+
+    // Tambahkan fungsi baru ini
+    public function list()
+    {
+        // Hanya ambil ID dan Name, tidak perlu pagination dan withCount
+        $categories = Category::select('id', 'name')->latest()->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Kategori untuk Form',
+            'data'    => $categories
+        ], 200);
+    }
 }
