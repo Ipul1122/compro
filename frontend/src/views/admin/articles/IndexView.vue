@@ -2,7 +2,8 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
-import Sidebar from '@/components/admin/Sidebar.vue' 
+import Sidebar from '@/components/admin/Sidebar.vue'
+import { getImageUrl, handleImageError } from '@/utils/imageHelper' 
 
 const router = useRouter()
 const isSidebarOpen = ref(false)
@@ -59,25 +60,6 @@ const formatDate = (dateString) => {
         day: 'numeric', month: 'short', year: 'numeric'
     })
 }
-
-// FUNGSI URL GAMBAR YANG DIPERBARUI
-const getImageUrl = (imagePath) => {
-    if (!imagePath) return '/img/LOGO-KUNING.png'; 
-    if (imagePath.startsWith('http')) return imagePath;
-
-    const apiUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
-    const baseUrl = apiUrl.replace(/\/api\/?$/, '');
-    
-    // Hapus 'public/' DAN slash '/' di awal string untuk menghindari double slash (//)
-    const cleanPath = imagePath.replace(/^public\//, '').replace(/^\//, '');
-    
-    return `${baseUrl}/storage/${cleanPath}`;
-};
-
-// HANDLER JIKA GAMBAR GAGAL DIMUAT / ERROR 404 DARI SERVER
-const handleImageError = (event) => {
-    event.target.src = '/img/LOGO-KUNING.png';
-};
 </script>
 
 <template>
@@ -118,9 +100,9 @@ const handleImageError = (event) => {
                 <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden p-6">
                     <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
                         <h3 class="font-black text-xl text-slate-900 uppercase tracking-tight">Article List</h3>
-                        <button class="bg-slate-900 text-white px-6 py-2 rounded-xl text-sm font-bold hover:bg-[#ea4435] transition-colors cursor-pointer w-full md:w-auto">
+                        <router-link to="/admin/articles/create" class="bg-slate-900 text-white px-6 py-2 rounded-xl text-sm font-bold hover:bg-[#ea4435] transition-colors cursor-pointer w-full md:w-auto text-center inline-block">
                             Create New
-                        </button>
+                        </router-link>
                     </div>
 
                    <div class="overflow-x-auto">
