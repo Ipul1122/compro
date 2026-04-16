@@ -37,7 +37,7 @@
           <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
             <h2 class="font-black text-xl text-slate-900 uppercase tracking-tight">Daftar Kategori</h2>
             <div class="flex gap-3 w-full md:w-auto">
-              <input v-model="search" @input="handleSearch" type="text" placeholder="Cari kategori..." class="border border-slate-200 px-4 py-2 rounded-xl text-sm w-full md:w-64 focus:ring-2 focus:ring-slate-900 focus:outline-none">
+              <input v-model="search" @input="handleSearch" type="text" placeholder="Cari kategori..." class="border border-slate-200 px-4 py-2 rounded-xl text-sm w-full md:w-64 focus:ring-2 focus:ring-slate-900 focus:outline-none text-black">
               <button @click="openModal()" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-[#ea4435] transition-colors whitespace-nowrap">
                 Tambah Data
               </button>
@@ -77,8 +77,18 @@
           <div class="mt-6 flex justify-between items-center" v-if="store.pagination?.total > 0">
             <p class="text-xs font-bold text-slate-400">Total: {{ store.pagination.total }} data</p>
             <div class="flex gap-2">
-              <button @click="store.fetchCategories(store.pagination.current_page - 1, search)" :disabled="store.pagination.current_page === 1" class="px-3 py-1.5 border border-slate-200 text-xs font-bold rounded-lg disabled:opacity-50 hover:bg-slate-50 transition-colors">Prev</button>
-              <button @click="store.fetchCategories(store.pagination.current_page + 1, search)" :disabled="store.pagination.current_page === store.pagination.last_page" class="px-3 py-1.5 border border-slate-200 text-xs font-bold rounded-lg disabled:opacity-50 hover:bg-slate-50 transition-colors">Next</button>
+              <button 
+                @click="fetchData(store.pagination.current_page - 1)" 
+                :disabled="store.pagination.current_page === 1" 
+                class="px-3 py-1.5 border border-slate-200 text-xs font-bold rounded-lg disabled:opacity-50 hover:bg-slate-50 transition-colors cursor-pointer text-black">
+                Prev
+              </button>
+              <button 
+                @click="fetchData(store.pagination.current_page + 1)" 
+                :disabled="store.pagination.current_page === store.pagination.last_page" 
+                class="px-3 py-1.5 border border-slate-200 text-xs font-bold rounded-lg disabled:opacity-50 hover:bg-slate-50 transition-colors cursor-pointer text-black">
+                Next
+              </button>
             </div>
           </div>
         </div>
@@ -90,8 +100,8 @@
         <h3 class="text-xl font-black text-slate-900 mb-4 uppercase tracking-tight">Tambah Kategori</h3>
         <form @submit.prevent="submitForm">
           <div class="mb-6">
-            <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Nama Kategori</label>
-            <input v-model="form.name" type="text" placeholder="Masukkan nama..." class="border border-slate-200 w-full p-3 rounded-xl focus:ring-2 focus:ring-slate-900 focus:outline-none" required>
+            <label class="block text-s font-bold text-black  tracking-widest mb-2">Nama Kategori</label>
+            <input v-model="form.name" type="text" placeholder="Masukkan nama..." class="border border-slate-200 w-full p-3 rounded-xl focus:ring-2 focus:ring-slate-900 focus:outline-none text-black" required>
           </div>
           <div class="flex justify-end gap-3">
             <button type="button" @click="isModalOpen = false" class="px-4 py-2 text-sm font-bold text-slate-500 hover:text-slate-800 cursor-pointer">Batal</button>
@@ -105,18 +115,19 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router'; // Tambahkan useRoute
 import Sidebar from '@/components/admin/Sidebar.vue';
 import { useCategoryStore } from '@/stores/category';
 
 const router = useRouter();
+const route = useRoute(); // Inisialisasi route untuk membaca URL
 const store = useCategoryStore();
 
 // Layout State
 const isSidebarOpen = ref(false);
 const isProfileOpen = ref(false);
 const user = ref({ name: 'Admin', email: '' });
-const currentView = ref('categories'); // Aktifkan menu Categories di Sidebar
+const currentView = ref('categories');
 
 // Category State
 const search = ref('');
@@ -130,13 +141,34 @@ onMounted(() => {
   } else {
     router.push('/view/login');
   }
-  store.fetchCategories();
+
+  // 1. BACA URL SAAT HALAMAN PERTAMA KALI DIBUKA / DI-REFRESH
+  if (route.query.search) {
+    search.value = route.query.search;
+  }
+  const page = route.query.page || 1;
+  
+  // Fetch dengan parameter dari URL
+  store.fetchCategories(page, search.value);
 });
 
-// Fungsi Navigasi dari Sidebar
+// 2. FUNGSI UNTUK MENSINKRONKAN URL BROWSER & MENGAMBIL DATA
+const fetchData = (page = 1) => {
+  // Update URL Browser
+  router.replace({
+    query: {
+      page: page > 1 ? page : undefined, // Sembunyikan ?page=1 agar URL lebih bersih
+      search: search.value ? search.value : undefined // Sembunyikan ?search= jika kosong
+    }
+  });
+
+  // Panggil API Backend
+  store.fetchCategories(page, search.value);
+};
+
+// Navigasi Sidebar
 const handleNavigation = (view) => {
   if (view === 'dashboard' || view === 'articles') {
-    // Kembali ke halaman Dashboard utama
     router.push('/admin/dashboard'); 
   }
 };
@@ -149,7 +181,8 @@ const handleLogout = () => {
 
 // CRUD Functions
 const handleSearch = () => {
-  store.fetchCategories(1, search.value);
+  // Kembali ke halaman 1 setiap kali mengetik pencarian baru
+  fetchData(1);
 };
 
 const openModal = () => {
@@ -161,7 +194,7 @@ const submitForm = async () => {
   try {
     await store.storeCategory(form.value);
     isModalOpen.value = false;
-    store.fetchCategories(1, search.value);
+    fetchData(1); // Refresh data
   } catch (err) {
     alert("Terjadi kesalahan saat menyimpan!");
   }
@@ -170,7 +203,7 @@ const submitForm = async () => {
 const deleteCategory = async (id) => {
   if (confirm("Yakin ingin menghapus kategori ini?")) {
     await store.destroyCategory(id);
-    store.fetchCategories(store.pagination.current_page, search.value);
+    fetchData(store.pagination.current_page); // Tetap di halaman yang sama setelah hapus
   }
 };
 </script>
