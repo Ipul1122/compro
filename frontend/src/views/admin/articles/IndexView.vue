@@ -60,6 +60,28 @@ const formatDate = (dateString) => {
         day: 'numeric', month: 'short', year: 'numeric'
     })
 }
+
+const confirmDelete = async (id) => {
+    // Tampilkan dialog konfirmasi bawaan browser
+    if (confirm('Apakah Anda yakin ingin menghapus artikel ini?')) {
+        try {
+            const token = localStorage.getItem('token')
+            // Lakukan request DELETE ke API
+            await axios.delete(`http://localhost:8000/api/admin/articles/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            
+            // Berikan notifikasi sukses (opsional)
+            alert('Artikel berhasil dihapus!')
+            
+            // Muat ulang daftar artikel setelah berhasil dihapus
+            fetchArticles()
+        } catch (error) {
+            console.error("Error deleting article:", error)
+            alert('Gagal menghapus artikel. Silakan coba lagi.')
+        }
+    }
+}
 </script>
 
 <template>
