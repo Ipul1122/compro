@@ -57,3 +57,15 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('articles', ArticleController::class);
     });
 });
+
+/*
+|--------------------------------------------------------------------------
+| ROUTE FALLBACK (Untuk menangani endpoint yang tidak ditemukan)
+|--------------------------------------------------------------------------
+*/
+Route::fallback(function () {
+    return response()->json([
+        'success' => false,
+        'message' => 'Endpoint API tidak ditemukan (404 Not Found).'
+    ], 404);
+});
