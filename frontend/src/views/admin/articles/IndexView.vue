@@ -139,9 +139,10 @@ const handleNavigation = (view) => {
         router.push('/admin/dashboard')
     } else if (view === 'categories') {
         router.push('/admin/categories')
+    } else if (view === 'articles') {
+        router.push('/admin/articles') 
     }
 }
-
 const handleLogout = () => {
     localStorage.removeItem('user')
     localStorage.removeItem('token')

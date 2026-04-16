@@ -189,7 +189,7 @@ const fetchData = (page = 1) => {
 // Fungsi Navigasi Global untuk Sidebar
 const handleNavigation = (view) => {
   if (view === 'dashboard') {
-    router.push('/view/dashboard');
+    router.push('/admin/dashboard');
   } else if (view === 'categories') {
     router.push('/admin/categories');
   } else if (view === 'articles') {
