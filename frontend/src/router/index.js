@@ -31,10 +31,9 @@ const routes = [
     meta: { hideNavbar: true },
   },
   {
-    path: "/view/dashboard",
+    path: "/admin/dashboard", 
     name: "dashboard",
-    component: () => import("@/views/DashboardView.vue"),
-    // This 'meta' tag helps us tell App.vue to hide the Navbar
+    component: () => import("@/views/admin/DashboardView.vue"), 
     meta: { hideNavbar: true },
   },
 

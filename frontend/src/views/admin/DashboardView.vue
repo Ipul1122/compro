@@ -11,7 +11,10 @@ const showSuccessNotif = ref(false)
 
 const currentView = ref('dashboard')
 const user = ref({ name: 'Admin', email: '' })
+
+// State data
 const articles = ref([])
+const categories = ref([])
 
 onMounted(() => {
     const savedUser = localStorage.getItem('user')
@@ -19,20 +22,39 @@ onMounted(() => {
         user.value = JSON.parse(savedUser)
         showSuccessNotif.value = true
         setTimeout(() => { showSuccessNotif.value = false }, 4000)
+        
+        // Panggil kedua fungsi statistik
         fetchArticlesStats()
+        fetchCategoriesStats()
     } else {
         router.push('/view/login')
     }
 })
 
-// Mengambil data hanya untuk keperluan statistik angka di Dashboard
+// Mengambil data artikel
 const fetchArticlesStats = async () => {
     try {
-        const response = await axios.get('http://localhost:8000/api/admin/articles')
-        // Sesuaikan jika struktur API menggunakan pagination (response.data.data) atau array langsung (response.data)
+        const token = localStorage.getItem('token')
+        const response = await axios.get('http://localhost:8000/api/admin/articles', {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        // Menangani jika API menggunakan pagination (data.data) atau array langsung
         articles.value = response.data.data || response.data 
     } catch (error) {
-        console.error("Error fetching stats:", error)
+        console.error("Error fetching article stats:", error)
+    }
+}
+
+// Mengambil data kategori
+const fetchCategoriesStats = async () => {
+    try {
+        const token = localStorage.getItem('token')
+        const response = await axios.get('http://localhost:8000/api/admin/categories', {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        categories.value = response.data.data || response.data
+    } catch (error) {
+        console.error("Error fetching category stats:", error)
     }
 }
 
@@ -109,10 +131,16 @@ const handleLogout = () => {
 
             <main class="p-4 md:p-8">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                    <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                        <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Total Articles</p>
+                    <router-link to="/admin/categories" class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:border-[#ea4435] transition-all group">
+                        <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] group-hover:text-[#ea4435] transition-colors">Total Categories</p>
+                        <h3 class="text-2xl md:text-3xl font-black text-slate-900 mt-1 uppercase">{{ categories.length || 0 }}</h3>
+                    </router-link>
+
+                    <router-link to="/admin/articles" class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:border-[#ea4435] transition-all group">
+                        <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] group-hover:text-[#ea4435] transition-colors">Total Articles</p>
                         <h3 class="text-2xl md:text-3xl font-black text-slate-900 mt-1 uppercase">{{ articles.length || 0 }}</h3>
-                    </div>
+                    </router-link>
+
                     <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
                         <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Total Views</p>
                         <h3 class="text-2xl md:text-3xl font-black text-slate-900 mt-1 uppercase">
@@ -127,6 +155,8 @@ const handleLogout = () => {
 
 <style scoped>
 button, a, .cursor-pointer, .btn-logout { cursor: pointer !important; }
+/* Hilangkan underline default router-link */
+a { text-decoration: none; }
 .btn-logout { position: relative; z-index: 130; }
 .pop-enter-active, .pop-leave-active { transition: all 0.2s ease-out; }
 .pop-enter-from, .pop-leave-to { transform: translateY(-10px) scale(0.95); opacity: 0; }
