@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay, Pagination, EffectFade } from 'swiper/modules';
 import 'swiper/css';
@@ -20,6 +21,19 @@ const lmsPreviews = [
     { name: 'Quiz System', path: '/img/kuis.png' },
     { name: 'Results View', path: '/img/kuis-dua.png' }
 ];
+
+const isModalOpen = ref(false)
+const selectedImage = ref(null)
+
+const openModal = (item) => {
+    selectedImage.value = item
+    isModalOpen.value = true
+}
+
+const closeModal = () => {
+    isModalOpen.value = false
+    selectedImage.value = null
+}
 
 </script>
 
@@ -536,6 +550,57 @@ const lmsPreviews = [
         </div>
     </section>
 
+    <Teleport to="body">
+        <Transition name="fade">
+            <div v-if="isModalOpen"
+                class="fixed inset-0 z-[100] flex flex-col items-center justify-center p-4 md:p-8 bg-slate-900/95 backdrop-blur-md"
+                @click.self="closeModal">
+
+                <button @click="closeModal"
+                    class="mb-4 text-white/70 hover:text-white transition-colors flex items-center gap-2 font-bold uppercase tracking-[0.2em] text-xs">
+                    Close <span class="text-3xl leading-none">×</span>
+                </button>
+
+                <div class="relative max-w-5xl w-full flex flex-col items-center">
+                    <div class="w-full flex justify-center items-center overflow-hidden">
+                        <img :src="selectedImage?.path" :alt="selectedImage?.name"
+                            class="max-w-full max-h-[75vh] object-contain rounded-xl shadow-2xl border border-white/10" />
+                    </div>
+
+                    <p class="text-white text-center mt-6 font-bold tracking-[0.3em] uppercase text-xs">
+                        {{ selectedImage?.name }}
+                    </p>
+                </div>
+
+            </div>
+        </Transition>
+    </Teleport>
+
 </template>
 
-<style scoped></style>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+    transform: translateY(20px);
+}
+</style>

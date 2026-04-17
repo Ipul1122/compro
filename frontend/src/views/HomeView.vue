@@ -4,38 +4,7 @@ import HomeSection from './section/HomeSection.vue'
 import AboutSection from './section/AboutSection.vue'
 import ProjectsSection from './section/ProjectsSection.vue';
 import ServicesSection from './section/ServicesSection.vue';
-
-const partnerLogos = [
-    '/img/BKKBN-LOGO.png',
-    '/img/BMKG-LOGO.png',
-    '/img/BNI-LOGO.png',
-    '/img/DPR-LOGO.png',
-    '/img/DPR-RI-LOGO.png',
-    '/img/DYNO-LOGO.png',
-    '/img/ITL-TRISAKTI-LOGO.png',
-    '/img/KEMENTERIAN-PERINDUSTRIAN-LOGO.png',
-    '/img/LOGO-KUNING.png',
-    '/img/PARIWISATA-LOGO.png',
-    '/img/RISTEK-LOGO.png',
-    '/img/SETJEN-DPD-LOGO.png',
-    '/img/STAN-LOGO.png',
-    '/img/STIK-LOGO.png',
-    '/img/TRISAKTI-LOGO.png',
-    '/img/ULAT-UNGU-LOGO.png'
-];
-
-const isModalOpen = ref(false)
-const selectedImage = ref(null)
-
-const openModal = (item) => {
-    selectedImage.value = item
-    isModalOpen.value = true
-}
-
-const closeModal = () => {
-    isModalOpen.value = false
-    selectedImage.value = null
-}
+import ClientsSection from './section/ClientsSection.vue';
 
 const showBackToTop = ref(false)
 
@@ -91,33 +60,9 @@ onUnmounted(() => {
                 <ServicesSection />
             </div>
 
-            <section id="clients" class="py-16 bg-slate-50 border-y border-slate-200 overflow-hidden">
-                <div class="py-24">
-                    <div class="max-w-7xl mx-auto px-6">
-                        <div class="text-center mb-16">
-                            <h2 class="text-xs font-bold text-brand uppercase tracking-[0.3em] mb-4">Trusted Partners
-                            </h2>
-                            <p class="text-3xl font-black text-slate-900 tracking-tighter">Collaborating with the finest
-                                institutions.</p>
-                        </div>
-
-                        <div class="relative flex overflow-hidden">
-                            <div class="flex marquee-content gap-12 items-center py-4">
-                                <div v-for="(logo, index) in partnerLogos" :key="'a-' + index"
-                                    class="flex-shrink-0 group flex items-center justify-center grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
-                                    <img :src="logo" :alt="'Partner Logo ' + index"
-                                        class="max-h-12 w-40 object-contain transform group-hover:scale-110 transition-transform duration-300" />
-                                </div>
-                                <div v-for="(logo, index) in partnerLogos" :key="'b-' + index"
-                                    class="flex-shrink-0 group flex items-center justify-center grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
-                                    <img :src="logo" :alt="'Partner Logo ' + index"
-                                        class="max-h-12 w-40 object-contain transform group-hover:scale-110 transition-transform duration-300" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <div class="clients-view">
+                <ClientsSection />
+            </div>
 
             <footer id="contact" class="bg-slate-950 border-t border-slate-900 pt-20 pb-10 relative overflow-hidden">
                 <div class="absolute bottom-0 right-0 w-[300px] h-[300px] bg-brand/5 blur-[120px] rounded-full -z-0">
@@ -204,32 +149,6 @@ onUnmounted(() => {
         </main>
     </div>
 
-    <Teleport to="body">
-        <Transition name="fade">
-            <div v-if="isModalOpen"
-                class="fixed inset-0 z-[100] flex flex-col items-center justify-center p-4 md:p-8 bg-slate-900/95 backdrop-blur-md"
-                @click.self="closeModal">
-
-                <button @click="closeModal"
-                    class="mb-4 text-white/70 hover:text-white transition-colors flex items-center gap-2 font-bold uppercase tracking-[0.2em] text-xs">
-                    Close <span class="text-3xl leading-none">×</span>
-                </button>
-
-                <div class="relative max-w-5xl w-full flex flex-col items-center">
-                    <div class="w-full flex justify-center items-center overflow-hidden">
-                        <img :src="selectedImage?.path" :alt="selectedImage?.name"
-                            class="max-w-full max-h-[75vh] object-contain rounded-xl shadow-2xl border border-white/10" />
-                    </div>
-
-                    <p class="text-white text-center mt-6 font-bold tracking-[0.3em] uppercase text-xs">
-                        {{ selectedImage?.name }}
-                    </p>
-                </div>
-
-            </div>
-        </Transition>
-    </Teleport>
-
     <transition name="fade">
         <button v-show="showBackToTop" @click="scrollToTop"
             class="fixed bottom-8 right-8 z-[60] flex items-center justify-center w-12 h-12 bg-white border border-slate-100 rounded-2xl shadow-xl cursor-pointer transition-all duration-300 hover:border-brand hover:text-brand hover:-translate-y-1 active:scale-95 group">
@@ -259,81 +178,11 @@ onUnmounted(() => {
     width: 32px;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-    opacity: 0;
-}
-
-body.modal-open {
-    overflow: hidden;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-    opacity: 0;
-    transform: translateY(20px);
-}
-
 .text-brand {
     color: #ea4435;
 }
 
 .hover\:border-brand:hover {
     border-color: #ea4435;
-}
-
-/* The animation moves the content 50% because we doubled the logos */
-@keyframes marquee {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        transform: translateX(-50%);
-    }
-}
-
-.marquee-content {
-    animation: marquee 30s linear infinite;
-    display: flex;
-    width: max-content;
-    /* Important: makes container as wide as all logos */
-}
-
-/* Pause animation when user hovers */
-.marquee-content:hover {
-    animation-play-state: paused;
-}
-
-/* Optional: Add a fade effect to the edges */
-#clients .relative::before,
-#clients .relative::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    width: 100px;
-    height: 100%;
-    z-index: 2;
-}
-
-#clients .relative::before {
-    left: 0;
-    background: linear-gradient(to right, #f8fafc, transparent);
-    /* Matches bg-slate-50 */
-}
-
-#clients .relative::after {
-    right: 0;
-    background: linear-gradient(to left, #f8fafc, transparent);
 }
 </style>
