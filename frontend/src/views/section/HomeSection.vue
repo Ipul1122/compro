@@ -23,8 +23,7 @@
                         <div class="mt-4 w-20 h-1 bg-gradient-to-r from-brand to-transparent rounded-full"></div>
                     </h1>
 
-                    <p
-                        class="mt-8 text-sm md:text-lg text-slate-600 uppercase tracking-widest leading-relaxed max-w-xl">
+                    <p class="mt-8 text-sm md:text-lg text-slate-600 tracking-widest leading-relaxed max-w-xl">
                         {{ $t('home.description') }}
                     </p>
 
