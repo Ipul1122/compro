@@ -3,16 +3,23 @@ import { ref, onMounted, watch, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import axios from 'axios'
 import Sidebar from '@/components/admin/Sidebar.vue'
+import Navbar from '@/components/admin/Navbar.vue' // 1. IMPORT NAVBAR COMPONENT
 import { getImageUrl, handleImageError } from '@/utils/imageHelper' 
 
 const router = useRouter()
 const route = useRoute() 
 
 const isSidebarOpen = ref(false)
-const isProfileOpen = ref(false)
+// isProfileOpen dihapus karena sudah ada di dalam Navbar.vue
 
 const currentView = ref('articles')
 const user = ref({ name: 'Admin', email: '' })
+
+// 2. DATA BREADCRUMBS UNTUK DIKIRIM KE NAVBAR
+const breadcrumbsData = ref([
+    { label: 'Dashboard', link: '/admin/dashboard' },
+    { label: 'Manage Articles', link: null }
+])
 
 const articles = ref([])
 const categories = ref([])
@@ -177,7 +184,6 @@ const confirmDelete = async (id) => {
 <template>
     <div class="flex min-h-screen bg-slate-50 relative overflow-x-hidden">
         <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-slate-900/50 z-[60] lg:hidden backdrop-blur-sm cursor-pointer"></div>
-        <div v-if="isProfileOpen" @click="isProfileOpen = false" class="fixed inset-0 z-[100] bg-transparent"></div>
         <div v-if="isCategoryDropdownOpen" @click="isCategoryDropdownOpen = false" class="fixed inset-0 z-[110] bg-transparent cursor-default"></div>
 
         <Sidebar 
@@ -188,26 +194,13 @@ const confirmDelete = async (id) => {
         />
 
         <div class="flex-1 flex flex-col min-w-0">
-            <nav class="h-20 bg-white border-b border-slate-100 px-4 md:px-8 flex items-center justify-between sticky top-0 z-[50]">
-                <div class="flex items-center gap-4">
-                    <button @click="isSidebarOpen = !isSidebarOpen" class="lg:hidden p-2 text-slate-600 hover:bg-slate-50 rounded-lg cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                    <h2 class="text-base md:text-lg font-bold text-slate-900 truncate uppercase tracking-tight">Manage Articles</h2>
-                </div>
-
-                <div class="relative z-[110]">
-                    <button @click="isProfileOpen = !isProfileOpen" class="flex items-center gap-3 md:gap-4 hover:bg-slate-50 p-1.5 rounded-2xl transition-all cursor-pointer outline-none">
-                        <div class="text-right hidden sm:block">
-                            <p class="text-sm font-black text-slate-900 leading-none">{{ user.name }}</p>
-                            <p class="text-[10px] text-slate-400 mt-1 uppercase tracking-widest font-bold">Admin</p>
-                        </div>
-                        <img :src="`https://ui-avatars.com/api/?name=${user.name}&background=0f172a&color=fff&bold=true`" class="h-10 w-10 rounded-full border-2 border-white shadow-sm shrink-0" />
-                    </button>
-                </div>
-            </nav>
+            
+            <Navbar 
+                :user="user" 
+                :breadcrumbs="breadcrumbsData" 
+                @toggle-sidebar="isSidebarOpen = !isSidebarOpen" 
+                @logout="handleLogout"
+            />
 
             <main class="p-4 md:p-8">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">

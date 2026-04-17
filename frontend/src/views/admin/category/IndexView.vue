@@ -1,7 +1,6 @@
 <template>
   <div class="flex min-h-screen bg-slate-50 relative overflow-x-hidden">
     <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-slate-900/50 z-[60] lg:hidden backdrop-blur-sm cursor-pointer"></div>
-    <div v-if="isProfileOpen" @click="isProfileOpen = false" class="fixed inset-0 z-[100] bg-transparent"></div>
 
     <Sidebar 
       v-model:is-open="isSidebarOpen" 
@@ -11,26 +10,12 @@
     />
 
     <div class="flex-1 flex flex-col min-w-0">
-      <nav class="h-20 bg-white border-b border-slate-100 px-4 md:px-8 flex items-center justify-between sticky top-0 z-[50]">
-        <div class="flex items-center gap-4">
-          <button @click="isSidebarOpen = !isSidebarOpen" class="lg:hidden p-2 text-slate-600 hover:bg-slate-50 rounded-lg cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-          <h2 class="text-base md:text-lg font-bold text-slate-900 uppercase tracking-tight">Manage Categories</h2>
-        </div>
-
-        <div class="relative z-[110]">
-          <button @click="isProfileOpen = !isProfileOpen" class="flex items-center gap-3 md:gap-4 hover:bg-slate-50 p-1.5 rounded-2xl transition-all cursor-pointer">
-            <div class="text-right hidden sm:block">
-              <p class="text-sm font-black text-slate-900 leading-none">{{ user.name }}</p>
-              <p class="text-[10px] text-slate-400 mt-1 uppercase tracking-widest font-bold">Admin</p>
-            </div>
-            <img :src="`https://ui-avatars.com/api/?name=${user.name}&background=0f172a&color=fff&bold=true`" class="h-10 w-10 rounded-full border-2 border-white shadow-sm shrink-0" />
-          </button>
-        </div>
-      </nav>
+      <Navbar 
+        :user="user" 
+        :breadcrumbs="breadcrumbsData" 
+        @toggle-sidebar="isSidebarOpen = !isSidebarOpen" 
+        @logout="handleLogout"
+      />
 
       <main class="p-4 md:p-8">
         <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden p-6">
@@ -100,7 +85,7 @@
         <h3 class="text-xl font-black text-slate-900 mb-4 uppercase tracking-tight">Tambah Kategori</h3>
         <form @submit.prevent="submitForm">
           <div class="mb-6">
-            <label class="block text-s font-bold text-black  tracking-widest mb-2">Nama Kategori</label>
+            <label class="block text-s font-bold text-black tracking-widest mb-2">Nama Kategori</label>
             <input v-model="form.name" type="text" placeholder="Masukkan nama..." class="border border-slate-200 w-full p-3 rounded-xl focus:ring-2 focus:ring-slate-900 focus:outline-none text-black" required>
           </div>
           <div class="flex justify-end gap-3">
@@ -111,7 +96,6 @@
       </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
     <div v-if="isDeleteModalOpen" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-[200]">
       <div class="bg-white p-6 rounded-3xl w-full max-w-sm shadow-2xl text-center scale-100 transition-transform">
         <div class="w-16 h-16 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -134,8 +118,9 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRouter, useRoute } from 'vue-router'; // Tambahkan useRoute
+import { useRouter, useRoute } from 'vue-router';
 import Sidebar from '@/components/admin/Sidebar.vue';
+import Navbar from '@/components/admin/Navbar.vue'; // IMPORT COMPONENT NAVBAR
 import { useCategoryStore } from '@/stores/category';
 
 const router = useRouter();
@@ -144,9 +129,14 @@ const store = useCategoryStore();
 
 // Layout State
 const isSidebarOpen = ref(false);
-const isProfileOpen = ref(false);
 const user = ref({ name: 'Admin', email: '' });
 const currentView = ref('categories');
+
+// Data Breadcrumbs untuk dikirim ke Navbar
+const breadcrumbsData = ref([
+    { label: 'Dashboard', link: '/admin/dashboard' },
+    { label: 'Manage Categories', link: null }
+]);
 
 // Category State
 const search = ref('');
@@ -186,7 +176,6 @@ const fetchData = (page = 1) => {
 };
 
 // Navigasi Sidebar
-// Fungsi Navigasi Global untuk Sidebar
 const handleNavigation = (view) => {
   if (view === 'dashboard') {
     router.push('/admin/dashboard');
@@ -196,6 +185,7 @@ const handleNavigation = (view) => {
     router.push('/admin/articles'); 
   }
 };
+
 const handleLogout = () => {
   localStorage.removeItem('user');
   localStorage.removeItem('token');
@@ -204,7 +194,6 @@ const handleLogout = () => {
 
 // CRUD Functions
 const handleSearch = () => {
-  // Kembali ke halaman 1 setiap kali mengetik pencarian baru
   fetchData(1);
 };
 
@@ -223,11 +212,9 @@ const submitForm = async () => {
   }
 };
 
-// Tambahkan 2 baris state ini di bawah variabel isModalOpen
 const isDeleteModalOpen = ref(false);
 const deleteId = ref(null);
 
-// HAPUS FUNGSI deleteCategory YANG LAMA, GANTI DENGAN 2 FUNGSI INI:
 const confirmDelete = (id) => {
   deleteId.value = id;
   isDeleteModalOpen.value = true;
@@ -242,7 +229,6 @@ const executeDelete = async () => {
   } catch (err) {
     alert("Gagal menghapus kategori!");
   } finally {
-    // Tutup popover & reset ID
     isDeleteModalOpen.value = false;
     deleteId.value = null;
   }
