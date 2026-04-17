@@ -110,78 +110,10 @@ onUnmounted(() => {
 
             <!-- <section id="services" class="py-24 bg-slate-50 border-y border-slate-200 relative overflow-hidden">
                 <div class="absolute top-1/2 -right-[10%] w-[30%] h-[60%] bg-brand/5 blur-[120px] rounded-full -z-10">
-                </div>
+=======
 
-                <div class="max-w-7xl mx-auto px-4">
-                    <div class="grid lg:grid-cols-2 gap-16 items-center">
 
-                        <div class="order-1 lg:order-1">
-                            <div class="relative group">
-                                <div
-                                    class="aspect-video lg:aspect-square w-full bg-slate-200 rounded-2xl border border-slate-200 overflow-hidden flex items-center justify-center shadow-xl relative z-10">
-
-                                    <img src="/src/img/section-two.jpg" alt="Assessment Service"
-                                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-br from-slate-900/60 to-transparent opacity-50 z-10">
-                                    </div>
-
-                                    <p
-                                        class="relative z-20 text-white font-bold italic opacity-0 group-hover:opacity-100 transition-opacity">
-                                        Assessment Center
-                                    </p>
-                                </div>
-
-                                <div
-                                    class="absolute -bottom-4 -left-4 w-full h-full border-2 border-brand/20 rounded-2xl z-0 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="psikotest" class="order-2 lg:order-2">
-                            <div
-                                class="inline-block px-3 py-1 rounded-full bg-brand/10 border border-brand/20 text-brand text-xs font-bold uppercase tracking-widest mb-6">
-                                Specialized Service
-                            </div>
-
-                            <h2 class="text-3xl md:text-5xl font-bold leading-tight text-slate-900">
-                                Psikotest and Assessment <br class="hidden md:block" />
-                                Center Service <span
-                                    class="text-slate-500 text-2xl md:text-3xl font-medium block mt-2">Online &
-                                    Offline</span>
-                            </h2>
-
-                            <p class="mt-6 text-lg text-slate-600 leading-relaxed">
-                                Measuring competencies and performance to assess the suitability for their current
-                                position
-                                and to identify potential for transfer or promotion to other roles.
-                            </p>
-
-                            <ul class="mt-8 space-y-4">
-                                <li class="flex items-center gap-3 text-slate-700">
-                                    <div class="w-1.5 h-1.5 rounded-full bg-brand"></div>
-                                    <span>Comprehensive Performance Analytics</span>
-                                </li>
-                                <li class="flex items-center gap-3 text-slate-700">
-                                    <div class="w-1.5 h-1.5 rounded-full bg-brand"></div>
-                                    <span>Tailored Promotion Identification</span>
-                                </li>
-                            </ul>
-
-                            <div class="mt-10">
-                                <button
-                                    class="group flex items-center gap-2 text-brand font-bold hover:gap-4 transition-all">
-                                    Learn More About Assessments
-                                    <span>→</span>
-                                </button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </section> -->
-
+    <!-- OUR SERVICE -->
             <section id="our-services" class="py-32 relative overflow-hidden bg-white">
                 <div class="max-w-7xl mx-auto px-4">
 
@@ -785,7 +717,8 @@ onUnmounted(() => {
                                 </h3>
                                 <p class="text-slate-400 leading-relaxed mb-6">
                                     Get updates and information anytime from <span
-                                        class="text-slate-200 font-semibold">PT Cakrawala
+                                        class="text-slate-200 font-semibold">PT
+                                        Cakrawala
                                         Parama Internasional</span> by following our social media!
                                 </p>
 
