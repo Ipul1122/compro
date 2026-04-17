@@ -26,6 +26,45 @@
     "feature_2_title": "Integrasi AI",
     "feature_2_desc": "Memanfaatkan AI terbaru untuk mengotomatisasi alur kerja Anda.",
     "button": "Kerja Sama Dengan Kami"
+  },
+ "projects": {
+    "badge": "Portofolio Global",
+    "title_our": "Proyek",
+    "title_projects": "Kami.",
+    "filter_label": "Filter By:",
+    "button_more": "Tampilkan Semua Proyek",
+    "button_less": "Tampilkan Sedikit Proyek",
+    "stats_prefix": "Menampilkan",
+    "list": {
+      "skb_legislative": "Bimbingan Penyusunan Soal Ujian SKB untuk Jabatan Fungsional Legislatif",
+      "hcdp_plan": "Penyusunan Rencana Pengembangan Human Capital (HCDP)",
+      "dpr_is": "Pengembangan Sistem Informasi Jabatan Fungsional DPR RI",
+      "bkkbn_ebook": "Pembuatan E-book Sosialisasi Program Stunting BKKBN",
+      "trisakti_hris": "Pengembangan Sistem Manajemen Sumber Daya Manusia (HRIS) di Trisakti",
+      "bkkbn_video": "Produksi Video Pelatihan untuk BKKBN",
+      "trisakti_kpi": "Pengembangan Analisis Beban Kerja dan KPI Trisakti",
+      "dephub_test": "Penyelenggaraan Tes Seleksi Kompetensi Dasar Kemenhub 2021",
+      "museum_day": "Pelaksanaan Kegiatan Hari Museum Nasional 2023",
+      "bkd_synergy": "Rapat Koordinasi Evaluasi Kinerja Badan Keahlian (BKD) 2024",
+      "police_press": "Konferensi Pers untuk Bareskrim Mabes Polri 2025",
+      "conefo_dpr": "“Dari Conefo Menuju Rumah Rakyat” – Humas DPR RI 2025",
+      "dpd_assessment": "Asesmen Seluruh Pegawai Dewan Perwakilan Daerah (DPD RI)",
+      "pu_assessment": "Asesmen Pegawai di Kementerian Pekerjaan Umum (PU RI)",
+      "echelon_selection": "Asesmen Seleksi Jabatan Pimpinan Eselon 1 di DPR RI",
+      "cpns_dpr": "Asesmen Potensi Calon Pegawai Negeri Sipil (CPNS) di DPR RI",
+      "youth_parliament": "Rekrutmen Peserta Seminar Parlemen Remaja 2023",
+      "psychometric_dpr": "Tes Psikometri Calon Staf Ahli Anggota DPR RI 2024–2029",
+      "stress_workshop": "Workshop Motivasi Kerja & Manajemen Stres 2023",
+      "education_seminar": "Seminar Nasional Penguatan Sistem Pendidikan Nasional 2024",
+      "leadership_workshop": "Workshop Decision Making and Adaptive Leadership",
+      "teambuilding": "Pelatihan Teambuilding dan Outbound Kolaborasi Tim",
+      "resilience_itb": "Workshop “Resilience & Global Mindset,” SBM ITB 2025",
+      "coaching_gov": "Coaching One-on-One Jalur Karir Lembaga Pemerintah",
+      "itb_career": "Pendampingan Lulusan Calon Wisudawan ITB",
+      "covid_entrepreneur": "Dukungan Wirausahawan Ketahanan Bisnis Era Pandemi",
+      "iso_37001": "ISO 37001:2016 – Sistem Manajemen Anti Penyuapan",
+      "bnsp_comm": "Pelatihan Manajemen Komunikasi Sertifikasi BNSP",
+      "iso_9001": "ISO 9001:2015 – Sistem Manajemen Mutu Yankes DPR RI 2025"
+    }
   }
-  
 }
