@@ -1,21 +1,17 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n' 
+
 const isMenuOpen = ref(false)
-import { useRouter, useRoute } from 'vue-router'
+const { locale } = useI18n() 
 
-const router = useRouter()
-const route = useRoute()
+// Deteksi apakah bahasa saat ini adalah Indonesia
+const isIndonesian = computed(() => locale.value === 'id')
 
-const isIndonesian = computed(() => route.path.startsWith('/id'))
-
+// Fungsi untuk toggle bahasa (tanpa perlu pindah halaman/route)
 const handleLanguageToggle = () => {
-    if (isIndonesian.value) {
-        router.push('/')
-    } else {
-        router.push('/id')
-    }
+    locale.value = isIndonesian.value ? 'en' : 'id'
 }
-
 </script>
 
 <template>
@@ -38,22 +34,35 @@ const handleLanguageToggle = () => {
 
                         <div class="hidden md:flex items-center gap-1">
                             <a href="/#home"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Home</a>
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
+                                {{ $t('nav.home') }}
+                            </a>
                                 
                             <a href="/#about"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">About Us</a>
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
+                                {{ $t('nav.about') }}
+                            </a>
                                 
                             <a href="/#our-project"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Our Projects</a>
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
+                                {{ $t('nav.projects') }}
+                            </a>
                                 
                             <router-link to="/articles"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Articles</router-link>
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
+                                {{ $t('nav.articles') }}
+                            </router-link>
                                 
                             <a href="/#our-services"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Services</a>
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
+                                {{ $t('nav.services') }}
+                            </a>
                                 
                             <a href="/#clients"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Clients</a>
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
+                                {{ $t('nav.clients') }}
+                            </a>
+                            
                             <button @click="handleLanguageToggle"
                                 class="ml-2 flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-brand hover:text-brand transition-all active:scale-95">
                                 <span class="text-xs font-black">{{ isIndonesian ? 'EN' : 'ID' }}</span>
@@ -61,7 +70,7 @@ const handleLanguageToggle = () => {
 
                             <a href="#contact"
                                 class="ml-4 bg-slate-900 text-white hover:bg-brand px-6 py-2.5 rounded-xl text-sm font-black shadow-lg hover:shadow-brand/30 transition-all active:scale-95 flex items-center gap-2">
-                                Contact <span class="text-xs opacity-50">→</span>
+                                {{ $t('nav.contact') }} <span class="text-xs opacity-50">→</span>
                             </a>
                         </div>
 
@@ -85,25 +94,32 @@ const handleLanguageToggle = () => {
                 <div v-show="isMenuOpen"
                     class="md:hidden border-t border-slate-100 p-4 space-y-2 bg-white rounded-b-2xl">
                     <a href="#home" @click="isMenuOpen = false"
-                        class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">Home</a>
+                        class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">
+                        {{ $t('nav.home') }}
+                    </a>
                     <a href="#our-project" @click="isMenuOpen = false"
-                        class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">Our
-                        Project</a>
-                    <a href="#psikotest" @click="isMenuOpen = false"
-                        class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">Psikotest</a>
+                        class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">
+                        {{ $t('nav.projects') }}
+                    </a>
                     <a href="#our-services" @click="isMenuOpen = false"
-                        class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">Service</a>
+                        class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">
+                        {{ $t('nav.services') }}
+                    </a>
                     <a href="#clients" @click="isMenuOpen = false"
-                        class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">Clients</a>
+                        class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">
+                        {{ $t('nav.clients') }}
+                    </a>
                     <div class="pt-2 pb-2 border-t border-slate-50 flex items-center justify-between px-4">
-                        <span class="text-sm font-bold text-slate-500">Switch Language</span>
+                        <span class="text-sm font-bold text-slate-500">{{ $t('nav.switch_language') }}</span>
                         <button @click="handleLanguageToggle"
                             class="flex items-center justify-center w-12 h-10 rounded-xl border border-slate-200 text-slate-600 active:bg-slate-50">
                             <span class="text-xs font-black">{{ isIndonesian ? 'EN' : 'ID' }}</span>
                         </button>
                     </div>
                     <a href="#contact" @click="isMenuOpen = false"
-                        class="block px-4 py-3 text-brand rounded-xl text-sm font-black transition-all">Contact</a>
+                        class="block px-4 py-3 text-brand rounded-xl text-sm font-black transition-all">
+                        {{ $t('nav.contact') }}
+                    </a>
                 </div>
             </div>
         </div>
@@ -116,7 +132,6 @@ const handleLanguageToggle = () => {
     scroll-padding-top: 6rem;
 }
 
-/* Custom warna brand karena tidak ada di default tailwind */
 .text-brand {
     color: #ea4435;
 }
@@ -129,7 +144,6 @@ const handleLanguageToggle = () => {
     color: #ea4435;
 }
 
-/* Shadow khusus untuk button contact */
 .hover\:shadow-brand\/30:hover {
     box-shadow: 0 10px 15px -3px rgba(234, 68, 53, 0.3);
 }

@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
-import IdLanguage from "@/components/IdLanguage.vue";
+// import IdLanguage from "@/components/IdLanguage.vue";
 import NotFoundView from '../views/NotFoundView.vue'
 import CategoryIndex from '../views/admin/category/IndexView.vue'
 import CategoryEdit from '../views/admin/category/EditView.vue'
@@ -21,11 +21,11 @@ const routes = [
       name: 'NotFound',
       component: NotFoundView
   },
-  {
-    path: "/id",
-    name: "indonesia",
-    component: IdLanguage,
-  },
+  // {
+  //   path: "/id",
+  //   name: "indonesia",
+  //   component: IdLanguage,
+  // },
   {
     path: "/view/login",
     name: "login",

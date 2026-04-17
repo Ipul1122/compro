@@ -6,6 +6,8 @@ import { Autoplay, Pagination, EffectFade } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
+import HomeSection from './section/HomeSection.vue'
+import AboutSection from './section/AboutSection.vue'
 
 const dummyProjects = [
     {
@@ -249,169 +251,16 @@ onUnmounted(() => {
         <Navbar />
 
         <main id="home" class="relative mt-3">
-            <section class="max-w-7xl mx-auto px-4 pt-24 pb-32">
-                <div class="grid lg:grid-cols-2 gap-12 items-center">
 
-                    <div class="text-left relative z-10">
-                        <h1 class="relative z-10 flex flex-col gap-2">
-                            <span
-                                class="text-brand font-black uppercase tracking-[0.4em] text-[10px] md:text-xs mb-2 flex items-center gap-3">
-                                <span class="w-8 h-px bg-brand/50"></span>
-                                Established Excellence
-                            </span>
+            <!-- HOME SECTION -->
+            <div class="home-view">        
+            <HomeSection />
+            </div>
 
-                            <span class="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 leading-tight">
-                                PT <span class="font-light italic text-slate-500">Cakrawala</span>
-                                <br />
-                                <span
-                                    class="bg-gradient-to-r from-slate-900 via-slate-800 to-brand bg-clip-text text-transparent">
-                                    Parama Internasional
-                                </span>
-                            </span>
-
-                            <div class="mt-4 w-20 h-1 bg-gradient-to-r from-brand to-transparent rounded-full"></div>
-                        </h1>
-
-                        <p class="mt-8 text-sm md:text-lg text-slate-600 tracking-widest leading-relaxed max-w-xl">
-                            Completed more than hundreds of projects and is trusted by state owned enterprises
-                            as the best service provider vendor.
-                        </p>
-
-                        <div class="mt-5 mb-7 flex flex-col sm:flex-row gap-4">
-                            <a href="#our-services" class="relative inline-block px-10 py-4 rounded-xl font-bold text-white 
-                  bg-gradient-to-r from-brand to-orange-500
-                  hover:shadow-[0_10px_20px_rgba(234,68,53,0.3)] 
-                  hover:scale-[1.02] active:scale-95
-                  border border-transparent
-                  transition-all duration-300">
-                                Select Service
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="hidden lg:flex justify-center relative">
-                        <div
-                            class="w-full aspect-square max-w-lg bg-slate-50 backdrop-blur-sm rounded-3xl border border-slate-200 relative overflow-hidden flex items-center justify-center group shadow-2xl">
-
-                            <img src="/src/img/slide-gallery-17.jpg" alt="PT Cakrawala Project"
-                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-
-                            <div
-                                class="absolute inset-0 bg-gradient-to-tr from-brand/20 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity z-10">
-                            </div>
-
-                            <div
-                                class="absolute inset-0 flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-
-                            </div>
-
-                        </div>
-
-                        <div
-                            class="absolute -top-10 -right-10 w-72 h-72 bg-brand/10 blur-[100px] rounded-full animate-pulse -z-10">
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-
-            <section id="about" class="py-24 bg-white overflow-hidden">
-                <div class="max-w-7xl mx-auto px-6">
-                    <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-
-                        <div class="w-full lg:w-1/2 relative group">
-                            <div
-                                class="absolute -top-6 -left-6 w-32 h-32 bg-brand/10 rounded-full blur-3xl group-hover:bg-brand/20 transition-all duration-700">
-                            </div>
-
-                            <div
-                                class="relative rounded-3xl overflow-hidden shadow-2xl transition-transform duration-500 hover:scale-[1.02]">
-                                <img src="/src/img/skyscraper.jpg" alt="Our Creative Team"
-                                    class="w-full h-[400px] md:h-[500px] object-cover" />
-
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
-                            </div>
-
-                            <div
-                                class="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-xl border border-slate-50 hidden md:block">
-                                <p class="text-3xl font-black text-brand">10+</p>
-                                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">Years Experience
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="w-full lg:w-1/2">
-                            <div class="space-y-6">
-                                <div>
-                                    <h2 class="text-xs font-bold text-brand uppercase tracking-[0.3em] mb-4">Who We Are
-                                    </h2>
-                                    <h3
-                                        class="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter leading-tight">
-                                        About <span class="text-brand">Us</span>
-                                    </h3>
-                                </div>
-
-                                <p class="text-lg text-slate-600 leading-relaxed">
-                                    At WebCakrawala, we bridge the gap between complex technology and intuitive user
-                                    experiences.
-                                    Based in Indonesia, our collective of developers and creators specializes in
-                                    crafting high-performance
-                                    web solutions that are as beautiful as they are functional.
-                                </p>
-
-                                <p class="text-slate-600 leading-relaxed">
-                                    From building automated SaaS platforms to integrating advanced AI models like Gemini
-                                    and Whisper,
-                                    we push the boundaries of the modern web to ensure your business stays ahead of the
-                                    curve.
-                                </p>
-
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-                                    <div class="flex gap-4 p-4 rounded-2xl transition-colors hover:bg-slate-50">
-                                        <div
-                                            class="flex-shrink-0 w-12 h-12 bg-white shadow-sm rounded-xl flex items-center justify-center text-brand border border-slate-100">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h4 class="font-bold text-slate-900">Fast Performance</h4>
-                                            <p class="text-sm text-slate-500">Speed-optimized architectures.</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex gap-4 p-4 rounded-2xl transition-colors hover:bg-slate-50">
-                                        <div
-                                            class="flex-shrink-0 w-12 h-12 bg-white shadow-sm rounded-xl flex items-center justify-center text-brand border border-slate-100">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M9.75 17L9 21l3-2 3 2-.75-4M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h4 class="font-bold text-slate-900">AI Integration</h4>
-                                            <p class="text-sm text-slate-500">Leveraging the latest in AI to automate
-                                                your workflow.</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="pt-8">
-                                    <a href="#contact"
-                                        class="inline-flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-black hover:bg-brand transition-all duration-300 shadow-xl hover:shadow-brand/20 active:scale-95">
-                                        Work With Us
-                                        <span class="text-xl">→</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
+            <!-- ABOUT SECTION -->
+             <div class="about-view">
+                <AboutSection />
+             </div>
 
             <section id="our-project" class="py-24 bg-white">
                 <div class="max-w-7xl mx-auto px-6">

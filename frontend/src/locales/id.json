@@ -1,0 +1,31 @@
+{
+  "home": {
+    "subtitle": "Established Excellence",
+    "description": "Telah menyelesaikan lebih dari ratusan proyek dan dipercaya oleh perusahaan milik negara sebagai vendor penyedia layanan terbaik.",
+    "button_service": "Pilih Layanan"
+  },
+  "nav": {
+    "home": "Beranda",
+    "about": "Tentang Kami",
+    "projects": "Proyek Kami",
+    "articles": "Artikel",
+    "services": "Layanan",
+    "clients": "Klien",
+    "contact": "Hubungi Kami",
+    "switch_language": "Ganti Bahasa"
+  },
+  "about": {
+    "years_experience": "Tahun Pengalaman",
+    "subtitle": "Siapa Kami",
+    "title_main": "Tentang",
+    "title_highlight": "Kami",
+    "desc_1": "Di WebCakrawala, kami menjembatani kesenjangan antara teknologi yang kompleks dan pengalaman pengguna yang intuitif. Berbasis di Indonesia, kolektif developer dan kreator kami berspesialisasi dalam merancang solusi web berperforma tinggi yang indah sekaligus fungsional.",
+    "desc_2": "Dari membangun platform SaaS terotomatisasi hingga mengintegrasikan model AI canggih seperti Gemini dan Whisper, kami mendobrak batasan web modern untuk memastikan bisnis Anda selalu terdepan.",
+    "feature_1_title": "Performa Cepat",
+    "feature_1_desc": "Arsitektur yang dioptimalkan untuk kecepatan.",
+    "feature_2_title": "Integrasi AI",
+    "feature_2_desc": "Memanfaatkan AI terbaru untuk mengotomatisasi alur kerja Anda.",
+    "button": "Kerja Sama Dengan Kami"
+  }
+  
+}

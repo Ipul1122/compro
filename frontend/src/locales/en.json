@@ -1,0 +1,30 @@
+{
+  "home": {
+    "subtitle": "Established Excellence",
+    "description": "more than hundreds of projects and is trusted by state owned enterprises as the best service provider vendor.",
+    "button_service": "Select Service"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "projects": "Our Projects",
+    "articles": "Articles",
+    "services": "Services",
+    "clients": "Clients",
+    "contact": "Contact",
+    "switch_language": "Switch Language"
+  },
+  "about": {
+    "years_experience": "Years Experience",
+    "subtitle": "Who We Are",
+    "title_main": "About",
+    "title_highlight": "Us",
+    "desc_1": "At WebCakrawala, we bridge the gap between complex technology and intuitive user experiences. Based in Indonesia, our collective of developers and creators specializes in crafting high-performance web solutions that are as beautiful as they are functional.",
+    "desc_2": "From building automated SaaS platforms to integrating advanced AI models like Gemini and Whisper, we push the boundaries of the modern web to ensure your business stays ahead of the curve.",
+    "feature_1_title": "Fast Performance",
+    "feature_1_desc": "Speed-optimized architectures.",
+    "feature_2_title": "AI Integration",
+    "feature_2_desc": "Leveraging the latest in AI to automate your workflow.",
+    "button": "Work With Us"
+  }
+}
