@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\ArticleController;
+use App\Http\Controllers\Api\GalleryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,8 @@ use App\Http\Controllers\Api\ArticleController;
 Route::get('/articles', [ArticleController::class, 'indexPublic']);
 Route::get('/articles-list', [ArticleController::class, 'indexPublic']);
 Route::get('/articles/{slug}', [ArticleController::class, 'showPublic']);
+Route::get('/galleries', [GalleryController::class, 'index']);
+
 
 // Route untuk Login
 Route::post('/login', [AuthController::class, 'login']);
@@ -61,6 +64,9 @@ Route::middleware('auth:sanctum')->group(function () {
         // CRUD Category (Hanya method Store, Update, Destroy, Show berdasarkan ID)
         Route::apiResource('categories', CategoryController::class);
         Route::apiResource('articles', ArticleController::class);
+        Route::post('galleries/bulk-store', [GalleryController::class, 'bulkStore']);
+        Route::post('galleries/bulk-delete', [GalleryController::class, 'bulkDestroy']);
+        Route::apiResource('galleries', GalleryController::class);
     });
 });
 

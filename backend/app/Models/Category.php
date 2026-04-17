@@ -20,4 +20,10 @@ class Category extends Model
     {
         return $this->hasMany(Article::class);
     }    
+
+    // Tambahkan relasi Gallery
+    public function galleries()
+    {
+        return $this->hasMany(Gallery::class);
+    }
 }
