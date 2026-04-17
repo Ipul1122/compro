@@ -38,26 +38,28 @@ const handleLanguageToggle = () => {
 
                         <div class="flex-shrink-0 flex items-center">
                             <a href="#home" class="hover:opacity-80 transition-opacity">
-                                <img src="/src/img/webcakrawala-logo.png" alt="Logo" class="h-9 w-auto" />
+                                <img src="/src/img/webcakrawala-logo.png" alt="Logo" class="h-13 w-auto" />
                             </a>
                         </div>
 
                         <div class="hidden md:flex items-center gap-1">
                             <a href="/#home"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Home</a>
-                                
+
                             <a href="/#about"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">About Us</a>
-                                
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">About
+                                Us</a>
+
                             <a href="/#our-project"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Our Projects</a>
-                                
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Our
+                                Projects</a>
+
                             <router-link to="/articles"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Articles</router-link>
-                                
+
                             <a href="/#our-services"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Services</a>
-                                
+
                             <a href="/#clients"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Clients</a>
                             <button @click="handleLanguageToggle"
