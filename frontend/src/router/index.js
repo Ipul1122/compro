@@ -7,6 +7,7 @@ import CategoryEdit from '../views/admin/category/EditView.vue'
 import ArticleIndex from '../views/admin/articles/IndexView.vue'
 import ArticleCreate from '../views/admin/articles/TambahView.vue'
 import ArticleEdit from '../views/admin/articles/EditView.vue'
+import ArticlePublicIndex from '../views/articles/IndexView.vue'
 
 const routes = [
   {
@@ -30,6 +31,16 @@ const routes = [
     component: () => import("@/views/LoginView.vue"),
     meta: { hideNavbar: true },
   },
+
+  {
+    path: '/articles',
+    name: 'articles.index',
+    component: ArticlePublicIndex
+  },
+
+  // --------------------------
+  // ADMIN ROUTES
+  // --------------------------
   {
     path: "/admin/dashboard", 
     name: "dashboard",

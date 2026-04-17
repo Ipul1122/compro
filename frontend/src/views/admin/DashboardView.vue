@@ -81,7 +81,7 @@ const breadcrumbsData = ref([
 <template>
     <div class="flex min-h-screen bg-slate-50 relative overflow-x-hidden">
         <transition name="slide">
-            <div v-if="showSuccessNotif" class="fixed top-4 right-4 left-4 md:left-auto z-[150] bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border border-slate-700 md:w-80">
+            <div v-if="showSuccessNotif" class="fixed top-4 right-4 left-4 md:left-auto z-150 bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border border-slate-700 md:w-80">
                 <div class="h-8 w-8 shrink-0 bg-emerald-500 rounded-full flex items-center justify-center font-bold">✓</div>
                 <div class="truncate">
                     <p class="font-bold text-sm leading-none">Login Successful</p>

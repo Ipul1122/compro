@@ -39,7 +39,7 @@ const handleLogin = async () => {
             axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data.token}`
 
             // Redirect ke dashboard
-            router.push('/view/dashboard')
+            router.push('/admin/dashboard')
         }
 
     } catch (error) {

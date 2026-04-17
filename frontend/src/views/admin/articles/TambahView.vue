@@ -21,6 +21,15 @@
           <form @submit.prevent="storeArticle" enctype="multipart/form-data">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               
+
+              <div class="md:col-span-2">
+                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Gambar Utama</label>
+                <div class="flex flex-col items-start gap-4">
+                  <img v-if="previewImage" :src="previewImage" class="w-full max-w-2xl aspect-video rounded-xl object-cover border border-slate-200 shadow-sm" />
+                  <input type="file" @change="handleFileChange" accept="image/*" class="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-900 file:text-white hover:file:bg-[#ea4435] cursor-pointer" required>
+                </div>
+              </div>
+
               <div>
                 <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Judul Artikel</label>
                 <input v-model="form.title" @input="handleTitleInput" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black" required placeholder="Masukkan judul artikel">
@@ -67,13 +76,7 @@
                 <textarea v-model="form.meta_description" rows="3" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-medium text-black" placeholder="Deskripsi singkat untuk SEO..."></textarea>
               </div>
 
-              <div class="md:col-span-2">
-                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Gambar Utama</label>
-                <div class="flex flex-col items-start gap-4">
-                  <img v-if="previewImage" :src="previewImage" class="w-full max-w-2xl aspect-video rounded-xl object-cover border border-slate-200 shadow-sm" />
-                  <input type="file" @change="handleFileChange" accept="image/*" class="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-900 file:text-white hover:file:bg-[#ea4435] cursor-pointer" required>
-                </div>
-              </div>
+              
             </div>
 
             <div class="flex gap-3 pt-4 border-t border-slate-100">
