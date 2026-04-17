@@ -1,21 +1,27 @@
 <script setup>
 import { ref, computed } from 'vue'
-const isMenuOpen = ref(false)
 import { useRouter, useRoute } from 'vue-router'
+// 1. Import useI18n dari vue-i18n
+import { useI18n } from 'vue-i18n'
 
+const isMenuOpen = ref(false)
 const router = useRouter()
 const route = useRoute()
 
-const isIndonesian = computed(() => route.path.startsWith('/id'))
+// 2. Inisialisasi locale dari vue-i18n
+const { locale } = useI18n()
 
+// 3. Ubah logika pengecekan bahasa: cek state locale, bukan path URL
+const isIndonesian = computed(() => locale.value === 'id')
+
+// 4. Ubah logika toggle: ganti value locale-nya, jangan redirect URL
 const handleLanguageToggle = () => {
-    if (isIndonesian.value) {
-        router.push('/')
+    if (locale.value === 'id') {
+        locale.value = 'en'
     } else {
-        router.push('/id')
+        locale.value = 'id'
     }
 }
-
 </script>
 
 <template>
