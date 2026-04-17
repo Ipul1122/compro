@@ -13,6 +13,11 @@ use App\Http\Controllers\Api\ArticleController;
 |--------------------------------------------------------------------------
 */
 
+// Artikel untuk frontend (Hanya yang published)
+Route::get('/articles', [ArticleController::class, 'indexPublic']);
+Route::get('/articles-list', [ArticleController::class, 'indexPublic']);
+Route::get('/articles/{slug}', [ArticleController::class, 'showPublic']);
+
 // Route untuk Login
 Route::post('/login', [AuthController::class, 'login']);
 

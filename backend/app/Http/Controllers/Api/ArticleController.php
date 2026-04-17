@@ -48,6 +48,55 @@ class ArticleController extends Controller
         ], 200);
     }
 
+    // Tambahkan di ArticleController.php
+   public function indexPublic(Request $request)
+    {
+        $query = Article::select('id', 'category_id', 'title', 'slug', 'image', 'total_view', 'created_at')
+            ->with('category:id,name,slug')
+            ->where('published', 'publish');
+
+        // Fitur Populer vs Terbaru
+        if ($request->has('popular')) {
+            $query->orderBy('total_view', 'desc');
+        } else {
+            $query->latest();
+        }
+
+        // Filter Pencarian
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter Kategori
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        // KONDISI: Jika request memiliki 'limit' (untuk sidebar), gunakan get()
+        if ($request->has('limit')) {
+            $articles = $query->limit($request->limit)->get();
+            return response()->json([
+                'success' => true,
+                'data' => $articles
+            ], 200);
+        }
+
+        // KONDISI: Standar untuk halaman Index Public (Pagination 10)
+        $articles = $query->paginate(10);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'List Data Articles Public',
+            'data'    => $articles->items(),
+            'pagination' => [
+                'total'        => $articles->total(),
+                'per_page'     => $articles->perPage(),
+                'current_page' => $articles->currentPage(),
+                'last_page'    => $articles->lastPage(),
+            ]
+        ], 200);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -98,6 +147,24 @@ class ArticleController extends Controller
                 'data' => $article
             ], 200);
         }
+
+    public function showPublic($slug)
+    {
+        // Mengambil artikel berdasarkan slug yang statusnya publish
+        $article = Article::with('category')
+            ->where('slug', $slug)
+            ->where('published', 'publish')
+            ->firstOrFail();
+
+        // Increment total view (opsional, jika Anda ingin menghitung jumlah klik/baca)
+        $article->increment('total_view');
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Detail Data Article',
+            'data' => $article
+        ], 200);
+    }
 
     public function update(Request $request, $id)
     {

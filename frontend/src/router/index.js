@@ -8,6 +8,7 @@ import ArticleIndex from '../views/admin/articles/IndexView.vue'
 import ArticleCreate from '../views/admin/articles/TambahView.vue'
 import ArticleEdit from '../views/admin/articles/EditView.vue'
 import ArticlePublicIndex from '../views/articles/IndexView.vue'
+import ArticlePublicDetail from '../views/articles/DetailView.vue'
 
 const routes = [
   {
@@ -36,6 +37,12 @@ const routes = [
     path: '/articles',
     name: 'articles.index',
     component: ArticlePublicIndex
+  },
+
+  {
+    path: '/articles/:slug', 
+    name: 'articles.detail',
+    component: ArticlePublicDetail
   },
 
   // --------------------------

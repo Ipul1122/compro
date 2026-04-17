@@ -37,21 +37,23 @@ const handleLanguageToggle = () => {
                         </div>
 
                         <div class="hidden md:flex items-center gap-1">
-                            <a href="#home"
+                            <a href="/#home"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Home</a>
-                            <a href="#about"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">About
-                                Us</a>
-                            <a href="#our-project"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Our
-                                Projects</a>
-                            <a href="/articles"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Articles</a>
-                            <a href="#our-services"
+                                
+                            <a href="/#about"
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">About Us</a>
+                                
+                            <a href="/#our-project"
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Our Projects</a>
+                                
+                            <router-link to="/articles"
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Articles</router-link>
+                                
+                            <a href="/#our-services"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Services</a>
-                            <a href="#clients"
+                                
+                            <a href="/#clients"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Clients</a>
-
                             <button @click="handleLanguageToggle"
                                 class="ml-2 flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-brand hover:text-brand transition-all active:scale-95">
                                 <span class="text-xs font-black">{{ isIndonesian ? 'EN' : 'ID' }}</span>
