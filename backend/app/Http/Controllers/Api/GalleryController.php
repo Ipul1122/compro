@@ -25,10 +25,6 @@ class GalleryController extends Controller
             $query->where('title_image', 'like', '%' . $request->search . '%');
         }
 
-        // PENTING: Kita menggunakan get() BUKAN paginate(10) di sini.
-        // Jika menggunakan paginate(10), gambar di dalam satu "Wadah" yang sama 
-        // akan terpotong dan terbelah menjadi 2 halaman di Frontend.
-        // Paginasi dan sinkronisasi URL (?page=2) akan di-handle sepenuhnya oleh Vue Router.
         $galleries = $query->get();
 
         return response()->json([
