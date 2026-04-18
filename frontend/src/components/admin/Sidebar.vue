@@ -1,42 +1,36 @@
 <template>
-    <div v-if="isOpen" @click="$emit('update:isOpen', false)" class="fixed inset-0 bg-slate-900/50 z-60 lg:hidden backdrop-blur-sm cursor-pointer"></div>
-
-    <aside :class="isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
-        class="fixed lg:sticky top-0 inset-y-0 left-0 w-64 bg-slate-900 flex flex-col z-70 transition-transform duration-300 ease-in-out h-screen">
-        <div class="p-6 border-b border-slate-800 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="h-8 w-8 bg-[#ea4435] rounded-lg flex items-center justify-center text-white font-black">
-                    W</div>
-                <span class="text-white font-bold tracking-tight text-xl">Cakrawala</span>
-            </div>
+    <aside class="w-64 bg-slate-900 min-h-screen flex flex-col">
+        <div class="p-6 border-b border-slate-800">
+            <h2 class="text-white font-black text-xl uppercase tracking-tighter">Admin Panel</h2>
         </div>
-
-        <nav class="flex-1 p-4 space-y-2 overflow-y-auto custom-scrollbar">
-            <button @click="changeView('dashboard')"
-                :class="currentView === 'dashboard' ? 'bg-[#ea4435] text-white' : 'text-slate-400 hover:bg-slate-800'"
-                class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all cursor-pointer">
+        
+        <nav class="flex-grow p-4 space-y-2">
+            <router-link to="/admin/dashboard" class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all font-bold">
                 Dashboard
-            </button>
-            <button @click="changeView('articles')"
-                :class="currentView === 'articles' ? 'bg-[#ea4435] text-white' : 'text-slate-400 hover:bg-slate-800'"
-                class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all cursor-pointer">
-                Articles
-            </button>
-            <button @click="changeView('categories')"
-                :class="currentView === 'categories' ? 'bg-[#ea4435] text-white' : 'text-slate-400 hover:bg-slate-800'"
-                class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all cursor-pointer">
-                Categories
+            </router-link>
+
+            <router-link to="/admin/categories" class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all font-bold">
+                Kategori
+            </router-link>
+
+            <router-link to="/admin/articles" class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all font-bold">
+                Artikel
+            </router-link>
+
+            <router-link to="/admin/gallery" class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-all font-bold">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Galeri
+            </router-link>
+            
+            <button @click="logout" class="w-full flex items-center gap-3 px-4 py-3 text-red-400 hover:text-white hover:bg-red-600/20 rounded-xl transition-all font-bold mt-10">
+                Logout
             </button>
         </nav>
-
-        <div class="p-4 mt-auto border-t border-slate-800">
-            <button @click="$emit('logout')"
-                class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-red-500/10 hover:text-red-500 transition-all font-bold text-sm cursor-pointer">
-                Sign Out
-            </button>
-        </div>
     </aside>
 </template>
+
 
 <script setup>
 const props = defineProps({

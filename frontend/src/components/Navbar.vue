@@ -1,20 +1,15 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-// 1. Import useI18n dari vue-i18n
 import { useI18n } from 'vue-i18n'
 
 const isMenuOpen = ref(false)
 const router = useRouter()
 const route = useRoute()
 
-// 2. Inisialisasi locale dari vue-i18n
 const { locale } = useI18n()
-
-// 3. Ubah logika pengecekan bahasa: cek state locale, bukan path URL
 const isIndonesian = computed(() => locale.value === 'id')
 
-// 4. Ubah logika toggle: ganti value locale-nya, jangan redirect URL
 const handleLanguageToggle = () => {
     if (locale.value === 'id') {
         locale.value = 'en'
@@ -53,15 +48,19 @@ const handleLanguageToggle = () => {
                             <a href="/#our-project"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Our
                                 Projects</a>
-
+                                
                             <router-link to="/articles"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Articles</router-link>
+
+                            <router-link to="/galeri"
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Gallery</router-link>
 
                             <a href="/#our-services"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Services</a>
 
                             <a href="/#clients"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Clients</a>
+                            
                             <button @click="handleLanguageToggle"
                                 class="ml-2 flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-brand hover:text-brand transition-all active:scale-95">
                                 <span class="text-xs font-black">{{ isIndonesian ? 'EN' : 'ID' }}</span>
@@ -97,12 +96,17 @@ const handleLanguageToggle = () => {
                     <a href="#our-project" @click="isMenuOpen = false"
                         class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">Our
                         Project</a>
+                    
+                    <a href="#gallery" @click="isMenuOpen = false"
+                        class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">Gallery</a>
+
                     <a href="#psikotest" @click="isMenuOpen = false"
                         class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">Psikotest</a>
                     <a href="#our-services" @click="isMenuOpen = false"
                         class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">Service</a>
                     <a href="#clients" @click="isMenuOpen = false"
                         class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">Clients</a>
+                    
                     <div class="pt-2 pb-2 border-t border-slate-50 flex items-center justify-between px-4">
                         <span class="text-sm font-bold text-slate-500">Switch Language</span>
                         <button @click="handleLanguageToggle"
@@ -124,7 +128,6 @@ const handleLanguageToggle = () => {
     scroll-padding-top: 6rem;
 }
 
-/* Custom warna brand karena tidak ada di default tailwind */
 .text-brand {
     color: #ea4435;
 }
@@ -137,7 +140,6 @@ const handleLanguageToggle = () => {
     color: #ea4435;
 }
 
-/* Shadow khusus untuk button contact */
 .hover\:shadow-brand\/30:hover {
     box-shadow: 0 10px 15px -3px rgba(234, 68, 53, 0.3);
 }
