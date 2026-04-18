@@ -67,5 +67,17 @@
       "bnsp_comm": "Organizational Communication Management Training and Certification for Employees with BNSP Certification",
       "iso_9001": "ISO 9001:2015 – Quality Management System for the Health Service Unit of DPR RI, 2025"
     }
+  },
+  "articles_index": {
+    "title": "Latest Articles",
+    "subtitle": "Discover our latest insights and news.",
+    "search_placeholder": "Search article titles...",
+    "all_categories": "All Categories",
+    "filter": "Filter",
+    "general": "General",
+    "views": "Views",
+    "read_more": "Read More",
+    "no_articles": "No articles found.",
+    "page": "Page {current} of {last}"
   }
 }
