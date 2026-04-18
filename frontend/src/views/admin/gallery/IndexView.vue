@@ -1,15 +1,25 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import Api from '@/api'
 import Sidebar from '@/components/admin/Sidebar.vue'
 import Navbar from '@/components/admin/Navbar.vue'
 import { getImageUrl, handleImageError } from '@/utils/imageHelper'
 
+// Router Setup untuk Sinkronisasi URL
+const route = useRoute()
+const router = useRouter()
+
 const galleries = ref([])
 const categories = ref([])
-const isLoading = ref(true) // Set ke true agar skeleton langsung muncul saat halaman dimuat
+const isLoading = ref(true)
 
-// State untuk Popover/Modal Konfirmasi Hapus
+// FRONTEND PAGINATION (SINKRON DENGAN URL)
+// Mengambil nilai page dari URL saat pertama kali dimuat, default ke 1
+const currentPage = ref(parseInt(route.query.page) || 1)
+const itemsPerPage = 10
+
+// State Modal Hapus
 const deleteModal = ref({
     isOpen: false,
     album: null,
@@ -38,61 +48,83 @@ const fetchGalleries = async () => {
     }
 }
 
-// LOGIKA PENGELOMPOKAN (ALBUM/WADAH)
+// 1. KELOMPOKKAN SEMUA DATA MENJADI "WADAH" (ALBUM)
 const groupedGalleries = computed(() => {
     const groups = {}
     
     galleries.value.forEach(gallery => {
-        // Hilangkan angka di belakang untuk mendapatkan Base Title (contoh: "Gathering 1" -> "Gathering")
         const baseTitle = gallery.title_image ? gallery.title_image.replace(/\s\d+$/, '').trim() : 'Galeri'
         const key = `${baseTitle}_${gallery.category_id}`
         
         if (!groups[key]) {
             groups[key] = {
-                id: gallery.id, // ID representatif untuk rute edit
+                id: gallery.id, 
                 title: baseTitle,
                 category: gallery.category,
                 category_id: gallery.category_id,
-                cover: gallery.image, // Foto pertama sebagai cover
+                cover: gallery.image,
                 total_images: 0,
-                ids: [] // Kumpulkan semua ID untuk bulk delete
+                ids: []
             }
         }
         groups[key].total_images += 1
         groups[key].ids.push(gallery.id)
     })
 
-    // Kembalikan sebagai Array
     return Object.values(groups)
 })
 
-// FUNGSI MODAL POPOVER HAPUS
-const openDeleteModal = (album) => {
-    deleteModal.value = {
-        isOpen: true,
-        album: album,
-        isDeleting: false
+// 2. HITUNG TOTAL HALAMAN BERDASARKAN JUMLAH WADAH
+const totalPages = computed(() => {
+    return Math.ceil(groupedGalleries.value.length / itemsPerPage) || 1
+})
+
+// 3. POTONG ARRAY WADAH UNTUK DITAMPILKAN DI HALAMAN SAAT INI
+const paginatedAlbums = computed(() => {
+    const start = (currentPage.value - 1) * itemsPerPage
+    const end = start + itemsPerPage
+    return groupedGalleries.value.slice(start, end)
+})
+
+// 4. FUNGSI GANTI HALAMAN YANG MENGUBAH URL BROWSER (?page=x)
+const changePage = (page) => {
+    if (page >= 1 && page <= totalPages.value) {
+        // Mengupdate URL. Ini akan memicu watcher di bawah.
+        router.push({ query: { ...route.query, page: page } })
+        window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 }
 
+// 5. PANTAU PERUBAHAN URL (Untuk fitur tombol Back/Forward di browser)
+watch(() => route.query.page, (newPage) => {
+    // Jika URL berubah (misal user klik Back), perbarui data yang tampil
+    currentPage.value = parseInt(newPage) || 1
+})
+
+// MODAL HAPUS
+const openDeleteModal = (album) => {
+    deleteModal.value = { isOpen: true, album: album, isDeleting: false }
+}
+
 const closeDeleteModal = () => {
-    if (deleteModal.value.isDeleting) return // Cegah tutup saat loading
+    if (deleteModal.value.isDeleting) return
     deleteModal.value.isOpen = false
-    // Tunggu animasi transisi sebelum mengosongkan data album
-    setTimeout(() => {
-        deleteModal.value.album = null
-    }, 300)
+    setTimeout(() => { deleteModal.value.album = null }, 300)
 }
 
 const confirmDelete = async () => {
     if (!deleteModal.value.album) return
-    
-    deleteModal.value.isDeleting = true // Ubah status tombol jadi loading
+    deleteModal.value.isDeleting = true 
     
     try {
-        // Gunakan bulk delete untuk menghapus seluruh isi wadah
         await Api.post('/admin/galleries/bulk-delete', { ids: deleteModal.value.album.ids })
-        await fetchGalleries() // Refresh data setelah berhasil
+        await fetchGalleries()
+        
+        // Cek jika halaman ini kosong setelah dihapus, mundur 1 halaman
+        if (paginatedAlbums.value.length === 1 && currentPage.value > 1) {
+            changePage(currentPage.value - 1)
+        }
+        
         closeDeleteModal()
     } catch (error) {
         alert('Gagal menghapus wadah galeri')
@@ -115,7 +147,7 @@ onMounted(() => {
                 <div class="flex justify-between items-center mb-6">
                     <div>
                         <h1 class="text-2xl font-bold text-slate-800">Manajemen Galeri (Album)</h1>
-                        <p class="text-slate-500">Foto-foto dengan judul serupa otomatis dikelompokkan dalam satu wadah.</p>
+                        <p class="text-slate-500">Terdapat total <span class="font-bold text-blue-600">{{ groupedGalleries.length }}</span> Wadah Album.</p>
                     </div>
                     <router-link to="/admin/gallery/tambah" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-sm shadow-blue-600/30">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -125,36 +157,29 @@ onMounted(() => {
                     </router-link>
                 </div>
 
-                <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
-                    <div class="overflow-x-auto">
+                <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm flex flex-col">
+                    <div class="overflow-x-auto flex-grow min-h-[400px]">
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-slate-50 text-slate-500 text-xs uppercase font-black tracking-wider">
                                     <th class="px-6 py-4">Cover Wadah</th>
                                     <th class="px-6 py-4">Judul Album</th>
                                     <th class="px-6 py-4">Kategori</th>
-                                    <th class="px-6 py-4">Jumlah Foto</th>
+                                    <th class="px-6 py-4">Isi Wadah</th>
                                     <th class="px-6 py-4 text-right">Aksi</th>
                                 </tr>
                             </thead>
                             
                             <tbody class="divide-y divide-slate-100">
-                                
                                 <template v-if="isLoading">
                                     <tr v-for="n in 5" :key="n" class="animate-pulse">
-                                        <td class="px-6 py-4">
-                                            <div class="w-24 h-16 bg-slate-200/70 rounded-lg"></div>
-                                        </td>
+                                        <td class="px-6 py-4"><div class="w-24 h-16 bg-slate-200/70 rounded-lg"></div></td>
                                         <td class="px-6 py-4">
                                             <div class="h-5 w-48 bg-slate-200/70 rounded mb-2"></div>
                                             <div class="h-3 w-24 bg-slate-100 rounded"></div>
                                         </td>
-                                        <td class="px-6 py-4">
-                                            <div class="h-6 w-24 bg-slate-200/70 rounded-full"></div>
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <div class="h-5 w-16 bg-slate-200/70 rounded"></div>
-                                        </td>
+                                        <td class="px-6 py-4"><div class="h-6 w-24 bg-slate-200/70 rounded-full"></div></td>
+                                        <td class="px-6 py-4"><div class="h-5 w-16 bg-slate-200/70 rounded"></div></td>
                                         <td class="px-6 py-4 text-right">
                                             <div class="flex justify-end gap-2">
                                                 <div class="h-9 w-28 bg-slate-200/70 rounded-lg"></div>
@@ -164,8 +189,8 @@ onMounted(() => {
                                     </tr>
                                 </template>
 
-                                <template v-else-if="groupedGalleries.length > 0">
-                                    <tr v-for="album in groupedGalleries" :key="album.id" class="hover:bg-slate-50 transition-colors group">
+                                <template v-else-if="paginatedAlbums.length > 0">
+                                    <tr v-for="album in paginatedAlbums" :key="album.id" class="hover:bg-slate-50 transition-colors group">
                                         <td class="px-6 py-4">
                                             <div class="relative w-24 h-16 rounded-lg overflow-hidden shadow-sm border border-slate-200">
                                                 <img :src="getImageUrl(album.cover)" @error="handleImageError" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
@@ -222,6 +247,41 @@ onMounted(() => {
                             </tbody>
                         </table>
                     </div>
+                    
+                    <div v-if="totalPages > 1 && !isLoading" class="px-6 py-4 border-t border-slate-100 flex items-center justify-between bg-slate-50/50">
+                        <span class="text-sm text-slate-500 font-medium">Halaman <span class="font-bold text-slate-700">{{ currentPage }}</span> dari <span class="font-bold text-slate-700">{{ totalPages }}</span></span>
+                        <div class="flex gap-2">
+                            <button 
+                                @click="changePage(currentPage - 1)" 
+                                :disabled="currentPage === 1" 
+                                class="px-4 py-2 rounded-lg font-bold text-sm bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
+                            >
+                                Sebelumnya
+                            </button>
+                            
+                            <div class="hidden sm:flex gap-1">
+                                <button 
+                                    v-for="page in totalPages" 
+                                    :key="page"
+                                    @click="changePage(page)"
+                                    :class="[
+                                        'px-3.5 py-2 rounded-lg font-bold text-sm transition-all shadow-sm border',
+                                        currentPage === page ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
+                                    ]"
+                                >
+                                    {{ page }}
+                                </button>
+                            </div>
+
+                            <button 
+                                @click="changePage(currentPage + 1)" 
+                                :disabled="currentPage === totalPages" 
+                                class="px-4 py-2 rounded-lg font-bold text-sm bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
+                            >
+                                Selanjutnya
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>
@@ -238,29 +298,22 @@ onMounted(() => {
                 
                 <h2 class="text-xl font-bold text-center text-slate-800 mb-2">Hapus Album?</h2>
                 <p class="text-center text-slate-500 text-sm mb-6 leading-relaxed">
-                    Anda akan menghapus wadah <span class="font-black text-slate-700">"{{ deleteModal.album?.title }}"</span> yang berisi <span class="font-black text-red-500">{{ deleteModal.album?.total_images }} foto</span>. Tindakan ini permanen dan tidak dapat dikembalikan.
+                    Anda akan menghapus wadah <span class="font-black text-slate-700">"{{ deleteModal.album?.title }}"</span> yang berisi <span class="font-black text-red-500">{{ deleteModal.album?.total_images }} foto</span>. Tindakan ini permanen.
                 </p>
                 
                 <div class="flex gap-3">
-                    <button 
-                        @click="closeDeleteModal" 
-                        :disabled="deleteModal.isDeleting" 
-                        class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-3 rounded-xl transition-colors disabled:opacity-50"
-                    >
+                    <button @click="closeDeleteModal" :disabled="deleteModal.isDeleting" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-3 rounded-xl transition-colors disabled:opacity-50">
                         Batal
                     </button>
-                    <button 
-                        @click="confirmDelete" 
-                        :disabled="deleteModal.isDeleting" 
-                        class="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm shadow-red-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
+                    <button @click="confirmDelete" :disabled="deleteModal.isDeleting" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm shadow-red-500/30 disabled:opacity-50 disabled:cursor-not-allowed">
                         <span v-if="deleteModal.isDeleting" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
                         {{ deleteModal.isDeleting ? 'Loading...' : 'Ya, Hapus' }}
                     </button>
                 </div>
             </div>
         </div>
-        </div>
+
+    </div>
 </template>
 
 <style scoped>
@@ -271,5 +324,12 @@ onMounted(() => {
 @keyframes popIn {
     0% { opacity: 0; transform: scale(0.9) translateY(10px); }
     100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+.animate-spin {
+    animation: spin 1s linear infinite;
 }
 </style>

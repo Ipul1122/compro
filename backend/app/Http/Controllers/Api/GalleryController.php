@@ -25,7 +25,10 @@ class GalleryController extends Controller
             $query->where('title_image', 'like', '%' . $request->search . '%');
         }
 
-        // Get all galleries tanpa pagination
+        // PENTING: Kita menggunakan get() BUKAN paginate(10) di sini.
+        // Jika menggunakan paginate(10), gambar di dalam satu "Wadah" yang sama 
+        // akan terpotong dan terbelah menjadi 2 halaman di Frontend.
+        // Paginasi dan sinkronisasi URL (?page=2) akan di-handle sepenuhnya oleh Vue Router.
         $galleries = $query->get();
 
         return response()->json([
@@ -35,7 +38,6 @@ class GalleryController extends Controller
         ]);
     }
 
-    // Simpan data gallery (Admin)
     public function store(Request $request)
     {
         $request->validate([
@@ -61,7 +63,6 @@ class GalleryController extends Controller
         ], 201);
     }
 
-    // Detail gallery (Admin)
     public function show(Gallery $gallery)
     {
         return response()->json([
@@ -70,7 +71,6 @@ class GalleryController extends Controller
         ]);
     }
 
-    // Update data gallery (Admin)
     public function update(Request $request, Gallery $gallery)
     {
         $request->validate([
@@ -82,14 +82,10 @@ class GalleryController extends Controller
 
         $data = $request->only(['category_id', 'title_image', 'meta_title_image']);
 
-        // Jika ada file image baru yang diupload
         if ($request->hasFile('image')) {
-            // Hapus gambar lama jika ada
             if ($gallery->image && Storage::disk('public')->exists($gallery->image)) {
                 Storage::disk('public')->delete($gallery->image);
             }
-            
-            // Simpan gambar baru
             $data['image'] = $request->file('image')->store('galleries', 'public');
         }
 
@@ -102,10 +98,8 @@ class GalleryController extends Controller
         ]);
     }
 
-    // Hapus gallery (Admin)
     public function destroy(Gallery $gallery)
     {
-        // Hapus gambar dari storage
         if ($gallery->image && Storage::disk('public')->exists($gallery->image)) {
             Storage::disk('public')->delete($gallery->image);
         }
@@ -124,7 +118,7 @@ class GalleryController extends Controller
             'category_id' => 'required|exists:categories,id',
             'images'      => 'required|array',
             'images.*'    => 'image|mimes:jpeg,png,jpg,webp|max:2048',
-            'title_image' => 'nullable|string|max:255', // Opsional, bisa pakai nama file asli jika kosong
+            'title_image' => 'nullable|string|max:255',
         ]);
 
         $uploadedData = [];
@@ -161,11 +155,9 @@ class GalleryController extends Controller
         $galleries = Gallery::whereIn('id', $request->ids)->get();
 
         foreach ($galleries as $gallery) {
-            // Hapus file fisik
             if ($gallery->image && Storage::disk('public')->exists($gallery->image)) {
                 Storage::disk('public')->delete($gallery->image);
             }
-            // Hapus record database
             $gallery->delete();
         }
 
