@@ -9,6 +9,11 @@ import ArticleCreate from '../views/admin/articles/TambahView.vue'
 import ArticleEdit from '../views/admin/articles/EditView.vue'
 import ArticlePublicIndex from '../views/articles/IndexView.vue'
 import ArticlePublicDetail from '../views/articles/DetailView.vue'
+import GalleryIndexView from '../views/galerry/IndexView.vue'
+// GALLERY
+import GalleryIndex from '../views/admin/gallery/IndexView.vue'
+import GalleryTambah from '../views/admin/gallery/TambahView.vue'
+import GalleryEdit from '../views/admin/gallery/EditView.vue'
 
 const routes = [
   {
@@ -43,6 +48,12 @@ const routes = [
     path: '/articles/:slug', 
     name: 'articles.detail',
     component: ArticlePublicDetail
+  },
+
+  {
+    path: '/galeri',
+    name: 'galeri.index',
+    component: GalleryIndexView
   },
 
   // --------------------------
@@ -85,6 +96,28 @@ const routes = [
     name: 'admin.articles.edit',
     component: ArticleEdit
   },
+
+  {
+    // index gallery
+      path: '/admin/gallery',
+      name: 'admin.gallery.index',
+      component: GalleryIndex,
+      meta: { requiresAuth: true }
+    },
+    {
+      // create gallery 
+      path: '/admin/gallery/tambah',
+      name: 'admin.gallery.tambah',
+      component: GalleryTambah,
+      meta: { requiresAuth: true }
+    },
+    {
+      // edit gallery
+      path: '/admin/gallery/edit/:id',
+      name: 'admin.gallery.edit',
+      component: GalleryEdit,
+      meta: { requiresAuth: true }
+    },
 ];
 
 const router = createRouter({

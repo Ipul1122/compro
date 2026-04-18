@@ -9,13 +9,28 @@ use Illuminate\Support\Facades\Storage;
 
 class GalleryController extends Controller
 {
-    // Tampilkan semua data gallery (bisa dipanggil publik jika dibutuhkan)
-    public function index()
+    public function index(Request $request)
     {
-        $galleries = Gallery::with('category')->latest()->get();
-        
+        $query = Gallery::select('id', 'category_id', 'title_image', 'meta_title_image', 'image', 'created_at', 'updated_at')
+            ->with('category:id,name,slug')
+            ->latest();
+
+        // Filter berdasarkan kategori
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        // Fitur Pencarian Judul
+        if ($request->filled('search')) {
+            $query->where('title_image', 'like', '%' . $request->search . '%');
+        }
+
+        // Get all galleries tanpa pagination
+        $galleries = $query->get();
+
         return response()->json([
             'status' => 'success',
+            'message' => 'List Data Galleries',
             'data' => $galleries
         ]);
     }

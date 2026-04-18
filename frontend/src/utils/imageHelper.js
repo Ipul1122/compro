@@ -20,8 +20,9 @@ export const getImageUrl = (imagePath) => {
     // Bersihkan path: hapus 'public/' dan slash di awal
     let cleanPath = imagePath.replace(/^public\//, '').replace(/^\//, '');
 
-    // Pastikan path dimulai dengan 'articles/'
-    if (!cleanPath.startsWith('articles/')) {
+    // SOLUSI: Cek apakah path mengandung folder (ada karakter '/')
+    // Jika tidak ada '/', berarti database hanya menyimpan nama file (milik articles)
+    if (!cleanPath.includes('/')) {
         cleanPath = `articles/${cleanPath}`;
     }
 
