@@ -8,10 +8,8 @@ const galleries = ref([])
 const categories = ref([])
 const isLoading = ref(false)
 
-// State untuk filter kategori
 const selectedCategory = ref('')
 
-// State untuk Modal / Wadah Album
 const activeAlbum = ref(null)
 const currentIndex = ref(0)
 
@@ -22,7 +20,6 @@ const fetchGalleries = async () => {
         
         galleries.value = response.data.data || response.data || []
         
-        // Ekstrak list kategori unik untuk tombol filter
         const uniqueCategories = new Map()
         galleries.value.forEach(item => {
             if (item.category) {
@@ -38,13 +35,11 @@ const fetchGalleries = async () => {
     }
 }
 
-// LOGIKA PENGELOMPOKAN (1 WADAH / ALBUM)
+// LOGIKA PENGELOMPOKAN WADAH + SORTING
 const groupedAlbums = computed(() => {
     const groups = {}
     
     galleries.value.forEach(gallery => {
-        // Menghilangkan angka di belakang judul yang digenerate oleh BulkStore (Contoh: "Gathering 1" -> "Gathering")
-        // Semua gambar dengan judul dasar dan kategori yang sama akan masuk ke 1 Wadah
         const baseTitle = gallery.title_image ? gallery.title_image.replace(/\s\d+$/, '').trim() : 'Galeri'
         const key = `${baseTitle}_${gallery.category_id}`
         
@@ -54,42 +49,54 @@ const groupedAlbums = computed(() => {
                 title: baseTitle,
                 category: gallery.category,
                 category_id: gallery.category_id,
-                cover: gallery.image, // Gambar pertama menjadi cover album
-                images: [] // Menampung semua gambar dalam album ini
+                cover: null,
+                images: [] 
             }
         }
         groups[key].images.push(gallery)
     })
 
-    // Ubah Object ke Array dan terapkan filter kategori
     let result = Object.values(groups)
+
+    // PERBAIKAN: Sort images di dalam masing-masing wadah agar sinkron dengan urutan drag & drop Admin
+    result.forEach(album => {
+        album.images.sort((a, b) => {
+            const numA = parseInt(a.title_image?.match(/\d+$/)?.[0] || 0)
+            const numB = parseInt(b.title_image?.match(/\d+$/)?.[0] || 0)
+            return numA - numB // Mengurutkan berdasarkan angka paling belakang
+        })
+        
+        // Atur cover wadah agar mengambil gambar nomor 1 (setelah disortir)
+        if(album.images.length > 0) {
+            album.cover = album.images[0].image
+        }
+    })
+
+    // Filter by kategori jika aktif
     if (selectedCategory.value) {
         result = result.filter(g => g.category_id === selectedCategory.value)
     }
     return result
 })
 
-// Fungsi membuka satu wadah (Album)
 const openAlbum = (album) => {
     activeAlbum.value = album
     currentIndex.value = 0
-    document.body.style.overflow = 'hidden' // Kunci scroll
+    document.body.style.overflow = 'hidden' 
 }
 
-// Fungsi menutup wadah
 const closeAlbum = () => {
     activeAlbum.value = null
     currentIndex.value = 0
-    document.body.style.overflow = 'auto' // Buka kembali scroll
+    document.body.style.overflow = 'auto' 
 }
 
-// Navigasi Gambar di dalam Wadah
 const nextImage = () => {
     if (!activeAlbum.value) return
     if (currentIndex.value < activeAlbum.value.images.length - 1) {
         currentIndex.value++
     } else {
-        currentIndex.value = 0 // Loop kembali ke awal
+        currentIndex.value = 0 
     }
 }
 
@@ -98,11 +105,10 @@ const prevImage = () => {
     if (currentIndex.value > 0) {
         currentIndex.value--
     } else {
-        currentIndex.value = activeAlbum.value.images.length - 1 // Ke ujung akhir
+        currentIndex.value = activeAlbum.value.images.length - 1 
     }
 }
 
-// Keyboard Support
 const handleKeydown = (e) => {
     if (!activeAlbum.value) return
     if (e.key === 'ArrowRight') nextImage()
@@ -154,9 +160,7 @@ onUnmounted(() => {
                     <img :src="getImageUrl(album.cover)" @error="handleImageError" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     
                     <div class="absolute top-4 right-4 bg-slate-900/70 backdrop-blur-sm text-white px-3 py-1.5 rounded-xl text-xs font-black tracking-wider flex items-center gap-2 shadow-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                         {{ album.images.length }}
                     </div>
                     
@@ -225,7 +229,6 @@ onUnmounted(() => {
 .animate-fadeIn {
     animation: fadeIn 0.2s ease-out forwards;
 }
-
 @keyframes fadeIn {
     from { opacity: 0.8; transform: scale(0.98); }
     to { opacity: 1; transform: scale(1); }
