@@ -73,10 +73,15 @@ const fetchData = async () => {
         if (representativeItem) {
             baseTitle.value = representativeItem.title_image.replace(/\s\d+$/, '').trim()
             
-            // Masukkan ke album items (menggunakan reaktivitas array agar bisa di-drag)
+            // PERBAIKAN: Filter sekaligus SORTING berdasarkan angka di belakang nama file
             albumItems.value = allGalleries.filter(g => {
                 const gBase = g.title_image ? g.title_image.replace(/\s\d+$/, '').trim() : 'Galeri'
                 return gBase === baseTitle.value && g.category_id === representativeItem.category_id
+            }).sort((a, b) => {
+                // Ekstrak angka dari title (contoh: "Gathering 2" -> 2)
+                const numA = parseInt(a.title_image?.match(/\d+$/)?.[0] || 0)
+                const numB = parseInt(b.title_image?.match(/\d+$/)?.[0] || 0)
+                return numA - numB // Urutkan dari kecil ke besar (1, 2, 3...)
             })
 
             form.value.title_image = baseTitle.value
@@ -122,8 +127,7 @@ const deleteSingleImage = async (id) => {
 const handleSubmit = async () => {
     isLoading.value = true
     try {
-        // Karena array albumItems bisa saja berubah urutannya (karena drag & drop)
-        // Maka loop ini akan meng-update urutan nama di Database berdasarkan urutan array yang baru!
+        // Update urutan nama di Database berdasarkan urutan array visual (setelah di drag)
         const updatePromises = albumItems.value.map((item, index) => {
             const formData = new FormData()
             formData.append('_method', 'PUT')
@@ -187,13 +191,13 @@ onMounted(fetchData)
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Kategori</label>
-                                    <select v-model="form.category_id" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium">
+                                    <select v-model="form.category_id" class="w-full text-black bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium">
                                         <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Judul Dasar Wadah</label>
-                                    <input v-model="form.title_image" type="text" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium" />
+                                    <input v-model="form.title_image" type="text" class="w-full text-black bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium" />
                                 </div>
                             </div>
                         </div>
@@ -201,7 +205,7 @@ onMounted(fetchData)
                         <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
                             <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-6">
                                 <h2 class="text-sm font-black text-slate-700 uppercase tracking-wider">2. Foto di Dalam Wadah ({{ albumItems.length }})</h2>
-                                <span class="text-xs bg-slate-100 text-slate-500 px-3 py-1 rounded-full font-bold">Geser untuk re-order</span>
+                                <span class="text-xs bg-slate-100 text-slate-500 px-3 py-1 rounded-full font-bold">Geser untuk mengatur urutan penayangan</span>
                             </div>
                             
                             <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
@@ -226,7 +230,7 @@ onMounted(fetchData)
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
                                         </button>
                                     </div>
-                                    <span class="absolute bottom-2 left-2 bg-slate-900/80 text-white text-[10px] px-2 py-0.5 rounded-full pointer-events-none">{{ index + 1 }}</span>
+                                    <span class="absolute bottom-2 left-2 bg-slate-900/80 text-white text-[10px] px-2 py-0.5 rounded-full pointer-events-none shadow-sm">{{ index + 1 }}</span>
                                 </div>
                             </div>
                         </div>
@@ -275,3 +279,13 @@ onMounted(fetchData)
         </div>
     </div>
 </template>
+
+<style scoped>
+/* Animasi Putar untuk Loading */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+</style>
