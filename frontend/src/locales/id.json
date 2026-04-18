@@ -27,7 +27,7 @@
     "feature_2_desc": "Memanfaatkan AI terbaru untuk mengotomatisasi alur kerja Anda.",
     "button": "Kerja Sama Dengan Kami"
   },
- "projects": {
+  "projects": {
     "badge": "Portofolio Global",
     "title_our": "Proyek",
     "title_projects": "Kami.",
@@ -66,5 +66,17 @@
       "bnsp_comm": "Pelatihan Manajemen Komunikasi Sertifikasi BNSP",
       "iso_9001": "ISO 9001:2015 – Sistem Manajemen Mutu Yankes DPR RI 2025"
     }
+  },
+  "articles_index": {
+    "title": "Artikel Terbaru",
+    "subtitle": "Temukan wawasan dan berita terbaru dari kami.",
+    "search_placeholder": "Cari judul artikel...",
+    "all_categories": "Semua Kategori",
+    "filter": "Filter",
+    "general": "Umum",
+    "views": "Views",
+    "read_more": "Selengkapnya",
+    "no_articles": "Tidak ada artikel ditemukan.",
+    "page": "Halaman {current} dari {last}"
   }
 }
