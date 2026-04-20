@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api; // Sesuaikan namespace jika ada di folder Api
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
@@ -10,27 +10,24 @@ use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
-    // backend/app/Http/Controllers/Api/ArticleController.php
-
     public function index(Request $request)
     {
-        $query = Article::select('id', 'category_id', 'title', 'slug', 'image', 'published', 'total_view', 'created_at', 'updated_at')
+        // Tambahkan title_en di select
+        $query = Article::select('id', 'category_id', 'title', 'title_en', 'slug', 'image', 'published', 'total_view', 'created_at', 'updated_at')
             ->with('category:id,name,slug') 
             ->latest();
 
-        // Filter berdasarkan status (draft/publish)
         if ($request->filled('published')) {
             $query->where('published', $request->published);
         }
 
-        // Filter berdasarkan kategori (Baru)
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
         }
 
-        // Fitur Pencarian Judul
         if ($request->filled('search')) {
-            $query->where('title', 'like', '%' . $request->search . '%');
+            $query->where('title', 'like', '%' . $request->search . '%')
+                  ->orWhere('title_en', 'like', '%' . $request->search . '%');
         }
 
         $articles = $query->paginate(10);
@@ -40,7 +37,7 @@ class ArticleController extends Controller
             'message' => 'List Data Articles',
             'data'    => $articles->items(),
             'pagination' => [
-                'total'        => $articles->total(), // Ini untuk informasi total artikel
+                'total'        => $articles->total(),
                 'per_page'     => $articles->perPage(),
                 'current_page' => $articles->currentPage(),
                 'last_page'    => $articles->lastPage(),
@@ -48,31 +45,28 @@ class ArticleController extends Controller
         ], 200);
     }
 
-    // Tambahkan di ArticleController.php
    public function indexPublic(Request $request)
     {
-        $query = Article::select('id', 'category_id', 'title', 'slug', 'image', 'total_view', 'created_at')
+        // Tambahkan title_en di select
+        $query = Article::select('id', 'category_id', 'title', 'title_en', 'slug', 'image', 'total_view', 'created_at')
             ->with('category:id,name,slug')
             ->where('published', 'publish');
 
-        // Fitur Populer vs Terbaru
         if ($request->has('popular')) {
             $query->orderBy('total_view', 'desc');
         } else {
             $query->latest();
         }
 
-        // Filter Pencarian
         if ($request->filled('search')) {
-            $query->where('title', 'like', '%' . $request->search . '%');
+            $query->where('title', 'like', '%' . $request->search . '%')
+                  ->orWhere('title_en', 'like', '%' . $request->search . '%');
         }
 
-        // Filter Kategori
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
         }
 
-        // KONDISI: Jika request memiliki 'limit' (untuk sidebar), gunakan get()
         if ($request->has('limit')) {
             $articles = $query->limit($request->limit)->get();
             return response()->json([
@@ -81,7 +75,6 @@ class ArticleController extends Controller
             ], 200);
         }
 
-        // KONDISI: Standar untuk halaman Index Public (Pagination 10)
         $articles = $query->paginate(10);
 
         return response()->json([
@@ -102,7 +95,9 @@ class ArticleController extends Controller
         $request->validate([
             'category_id' => 'required|exists:categories,id',
             'title' => 'required|string|max:255',
+            'title_en' => 'nullable|string|max:255',
             'content' => 'required|string',
+            'content_en' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'published' => 'nullable|in:draft,publish'
         ]);
@@ -110,11 +105,9 @@ class ArticleController extends Controller
         $data = $request->all();
         $data['slug'] = Str::slug($request->input('title'));
         
-        // Atur default meta jika kosong
         $data['meta_title'] = $request->input('meta_title') ?? $request->input('title');
         $data['meta_description'] = $request->input('meta_description') ?? Str::limit(strip_tags($request->input('content')), 150);
 
-        // Upload Image
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $image->storeAs('articles', $image->hashName(), 'public');
@@ -131,32 +124,28 @@ class ArticleController extends Controller
     }
 
     public function show(Request $request, $id)
-        {
-            $article = Article::with('category')
-                ->where('id', $id)
-                // Jika ada query ?published=... di URL, maka difilter. 
-                // Kalau gak ada, dia bakal cari ID 1 apa adanya.
-                ->when($request->published, function($query) use ($request) {
-                    return $query->where('published', $request->published);
-                })
-                ->firstOrFail(); // Pake firstOrFail biar balikannya 404 kalau status gak cocok
+    {
+        $article = Article::with('category')
+            ->where('id', $id)
+            ->when($request->published, function($query) use ($request) {
+                return $query->where('published', $request->published);
+            })
+            ->firstOrFail();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Detail Data Article',
-                'data' => $article
-            ], 200);
-        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Detail Data Article',
+            'data' => $article
+        ], 200);
+    }
 
     public function showPublic($slug)
     {
-        // Mengambil artikel berdasarkan slug yang statusnya publish
         $article = Article::with('category')
             ->where('slug', $slug)
             ->where('published', 'publish')
             ->firstOrFail();
 
-        // Increment total view (opsional, jika Anda ingin menghitung jumlah klik/baca)
         $article->increment('total_view');
 
         return response()->json([
@@ -173,14 +162,15 @@ class ArticleController extends Controller
         $request->validate([
             'category_id' => 'sometimes|required|exists:categories,id',
             'title' => 'sometimes|required|string|max:255',
+            'title_en' => 'nullable|string|max:255',
             'content' => 'sometimes|required|string',
+            'content_en' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'published' => 'nullable|in:draft,publish'
         ]);
 
         $data = $request->all();
 
-        // Update slug jika title berubah
         if ($request->has('title')) {
             $data['slug'] = Str::slug($request->input('title'));
             $data['meta_title'] = $request->input('meta_title') ?? $request->input('title');
@@ -190,14 +180,10 @@ class ArticleController extends Controller
             $data['meta_description'] = Str::limit(strip_tags($request->input('content')), 150);
         }
 
-        // Handle Image Update
         if ($request->hasFile('image')) {
-            // Hapus gambar lama
-            // Hapus gambar lama
             if ($article->image) {
                 Storage::disk('public')->delete('articles/' . $article->image);
             }
-            // Upload gambar baru
             $image = $request->file('image');
             $image->storeAs('articles', $image->hashName(), 'public');
             $data['image'] = $image->hashName();
@@ -215,14 +201,10 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         $article = Article::findOrFail($id);
-
-        // Hapus gambar
         if ($article->image) {
             Storage::disk('public')->delete('articles/' . $article->image);
         }
-
         $article->delete();
-
         return response()->json([
             'success' => true,
             'message' => 'Article Deleted Successfully'

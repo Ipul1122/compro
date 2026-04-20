@@ -29,6 +29,8 @@ return new class extends Migration
             // Status & Views
             $table->enum('published', ['draft', 'publish'])->default('draft');
             $table->unsignedBigInteger('total_view')->default(0);
+
+           
             
             $table->timestamps();
         });

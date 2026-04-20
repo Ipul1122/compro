@@ -203,12 +203,23 @@ const openModal = () => {
 };
 
 const submitForm = async () => {
+  if (!form.value.name.trim()) {
+    alert("Nama kategori tidak boleh kosong!");
+    return;
+  }
+
   try {
-    await store.storeCategory(form.value);
-    isModalOpen.value = false;
-    fetchData(1); // Refresh data
+    const response = await store.storeCategory(form.value);
+    if (response.status === 201 || response.data.status === 'success') {
+      isModalOpen.value = false;
+      form.value.name = '';
+      // Data sudah di-refresh oleh store.storeCategory()
+    }
   } catch (err) {
-    alert("Terjadi kesalahan saat menyimpan!");
+    const errorMessage = err.response?.data?.message || 
+                        Object.values(err.response?.data?.errors || {}).flat().join(', ') ||
+                        "Terjadi kesalahan saat menyimpan!";
+    alert(errorMessage);
   }
 };
 
