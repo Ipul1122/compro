@@ -14,12 +14,10 @@ const articles = ref([])
 const categories = ref([])
 const isLoading = ref(false)
 
-// State Paginasi
 const currentPage = ref(1)
 const lastPage = ref(1)
 const totalItems = ref(0)
 
-// State Filter
 const filters = ref({
     search: route.query.search || '',
     category_id: route.query.category_id || ''
@@ -98,7 +96,6 @@ const formatDate = (dateString) => {
     })
 }
 
-// Fungsi untuk menerjemahkan kategori dari database ke bahasa Inggris (opsional)
 const getCategoryName = (name) => {
     if (!name) return t('articles_index.general')
     
@@ -110,7 +107,7 @@ const getCategoryName = (name) => {
             'Pengumuman': 'Announcement',
             'Artikel': 'Article'
         }
-        return categoryDict[name] || name // Fallback ke nama asli jika tidak ada di dict
+        return categoryDict[name] || name 
     }
     return name
 }
@@ -177,9 +174,11 @@ const getCategoryName = (name) => {
                             <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
                             <span>{{ article.total_view || 0 }} {{ $t('articles_index.views') }}</span>
                         </div>
+                        
                         <h3 class="text-xl font-bold text-slate-900 mb-4 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors">
-                            {{ article.title }}
+                            {{ locale === 'en' && article.title_en ? article.title_en : article.title }}
                         </h3>
+                        
                         <div class="mt-auto pt-5 border-t border-slate-50 flex justify-between items-center">
                             <router-link :to="`/articles/${article.slug}`" class="text-sm font-black text-slate-900 uppercase tracking-wider flex items-center gap-2 group/link">
                                 {{ $t('articles_index.read_more') }}

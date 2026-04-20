@@ -21,7 +21,6 @@
           <form @submit.prevent="storeArticle" enctype="multipart/form-data">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               
-
               <div class="md:col-span-2">
                 <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Gambar Utama</label>
                 <div class="flex flex-col items-start gap-4">
@@ -31,8 +30,13 @@
               </div>
 
               <div>
-                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Judul Artikel</label>
-                <input v-model="form.title" @input="handleTitleInput" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black" required placeholder="Masukkan judul artikel">
+                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Judul Artikel (ID)</label>
+                <input v-model="form.title" @input="handleTitleInput" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black" required placeholder="Masukkan judul artikel (ID)">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Judul Artikel (EN)</label>
+                <input v-model="form.title_en" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black" placeholder="Masukan judul artikel (Inggris) opsional">
               </div>
 
               <div>
@@ -48,6 +52,16 @@
                 </select>
               </div>
 
+              <div class="md:col-span-2">
+                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Isi Konten (ID)</label>
+                <textarea v-model="form.content" rows="6" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-medium text-black" required placeholder="Tulis isi artikel (ID) di sini..."></textarea>
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Isi Konten (EN)</label>
+                <textarea v-model="form.content_en" rows="6" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-medium text-black" placeholder="Tulis isi artikel (Inggris) di sini (opsional)..."></textarea>
+              </div>
+
               <div>
                 <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Status</label>
                 <select v-model="form.published" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-white">
@@ -57,26 +71,9 @@
               </div>
 
               <div class="md:col-span-2">
-                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Isi Konten</label>
-                <textarea v-model="form.content" rows="8" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-medium text-black" required placeholder="Tulis isi artikel di sini..."></textarea>
-              </div>
-
-              <div>
-                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Title (SEO)</label>
-                <input v-model="form.meta_title" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black" placeholder="Judul untuk SEO">
-              </div>
-
-              <div>
-                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Keywords (SEO)</label>
-                <input v-model="form.meta_keywords" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black" placeholder="pisahkan, dengan, koma">
-              </div>
-
-              <div class="md:col-span-2">
                 <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Description (SEO)</label>
                 <textarea v-model="form.meta_description" rows="3" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-medium text-black" placeholder="Deskripsi singkat untuk SEO..."></textarea>
               </div>
-
-              
             </div>
 
             <div class="flex gap-3 pt-4 border-t border-slate-100">
@@ -97,24 +94,23 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import Sidebar from '@/components/admin/Sidebar.vue';
-import { getImageUrl } from '@/utils/imageHelper';
 
 const router = useRouter();
 
-// UI States
 const isSidebarOpen = ref(false);
 const currentView = ref('articles');
 const isSaving = ref(false);
 
-// Data States
 const categories = ref([]);
 const previewImage = ref(null);
 
 const form = ref({
     title: '',
+    title_en: '', // State untuk EN
     slug: '',
     category_id: '',
     content: '',
+    content_en: '', // State untuk EN
     meta_title: '',
     meta_description: '',
     meta_keywords: '',
@@ -138,7 +134,6 @@ const fetchCategories = async () => {
     }
 };
 
-// Auto Generate Slug
 const generateSlug = (text) => {
     return text.toString().toLowerCase()
         .replace(/\s+/g, '-')           
@@ -148,7 +143,6 @@ const generateSlug = (text) => {
         .replace(/-+$/, '');            
 };
 
-// Fungsi ini akan terus mengupdate slug setiap kali judul diketik
 const handleTitleInput = () => {
     form.value.slug = generateSlug(form.value.title);
 };
@@ -168,9 +162,11 @@ const storeArticle = async () => {
         const formData = new FormData();
         
         formData.append('title', form.value.title);
-        formData.append('slug', form.value.slug); // Slug tetap terkirim meski inputnya disabled
+        formData.append('title_en', form.value.title_en); // Kirim data EN
+        formData.append('slug', form.value.slug); 
         formData.append('category_id', form.value.category_id);
         formData.append('content', form.value.content);
+        formData.append('content_en', form.value.content_en); // Kirim data EN
         formData.append('meta_title', form.value.meta_title || form.value.title); 
         formData.append('meta_description', form.value.meta_description);
         formData.append('meta_keywords', form.value.meta_keywords);

@@ -22,7 +22,14 @@ export const useCategoryStore = defineStore('category', {
             }
         },
         async storeCategory(data) {
-            return await Api.post('/admin/categories', data);
+            try {
+                const response = await Api.post('/admin/categories', data);
+                // Refetch the categories after successful creation
+                await this.fetchCategories(1);
+                return response;
+            } catch (error) {
+                throw error;
+            }
         },
         async updateCategory(id, data) {
             return await Api.put(`/admin/categories/${id}`, data);
