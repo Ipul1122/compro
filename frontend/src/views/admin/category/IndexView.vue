@@ -23,7 +23,7 @@
             <h2 class="font-black text-xl text-slate-900 uppercase tracking-tight">Daftar Kategori</h2>
             <div class="flex gap-3 w-full md:w-auto">
               <input v-model="search" @input="handleSearch" type="text" placeholder="Cari kategori..." class="border border-slate-200 px-4 py-2 rounded-xl text-sm w-full md:w-64 focus:ring-2 focus:ring-slate-900 focus:outline-none text-black">
-              <button @click="openModal()" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-[#ea4435] transition-colors whitespace-nowrap">
+              <button @click="router.push('/admin/categories/tambah')" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-[#ea4435] transition-colors whitespace-nowrap">
                 Tambah Data
               </button>
             </div>
@@ -49,7 +49,7 @@
                   <td class="px-6 py-4 text-center font-bold text-slate-700 text-sm">{{ cat.articles_count }}</td>
                   <td class="px-6 py-4 text-right">
                     <router-link :to="`/admin/categories/edit/${cat.id}`" class="text-slate-400 hover:text-yellow-500 mr-4 transition-colors text-sm font-bold">Edit</router-link>
-                   <button @click="confirmDelete(cat.id)" class="text-red-400 hover:text-red-600 transition-colors text-sm font-bold cursor-pointer">Hapus</button>
+                    <button @click="confirmDelete(cat.id)" class="text-red-400 hover:text-red-600 transition-colors text-sm font-bold cursor-pointer">Hapus</button>
                   </td>
                 </tr>
                 <tr v-if="!store.loading && store.categories.length === 0">
@@ -89,8 +89,10 @@
             <input v-model="form.name" type="text" placeholder="Masukkan nama..." class="border border-slate-200 w-full p-3 rounded-xl focus:ring-2 focus:ring-slate-900 focus:outline-none text-black" required>
           </div>
           <div class="flex justify-end gap-3">
-            <button type="button" @click="isModalOpen = false" class="px-4 py-2 text-sm font-bold text-slate-500 hover:text-slate-800 cursor-pointer">Batal</button>
-            <button type="submit" class="bg-slate-900 text-white px-6 py-2 rounded-xl text-sm font-bold hover:bg-[#ea4435] transition-colors cursor-pointer">Simpan</button>
+            <button type="button" @click="closeModal" class="px-4 py-2 text-sm font-bold text-slate-500 hover:text-slate-800 cursor-pointer">Batal</button>
+            <button type="submit" class="bg-slate-900 text-white px-6 py-2 rounded-xl text-sm font-bold hover:bg-[#ea4435] transition-colors cursor-pointer" :disabled="isSubmitting">
+              {{ isSubmitting ? 'Menyimpan...' : 'Simpan' }}
+            </button>
           </div>
         </form>
       </div>
@@ -120,7 +122,7 @@
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import Sidebar from '@/components/admin/Sidebar.vue';
-import Navbar from '@/components/admin/Navbar.vue'; // IMPORT COMPONENT NAVBAR
+import Navbar from '@/components/admin/Navbar.vue';
 import { useCategoryStore } from '@/stores/category';
 
 const router = useRouter();
@@ -141,6 +143,7 @@ const breadcrumbsData = ref([
 // Category State
 const search = ref('');
 const isModalOpen = ref(false);
+const isSubmitting = ref(false);
 const form = ref({ name: '' });
 
 onMounted(() => {
@@ -151,27 +154,23 @@ onMounted(() => {
     router.push('/view/login');
   }
 
-  // 1. BACA URL SAAT HALAMAN PERTAMA KALI DIBUKA / DI-REFRESH
+  // BACA URL SAAT HALAMAN PERTAMA KALI DIBUKA / DI-REFRESH
   if (route.query.search) {
     search.value = route.query.search;
   }
   const page = route.query.page || 1;
   
-  // Fetch dengan parameter dari URL
   store.fetchCategories(page, search.value);
 });
 
-// 2. FUNGSI UNTUK MENSINKRONKAN URL BROWSER & MENGAMBIL DATA
+// FUNGSI UNTUK MENSINKRONKAN URL BROWSER & MENGAMBIL DATA
 const fetchData = (page = 1) => {
-  // Update URL Browser
   router.replace({
     query: {
-      page: page > 1 ? page : undefined, // Sembunyikan ?page=1 agar URL lebih bersih
-      search: search.value ? search.value : undefined // Sembunyikan ?search= jika kosong
+      page: page > 1 ? page : undefined, 
+      search: search.value ? search.value : undefined 
     }
   });
-
-  // Panggil API Backend
   store.fetchCategories(page, search.value);
 };
 
@@ -198,28 +197,56 @@ const handleSearch = () => {
 };
 
 const openModal = () => {
-  form.value.name = '';
+  form.value = { name: '' }; // Reset bersih menggunakan object baru
   isModalOpen.value = true;
 };
 
+const closeModal = () => {
+  form.value = { name: '' };
+  isModalOpen.value = false;
+};
+
 const submitForm = async () => {
-  if (!form.value.name.trim()) {
+  if (!form.value.name || !form.value.name.trim()) {
     alert("Nama kategori tidak boleh kosong!");
     return;
   }
 
+  isSubmitting.value = true;
+
   try {
-    const response = await store.storeCategory(form.value);
-    if (response.status === 201 || response.data.status === 'success') {
-      isModalOpen.value = false;
-      form.value.name = '';
-      // Data sudah di-refresh oleh store.storeCategory()
+    // FIX: Destructure / Parsing menjadi Plain Object agar aman dari interference Vue-i18n / Proxy Axios
+    const payload = {
+      name: form.value.name.trim()
+    };
+
+    const response = await store.storeCategory(payload);
+    
+    // Safety check bila format respons array vs object
+    if (response && (response.status === 201 || response.data?.status === 'success')) {
+      closeModal(); // Menutup & mereset form
+    } else {
+      throw new Error("Respons tidak dikenali dari server.");
     }
   } catch (err) {
-    const errorMessage = err.response?.data?.message || 
-                        Object.values(err.response?.data?.errors || {}).flat().join(', ') ||
-                        "Terjadi kesalahan saat menyimpan!";
+    console.error("Gagal menyimpan kategori:", err); // Tambahan untuk debug console
+
+    let errorMessage = "Terjadi kesalahan saat menyimpan!";
+    
+    if (err.response && err.response.data) {
+      if (err.response.data.errors) {
+        // Gabungkan seluruh pesan validasi Laravel
+        errorMessage = Object.values(err.response.data.errors).flat().join('\n');
+      } else if (err.response.data.message) {
+        errorMessage = err.response.data.message;
+      }
+    } else if (err.message) {
+      errorMessage = err.message; // Jika murni logic frontend / network
+    }
+
     alert(errorMessage);
+  } finally {
+    isSubmitting.value = false;
   }
 };
 
@@ -236,7 +263,7 @@ const executeDelete = async () => {
   
   try {
     await store.destroyCategory(deleteId.value);
-    fetchData(store.pagination.current_page); // Refresh data
+    fetchData(store.pagination?.current_page || 1); 
   } catch (err) {
     alert("Gagal menghapus kategori!");
   } finally {

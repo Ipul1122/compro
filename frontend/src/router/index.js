@@ -79,6 +79,12 @@ const routes = [
     component: CategoryEdit
   },
   {
+    // tambah categories
+    path: '/admin/categories/tambah',
+    name: 'admin-categories-tambah',
+    component: () => import('@/views/admin/category/TambahView.vue'),
+  },
+  {
     // index articles
     path: '/admin/articles',
     name: 'admin.articles.index',
