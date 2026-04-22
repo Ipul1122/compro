@@ -12,7 +12,22 @@
     "services": "Services",
     "clients": "Clients",
     "contact": "Contact",
-    "switch_language": "Switch Language"
+    "switch_language": "Switch Language",
+    "gallery": "Gallery",
+    "psikotest": "Psychotest"
+  },
+  "footer": {
+    "now_taking": "NOW TAKING",
+    "bookings": "BOOKINGS",
+    "description": "Ready to elevate your organization's potential? Let's start a conversation today.",
+    "contact_us": "Contact Us",
+    "stay_connected": "Stay Connected",
+    "social_desc_part1": "Get updates and information anytime from",
+    "social_desc_part2": "by following our social media!",
+    "headquarters": "Headquarters",
+    "all_rights_reserved": "All Rights Reserved.",
+    "privacy_policy": "Privacy Policy",
+    "terms_of_service": "Terms of Service"
   },
   "about": {
     "years_experience": "Years Experience",
