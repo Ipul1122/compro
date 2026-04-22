@@ -27,17 +27,23 @@ const routes = [
       name: 'NotFound',
       component: NotFoundView
   },
- {
+  {
     path: '/about',
     name: 'about',
     component: () => import('../views/pages/AboutView.vue'), 
     meta: { title: 'Tentang Kami - PT Cakrawala Parama Internasional' }
   },
- {
+  {
     path: '/project',
     name: 'project',
     component: () => import('../views/pages/ProjectView.vue'), 
     meta: { title: 'Proyek Kami - PT Cakrawala Parama Internasional' }
+  },
+  {
+    path: '/service',
+    name: 'service',
+    component: () => import('../views/pages/ServiceView.vue'), 
+    meta: { title: 'Layanan Kami - PT Cakrawala Parama Internasional' }
   },
   {
     path: "/view/login",
@@ -100,7 +106,7 @@ const routes = [
     component: ArticleIndex 
   },
   {
-    // create articles (Tambahkan ini sebelum route edit)
+    // create articles
     path: '/admin/articles/create',
     name: 'admin.articles.create',
     component: ArticleCreate

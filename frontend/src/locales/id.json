@@ -89,5 +89,121 @@
     "seeAll": "Lihat Semua Galeri",
     "openGallery": "Buka Galeri",
     "empty": "Belum ada galeri yang tersedia."
+  },
+  "services_section": {
+    "capabilities": "Kemampuan",
+    "title": "Layanan Kami",
+    "desc": "Kami adalah tenaga profesional yang membantu individu maupun organisasi mencapai lebih banyak hal melalui ekosistem digital terintegrasi.",
+    "btn_view_all": "Lihat Semua Layanan Kami",
+    "watermark": "UNGGUL",
+    "item1": {
+      "title": "E-Recruitment",
+      "desc1": "Menemukan kandidat terbaik menggunakan sistem satu pintu kami yaitu",
+      "highlight": "Proses Rekrutmen Online"
+    },
+    "item2": {
+      "title": "Penilaian (Assess)",
+      "list1_title": "Tes Psikologi",
+      "list1_desc": "Tes potensi online instan dengan hasil real-time.",
+      "list2_title": "Assessment Center",
+      "list2_desc": "Metode integratif untuk mengidentifikasi kepemimpinan dan kompetensi.",
+      "list3_title": "Asesmen 360°",
+      "list3_desc": "Umpan balik kinerja untuk pemetaan jalur karir yang jelas."
+    },
+    "item3": {
+      "title": "Pengembangan",
+      "list1_title": "Pelatihan Interaktif",
+      "list1_desc": "Metode pembelajaran inspiratif untuk transfer pengetahuan.",
+      "list2_title": "Klinik Coaching",
+      "list2_desc": "Rencana aksi pengembangan diri melalui kesadaran.",
+      "list3_title": "Simulasi Bisnis",
+      "list3_desc": "Mengasah keterampilan melalui permainan studi kasus nyata."
+    },
+    "item4": {
+      "title": "Manajemen & Pengawasan",
+      "list1_title": "E-Coach & Karir",
+      "list1_desc": "Sistem untuk proses pembinaan dan peninjauan jenjang karir.",
+      "list2_title": "E-Service",
+      "list2_desc": "Mengembangkan budaya pelayanan untuk tim dan organisasi.",
+      "list3_title": "E-Survey",
+      "list3_desc": "Sistem integrasi untuk melihat tingkat interaksi karyawan."
+    }
+  },
+  "service_view": {
+    "interior": {
+      "title1": "Dipercaya dalam hal",
+      "title_highlight": "desain yang menarik dan mewah",
+      "title2": "",
+      "desc1": "Dengan lebih dari",
+      "desc1_bold": "10 tahun pengalaman",
+      "desc1_after": "mengelola proyek desain interior di PT Cakrawala Parama Internasional.",
+      "desc2": "Kami telah menjadi salah satu pilihan terbaik untuk mewujudkan kebutuhan desain ruang Anda, termasuk ruang pribadi, kafe, hotel, dan bangunan komersial.",
+      "years_exp": "Tahun Pengalaman",
+      "quality": "Kualitas",
+      "badge_title": "Profesional",
+      "badge_subtitle": "Desain",
+      "loading": "Memuat...",
+      "watermark": "INTERIOR"
+    },
+    "assessment": {
+      "badge": "Layanan Khusus",
+      "title": "Layanan Psikotes dan",
+      "title_break": "Assessment Center",
+      "subtitle": "Online & Offline",
+      "desc": "Mengukur kompetensi dan kinerja untuk menilai kesesuaian posisi saat ini serta mengidentifikasi potensi transfer atau promosi ke peran lainnya.",
+      "point1": "Analisis Kinerja Komprehensif",
+      "point2": "Identifikasi Promosi yang Disesuaikan",
+      "btn_cta": "Pelajari Lebih Lanjut"
+    },
+    "event": {
+      "events_managed": "Acara Dikelola",
+      "badge": "Keunggulan di Setiap Acara",
+      "title1": "Cakrawala",
+      "title_highlight": "Event Organizer",
+      "desc": "Mitra terpercaya Anda dalam menyelenggarakan berbagai acara, dari pernikahan intim hingga seminar internasional berskala besar.",
+      "subtitle": "Acara Nasional & Internasional",
+      "list1": "Konferensi Bisnis",
+      "list2": "Peluncuran Produk",
+      "list3": "Pertemuan Perusahaan",
+      "list4": "Acara Pemerintah",
+      "quote_title": "Keahlian Terbukti",
+      "quote1": "\"Salah satu pencapaian luar biasa kami adalah sukses menggelar seminar internasional di masa pandemi COVID-19, berkolaborasi dengan",
+      "quote_highlight": "DPR RI",
+      "quote2": "dan delegasi global.\""
+    },
+    "lms": {
+      "badge": "Ekosistem Digital",
+      "title1": "Learning Management",
+      "title_highlight": "System Kami",
+      "desc": "Pembelajaran dan pelatihan kini lebih mudah dan efisien dengan Learning Management System (LMS) kami yang terintegrasi. Solusi cerdas untuk pengembangan SDM yang adaptif dan fleksibel.",
+      "tag1": "Belajar Mandiri",
+      "tag2": "Pembelajaran Campuran",
+      "tag3": "Microlearning",
+      "tag4": "Pelatihan Berbasis Instruktur",
+      "features_title": "Fitur Utama",
+      "feature1": "Manajemen kursus, materi, & kelas virtual",
+      "feature2": "Forum diskusi, chat, & konferensi video",
+      "feature3": "Konten interaktif: video, kuis, & studi kasus",
+      "feature4": "Notifikasi & integrasi kalender akademik",
+      "benefits_title": "Manfaat",
+      "benefit1_bold": "Efisiensi Biaya:",
+      "benefit1_desc": "Mengurangi biaya pelatihan",
+      "benefit2_bold": "Kualitas SDM:",
+      "benefit2_desc": "Kompetensi yang dioptimalkan",
+      "benefit3_bold": "Kinerja Bisnis:",
+      "benefit3_desc": "Organisasi yang jauh lebih unggul",
+      "cta_title": "Siap untuk bertransformasi?",
+      "cta_desc": "Hubungi kami sekarang untuk demo & konsultasi gratis!",
+      "cta_btn": "Dapatkan Demo Gratis",
+      "preview": {
+        "login": "Antarmuka Login",
+        "upload": "Unggah Tugas",
+        "quiz": "Sistem Kuis",
+        "results": "Tampilan Hasil"
+      }
+    },
+    "modal": {
+      "close": "Tutup"
+    }
   }
 }
