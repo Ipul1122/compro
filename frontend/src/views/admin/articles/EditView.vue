@@ -218,9 +218,7 @@ const editorId = useEditor({
     StarterKit,
     Link.configure({ openOnClick: false, HTMLAttributes: { class: 'text-blue-600 underline' } }),
   ],
-  onUpdate: ({ editor }) => {
-    autoTranslateContent(editor.getHTML());
-  }
+  // FIX: Dihapus event onUpdate agar ketikan ID tidak menimpa otomatis ketikan EN
 });
 
 const editorEn = useEditor({
@@ -379,7 +377,7 @@ const autoTranslateTitle = () => {
     }, 600);
 };
 
-// Auto Translate Konten Teks ke EN 
+// Auto Translate Konten (Sekarang tidak dipanggil otomatis lagi)
 const autoTranslateContent = (contentHtml) => {
     if (translateContentTimeout) clearTimeout(translateContentTimeout);
 
