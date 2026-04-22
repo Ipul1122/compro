@@ -16,7 +16,12 @@
 
       <main class="p-4 md:p-8">
         <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm max-w-5xl mx-auto">
-          <h2 class="text-2xl font-black text-slate-900 uppercase tracking-tight mb-8">Buat Artikel Baru</h2>
+          <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-black text-slate-900 uppercase tracking-tight">Buat Artikel Baru</h2>
+            <span v-if="hasDraft" class="text-xs font-bold text-green-600 bg-green-50 px-3 py-1 rounded-full animate-pulse">
+              Draft tersimpan otomatis
+            </span>
+          </div>
 
           <form @submit.prevent="storeArticle" enctype="multipart/form-data">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -25,7 +30,7 @@
                 <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Gambar Utama <span class="text-red-500">*</span></label>
                 <div class="flex flex-col items-start gap-4">
                   <img v-if="previewImage" :src="previewImage" class="w-full max-w-2xl aspect-video rounded-xl object-cover border border-slate-200 shadow-sm" />
-                  <input type="file" @change="handleFileChange" accept="image/*" class="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-900 file:text-white hover:file:bg-[#ea4435] cursor-pointer" required>
+                  <input type="file" @change="handleFileChange" accept="image/*" class="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-900 file:text-white hover:file:bg-[#ea4435] cursor-pointer" :required="!previewImage">
                 </div>
               </div>
 
@@ -47,9 +52,10 @@
 
               <div>
                 <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Kategori <span class="text-red-500">*</span></label>
-                <select v-model="form.category_id" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-white" required>
+                <select v-model="form.category_id" @change="handleCategoryChange" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-white" required>
                   <option value="" disabled>Pilih Kategori</option>
                   <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+                  <option value="redirect_create" class="font-bold text-blue-600 bg-blue-50">Tidak ada kategori yang sesuai?</option>
                 </select>
               </div>
 
@@ -93,6 +99,21 @@
                 </div>
                 <EditorContent :editor="editorEn" class="prose prose-slate max-w-none border border-slate-300 text-black rounded-b-xl p-4 min-h-[300px] bg-white focus:outline-none" />
               </div>
+              
+              <div>
+                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Title (SEO)</label>
+                <input v-model="form.meta_title" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-white" placeholder="Judul untuk SEO">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Keywords (SEO)</label>
+                <input v-model="form.meta_keywords" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-white" placeholder="pisahkan, dengan, koma">
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Description (SEO)</label>
+                <textarea v-model="form.meta_description" rows="3" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-medium text-black" placeholder="Deskripsi singkat untuk SEO..."></textarea>
+              </div>
 
               <div>
                 <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Status</label>
@@ -102,14 +123,10 @@
                 </select>
               </div>
 
-              <div class="md:col-span-2">
-                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Description (SEO)</label>
-                <textarea v-model="form.meta_description" rows="3" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-medium text-black" placeholder="Deskripsi singkat untuk SEO..."></textarea>
-              </div>
             </div>
 
             <div class="flex justify-end gap-3 pt-4 border-t border-slate-100">
-              <router-link to="/admin/articles" class="bg-slate-100 text-slate-600 px-8 py-3 rounded-xl text-sm font-bold hover:bg-slate-200 transition-colors text-center cursor-pointer">Batal</router-link>
+              <button type="button" @click="clearDraftAndBack" class="bg-slate-100 text-slate-600 px-8 py-3 rounded-xl text-sm font-bold hover:bg-slate-200 transition-colors text-center cursor-pointer">Batal & Hapus Draft</button>
               <button type="submit" :disabled="isSaving" class="bg-slate-900 text-white px-8 py-3 rounded-xl text-sm font-bold hover:bg-[#ea4435] transition-colors cursor-pointer disabled:opacity-50 flex items-center justify-center min-w-[160px]">
                 {{ isSaving ? 'Menyimpan...' : 'Simpan Artikel' }}
               </button>
@@ -122,7 +139,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import Sidebar from '@/components/admin/Sidebar.vue';
@@ -139,6 +156,7 @@ const currentView = ref('articles');
 const isSaving = ref(false);
 const categories = ref([]);
 const previewImage = ref(null);
+const hasDraft = ref(false);
 
 const form = ref({
     title: '',
@@ -158,6 +176,59 @@ let translateTitleTimeout = null;
 let translateContentTimeout = null;
 
 // ==========================================
+// LOGIC LOCALSTORAGE DRAFT
+// ==========================================
+const saveDraft = () => {
+    // Kita tidak menyimpan form.image karena objek File tidak bisa di-stringify ke JSON
+    const draftData = {
+        title: form.value.title,
+        title_en: form.value.title_en,
+        slug: form.value.slug,
+        category_id: form.value.category_id !== 'redirect_create' ? form.value.category_id : '',
+        meta_title: form.value.meta_title,
+        meta_description: form.value.meta_description,
+        meta_keywords: form.value.meta_keywords,
+        published: form.value.published,
+        contentId: editorId.value?.getHTML() || '',
+        contentEn: editorEn.value?.getHTML() || ''
+    };
+    localStorage.setItem('article_draft', JSON.stringify(draftData));
+    hasDraft.value = true;
+};
+
+const loadDraft = () => {
+    const draftStr = localStorage.getItem('article_draft');
+    if (draftStr) {
+        try {
+            const draft = JSON.parse(draftStr);
+            form.value.title = draft.title || '';
+            form.value.title_en = draft.title_en || '';
+            form.value.slug = draft.slug || '';
+            form.value.category_id = draft.category_id || '';
+            form.value.meta_title = draft.meta_title || '';
+            form.value.meta_description = draft.meta_description || '';
+            form.value.meta_keywords = draft.meta_keywords || '';
+            form.value.published = draft.published || 'publish';
+
+            if (draft.contentId && editorId.value) {
+                editorId.value.commands.setContent(draft.contentId);
+            }
+            if (draft.contentEn && editorEn.value) {
+                editorEn.value.commands.setContent(draft.contentEn);
+            }
+            hasDraft.value = true;
+        } catch (err) {
+            console.error("Gagal memuat draft", err);
+        }
+    }
+};
+
+const clearDraftAndBack = () => {
+    localStorage.removeItem('article_draft');
+    router.push('/admin/articles');
+};
+
+// ==========================================
 // INISIALISASI TIPTAP EDITOR (ID & EN)
 // ==========================================
 const editorId = useEditor({
@@ -168,6 +239,7 @@ const editorId = useEditor({
   ],
   onUpdate: ({ editor }) => {
     autoTranslateContent(editor.getHTML());
+    saveDraft(); // Simpan draft otomatis saat editor diubah
   }
 });
 
@@ -177,9 +249,16 @@ const editorEn = useEditor({
     StarterKit,
     Link.configure({ openOnClick: false, HTMLAttributes: { class: 'text-blue-600 underline' } }),
   ],
-  // Editor EN dibuat editable agar bisa dibold/italic/link secara manual
   editable: true, 
+  onUpdate: () => {
+    saveDraft(); // Simpan draft otomatis saat editor diubah
+  }
 });
+
+// Pantau perubahan pada form untuk autosave
+watch(() => form.value, () => {
+  saveDraft();
+}, { deep: true });
 
 onBeforeUnmount(() => {
   editorId.value?.destroy();
@@ -189,21 +268,14 @@ onBeforeUnmount(() => {
 // ==========================================
 // FUNGSI RICH TEXT (TOC & LINK)
 // ==========================================
-// Helper function untuk generate ID dari text
 const generateHeadingId = (text) => {
-  return text
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^\w\-]/g, '')
-    .replace(/\-+/g, '-')
-    .replace(/^-|-$/g, '');
+  return text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]/g, '').replace(/\-+/g, '-').replace(/^-|-$/g, '');
 };
 
 const generateTOC = (editorInstance) => {
   if (!editorInstance) return;
   const html = editorInstance.getHTML();
   
-  // Parsing HTML dengan DOMParser untuk manipulasi DOM yang proper
   const doc = new DOMParser().parseFromString(html, 'text/html');
   const headings = Array.from(doc.querySelectorAll('h2, h3, h4'));
   
@@ -212,7 +284,6 @@ const generateTOC = (editorInstance) => {
     return;
   }
 
-  // STEP 1: Inject ID ke setiap heading element & collect info untuk TOC
   const headingsWithIds = [];
   const usedIds = new Set();
 
@@ -220,7 +291,6 @@ const generateTOC = (editorInstance) => {
     let text = heading.textContent || heading.innerText;
     let id = generateHeadingId(text);
     
-    // Handle duplikat ID dengan menambahkan suffix
     let uniqueId = id;
     let counter = 1;
     while (usedIds.has(uniqueId)) {
@@ -230,17 +300,11 @@ const generateTOC = (editorInstance) => {
     id = uniqueId;
     usedIds.add(id);
     
-    // Inject ID ke heading element (dalam DOM)
     heading.id = id;
     
-    headingsWithIds.push({ 
-      text, 
-      id, 
-      level: heading.tagName.toLowerCase() 
-    });
+    headingsWithIds.push({ text, id, level: heading.tagName.toLowerCase() });
   });
 
-  // STEP 2: Build TOC HTML dengan proper nesting
   let tocHtml = `<div class="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-6">
     <p class="font-black text-slate-900 uppercase text-xs mb-4 tracking-widest">Daftar Isi</p>
     <ul class="space-y-2 m-0 p-0 list-none">`;
@@ -252,21 +316,17 @@ const generateTOC = (editorInstance) => {
 
   tocHtml += `</ul></div><p></p>`;
   
-  // STEP 3: Serialize DOM kembali ke HTML dengan heading yang sudah punya ID
   const bodyContent = Array.from(doc.body.childNodes)
     .map(node => {
-      if (node.nodeType === 3) return node.textContent; // Text node
-      if (node.nodeType === 1) return node.outerHTML; // Element node
+      if (node.nodeType === 3) return node.textContent; 
+      if (node.nodeType === 1) return node.outerHTML; 
       return '';
     })
     .join('');
 
   const finalHtml = tocHtml + bodyContent;
-  
-  // STEP 4: Clear editor dan insert TOC + content lengkap
   editorInstance.commands.setContent(finalHtml);
-  
-  console.debug(`✓ TOC Generated dengan ${headingsWithIds.length} heading(s):`, headingsWithIds.map(h => `#${h.id}`));
+  saveDraft();
 };
 
 const setLink = (editorInstance) => {
@@ -277,9 +337,10 @@ const setLink = (editorInstance) => {
   if (url === null) return;
   if (url === '') {
     editorInstance.chain().focus().extendMarkRange('link').unsetLink().run();
-    return;
+  } else {
+    editorInstance.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
   }
-  editorInstance.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+  saveDraft();
 };
 
 // ==========================================
@@ -295,6 +356,8 @@ onMounted(async () => {
         return;
     }
     await fetchCategories();
+    // Load draft dipanggil setelah fetch categories agar dropdown bind dengan benar
+    loadDraft();
 });
 
 const fetchCategories = async () => {
@@ -307,6 +370,15 @@ const fetchCategories = async () => {
     } catch (err) { console.error("Error fetching categories:", err); }
 };
 
+// Handle opsi "Tidak ada kategori yang sesuai?" 
+const handleCategoryChange = () => {
+    if (form.value.category_id === 'redirect_create') {
+        saveDraft(); // Pastikan draft terbaru tersimpan sebelum pindah rute
+        router.push('/admin/categories/tambah'); // Sesuaikan ini dengan rute untuk membuat Kategori baru di project Anda.
+        form.value.category_id = ''; // Reset opsi yang dipilih
+    }
+};
+
 const generateSlug = (text) => {
     return text.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, '');            
 };
@@ -315,7 +387,6 @@ const handleTitleInput = () => {
     form.value.slug = generateSlug(form.value.title);
 };
 
-// Auto Translate Judul
 const autoTranslateTitle = () => {
     handleTitleInput();
     if (translateTitleTimeout) clearTimeout(translateTitleTimeout);
@@ -333,16 +404,15 @@ const autoTranslateTitle = () => {
             const res = await fetch(`https://api.mymemory.translated.net/get?q=${textToTranslate}&langpair=id|en`);
             const data = await res.json();
             if (data && data.responseData) form.value.title_en = data.responseData.translatedText;
+            saveDraft();
         } catch (error) { console.error("Gagal terjemah judul:", error); } 
         finally { isTranslatingTitle.value = false; }
     }, 600);
 };
 
-// Auto Translate Konten Teks ke EN (Hanya Teks Dasar)
 const autoTranslateContent = (contentHtml) => {
     if (translateContentTimeout) clearTimeout(translateContentTimeout);
 
-    // Ambil plain text tanpa tag HTML untuk diterjemahkan karena API gratisan bisa rusak kalau bawa tag HTML
     const textOnly = contentHtml.replace(/<[^>]*>?/gm, '').trim();
     
     if (!textOnly) {
@@ -358,8 +428,8 @@ const autoTranslateContent = (contentHtml) => {
             const data = await res.json();
             
             if (data && data.responseData) {
-                // Masukkan teks ke editor EN agar user bisa melakukan BOLD/Italic manual setelahnya
                 editorEn.value?.commands.setContent(`<p>${data.responseData.translatedText}</p>`);
+                saveDraft();
             }
         } catch (error) { console.error("Gagal terjemah konten:", error); } 
         finally { isTranslatingContent.value = false; }
@@ -385,13 +455,12 @@ const storeArticle = async () => {
         formData.append('slug', form.value.slug); 
         formData.append('category_id', form.value.category_id);
         
-        // Ambil data HTML dari Tiptap
         formData.append('content', editorId.value.getHTML());
         formData.append('content_en', editorEn.value.getHTML()); 
         
         formData.append('meta_title', form.value.meta_title || form.value.title); 
-        formData.append('meta_description', form.value.meta_description);
-        formData.append('meta_keywords', form.value.meta_keywords);
+        formData.append('meta_description', form.value.meta_description || '');
+        formData.append('meta_keywords', form.value.meta_keywords || '');
         formData.append('published', form.value.published);
         
         if (form.value.image) formData.append('image', form.value.image);
@@ -399,6 +468,10 @@ const storeArticle = async () => {
         await axios.post('http://localhost:8000/api/admin/articles', formData, {
             headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' }
         });
+
+        // Sukses Simpan -> Hapus history draft dari LocalStorage
+        localStorage.removeItem('article_draft');
+        hasDraft.value = false;
 
         alert('Artikel berhasil ditambahkan!');
         router.push('/admin/articles');
@@ -423,7 +496,6 @@ const handleLogout = () => {
 </script>
 
 <style>
-/* CSS UNTUK TIPTAP */
 .ProseMirror {
   outline: none;
 }
