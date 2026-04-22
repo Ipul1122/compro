@@ -1,6 +1,17 @@
 <script setup>
 import { ref, computed } from 'vue'
 
+const props = defineProps({
+    showButton: {
+        type: Boolean,
+        default: true // Default: tombol 'View More' akan muncul (untuk di Home)
+    },
+    showFilter: {
+        type: Boolean,
+        default: false // Default: filter akan sembunyi (untuk di Home)
+    }
+})
+
 const dummyProjects = [
     { id: 'skb_legislative', title: 'Guidance in Developing SKB Test Questions for the Functional Position of Legislative Affairs', category: 'Organizational Development' },
     { id: 'hcdp_plan', title: 'Preparation of the Human Capital Development Plan (HCDP)', category: 'Organizational Development' },
@@ -33,7 +44,6 @@ const dummyProjects = [
     { id: 'iso_9001', title: 'ISO 9001:2015 – Quality Management System for the Health Service Unit of DPR RI, 2025', category: 'Coaching and Counseling' }
 ];
 
-const showAllProjects = ref(false)
 const itemsToShow = 6
 const selectedCategory = ref('All')
 
@@ -42,18 +52,21 @@ const categories = computed(() => {
     return ['All', ...new Set(dummyProjects.map(p => p.category))]
 })
 
-// Logic to switch view and reset "Show All" when category changes
+// Logic to switch view category
 const setCategory = (cat) => {
     selectedCategory.value = cat
-    showAllProjects.value = false // Optional: collapse list when changing category
 }
 
+// Menghitung proyek yang akan ditampilkan
 const filteredProjects = computed(() => {
     let list = dummyProjects
     if (selectedCategory.value !== 'All') {
         list = list.filter(p => p.category === selectedCategory.value)
     }
-    return showAllProjects.value ? list : list.slice(0, itemsToShow)
+    
+    // Jika showButton true (berarti sedang di HomeView), batasi hanya tampil 6
+    // Jika showButton false (berarti sedang di ProjectsView), tampilkan semua hasil filter
+    return props.showButton ? list.slice(0, itemsToShow) : list
 })
 </script>
 
@@ -82,7 +95,7 @@ const filteredProjects = computed(() => {
                         Internasional</p>
                 </div>
 
-                <div class="pt-8 border-t border-slate-100 overflow-x-auto no-scrollbar">
+                <div class="pt-8 border-t border-slate-100 overflow-x-auto no-scrollbar" v-if="showFilter">
                     <div class="flex flex-nowrap md:flex-wrap items-center gap-3">
                         <span
                             class="hidden md:block text-[10px] font-black text-slate-300 uppercase tracking-widest mr-4">{{
@@ -134,14 +147,12 @@ const filteredProjects = computed(() => {
             </transition-group>
 
             <div class="mt-24 flex flex-col items-center gap-8">
-                <button @click="showAllProjects = !showAllProjects"
-                    class="group relative px-14 py-6 bg-slate-900 text-white rounded-full font-black text-[11px] uppercase tracking-[0.3em] overflow-hidden transition-all active:scale-95 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]">
+                <router-link to="/project" v-if="showButton"
+                    class="group relative px-14 py-6 bg-slate-900 text-white rounded-full font-black text-[11px] uppercase tracking-[0.3em] overflow-hidden transition-all active:scale-95 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] flex items-center justify-center inline-flex">
                     <span class="relative z-10 flex items-center gap-6">
-                        {{ showAllProjects ? ($t('projects.button_less') || 'Close Project Archive') :
-                            ($t('projects.button_more') || 'View Full Project Library') }}
+                        {{ $t('projects.button_more') || 'View Full Project Library' }}
                         <div class="w-6 h-6 bg-white/10 rounded-full flex items-center justify-center">
-                            <svg class="w-4 h-4 transition-transform duration-500"
-                                :class="showAllProjects ? 'rotate-[-90deg]' : 'rotate-90'" fill="none"
+                            <svg class="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" fill="none"
                                 stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
                                     d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -151,7 +162,8 @@ const filteredProjects = computed(() => {
                     <div
                         class="absolute inset-0 bg-[#ea4435] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out">
                     </div>
-                </button>
+                </router-link>
+                
                 <p class="text-slate-300 text-[10px] font-black uppercase tracking-[0.3em]">
                     {{ $t('projects.stats_prefix') || 'Showing' }} {{ filteredProjects.length }} Projects
                 </p>

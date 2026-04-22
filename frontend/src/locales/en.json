@@ -79,5 +79,9 @@
     "read_more": "Read More",
     "no_articles": "No articles found.",
     "page": "Page {current} of {last}"
+  },
+  "projects_view": {
+    "explore_title": "Explore Our Work",
+    "explore_desc": "Every project we handle is proof of PT Cakrawala Parama Internasional's commitment to quality, innovation, and client satisfaction. Discover how our solutions help various organizations achieve their strategic goals."
   }
 }

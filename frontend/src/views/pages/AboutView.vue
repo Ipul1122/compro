@@ -3,7 +3,7 @@ import AboutSection from '../section/AboutSection.vue'
 </script>
 
 <template>
-  <div class="pt-24 pb-12"> 
+  <div class=""> 
     
     <AboutSection :showButton="false" />
     
