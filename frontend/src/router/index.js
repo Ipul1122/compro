@@ -26,11 +26,12 @@ const routes = [
       name: 'NotFound',
       component: NotFoundView
   },
-  // {
-  //   path: "/id",
-  //   name: "indonesia",
-  //   component: IdLanguage,
-  // },
+ {
+    path: '/about',
+    name: 'about',
+    component: () => import('../views/pages/AboutView.vue'), // View baru
+    meta: { title: 'Tentang Kami - PT Cakrawala Parama Internasional' }
+  },
   {
     path: "/view/login",
     name: "login",

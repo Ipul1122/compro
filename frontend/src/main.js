@@ -11,7 +11,7 @@ import id from './locales/id.json'
 
 // Konfigurasi i18n
 const i18n = createI18n({
-    legacy: false,          // <--- TAMBAHKAN BARIS INI
+    legacy: false,         
   globalInjection: true,
   locale: 'id', 
   fallbackLocale: 'en', 

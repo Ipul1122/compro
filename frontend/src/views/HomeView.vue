@@ -5,7 +5,7 @@ import AboutSection from './section/AboutSection.vue'
 import ProjectsSection from './section/ProjectsSection.vue';
 import ServicesSection from './section/ServicesSection.vue';
 import ClientsSection from './section/ClientsSection.vue';
-import ContactSection from './section/ContactSection.vue';
+// import ContactSection from './section/ContactSection.vue';
 
 const showBackToTop = ref(false)
 

@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 // Pastikan path import Navbar di bawah ini sesuai dengan struktur folder lu
 import Navbar from './components/Navbar.vue'; 
+import Footer from './components/Footer.vue'; 
 
 const route = useRoute();
 
@@ -17,4 +18,5 @@ const isAdminRoute = computed(() => {
   <Navbar v-if="!isAdminRoute" />
 
   <router-view></router-view>
+  <Footer v-if="!isAdminRoute" />
 </template>
