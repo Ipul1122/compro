@@ -45,14 +45,14 @@ const handleLanguageToggle = () => {
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">About
                                 Us</router-link>
 
-                            <a href="/#our-project"
+                            <router-link to="/project"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Our
-                                Projects</a>
-                                
+                                Projects</router-link>
+
                             <router-link to="/articles"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Articles</router-link>
 
-                            <router-link to="/galeri"
+                            <router-link to="/galerry"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Gallery</router-link>
 
                             <a href="/#our-services"

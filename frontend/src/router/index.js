@@ -17,9 +17,10 @@ import GalleryEdit from '../views/admin/gallery/EditView.vue'
 
 const routes = [
   {
-    path: "/",
-    name: "home",
-    component: HomeView,
+    path: '/',
+    name: 'home',
+    component: () => import('../views/HomeView.vue'),
+    meta: { title: 'PT Cakrawala Parama Internasional - Home' }
   },
   {
       path: '/:pathMatch(.*)*', 
@@ -29,8 +30,14 @@ const routes = [
  {
     path: '/about',
     name: 'about',
-    component: () => import('../views/pages/AboutView.vue'), // View baru
+    component: () => import('../views/pages/AboutView.vue'), 
     meta: { title: 'Tentang Kami - PT Cakrawala Parama Internasional' }
+  },
+ {
+    path: '/project',
+    name: 'project',
+    component: () => import('../views/pages/ProjectView.vue'), 
+    meta: { title: 'Proyek Kami - PT Cakrawala Parama Internasional' }
   },
   {
     path: "/view/login",
@@ -41,10 +48,10 @@ const routes = [
 
   {
     path: '/articles',
-    name: 'articles.index',
-    component: ArticlePublicIndex
+    name: 'articles',
+    component: () => import('../views/articles/IndexView.vue'),
+    meta: { title: 'Berita & Artikel Terkini' }
   },
-
   {
     path: '/articles/:slug', 
     name: 'articles.detail',
@@ -52,9 +59,10 @@ const routes = [
   },
 
   {
-    path: '/galeri',
-    name: 'galeri.index',
-    component: GalleryIndexView
+    path: '/galerry',
+    name: 'galerry',
+    component: () => import('../views/galerry/IndexView.vue'),
+    meta: { title: 'Galeri Kegiatan' }
   },
 
   // --------------------------
@@ -130,6 +138,28 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
-});
+  // KONFIGURASI SCROLL: Ini yang mengatur pergerakan saat pindah halaman
+  scrollBehavior(to, from, savedPosition) {
+    // Jika user klik tombol Back/Forward di browser, kembali ke posisi sebelumnya
+    if (savedPosition) {
+      return savedPosition
+    }
+    // Jika link mengandung hash (contoh: /#contact), scroll ke elemen tersebut
+    if (to.hash) {
+      return {
+        el: to.hash,
+        behavior: 'smooth',
+      }
+    }
+    // DEFAULT: Selalu kembali ke titik paling atas (X:0, Y:0) saat pindah halaman
+    return { top: 0, left: 0 }
+  }
+})
 
-export default router;
+// Dinamis mengganti judul Tab Browser untuk SEO
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title || 'PT Cakrawala Parama Internasional'
+  next()
+})
+
+export default router

@@ -78,5 +78,9 @@
     "read_more": "Selengkapnya",
     "no_articles": "Tidak ada artikel ditemukan.",
     "page": "Halaman {current} dari {last}"
+  },
+  "projects_view": {
+    "explore_title": "Eksplorasi Karya Kami",
+    "explore_desc": "Setiap proyek yang kami tangani adalah bukti komitmen PT Cakrawala Parama Internasional terhadap kualitas, inovasi, dan kepuasan klien. Temukan bagaimana solusi kami membantu berbagai organisasi mencapai tujuan strategis mereka."
   }
 }
