@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import Api from '@/api'
@@ -30,6 +30,11 @@ const fetchDetail = async (slug) => {
         const response = await Api.get(`/articles/${slug}`)
         article.value = response.data.data
         updateDocumentTitle()
+        
+        // Tunggu sampai DOM selesai me-render v-html
+        nextTick(() => {
+            normalizeHeadingIds()
+        })
     } catch (error) {
         router.push({ name: 'NotFound' })
     } finally {
@@ -67,6 +72,216 @@ const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString(currentLocale, {
         day: 'numeric', month: 'long', year: 'numeric'
     })
+}
+
+// Fungsi helper untuk generate ID dari text (sebagai backup)
+const generateIdFromText = (text) => {
+    return text
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w\-]/g, '')
+        .replace(/\-+/g, '-')
+        .replace(/^-|-$/g, '')
+}
+
+// FUNGSI INTI PERBAIKAN: Suntikkan ID dari link TOC ke elemen Heading
+const normalizeHeadingIds = () => {
+    const articleElement = document.querySelector('article')
+    if (!articleElement) return
+    
+    // Ambil semua heading (H2, H3, H4) dalam urutan kemunculan
+    const headings = Array.from(articleElement.querySelectorAll('h2, h3, h4'))
+    if (headings.length === 0) return
+    
+    // Ambil TOC container (biasanya div pertama dalam article dengan class "bg-slate-50")
+    const tocContainer = articleElement.querySelector('div.bg-slate-50')
+    if (!tocContainer) {
+        // Jika TOC tidak ada, at least normalize heading dengan generated ID dari text
+        headings.forEach((heading, idx) => {
+            if (!heading.id || heading.id.trim() === '') {
+                heading.id = generateIdFromText(heading.textContent) || `h-${idx}`
+            }
+        })
+        return
+    }
+    
+    // Ambil semua link TOC yang memiliki href dengan #
+    const tocLinks = Array.from(tocContainer.querySelectorAll('a[href^="#"]'))
+    
+    if (tocLinks.length === 0) return
+    
+    // Strategy: Mapping TOC Links ke Headings berdasarkan urutan + text matching
+    const usedHeadings = new Set()
+    
+    tocLinks.forEach((link) => {
+        const expectedId = link.getAttribute('href').substring(1) // ambil "section-0"
+        const linkText = link.textContent.trim()
+        const linkTextLower = linkText.toLowerCase()
+        
+        // Cari heading yang belum di-pair dan text-nya match dengan TOC link
+        let matchedHeading = null
+        
+        // Priority 1: Exact text match (case-insensitive)
+        matchedHeading = headings.find((h, idx) => {
+            if (usedHeadings.has(idx)) return false
+            return h.textContent.trim().toLowerCase() === linkTextLower
+        })
+        
+        // Priority 2: Heading text contains TOC link text (partial match)
+        if (!matchedHeading) {
+            matchedHeading = headings.find((h, idx) => {
+                if (usedHeadings.has(idx)) return false
+                return h.textContent.trim().toLowerCase().includes(linkTextLower)
+            })
+        }
+        
+        // Priority 3: TOC link text contains heading text
+        if (!matchedHeading) {
+            matchedHeading = headings.find((h, idx) => {
+                if (usedHeadings.has(idx)) return false
+                return linkTextLower.includes(h.textContent.trim().toLowerCase())
+            })
+        }
+        
+        // Priority 4: Jika masih tidak ketemu, gunakan heading terdekat yang belum di-pair
+        if (!matchedHeading) {
+            matchedHeading = headings.find((h, idx) => !usedHeadings.has(idx))
+        }
+        
+        // Inject expected ID ke heading yang match
+        if (matchedHeading) {
+            const headingIndex = headings.indexOf(matchedHeading)
+            usedHeadings.add(headingIndex)
+            matchedHeading.id = expectedId
+            console.debug(`✓ TOC Link "${linkText}" → ID: #${expectedId}`)
+        } else {
+            console.warn(`✗ Tidak ada heading yang cocok untuk TOC: "${linkText}" (expected ID: #${expectedId})`)
+        }
+    })
+    
+    // Fallback: Jika ada heading yang belum di-pair, buatkan generated ID
+    headings.forEach((heading, idx) => {
+        if (!usedHeadings.has(idx) && (!heading.id || heading.id.trim() === '')) {
+            const generatedId = generateIdFromText(heading.textContent) || `h-${idx}`
+            heading.id = generatedId
+            console.debug(`✓ Heading fallback: "${heading.textContent.substring(0, 30)}" → ID: #${generatedId}`)
+        }
+    })
+}
+
+// Fungsi untuk menangani klik TOC dan mencegah blank page
+const handleContentClick = (e) => {
+    const target = e.target.closest('a')
+    
+    if (!target) return
+
+    const href = target.getAttribute('href')
+    if (!href) return
+    
+    // Pengecekan aman apakah ini link target satu halaman (TOC)
+    const isHashLink = href.includes('#')
+    const isLocalLink = href.startsWith('#') || href.startsWith('.') || !href.includes('://')
+    
+    if (!isHashLink || !isLocalLink) return
+    
+    // Cegah aksi default yang bikin blank page
+    e.preventDefault()
+    e.stopPropagation()
+    
+    const hashIndex = href.indexOf('#')
+    if (hashIndex === -1) return
+    
+    const hash = href.substring(hashIndex)
+    const id = hash.substring(1) 
+    
+    if (!id.trim()) return
+    
+    const decodedId = decodeURIComponent(id)
+    
+    const scrollToElement = (element) => {
+        // Offset navbar fix (-100px agar judul tidak tertutup header web)
+        const yOffset = -100
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY
+        const offsetPosition = elementPosition + yOffset
+        
+        setTimeout(() => {
+            window.scrollTo({
+                top: Math.max(0, offsetPosition),
+                behavior: 'smooth'
+            })
+        }, 0)
+        
+        window.history.replaceState(null, '', hash)
+        console.debug(`✓ Scrolled ke: #${decodedId}`)
+    }
+    
+    // Strategy 1: Langsung cari by ID (berfungsi 100% jika normalizeHeadingIds sudah jalan)
+    let element = document.getElementById(decodedId)
+    if (element) {
+        scrollToElement(element)
+        return
+    }
+    
+    // Strategy 2: Cari by name attribute
+    element = document.querySelector(`[name="${decodedId}"]`)
+    if (element) {
+        scrollToElement(element)
+        return
+    }
+    
+    // Strategy 3: Jika ID format "section-N", cari heading ke-N dalam urutan
+    if (decodedId.match(/^section-\d+$/i)) {
+        const indexMatch = decodedId.match(/\d+$/)
+        if (indexMatch) {
+            const index = parseInt(indexMatch[0])
+            const headings = document.querySelectorAll('article h2, article h3, article h4')
+            if (headings[index]) {
+                // Inject ID untuk callback berikutnya
+                headings[index].id = decodedId
+                scrollToElement(headings[index])
+                return
+            }
+        }
+    }
+    
+    // Strategy 4: Cari heading by generated ID dari text-nya
+    const headings = document.querySelectorAll('article h2, article h3, article h4')
+    for (const heading of headings) {
+        const generatedId = generateIdFromText(heading.textContent)
+        if (generatedId === decodedId) {
+            if (!heading.id) heading.id = decodedId
+            scrollToElement(heading)
+            return
+        }
+    }
+    
+    // Strategy 5: Fuzzy match - cari heading yang keyword-nya match dengan ID
+    const keywords = decodedId.split('-').filter(w => w.length > 2)
+    if (keywords.length > 0) {
+        for (const heading of headings) {
+            const headingText = heading.textContent.toLowerCase()
+            const matchCount = keywords.filter(kw => headingText.includes(kw)).length
+            if (matchCount === keywords.length) {
+                if (!heading.id) heading.id = decodedId
+                scrollToElement(heading)
+                return
+            }
+        }
+    }
+    
+    console.error(`
+        ❌ TOC: Gagal menemukan elemen untuk "#${decodedId}"
+        
+        Debugging Info:
+        - TOC Link ID: #${decodedId}
+        - Heading count: ${headings.length}
+        - Attempted strategies: ID lookup, name attr, section-N index, generated ID, keyword match
+        
+        💡 Possible Solutions:
+        1. Re-generate TOC di admin (klik "Buat TOC" lagi)
+        2. Pastikan H2/H3 dalam artikel memiliki text yang jelas
+        3. Check HTML di Database apakah heading ada
+    `)
 }
 </script>
 
@@ -110,7 +325,8 @@ const formatDate = (dateString) => {
                         </div>
 
                         <article 
-                            class="bg-white rounded-3xl border border-slate-100 shadow-sm p-8 md:p-12 text-slate-700 prose prose-slate prose-lg max-w-none" 
+                            @click="handleContentClick"
+                            class="bg-white rounded-3xl border border-slate-100 shadow-sm p-8 md:p-12 text-slate-700 prose prose-slate prose-lg max-w-none prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline" 
                             v-html="locale === 'en' && article.content_en ? article.content_en : article.content">
                         </article>
                     </div>
@@ -154,11 +370,14 @@ const formatDate = (dateString) => {
 </template>
 
 <style scoped>
-/* Pastikan line-clamp hanya untuk list samping, bukan konten utama */
 .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;  
     overflow: hidden;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 </style>

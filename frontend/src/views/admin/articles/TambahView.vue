@@ -189,33 +189,84 @@ onBeforeUnmount(() => {
 // ==========================================
 // FUNGSI RICH TEXT (TOC & LINK)
 // ==========================================
+// Helper function untuk generate ID dari text
+const generateHeadingId = (text) => {
+  return text
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\-]/g, '')
+    .replace(/\-+/g, '-')
+    .replace(/^-|-$/g, '');
+};
+
 const generateTOC = (editorInstance) => {
   if (!editorInstance) return;
   const html = editorInstance.getHTML();
   
-  // Mencari heading H2 dan H3 di dalam text
-  const headings = Array.from(new DOMParser().parseFromString(html, 'text/html').querySelectorAll('h2, h3'));
+  // Parsing HTML dengan DOMParser untuk manipulasi DOM yang proper
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  const headings = Array.from(doc.querySelectorAll('h2, h3, h4'));
   
   if (headings.length === 0) {
-    alert("Silakan buat setidaknya satu Heading (H2 / H3) di dalam editor sebelum membuat Daftar Isi.");
+    alert("Silakan buat setidaknya satu Heading (H2 / H3 / H4) di dalam editor sebelum membuat Daftar Isi.");
     return;
   }
 
+  // STEP 1: Inject ID ke setiap heading element & collect info untuk TOC
+  const headingsWithIds = [];
+  const usedIds = new Set();
+
+  headings.forEach((heading) => {
+    let text = heading.textContent || heading.innerText;
+    let id = generateHeadingId(text);
+    
+    // Handle duplikat ID dengan menambahkan suffix
+    let uniqueId = id;
+    let counter = 1;
+    while (usedIds.has(uniqueId)) {
+      uniqueId = `${id}-${counter}`;
+      counter++;
+    }
+    id = uniqueId;
+    usedIds.add(id);
+    
+    // Inject ID ke heading element (dalam DOM)
+    heading.id = id;
+    
+    headingsWithIds.push({ 
+      text, 
+      id, 
+      level: heading.tagName.toLowerCase() 
+    });
+  });
+
+  // STEP 2: Build TOC HTML dengan proper nesting
   let tocHtml = `<div class="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-6">
     <p class="font-black text-slate-900 uppercase text-xs mb-4 tracking-widest">Daftar Isi</p>
     <ul class="space-y-2 m-0 p-0 list-none">`;
 
-  headings.forEach((heading, index) => {
-    const text = heading.innerText;
-    const level = heading.tagName.toLowerCase();
-    const padding = level === 'h3' ? 'ml-6' : 'ml-0';
-    tocHtml += `<li class="${padding}"><a href="#section-${index}" class="text-blue-600 hover:underline text-sm font-bold no-underline">${text}</a></li>`;
+  headingsWithIds.forEach(({ text, id, level }) => {
+    const padding = (level === 'h3' || level === 'h4') ? 'ml-6' : 'ml-0';
+    tocHtml += `<li class="${padding}"><a href="#${id}" class="text-blue-600 hover:underline text-sm font-bold no-underline">${text}</a></li>`;
   });
 
   tocHtml += `</ul></div><p></p>`;
   
-  // Masukkan TOC ke baris paling atas
-  editorInstance.chain().focus().insertContentAt(0, tocHtml).run();
+  // STEP 3: Serialize DOM kembali ke HTML dengan heading yang sudah punya ID
+  const bodyContent = Array.from(doc.body.childNodes)
+    .map(node => {
+      if (node.nodeType === 3) return node.textContent; // Text node
+      if (node.nodeType === 1) return node.outerHTML; // Element node
+      return '';
+    })
+    .join('');
+
+  const finalHtml = tocHtml + bodyContent;
+  
+  // STEP 4: Clear editor dan insert TOC + content lengkap
+  editorInstance.commands.setContent(finalHtml);
+  
+  console.debug(`✓ TOC Generated dengan ${headingsWithIds.length} heading(s):`, headingsWithIds.map(h => `#${h.id}`));
 };
 
 const setLink = (editorInstance) => {
