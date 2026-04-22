@@ -7,6 +7,7 @@ import ProjectsSection from './section/ProjectsSection.vue';
 import ServicesSection from './section/ServicesSection.vue';
 import ClientsSection from './section/ClientsSection.vue';
 import ArticlesSection from './section/ArticlesSection.vue';
+import GallerySection from './section/GallerySection.vue';
 
 const showBackToTop = ref(false)
 
@@ -56,6 +57,9 @@ onUnmounted(() => {
                 <ArticlesSection />
             </div>
             
+            <div class="gallery-view">
+                <GallerySection />
+            </div>
 
             <div class="services-view">
                 <ServicesSection />

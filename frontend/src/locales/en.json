@@ -83,5 +83,12 @@
   "projects_view": {
     "explore_title": "Explore Our Work",
     "explore_desc": "Every project we handle is proof of PT Cakrawala Parama Internasional's commitment to quality, innovation, and client satisfaction. Discover how our solutions help various organizations achieve their strategic goals."
+  },
+  "gallerySection": {
+    "subtitle": "Our Gallery",
+    "title": "Precious Moments & Documentation",
+    "seeAll": "See All Gallery",
+    "openGallery": "Open Gallery",
+    "empty": "No galleries available yet."
   }
 }

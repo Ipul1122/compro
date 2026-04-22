@@ -82,5 +82,12 @@
   "projects_view": {
     "explore_title": "Eksplorasi Karya Kami",
     "explore_desc": "Setiap proyek yang kami tangani adalah bukti komitmen PT Cakrawala Parama Internasional terhadap kualitas, inovasi, dan kepuasan klien. Temukan bagaimana solusi kami membantu berbagai organisasi mencapai tujuan strategis mereka."
+  },
+  "gallerySection": {
+    "subtitle": "Galeri Kami",
+    "title": "Momen Berharga & Dokumentasi",
+    "seeAll": "Lihat Semua Galeri",
+    "openGallery": "Buka Galeri",
+    "empty": "Belum ada galeri yang tersedia."
   }
 }

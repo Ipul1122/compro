@@ -10,9 +10,14 @@ const categories = ref([])
 const isLoading = ref(false) // State untuk efek loading saat submit
 const errors = ref({})
 
+const isTranslatingTitle = ref(false)
+let translateTitleTimeout = null
+
 const form = ref({
     category_id: '',
     title_image: '',
+    title_image_en: '',
+    slug: '',
     images: [] // Untuk multiple files
 })
 
@@ -33,6 +38,41 @@ const fetchCategories = async () => {
     } catch (error) {
         console.error(error)
     }
+}
+
+// Generate Slug
+const generateSlug = (text) => {
+    return text.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, '')
+}
+
+// Handle Judul & Translate
+const handleTitleInput = () => {
+    form.value.slug = generateSlug(form.value.title_image)
+}
+
+const autoTranslateTitle = () => {
+    handleTitleInput()
+    if (translateTitleTimeout) clearTimeout(translateTitleTimeout)
+
+    if (!form.value.title_image.trim()) {
+        form.value.title_image_en = ''
+        isTranslatingTitle.value = false
+        return
+    }
+
+    isTranslatingTitle.value = true
+    translateTitleTimeout = setTimeout(async () => {
+        try {
+            const textToTranslate = encodeURIComponent(form.value.title_image.trim())
+            const res = await fetch(`https://api.mymemory.translated.net/get?q=${textToTranslate}&langpair=id|en`)
+            const data = await res.json()
+            if (data && data.responseData) form.value.title_image_en = data.responseData.translatedText
+        } catch (error) {
+            console.error("Gagal terjemah judul:", error)
+        } finally {
+            isTranslatingTitle.value = false
+        }
+    }, 600)
 }
 
 // Handle pemilihan file gambar
@@ -114,6 +154,8 @@ const confirmSubmit = async () => {
     const formData = new FormData()
     formData.append('category_id', form.value.category_id)
     formData.append('title_image', form.value.title_image)
+    formData.append('title_image_en', form.value.title_image_en)
+    formData.append('slug', form.value.slug)
     
     form.value.images.forEach((file) => {
         formData.append('images[]', file)
@@ -169,8 +211,17 @@ onMounted(fetchCategories)
                                 <p v-if="errors.category_id" class="text-red-500 text-xs mt-1 font-bold">{{ errors.category_id[0] }}</p>
                             </div>
                             <div>
-                                <label class="block text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Judul Dasar Wadah (Opsional)</label>
-                                <input v-model="form.title_image" type="text" placeholder="Contoh: Momen Gathering" class="w-full text-black bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium transition-all" />
+                                <label class="block text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Judul Dasar Wadah (ID)</label>
+                                <input v-model="form.title_image" @input="autoTranslateTitle" type="text" placeholder="Contoh: Momen Gathering" class="w-full text-black bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium transition-all" required />
+                            </div>
+                            <div class="relative">
+                                <label class="block text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Judul Dasar Wadah (EN)</label>
+                                <input v-model="form.title_image_en" type="text" placeholder="Terjemahan otomatis muncul di sini..." class="w-full text-black bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium transition-all" />
+                                <span v-if="isTranslatingTitle" class="absolute right-4 top-[42px] text-xs font-bold text-slate-400 animate-pulse">Translating...</span>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Slug</label>
+                                <input v-model="form.slug" type="text" disabled placeholder="otomatis-mengikuti-judul" class="w-full text-slate-500 bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 cursor-not-allowed font-medium transition-all" />
                             </div>
                         </div>
 

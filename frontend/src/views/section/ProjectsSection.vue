@@ -76,7 +76,7 @@ const filteredProjects = computed(() => {
 
             <header class="mb-24">
                 <div class="flex items-center gap-4 mb-8">
-                    <span class="h-[2px] w-12 bg-brand rounded-full"></span>
+                    <span class="h-2px w-12 bg-brand rounded-full"></span>
                     <h2 class="text-[10px] font-black text-brand uppercase tracking-[0.5em]">{{ $t('projects.badge') ||
                         'Global Portfolio' }}</h2>
                 </div>
