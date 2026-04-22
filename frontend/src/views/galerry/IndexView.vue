@@ -1,13 +1,15 @@
 <script setup>
 import { ref, onMounted, computed, watch, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import Api from '@/api'
 import Navbar from '@/components/Navbar.vue'
 import { getImageUrl, handleImageError } from '@/utils/imageHelper'
 
-// Router Setup untuk Sinkronisasi URL
+// Router & I18n Setup
 const route = useRoute()
 const router = useRouter()
+const { locale } = useI18n()
 
 const galleries = ref([])
 const categories = ref([])
@@ -73,13 +75,17 @@ const groupedAlbums = computed(() => {
     const groups = {}
     
     galleries.value.forEach(gallery => {
+        // Ambil base title (hilangkan angka berurutan di belakang)
         const baseTitle = gallery.title_image ? gallery.title_image.replace(/\s\d+$/, '').trim() : 'Galeri'
+        const baseTitleEn = gallery.title_image_en ? gallery.title_image_en.replace(/\s\d+$/, '').trim() : baseTitle
+        
         const key = `${baseTitle}_${gallery.category_id}`
         
         if (!groups[key]) {
             groups[key] = {
                 id: key,
                 title: baseTitle,
+                title_en: baseTitleEn, // Simpan title EN untuk ditampilkan di FE
                 category: gallery.category,
                 category_id: gallery.category_id,
                 cover: null,
@@ -124,7 +130,7 @@ const paginatedAlbums = computed(() => {
     return groupedAlbums.value.slice(start, end)
 })
 
-// Fungsi ganti halaman merubah URL URL (?page=x)
+// Fungsi ganti halaman merubah URL (?page=x)
 const changePage = (page) => {
     if (page >= 1 && page <= totalPages.value) {
         router.push({ query: { ...route.query, page: page } })
@@ -194,15 +200,19 @@ onUnmounted(() => {
 
         <main class="flex-grow container mx-auto px-4 py-8 max-w-7xl">
             <div class="mb-10 text-center">
-                <h1 class="text-3xl font-black text-slate-900 uppercase tracking-tight mt-16 mb-5">Galeri Kami</h1>
-                <p class="text-slate-500 mb-8 font-medium">Dokumentasi kegiatan, fasilitas, dan momen berharga kami.</p>
+                <h1 class="text-3xl font-black text-slate-900 uppercase tracking-tight mt-16 mb-5">
+                    {{ locale === 'en' ? 'Our Gallery' : 'Galeri Kami' }}
+                </h1>
+                <p class="text-slate-500 mb-8 font-medium">
+                    {{ locale === 'en' ? 'Documentation of our activities, facilities, and precious moments.' : 'Dokumentasi kegiatan, fasilitas, dan momen berharga kami.' }}
+                </p>
 
                 <div class="flex flex-wrap justify-center items-center gap-3 mb-8">
                     <button 
                         @click="selectedCategory = ''" 
                         :class="['px-6 py-2 rounded-full font-bold text-sm transition-all duration-300', selectedCategory === '' ? 'bg-slate-900 text-white shadow-md' : 'bg-white text-slate-500 border border-slate-200 hover:border-slate-400']"
                     >
-                        Semua
+                        {{ locale === 'en' ? 'All' : 'Semua' }}
                     </button>
 
                     <button 
@@ -211,7 +221,7 @@ onUnmounted(() => {
                         @click="selectedCategory = category.id" 
                         :class="['px-6 py-2 rounded-full font-bold text-sm transition-all duration-300', selectedCategory === category.id ? 'bg-slate-900 text-white shadow-md' : 'bg-white text-slate-500 border border-slate-200 hover:border-slate-400']"
                     >
-                        {{ category.name }}
+                        {{ locale === 'en' && category.name_en ? category.name_en : category.name }}
                     </button>
                     
                     <button 
@@ -219,7 +229,7 @@ onUnmounted(() => {
                         @click="showAllCategories = true" 
                         class="px-5 py-2 rounded-full font-black text-sm bg-orange-50 text-orange-600 hover:bg-orange-100 transition-all border border-orange-100"
                     >
-                        + {{ categories.length - 5 }} Lainnya
+                        + {{ categories.length - 5 }} {{ locale === 'en' ? 'More' : 'Lainnya' }}
                     </button>
 
                     <button 
@@ -227,7 +237,7 @@ onUnmounted(() => {
                         @click="showAllCategories = false" 
                         class="px-5 py-2 rounded-full font-bold text-sm bg-slate-200 text-slate-600 hover:bg-slate-300 transition-all"
                     >
-                        Tampilkan Sedikit
+                        {{ locale === 'en' ? 'Show Less' : 'Tampilkan Sedikit' }}
                     </button>
                 </div>
             </div>
@@ -253,13 +263,13 @@ onUnmounted(() => {
                         
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/10 to-transparent opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
                             <span class="text-orange-400 text-xs font-black uppercase tracking-wider mb-1">
-                                {{ album.category?.name }}
+                                {{ locale === 'en' && album.category?.name_en ? album.category.name_en : album.category?.name }}
                             </span>
                             <h3 class="text-white font-bold text-xl leading-tight">
-                                {{ album.title }}
+                                {{ locale === 'en' && album.title_en ? album.title_en : album.title }}
                             </h3>
                             <p class="text-slate-300 text-xs mt-2 font-medium flex items-center gap-1 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 delay-100">
-                                Lihat Koleksi 
+                                {{ locale === 'en' ? 'View Collection' : 'Lihat Koleksi' }} 
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
                             </p>
                         </div>
@@ -267,7 +277,12 @@ onUnmounted(() => {
                 </div>
 
                 <div v-if="totalPages > 1" class="flex flex-col sm:flex-row items-center justify-between bg-white border border-slate-200 px-6 py-4 rounded-2xl shadow-sm gap-4">
-                    <span class="text-sm text-slate-500 font-medium">Halaman <span class="font-bold text-slate-800">{{ currentPage }}</span> dari <span class="font-bold text-slate-800">{{ totalPages }}</span></span>
+                    <span class="text-sm text-slate-500 font-medium">
+                        {{ locale === 'en' ? 'Page' : 'Halaman' }} 
+                        <span class="font-bold text-slate-800">{{ currentPage }}</span> 
+                        {{ locale === 'en' ? 'of' : 'dari' }} 
+                        <span class="font-bold text-slate-800">{{ totalPages }}</span>
+                    </span>
                     
                     <div class="flex items-center gap-2">
                         <button 
@@ -275,7 +290,7 @@ onUnmounted(() => {
                             :disabled="currentPage === 1" 
                             class="px-4 py-2 rounded-lg font-bold text-sm bg-slate-50 border border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                         >
-                            Sebelumnya
+                            {{ locale === 'en' ? 'Previous' : 'Sebelumnya' }}
                         </button>
                         
                         <div class="hidden sm:flex gap-1 mx-2">
@@ -297,7 +312,7 @@ onUnmounted(() => {
                             :disabled="currentPage === totalPages" 
                             class="px-4 py-2 rounded-lg font-bold text-sm bg-slate-50 border border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                         >
-                            Selanjutnya
+                            {{ locale === 'en' ? 'Next' : 'Selanjutnya' }}
                         </button>
                     </div>
                 </div>
@@ -309,8 +324,12 @@ onUnmounted(() => {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                 </div>
-                <h3 class="text-slate-700 font-bold text-xl mb-1">Galeri Tidak Ditemukan</h3>
-                <p class="text-slate-400 font-medium">Belum ada foto yang diunggah untuk kategori ini.</p>
+                <h3 class="text-slate-700 font-bold text-xl mb-1">
+                    {{ locale === 'en' ? 'Gallery Not Found' : 'Galeri Tidak Ditemukan' }}
+                </h3>
+                <p class="text-slate-400 font-medium">
+                    {{ locale === 'en' ? 'No photos uploaded for this category yet.' : 'Belum ada foto yang diunggah untuk kategori ini.' }}
+                </p>
             </div>
         </main>
 
@@ -337,8 +356,12 @@ onUnmounted(() => {
                 />
                 
                 <div class="mt-6 text-center">
-                    <h2 class="text-white text-2xl font-bold">{{ activeAlbum.title }}</h2>
-                    <p class="text-orange-400 mt-1 font-black text-sm uppercase tracking-widest">{{ activeAlbum.category?.name }}</p>
+                    <h2 class="text-white text-2xl font-bold">
+                        {{ locale === 'en' && activeAlbum.title_en ? activeAlbum.title_en : activeAlbum.title }}
+                    </h2>
+                    <p class="text-orange-400 mt-1 font-black text-sm uppercase tracking-widest">
+                        {{ locale === 'en' && activeAlbum.category?.name_en ? activeAlbum.category.name_en : activeAlbum.category?.name }}
+                    </p>
                     
                     <div v-if="activeAlbum.images.length > 1" class="mt-4 bg-white/10 text-white px-4 py-1.5 rounded-full text-xs font-black tracking-widest inline-block backdrop-blur-sm shadow-inner">
                         {{ currentIndex + 1 }} / {{ activeAlbum.images.length }}

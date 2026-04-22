@@ -14,9 +14,14 @@ const isLoading = ref(false)
 const baseTitle = ref('')
 const albumItems = ref([])
 
+const isTranslatingTitle = ref(false)
+let translateTitleTimeout = null
+
 const form = ref({
     category_id: '',
     title_image: '',
+    title_image_en: '',
+    slug: '',
     new_images: []
 })
 const newPreviews = ref([])
@@ -59,6 +64,39 @@ const handleDropNew = (index) => {
     dragOverNewIndex.value = null
 }
 
+const generateSlug = (text) => {
+    return text.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, '')
+}
+
+const handleTitleInput = () => {
+    form.value.slug = generateSlug(form.value.title_image)
+}
+
+const autoTranslateTitle = () => {
+    handleTitleInput()
+    if (translateTitleTimeout) clearTimeout(translateTitleTimeout)
+
+    if (!form.value.title_image.trim()) {
+        form.value.title_image_en = ''
+        isTranslatingTitle.value = false
+        return
+    }
+
+    isTranslatingTitle.value = true
+    translateTitleTimeout = setTimeout(async () => {
+        try {
+            const textToTranslate = encodeURIComponent(form.value.title_image.trim())
+            const res = await fetch(`https://api.mymemory.translated.net/get?q=${textToTranslate}&langpair=id|en`)
+            const data = await res.json()
+            if (data && data.responseData) form.value.title_image_en = data.responseData.translatedText
+        } catch (error) {
+            console.error("Gagal terjemah judul:", error)
+        } finally {
+            isTranslatingTitle.value = false
+        }
+    }, 600)
+}
+
 const fetchData = async () => {
     isLoading.value = true
     try {
@@ -72,6 +110,8 @@ const fetchData = async () => {
         
         if (representativeItem) {
             baseTitle.value = representativeItem.title_image.replace(/\s\d+$/, '').trim()
+            const baseTitleEn = representativeItem.title_image_en ? representativeItem.title_image_en.replace(/\s\d+$/, '').trim() : ''
+            const baseSlug = representativeItem.slug ? representativeItem.slug.replace(/\-\d+$/, '') : generateSlug(baseTitle.value)
             
             // PERBAIKAN: Filter sekaligus SORTING berdasarkan angka di belakang nama file
             albumItems.value = allGalleries.filter(g => {
@@ -85,6 +125,8 @@ const fetchData = async () => {
             })
 
             form.value.title_image = baseTitle.value
+            form.value.title_image_en = baseTitleEn
+            form.value.slug = baseSlug
             form.value.category_id = representativeItem.category_id
         }
     } catch (error) {
@@ -133,6 +175,10 @@ const handleSubmit = async () => {
             formData.append('_method', 'PUT')
             formData.append('category_id', form.value.category_id)
             formData.append('title_image', `${form.value.title_image} ${index + 1}`)
+            if(form.value.title_image_en) {
+                formData.append('title_image_en', `${form.value.title_image_en} ${index + 1}`)
+            }
+            formData.append('slug', `${form.value.slug}-${index + 1}`)
             formData.append('meta_title_image', `${form.value.title_image} ${index + 1}`)
             return Api.post(`/admin/galleries/${item.id}`, formData)
         })
@@ -143,6 +189,8 @@ const handleSubmit = async () => {
             const bulkData = new FormData()
             bulkData.append('category_id', form.value.category_id)
             bulkData.append('title_image', form.value.title_image) 
+            bulkData.append('title_image_en', form.value.title_image_en)
+            bulkData.append('slug', form.value.slug)
             
             form.value.new_images.forEach(file => {
                 bulkData.append('images[]', file)
@@ -196,8 +244,17 @@ onMounted(fetchData)
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Judul Dasar Wadah</label>
-                                    <input v-model="form.title_image" type="text" class="w-full text-black bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium" />
+                                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Judul Dasar Wadah (ID)</label>
+                                    <input v-model="form.title_image" @input="autoTranslateTitle" type="text" class="w-full text-black bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium" required />
+                                </div>
+                                <div class="relative">
+                                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Judul Dasar Wadah (EN)</label>
+                                    <input v-model="form.title_image_en" type="text" class="w-full text-black bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium" placeholder="Terjemahan otomatis muncul di sini..." />
+                                    <span v-if="isTranslatingTitle" class="absolute right-4 top-[42px] text-xs font-bold text-slate-400 animate-pulse">Translating...</span>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Slug</label>
+                                    <input v-model="form.slug" type="text" class="w-full text-slate-500 bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 cursor-not-allowed font-medium" disabled placeholder="otomatis-mengikuti-judul" />
                                 </div>
                             </div>
                         </div>

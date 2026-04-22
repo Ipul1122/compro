@@ -502,49 +502,6 @@ const closeModal = () => {
                     </div>
                 </div>
 
-                <div class="relative">
-                    <div class="lg:sticky lg:top-32 flex flex-col">
-                        <div
-                            class="flex-1 flex flex-col bg-white rounded-[3rem] border border-slate-200 overflow-hidden shadow-2xl relative">
-
-                            <div class="p-8 space-y-6 flex-1">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
-                                        Dashboard Preview
-                                    </span>
-                                    <div class="flex gap-1.5">
-                                        <div class="w-1.5 h-1.5 rounded-full bg-slate-200"></div>
-                                        <div class="w-1.5 h-1.5 rounded-full bg-slate-200"></div>
-                                    </div>
-                                </div>
-
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div v-for="item in lmsPreviews" :key="item.name"
-                                        class="group/img relative cursor-pointer" @click="openModal(item)">
-                                        <div
-                                            class="aspect-video rounded-xl bg-slate-100 border border-slate-100 overflow-hidden shadow-sm">
-                                            <img :src="item.path" :alt="item.name"
-                                                class="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-500" />
-
-                                            <div
-                                                class="absolute inset-0 bg-black/20 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
-                                                <span
-                                                    class="text-white text-xs font-bold bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm">View
-                                                    Image</span>
-                                            </div>
-                                        </div>
-                                        <p class="text-[10px] font-bold text-slate-400 mt-2 uppercase tracking-tighter">
-                                            {{ item.name }}
-                                        </p>
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
 
             </div>
         </div>
