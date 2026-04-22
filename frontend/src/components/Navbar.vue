@@ -41,9 +41,9 @@ const handleLanguageToggle = () => {
                             <a href="/#home"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Home</a>
 
-                            <a href="/#about"
+                            <router-link to="/about"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">About
-                                Us</a>
+                                Us</router-link>
 
                             <a href="/#our-project"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Our

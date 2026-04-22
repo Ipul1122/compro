@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import Api from '@/api'
 import Navbar from '@/components/Navbar.vue'
+import Footer from '@/components/Footer.vue'
 import { getImageUrl, handleImageError } from '@/utils/imageHelper'
 
 const route = useRoute()
@@ -230,6 +231,10 @@ const getCategoryName = (name) => {
                 </button>
             </div>
         </main>
+    </div>
+
+    <div class="relative z-10 w-full">
+            <Footer />
     </div>
 </template>
 
