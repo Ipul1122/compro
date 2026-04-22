@@ -48,8 +48,25 @@
                   <td class="px-6 py-4 text-xs text-slate-500">{{ cat.slug }}</td>
                   <td class="px-6 py-4 text-center font-bold text-slate-700 text-sm">{{ cat.articles_count }}</td>
                   <td class="px-6 py-4 text-right">
-                    <router-link :to="`/admin/categories/edit/${cat.id}`" class="text-slate-400 hover:text-yellow-500 mr-4 transition-colors text-sm font-bold">Edit</router-link>
-                    <button @click="confirmDelete(cat.id)" class="text-red-400 hover:text-red-600 transition-colors text-sm font-bold cursor-pointer">Hapus</button>
+                    <div class="flex justify-end items-center gap-2">
+                      <button @click="router.push('/admin/articles/create')" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors" title="Tambah Artikel">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                      </button>
+
+                      <router-link :to="`/admin/categories/edit/${cat.id}`" class="p-2 text-yellow-500 hover:bg-yellow-50 rounded-lg transition-colors" title="Edit Kategori">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                        </svg>
+                      </router-link>
+
+                      <button @click="confirmDelete(cat.id)" class="p-2 text-red-400 hover:bg-red-50 rounded-lg transition-colors cursor-pointer" title="Hapus Kategori">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      </button>
+                    </div>
                   </td>
                 </tr>
                 <tr v-if="!store.loading && store.categories.length === 0">
@@ -105,10 +122,8 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
           </svg>
         </div>
-        
         <h3 class="text-lg font-black text-slate-900 mb-2 tracking-tight">Hapus Kategori?</h3>
         <p class="text-xs text-slate-500 mb-6 font-medium leading-relaxed">Tindakan ini tidak dapat dibatalkan. Kategori ini akan dihapus secara permanen dari sistem.</p>
-        
         <div class="flex justify-center gap-3">
           <button @click="isDeleteModalOpen = false" class="px-5 py-3 text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors cursor-pointer w-full">Batal</button>
           <button @click="executeDelete" class="px-5 py-3 text-sm font-bold text-white bg-red-500 hover:bg-red-600 rounded-xl transition-colors cursor-pointer w-full shadow-lg shadow-red-500/30">Ya, Hapus</button>
@@ -129,18 +144,15 @@ const router = useRouter();
 const route = useRoute(); 
 const store = useCategoryStore();
 
-// Layout State
 const isSidebarOpen = ref(false);
 const user = ref({ name: 'Admin', email: '' });
 const currentView = ref('categories');
 
-// Data Breadcrumbs untuk dikirim ke Navbar
 const breadcrumbsData = ref([
     { label: 'Dashboard', link: '/admin/dashboard' },
     { label: 'Manage Categories', link: null }
 ]);
 
-// Category State
 const search = ref('');
 const isModalOpen = ref(false);
 const isSubmitting = ref(false);
@@ -154,16 +166,13 @@ onMounted(() => {
     router.push('/view/login');
   }
 
-  // BACA URL SAAT HALAMAN PERTAMA KALI DIBUKA / DI-REFRESH
   if (route.query.search) {
     search.value = route.query.search;
   }
   const page = route.query.page || 1;
-  
   store.fetchCategories(page, search.value);
 });
 
-// FUNGSI UNTUK MENSINKRONKAN URL BROWSER & MENGAMBIL DATA
 const fetchData = (page = 1) => {
   router.replace({
     query: {
@@ -174,15 +183,10 @@ const fetchData = (page = 1) => {
   store.fetchCategories(page, search.value);
 };
 
-// Navigasi Sidebar
 const handleNavigation = (view) => {
-  if (view === 'dashboard') {
-    router.push('/admin/dashboard');
-  } else if (view === 'categories') {
-    router.push('/admin/categories');
-  } else if (view === 'articles') {
-    router.push('/admin/articles'); 
-  }
+  if (view === 'dashboard') router.push('/admin/dashboard');
+  else if (view === 'categories') router.push('/admin/categories');
+  else if (view === 'articles') router.push('/admin/articles'); 
 };
 
 const handleLogout = () => {
@@ -191,88 +195,33 @@ const handleLogout = () => {
   router.push('/view/login');
 };
 
-// CRUD Functions
-const handleSearch = () => {
-  fetchData(1);
-};
-
-const openModal = () => {
-  form.value = { name: '' }; // Reset bersih menggunakan object baru
-  isModalOpen.value = true;
-};
-
-const closeModal = () => {
-  form.value = { name: '' };
-  isModalOpen.value = false;
-};
+const handleSearch = () => fetchData(1);
+const closeModal = () => { form.value = { name: '' }; isModalOpen.value = false; };
 
 const submitForm = async () => {
-  if (!form.value.name || !form.value.name.trim()) {
-    alert("Nama kategori tidak boleh kosong!");
-    return;
-  }
-
+  if (!form.value.name?.trim()) return alert("Nama kategori tidak boleh kosong!");
   isSubmitting.value = true;
-
   try {
-    // FIX: Destructure / Parsing menjadi Plain Object agar aman dari interference Vue-i18n / Proxy Axios
-    const payload = {
-      name: form.value.name.trim()
-    };
-
+    const payload = { name: form.value.name.trim() };
     const response = await store.storeCategory(payload);
-    
-    // Safety check bila format respons array vs object
     if (response && (response.status === 201 || response.data?.status === 'success')) {
-      closeModal(); // Menutup & mereset form
-    } else {
-      throw new Error("Respons tidak dikenali dari server.");
+      closeModal();
     }
   } catch (err) {
-    console.error("Gagal menyimpan kategori:", err); // Tambahan untuk debug console
-
-    let errorMessage = "Terjadi kesalahan saat menyimpan!";
-    
-    if (err.response && err.response.data) {
-      if (err.response.data.errors) {
-        // Gabungkan seluruh pesan validasi Laravel
-        errorMessage = Object.values(err.response.data.errors).flat().join('\n');
-      } else if (err.response.data.message) {
-        errorMessage = err.response.data.message;
-      }
-    } else if (err.message) {
-      errorMessage = err.message; // Jika murni logic frontend / network
-    }
-
-    alert(errorMessage);
-  } finally {
-    isSubmitting.value = false;
-  }
+    alert(err.response?.data?.message || "Terjadi kesalahan!");
+  } finally { isSubmitting.value = false; }
 };
 
 const isDeleteModalOpen = ref(false);
 const deleteId = ref(null);
-
-const confirmDelete = (id) => {
-  deleteId.value = id;
-  isDeleteModalOpen.value = true;
-};
-
+const confirmDelete = (id) => { deleteId.value = id; isDeleteModalOpen.value = true; };
 const executeDelete = async () => {
   if (!deleteId.value) return;
-  
   try {
     await store.destroyCategory(deleteId.value);
     fetchData(store.pagination?.current_page || 1); 
   } catch (err) {
     alert("Gagal menghapus kategori!");
-  } finally {
-    isDeleteModalOpen.value = false;
-    deleteId.value = null;
-  }
+  } finally { isDeleteModalOpen.value = false; deleteId.value = null; }
 };
 </script>
-
-<style scoped>
-button, a, .cursor-pointer { cursor: pointer !important; }
-</style>
