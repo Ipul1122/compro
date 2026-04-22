@@ -1,11 +1,12 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
+import { getImageUrl, handleImageError } from '@/utils/imageHelper' // Import helper gambar
 import HomeSection from './section/HomeSection.vue'
 import AboutSection from './section/AboutSection.vue'
 import ProjectsSection from './section/ProjectsSection.vue';
 import ServicesSection from './section/ServicesSection.vue';
 import ClientsSection from './section/ClientsSection.vue';
-// import ContactSection from './section/ContactSection.vue';
+import ArticlesSection from './section/ArticlesSection.vue';
 
 const showBackToTop = ref(false)
 
@@ -14,10 +15,7 @@ const checkScroll = () => {
 }
 
 const scrollToTop = () => {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 onMounted(() => {
@@ -27,7 +25,6 @@ onMounted(() => {
 onUnmounted(() => {
     window.removeEventListener('scroll', checkScroll)
 })
-
 </script>
 
 <template>
@@ -55,6 +52,11 @@ onUnmounted(() => {
                 <ProjectsSection />
             </div>
 
+            <div class="articles-view">
+                <ArticlesSection />
+            </div>
+            
+
             <div class="services-view">
                 <ServicesSection />
             </div>
@@ -71,7 +73,7 @@ onUnmounted(() => {
 
     <transition name="fade">
         <button v-show="showBackToTop" @click="scrollToTop"
-            class="fixed bottom-8 right-8 z-[60] flex items-center justify-center w-12 h-12 bg-white border border-slate-100 rounded-2xl shadow-xl cursor-pointer transition-all duration-300 hover:border-brand hover:text-brand hover:-translate-y-1 active:scale-95 group">
+            class="fixed bottom-8 right-8 z-60 flex items-center justify-center w-12 h-12 bg-white border border-slate-100 rounded-2xl shadow-xl cursor-pointer transition-all duration-300 hover:border-brand hover:text-brand hover:-translate-y-1 active:scale-95 group">
             <svg xmlns="http://www.w3.org/2000/svg"
                 class="w-6 h-6 text-slate-600 group-hover:text-brand transition-colors" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
