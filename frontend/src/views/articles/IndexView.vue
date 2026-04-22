@@ -114,19 +114,34 @@ const getCategoryName = (name) => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-slate-50 flex flex-col">
-        <Navbar />
+    <div class="min-h-screen bg-slate-50 flex flex-col relative overflow-hidden">
+        
+        <div class="absolute top-0 left-0 w-full z-0 pointer-events-none">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="w-full">
+                <path fill="#ff5500" fill-opacity="1" d="M0,96L288,160L576,160L864,160L1152,288L1440,256L1440,0L1152,0L864,0L576,0L288,0L0,0Z"></path>
+            </svg>
+        </div>
 
-        <main class="flex-grow container mx-auto px-4 py-8 max-w-7xl">
+        <div class="absolute bottom-0 left-0 w-full z-0 pointer-events-none">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="w-full">
+                <path fill="#ff5500" fill-opacity="1" d="M0,96L288,160L576,160L864,160L1152,288L1440,256L1440,320L1152,320L864,320L576,320L288,320L0,320Z"></path>
+            </svg>
+        </div>
+
+        <div class="relative z-10 w-full">
+            <Navbar />
+        </div>
+
+        <main class="flex-grow container mx-auto px-4 py-8 max-w-7xl relative z-10">
             <div class="mb-10 text-center md:text-left">
-                <h1 class="text-3xl font-black text-slate-900 uppercase tracking-tight mt-16 mb-5 text-center">
+                <h1 class="text-3xl font-black text-orange-600 uppercase tracking-tight mt-40 mb-5 text-center">
                     {{ $t('articles_index.title') }}
                 </h1>
-                <p class="text-slate-500 mb-8 font-medium text-center">
+                <p class="text-black mb-8 font-medium text-center">
                     {{ $t('articles_index.subtitle') }}
                 </p>
 
-                <div class="bg-white rounded-3xl border border-slate-100 text-black p-4 shadow-sm flex flex-col md:flex-row gap-4">
+                <div class="bg-white rounded-3xl border border-slate-100 text-black p-4 shadow-sm flex flex-col md:flex-row gap-4 relative">
                     <div class="flex-1">
                         <input v-model="filters.search" @keyup.enter="applyFilters" type="text" :placeholder="$t('articles_index.search_placeholder')" 
                             class="w-full bg-slate-50 border border-slate-100 rounded-2xl px-5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/5 transition-all" />
@@ -175,12 +190,12 @@ const getCategoryName = (name) => {
                             <span>{{ article.total_view || 0 }} {{ $t('articles_index.views') }}</span>
                         </div>
                         
-                        <h3 class="text-xl font-bold text-slate-900 mb-4 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors">
+                        <h3 class="text-xl font-bold text-slate-900 mb-4 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors relative z-10">
                             {{ locale === 'en' && article.title_en ? article.title_en : article.title }}
                         </h3>
                         
                         <div class="mt-auto pt-5 border-t border-slate-50 flex justify-between items-center">
-                            <router-link :to="`/articles/${article.slug}`" class="text-sm font-black text-slate-900 uppercase tracking-wider flex items-center gap-2 group/link">
+                            <router-link :to="`/articles/${article.slug}`" class="text-sm font-black text-slate-900 uppercase tracking-wider flex items-center gap-2 group/link relative z-10">
                                 {{ $t('articles_index.read_more') }}
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover/link:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -191,24 +206,24 @@ const getCategoryName = (name) => {
                 </div>
             </div>
 
-            <div v-else class="text-center py-20 bg-white rounded-3xl border border-slate-100">
-                <p class="text-slate-400 font-bold">{{ $t('articles_index.no_articles') }}</p>
+            <div v-else class="text-center py-20 bg-white rounded-3xl border border-orange-600 relative">
+                <p class="text-black font-bold">{{ $t('articles_index.no_articles') }}</p>
             </div>
 
-            <div v-if="lastPage > 1" class="flex justify-center items-center mt-12 gap-2">
+            <div v-if="lastPage > 1" class="flex justify-center items-center mt-12 gap-2 relative">
                 <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1"
-                    class="p-2 rounded-xl bg-white text-black border border-slate-100 disabled:opacity-50 cursor-pointer hover:bg-slate-50">
+                    class="p-2 rounded-xl bg-white text-black border border-slate-100 disabled:opacity-50 cursor-pointer hover:bg-slate-50 shadow-sm relative z-10">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
                     </svg>
                 </button>
                 
-                <span class="px-4 text-sm font-bold text-slate-600">
+                <span class="px-4 text-sm font-bold text-slate-600 bg-white/70 backdrop-blur-sm rounded-lg py-1">
                     {{ $t('articles_index.page', { current: currentPage, last: lastPage }) }}
                 </span>
                 
                 <button @click="changePage(currentPage + 1)" :disabled="currentPage === lastPage"
-                    class="p-2 rounded-xl bg-white text-black border border-slate-100 disabled:opacity-50 cursor-pointer hover:bg-slate-50">
+                    class="p-2 rounded-xl bg-white text-black border border-slate-100 disabled:opacity-50 cursor-pointer hover:bg-slate-50 shadow-sm relative z-10">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                     </svg>
