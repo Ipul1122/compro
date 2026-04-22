@@ -90,5 +90,121 @@
     "seeAll": "See All Gallery",
     "openGallery": "Open Gallery",
     "empty": "No galleries available yet."
+  },
+  "services_section": {
+    "capabilities": "Capabilities",
+    "title": "Our Services",
+    "desc": "We are the professionals providing people to achieve more through integrated digital ecosystems.",
+    "btn_view_all": "View All Our Services",
+    "watermark": "EXCELLENCE",
+    "item1": {
+      "title": "E-Recruitment",
+      "desc1": "Finding the best people using our effective one-stop",
+      "highlight": "Online Recruitment Process"
+    },
+    "item2": {
+      "title": "Assess",
+      "list1_title": "Psychological Test",
+      "list1_desc": "Instant online potential tests with real-time results.",
+      "list2_title": "Assessment Center",
+      "list2_desc": "Integrative methods for identifying leadership and competencies.",
+      "list3_title": "360° Assessment",
+      "list3_desc": "Performance feedback for clear career path mapping."
+    },
+    "item3": {
+      "title": "Develop",
+      "list1_title": "Interactive Training",
+      "list1_desc": "Inspirating learning methods for knowledge transfer.",
+      "list2_title": "Coaching Clinic",
+      "list2_desc": "Self-development action plans through awareness.",
+      "list3_title": "Business Simulation",
+      "list3_desc": "Sharpening skills through reality-case games."
+    },
+    "item4": {
+      "title": "Manage & Supervise",
+      "list1_title": "E-Coach & Career",
+      "list1_desc": "System for coaching process and career path review.",
+      "list2_title": "E-Service",
+      "list2_desc": "Developing service culture for teams and organizations.",
+      "list3_title": "E-Survey",
+      "list3_desc": "Integration system for employee engagement drivers."
+    }
+  },
+  "service_view": {
+    "interior": {
+      "title1": "Trusted in matters of",
+      "title_highlight": "attractive and luxurious",
+      "title2": "design.",
+      "desc1": "With over",
+      "desc1_bold": "10 years of experience",
+      "desc1_after": "managing interior design projects at PT Cakrawala Parama Internasional.",
+      "desc2": "We have become one of the best choices for realizing your needs in space design, including personal spaces, cafes, hotels, and commercial establishments.",
+      "years_exp": "Years Exp",
+      "quality": "Quality",
+      "badge_title": "Professional",
+      "badge_subtitle": "Design",
+      "loading": "Loading...",
+      "watermark": "INTERIOR"
+    },
+    "assessment": {
+      "badge": "Specialized Service",
+      "title": "Psychotest and Assessment",
+      "title_break": "Center Service",
+      "subtitle": "Online & Offline",
+      "desc": "Measuring competencies and performance to assess the suitability for their current position and to identify potential for transfer or promotion to other roles.",
+      "point1": "Comprehensive Performance Analytics",
+      "point2": "Tailored Promotion Identification",
+      "btn_cta": "Learn More About Assessments"
+    },
+    "event": {
+      "events_managed": "Events Managed",
+      "badge": "Excellence in Every Event",
+      "title1": "Cakrawala",
+      "title_highlight": "Event Organizer",
+      "desc": "Your reliable partner in organizing various events, from intimate weddings to large-scale international seminars.",
+      "subtitle": "National & International Events",
+      "list1": "Business Conferences",
+      "list2": "Product Launches",
+      "list3": "Corporate Gatherings",
+      "list4": "Government Events",
+      "quote_title": "Proven Expertise",
+      "quote1": "\"One of our notable achievements was successfully organizing an international seminar during the COVID-19 pandemic, in collaboration with the",
+      "quote_highlight": "House of Representatives",
+      "quote2": "and global delegates.\""
+    },
+    "lms": {
+      "badge": "Digital Ecosystem",
+      "title1": "Our Learning",
+      "title_highlight": "Management System",
+      "desc": "Learning and training are now easier and more efficient with our integrated Learning Management System (LMS). A smart solution for adaptive and flexible human resource development.",
+      "tag1": "Self Learning",
+      "tag2": "Blended Learning",
+      "tag3": "Microlearning",
+      "tag4": "Instructor-led Training",
+      "features_title": "Key Features",
+      "feature1": "Management of courses, materials, & virtual classes",
+      "feature2": "Discussion forums, chat, & video conferencing",
+      "feature3": "Interactive content: videos, quizzes, & case studies",
+      "feature4": "Notifications & academic calendar integration",
+      "benefits_title": "Benefits",
+      "benefit1_bold": "Cost Efficiency:",
+      "benefit1_desc": "Reduce training costs",
+      "benefit2_bold": "Workforce Quality:",
+      "benefit2_desc": "Optimized Competencies",
+      "benefit3_bold": "Business Performance:",
+      "benefit3_desc": "A vastly superior organization",
+      "cta_title": "Ready to transform?",
+      "cta_desc": "Contact us now for a free demo & consultation!",
+      "cta_btn": "Get Free Demo",
+      "preview": {
+        "login": "Login Interface",
+        "upload": "Assignment Upload",
+        "quiz": "Quiz System",
+        "results": "Results View"
+      }
+    },
+    "modal": {
+      "close": "Close"
+    }
   }
 }
