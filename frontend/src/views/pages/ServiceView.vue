@@ -41,12 +41,12 @@ const closeModal = () => {
 </script>
 
 <template>
-    <main class="pt-20"> 
+    <main class=""> 
         <section id="interior-design" class="py-24 relative border-t border-slate-200 bg-white overflow-hidden">
             <div class="absolute -top-24 -left-24 w-96 h-96 bg-brand/5 blur-[120px] rounded-full pointer-events-none">
             </div>
 
-            <div class="max-w-7xl mx-auto px-4">
+            <div class="max-w-7xl mx-auto px-4 mt-14">
                 <div class="grid lg:grid-cols-2 gap-20 items-center">
 
                     <div class="relative z-10">

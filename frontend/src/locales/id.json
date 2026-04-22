@@ -12,7 +12,22 @@
     "services": "Layanan",
     "clients": "Klien",
     "contact": "Hubungi Kami",
-    "switch_language": "Ganti Bahasa"
+    "switch_language": "Ganti Bahasa",
+    "gallery": "Galeri",
+    "psikotest": "Psikotes"
+  },
+  "footer": {
+    "now_taking": "SIAP MENERIMA",
+    "bookings": "PESANAN",
+    "description": "Siap untuk meningkatkan potensi organisasi Anda? Mari mulai percakapan hari ini.",
+    "contact_us": "Hubungi Kami",
+    "stay_connected": "Tetap Terhubung",
+    "social_desc_part1": "Dapatkan pembaruan dan informasi kapan saja dari",
+    "social_desc_part2": "dengan mengikuti media sosial kami!",
+    "headquarters": "Kantor Pusat",
+    "all_rights_reserved": "Hak Cipta Dilindungi.",
+    "privacy_policy": "Kebijakan Privasi",
+    "terms_of_service": "Ketentuan Layanan"
   },
   "about": {
     "years_experience": "Tahun Pengalaman",

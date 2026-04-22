@@ -1,5 +1,7 @@
 <script setup>
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 </script>
 
 <template>
@@ -13,18 +15,18 @@
                 <div class="flex flex-col justify-between">
                     <div>
                         <h2 class="text-5xl md:text-7xl font-black text-white leading-none tracking-tighter">
-                            NOW TAKING<br />
-                            <span class="text-brand">BOOKINGS</span>
+                            {{ t('footer.now_taking') }}<br />
+                            <span class="text-brand">{{ t('footer.bookings') }}</span>
                         </h2>
                         <p class="mt-6 text-slate-500 max-w-sm">
-                            Ready to elevate your organization's potential? Let's start a conversation today.
+                            {{ t('footer.description') }}
                         </p>
                     </div>
 
                     <div class="mt-10">
                         <button
                             class="group flex items-center gap-3 px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-brand hover:text-white transition-all duration-300">
-                            Contact Us
+                            {{ t('footer.contact_us') }}
                             <span class="group-hover:translate-x-1 transition-transform">→</span>
                         </button>
                     </div>
@@ -32,12 +34,13 @@
 
                 <div class="space-y-10">
                     <div>
-                        <h3 class="text-white font-bold mb-4 uppercase tracking-widest text-sm">Stay Connected
+                        <h3 class="text-white font-bold mb-4 uppercase tracking-widest text-sm">
+                            {{ t('footer.stay_connected') }}
                         </h3>
                         <p class="text-slate-400 leading-relaxed mb-6">
-                            Get updates and information anytime from <span class="text-slate-200 font-semibold">PT
+                            {{ t('footer.social_desc_part1') }} <span class="text-slate-200 font-semibold">PT
                                 Cakrawala
-                                Parama Internasional</span> by following our social media!
+                                Parama Internasional</span> {{ t('footer.social_desc_part2') }}
                         </p>
 
                         <div class="flex gap-4">
@@ -61,7 +64,8 @@
                     </div>
 
                     <div>
-                        <h3 class="text-white font-bold mb-4 uppercase tracking-widest text-sm">Headquarters
+                        <h3 class="text-white font-bold mb-4 uppercase tracking-widest text-sm">
+                            {{ t('footer.headquarters') }}
                         </h3>
                         <address class="not-italic text-slate-500 text-sm leading-loose">
                             South Quarter Tower A, Lt 18<br />
@@ -74,11 +78,11 @@
 
             <div class="pt-8 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p class="text-slate-600 text-xs uppercase tracking-widest">
-                    &copy; 2026 PT Cakrawala Parama Internasional. All Rights Reserved.
+                    &copy; 2026 PT Cakrawala Parama Internasional. {{ t('footer.all_rights_reserved') }}
                 </p>
                 <div class="flex gap-6 text-xs text-slate-600 uppercase tracking-widest">
-                    <a href="#" class="hover:text-brand transition-colors">Privacy Policy</a>
-                    <a href="#" class="hover:text-brand transition-colors">Terms of Service</a>
+                    <a href="#" class="hover:text-brand transition-colors">{{ t('footer.privacy_policy') }}</a>
+                    <a href="#" class="hover:text-brand transition-colors">{{ t('footer.terms_of_service') }}</a>
                 </div>
             </div>
         </div>

@@ -7,7 +7,8 @@ const isMenuOpen = ref(false)
 const router = useRouter()
 const route = useRoute()
 
-const { locale } = useI18n()
+// Tambahkan pemanggilan `t` dari useI18n
+const { t, locale } = useI18n()
 const isIndonesian = computed(() => locale.value === 'id')
 
 const handleLanguageToggle = () => {
@@ -39,27 +40,39 @@ const handleLanguageToggle = () => {
 
                         <div class="hidden md:flex items-center gap-1">
                             <a href="/#home"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Home</a>
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
+                                {{ t('nav.home') }}
+                            </a>
 
                             <router-link to="/about"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">About
-                                Us</router-link>
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
+                                {{ t('nav.about') }}
+                            </router-link>
 
                             <router-link to="/project"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Our
-                                Projects</router-link>
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
+                                {{ t('nav.projects') }}
+                            </router-link>
 
                             <router-link to="/articles"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Articles</router-link>
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
+                                {{ t('nav.articles') }}
+                            </router-link>
 
                             <router-link to="/galerry"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Gallery</router-link>
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
+                                {{ t('nav.gallery') }}
+                            </router-link>
 
-                            <a href="/#our-services"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Services</a>
+                            <router-link to="/service"
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
+                                {{ t('nav.services') }}
+                            </router-link>
 
                             <a href="/#clients"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">Clients</a>
+                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
+                                {{ t('nav.clients') }}
+                            </a>
                             
                             <button @click="handleLanguageToggle"
                                 class="ml-2 flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-brand hover:text-brand transition-all active:scale-95">
@@ -68,7 +81,7 @@ const handleLanguageToggle = () => {
 
                             <a href="#contact"
                                 class="ml-4 bg-slate-900 text-white hover:bg-brand px-6 py-2.5 rounded-xl text-sm font-black shadow-lg hover:shadow-brand/30 transition-all active:scale-95 flex items-center gap-2">
-                                Contact <span class="text-xs opacity-50">→</span>
+                                {{ t('nav.contact') }} <span class="text-xs opacity-50">→</span>
                             </a>
                         </div>
 
@@ -90,32 +103,56 @@ const handleLanguageToggle = () => {
                 </div>
 
                 <div v-show="isMenuOpen"
-                    class="md:hidden border-t border-slate-100 p-4 space-y-2 bg-white rounded-b-2xl">
+                    class="md:hidden border-t border-slate-100 p-4 space-y-1 bg-white rounded-b-2xl">
                     <a href="#home" @click="isMenuOpen = false"
-                        class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">Home</a>
-                    <a href="#our-project" @click="isMenuOpen = false"
-                        class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">Our
-                        Project</a>
-                    
-                    <a href="#gallery" @click="isMenuOpen = false"
-                        class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">Gallery</a>
+                        class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
+                        {{ t('nav.home') }}
+                    </a>
 
-                    <a href="#psikotest" @click="isMenuOpen = false"
-                        class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">Psikotest</a>
-                    <a href="#our-services" @click="isMenuOpen = false"
-                        class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">Service</a>
+                    <router-link to="/about" @click="isMenuOpen = false"
+                        class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
+                        {{ t('nav.about') }}
+                    </router-link>
+
+                    <router-link to="/project" @click="isMenuOpen = false"
+                        class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
+                        {{ t('nav.projects') }}
+                    </router-link>
+
+                    <router-link to="/articles" @click="isMenuOpen = false"
+                        class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
+                        {{ t('nav.articles') }}
+                    </router-link>
+
+                    <router-link to="/galerry" @click="isMenuOpen = false"
+                        class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
+                        {{ t('nav.gallery') }}
+                    </router-link>
+
+                    <router-link to="/service" @click="isMenuOpen = false"
+                        class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
+                        {{ t('nav.services') }}
+                    </router-link>
+
                     <a href="#clients" @click="isMenuOpen = false"
-                        class="block px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-brand rounded-xl text-sm font-bold transition-all">Clients</a>
-                    
-                    <div class="pt-2 pb-2 border-t border-slate-50 flex items-center justify-between px-4">
-                        <span class="text-sm font-bold text-slate-500">Switch Language</span>
-                        <button @click="handleLanguageToggle"
-                            class="flex items-center justify-center w-12 h-10 rounded-xl border border-slate-200 text-slate-600 active:bg-slate-50">
-                            <span class="text-xs font-black">{{ isIndonesian ? 'EN' : 'ID' }}</span>
-                        </button>
+                        class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
+                        {{ t('nav.clients') }}
+                    </a>
+
+                    <div class="pt-3 mt-3 border-t border-slate-100 space-y-2">
+                        <div class="flex items-center justify-between px-4 py-2">
+                            <span class="text-xs font-bold text-slate-500 uppercase">{{ t('nav.switch_language') }}</span>
+                            <button @click="handleLanguageToggle"
+                                class="flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-brand hover:text-brand transition-all active:scale-95">
+                                <span class="text-xs font-black">{{ isIndonesian ? 'EN' : 'ID' }}</span>
+                            </button>
+                        </div>
+
+                        <a href="#contact" @click="isMenuOpen = false"
+                            class="block px-4 py-2.5 bg-slate-900 text-white hover:bg-brand rounded-xl text-sm font-black text-center shadow-lg hover:shadow-brand/30 transition-all active:scale-95">
+                            {{ t('nav.contact') }} <span class="text-xs opacity-50">→</span>
+                        </a>
                     </div>
-                    <a href="#contact" @click="isMenuOpen = false"
-                        class="block px-4 py-3 text-brand rounded-xl text-sm font-black transition-all">Contact</a>
                 </div>
             </div>
         </div>
