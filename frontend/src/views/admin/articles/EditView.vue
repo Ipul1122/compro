@@ -16,7 +16,12 @@
 
       <main class="p-4 md:p-8">
         <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm max-w-5xl mx-auto">
-          <h2 class="text-2xl font-black text-slate-900 uppercase tracking-tight mb-8">Ubah Artikel</h2>
+          <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-black text-slate-900 uppercase tracking-tight">Ubah Artikel</h2>
+            <span v-if="draftSavedText" class="text-xs font-bold text-green-600 bg-green-50 px-3 py-1 rounded-full animate-pulse">
+              {{ draftSavedText }}
+            </span>
+          </div>
 
           <div v-if="isLoading" class="text-center py-10 font-bold text-black animate-pulse text-sm">Memuat data...</div>
 
@@ -82,7 +87,6 @@
                   <button type="button" @click="editorId.chain().focus().toggleHeading({ level: 3 }).run()" :class="{'bg-slate-200': editorId.isActive('heading', { level: 3 })}" class="px-3 py-1 text-black rounded hover:bg-slate-200 text-sm font-bold">H3</button>
                 </div>
                 <EditorContent :editor="editorId" class="prose text-black prose-slate max-w-none border border-slate-300 rounded-b-xl p-4 min-h-[300px] bg-white focus:outline-none" />
-                <p v-if="isTranslatingContent" class="text-xs text-blue-500 font-bold mt-2 animate-pulse">Menyiapkan terjemahan teks otomatis ke EN...</p>
               </div>
 
               <div class="md:col-span-2 mt-4">
@@ -166,7 +170,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import Sidebar from '@/components/admin/Sidebar.vue';
@@ -185,12 +189,14 @@ const isSidebarOpen = ref(false);
 const currentView = ref('articles');
 const isLoading = ref(true);
 const isSaving = ref(false);
-const showConfirmModal = ref(false); // State untuk Popover Modal
+const showConfirmModal = ref(false); 
 
 // Data States
 const categories = ref([]);
 const currentImageUrl = ref(null);
 const previewImage = ref(null);
+const draftSavedText = ref('');
+let draftTimeout = null;
 
 const form = ref({
     title: '',
@@ -205,9 +211,7 @@ const form = ref({
 });
 
 const isTranslatingTitle = ref(false);
-const isTranslatingContent = ref(false);
 let translateTitleTimeout = null;
-let translateContentTimeout = null;
 
 // ==========================================
 // INISIALISASI TIPTAP EDITOR (ID & EN)
@@ -222,7 +226,9 @@ const editorId = useEditor({
       }
     })
   ],
-  // FIX: Dihapus event onUpdate agar ketikan ID tidak menimpa otomatis ketikan EN
+  onUpdate: () => {
+    saveDraftToLocalStorage();
+  }
 });
 
 const editorEn = useEditor({
@@ -236,6 +242,9 @@ const editorEn = useEditor({
     })
   ],
   editable: true, 
+  onUpdate: () => {
+    saveDraftToLocalStorage();
+  }
 });
 
 onBeforeUnmount(() => {
@@ -287,6 +296,100 @@ const setLink = (editorInstance) => {
 };
 
 // ==========================================
+// FITUR AUTO SAVE LOCAL STORAGE DRAFT
+// ==========================================
+const draftKey = `draft_article_${route.params.id}`;
+
+const saveDraftToLocalStorage = () => {
+    if (isLoading.value) return; // Jangan simpan draft saat masih loading inisiasi
+    
+    const draftData = {
+        title: form.value.title,
+        title_en: form.value.title_en,
+        slug: form.value.slug,
+        category_id: form.value.category_id,
+        meta_title: form.value.meta_title,
+        meta_description: form.value.meta_description,
+        meta_keywords: form.value.meta_keywords,
+        published: form.value.published,
+        content: editorId.value?.getHTML() || '',
+        content_en: editorEn.value?.getHTML() || ''
+        // Catatan: File gambar (form.value.image) tidak di-save ke localstorage untuk menghindari memory issue
+    };
+    
+    localStorage.setItem(draftKey, JSON.stringify(draftData));
+    
+    draftSavedText.value = 'Draft Tersimpan ✓';
+    if (draftTimeout) clearTimeout(draftTimeout);
+    draftTimeout = setTimeout(() => {
+        draftSavedText.value = '';
+    }, 2000);
+};
+
+// Watch form reguler untuk mentrigger autosave draft
+watch(() => form.value, (newVal, oldVal) => {
+    if (!isLoading.value) {
+        saveDraftToLocalStorage();
+    }
+}, { deep: true });
+
+const checkAndRestoreDraft = (apiData) => {
+    const savedDraft = localStorage.getItem(draftKey);
+    if (savedDraft) {
+        const confirmRestore = confirm("Ditemukan draft yang belum tersimpan untuk artikel ini (mungkin karena refresh/kembali). Apakah Anda ingin mengembalikan ketikan terakhir Anda?");
+        
+        if (confirmRestore) {
+            try {
+                const parsedDraft = JSON.parse(savedDraft);
+                
+                // Set form dari Draft
+                form.value.title = parsedDraft.title || '';
+                form.value.title_en = parsedDraft.title_en || '';
+                form.value.slug = parsedDraft.slug || '';
+                form.value.category_id = parsedDraft.category_id || '';
+                form.value.meta_title = parsedDraft.meta_title || '';
+                form.value.meta_description = parsedDraft.meta_description || '';
+                form.value.meta_keywords = parsedDraft.meta_keywords || '';
+                form.value.published = parsedDraft.published || 'publish';
+
+                // Set content editor dari draft
+                if (parsedDraft.content && editorId.value) {
+                    editorId.value.commands.setContent(parsedDraft.content);
+                }
+                if (parsedDraft.content_en && editorEn.value) {
+                    editorEn.value.commands.setContent(parsedDraft.content_en);
+                }
+                
+                return; // Keluar agar tidak ditimpa oleh data API di bawah
+            } catch (e) {
+                console.error("Gagal parse draft localstorage", e);
+            }
+        } else {
+            // User menolak restore draft, hapus draft
+            localStorage.removeItem(draftKey);
+        }
+    }
+    
+    // Jika tidak ada draft / User reject draft -> Load API Data Original
+    form.value.title = apiData.title;
+    form.value.title_en = apiData.title_en || '';
+    form.value.slug = apiData.slug || '';
+    form.value.category_id = apiData.category_id;
+    form.value.meta_title = apiData.meta_title || '';
+    form.value.meta_description = apiData.meta_description || '';
+    form.value.meta_keywords = apiData.meta_keywords || '';
+    form.value.published = apiData.published;
+
+    if (apiData.content && editorId.value) {
+        editorId.value.commands.setContent(apiData.content);
+    }
+    if (apiData.content_en && editorEn.value) {
+        editorEn.value.commands.setContent(apiData.content_en);
+    }
+};
+
+
+// ==========================================
 // LOGIC API & FORM
 // ==========================================
 onMounted(async () => {
@@ -322,23 +425,10 @@ const fetchArticleDetail = async () => {
         });
         const data = response.data.data;
         
-        form.value.title = data.title;
-        form.value.title_en = data.title_en || '';
-        form.value.slug = data.slug || '';
-        form.value.category_id = data.category_id;
-        form.value.meta_title = data.meta_title || '';
-        form.value.meta_description = data.meta_description || '';
-        form.value.meta_keywords = data.meta_keywords || '';
-        form.value.published = data.published;
+        // Pengecekan draft atau apply API data
+        checkAndRestoreDraft(data);
 
-        // Set konten ke dalam Tiptap editor
-        if (data.content && editorId.value) {
-            editorId.value.commands.setContent(data.content);
-        }
-        if (data.content_en && editorEn.value) {
-            editorEn.value.commands.setContent(data.content_en);
-        }
-
+        // Load gambar current API (tidak masuk localStorage draft)
         if (data.image) {
             currentImageUrl.value = getImageUrl(data.image);
         } else {
@@ -385,32 +475,6 @@ const autoTranslateTitle = () => {
     }, 600);
 };
 
-// Auto Translate Konten (Sekarang tidak dipanggil otomatis lagi)
-const autoTranslateContent = (contentHtml) => {
-    if (translateContentTimeout) clearTimeout(translateContentTimeout);
-
-    const textOnly = contentHtml.replace(/<[^>]*>?/gm, '').trim();
-    
-    if (!textOnly) {
-        editorEn.value?.commands.setContent('');
-        isTranslatingContent.value = false;
-        return;
-    }
-
-    isTranslatingContent.value = true;
-    translateContentTimeout = setTimeout(async () => {
-        try {
-            const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(textOnly.slice(0, 500))}&langpair=id|en`);
-            const data = await res.json();
-            
-            if (data && data.responseData) {
-                editorEn.value?.commands.setContent(`<p>${data.responseData.translatedText}</p>`);
-            }
-        } catch (error) { console.error("Gagal terjemah konten:", error); } 
-        finally { isTranslatingContent.value = false; }
-    }, 1200);
-};
-
 const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -419,12 +483,11 @@ const handleFileChange = (e) => {
     }
 };
 
-// Menampilkan Popover Konfirmasi
 const confirmUpdate = () => {
     showConfirmModal.value = true;
 };
 
-// Eksekusi Update Artikel (dipanggil dari modal)
+// Eksekusi Update Artikel
 const executeSubmit = async () => {
     showConfirmModal.value = false;
     isSaving.value = true;
@@ -457,6 +520,9 @@ const executeSubmit = async () => {
                 'Content-Type': 'multipart/form-data'
             }
         });
+        
+        // Jika berhasil di-save ke database, bersihkan draft localstorage
+        localStorage.removeItem(draftKey);
 
         alert('Artikel berhasil diperbarui!');
         router.push('/admin/articles');

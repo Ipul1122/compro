@@ -2,89 +2,134 @@
     <div 
         v-if="isOpen" 
         @click="$emit('update:isOpen', false)"
-        class="fixed inset-0 bg-black/60 z-40 lg:hidden transition-opacity"
+        class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-40 lg:hidden transition-all duration-300"
     ></div>
 
     <aside :class="[
-        'w-64 bg-slate-900 min-h-screen flex flex-col fixed lg:static z-50 transition-transform duration-300 ease-in-out',
+        'w-72 min-h-screen flex flex-col fixed lg:static z-50 transition-transform duration-300 ease-in-out border-r border-slate-800/60 shadow-2xl overflow-hidden',
+        'bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950',
         isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
     ]">
-        <div class="p-6 border-b border-slate-800 flex justify-between items-center">
-            <h2 class="text-white font-black text-xl uppercase tracking-tighter">Admin Panel</h2>
-            <button @click="$emit('update:isOpen', false)" class="lg:hidden text-white hover:text-orange-600 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-orange-500/5 blur-[80px] pointer-events-none"></div>
+        <div class="absolute bottom-1/3 left-0 -ml-16 w-64 h-64 rounded-full bg-blue-500/5 blur-[80px] pointer-events-none"></div>
+
+        <div class="p-6 border-b border-slate-800/60 flex justify-between items-center relative z-10 bg-slate-900/50 backdrop-blur-md">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-lg shadow-orange-500/20">
+                    <span class="text-white font-bold text-lg leading-none">A</span>
+                </div>
+                <h2 class="text-white font-black text-xl uppercase tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
+                    Admin
+                </h2>
+            </div>
+            <button @click="$emit('update:isOpen', false)" class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
         </div>
         
-        <nav class="flex-grow p-4 space-y-2 overflow-y-auto custom-scrollbar">
+        <nav class="flex-1 p-4 space-y-1.5 overflow-y-auto custom-scrollbar relative z-10">
             
-            <router-link to="/admin/dashboard" class="flex items-center gap-3 px-4 py-3 text-white hover:text-orange-600 hover:bg-slate-800 rounded-xl transition-all font-bold">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <router-link to="/admin/dashboard" class="group flex items-center gap-3 px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-xl transition-all font-medium border border-transparent hover:border-slate-700/50 relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-orange-500 transition-colors relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
-                Dashboard
+                <span class="relative z-10">Dashboard</span>
             </router-link>
 
-            <div>
-                <button @click="toggleMenu('categories')" class="w-full flex items-center justify-between px-4 py-3 text-white hover:text-orange-600 hover:bg-slate-800 rounded-xl transition-all font-bold">
-                    <div class="flex items-center gap-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class="pt-2">
+                <button @click="toggleMenu('categories')" class="group w-full flex items-center justify-between px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-xl transition-all font-medium border border-transparent hover:border-slate-700/50 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="flex items-center gap-3 relative z-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" :class="['h-5 w-5 transition-colors', openMenus.categories ? 'text-orange-500' : 'text-slate-400 group-hover:text-orange-500']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                         </svg>
-                        Kategori
+                        <span>Kategori</span>
                     </div>
-                    <svg :class="{'rotate-180': openMenus.categories}" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg :class="{'rotate-180 text-orange-500': openMenus.categories, 'text-slate-500': !openMenus.categories}" class="w-4 h-4 transition-all duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
-                <div v-show="openMenus.categories" class="mt-1 space-y-1 pl-12 pr-4 overflow-hidden">
-                    <router-link to="/admin/categories" class="block py-2 text-sm text-white hover:text-orange-600 hover:translate-x-1 transition-all duration-200">Index (List)</router-link>
-                    <router-link to="/admin/categories/tambah" class="block py-2 text-sm text-white hover:text-orange-600 hover:translate-x-1 transition-all duration-200">Tambah</router-link>
-                    <!-- <router-link to="/admin/categories/edit" class="block py-2 text-sm text-white hover:text-orange-600 hover:translate-x-1 transition-all duration-200">Edit</router-link> -->
-                </div>
+                <Transition name="slide-fade">
+                    <div v-show="openMenus.categories" class="mt-1 space-y-1 pl-11 pr-4 relative">
+                        <div class="absolute left-6 top-2 bottom-2 w-px bg-slate-800 rounded-full"></div>
+                        
+                        <router-link to="/admin/categories" class="group/sub relative flex items-center py-2.5 text-sm text-slate-400 hover:text-white transition-colors">
+                            <div class="absolute -left-5 w-3 h-px bg-slate-800 group-hover/sub:bg-orange-500 transition-colors"></div>
+                            <span class="group-hover/sub:translate-x-1 transition-transform duration-200">Index (List)</span>
+                        </router-link>
+                        <router-link to="/admin/categories/tambah" class="group/sub relative flex items-center py-2.5 text-sm text-slate-400 hover:text-white transition-colors">
+                            <div class="absolute -left-5 w-3 h-px bg-slate-800 group-hover/sub:bg-orange-500 transition-colors"></div>
+                            <span class="group-hover/sub:translate-x-1 transition-transform duration-200">Tambah Kategori</span>
+                        </router-link>
+                    </div>
+                </Transition>
             </div>
 
-            <div>
-                <button @click="toggleMenu('articles')" class="w-full flex items-center justify-between px-4 py-3 text-white hover:text-orange-600 hover:bg-slate-800 rounded-xl transition-all font-bold">
-                    <div class="flex items-center gap-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class="pt-1">
+                <button @click="toggleMenu('articles')" class="group w-full flex items-center justify-between px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-xl transition-all font-medium border border-transparent hover:border-slate-700/50 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="flex items-center gap-3 relative z-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" :class="['h-5 w-5 transition-colors', openMenus.articles ? 'text-orange-500' : 'text-slate-400 group-hover:text-orange-500']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                         </svg>
-                        Artikel
+                        <span>Artikel</span>
                     </div>
-                    <svg :class="{'rotate-180': openMenus.articles}" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg :class="{'rotate-180 text-orange-500': openMenus.articles, 'text-slate-500': !openMenus.articles}" class="w-4 h-4 transition-all duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
-                <div v-show="openMenus.articles" class="mt-1 space-y-1 pl-12 pr-4 overflow-hidden">
-                    <router-link to="/admin/articles" class="block py-2 text-sm text-white hover:text-orange-600 hover:translate-x-1 transition-all duration-200">Index (List)</router-link>
-                    <router-link to="/admin/articles/create" class="block py-2 text-sm text-white hover:text-orange-600 hover:translate-x-1 transition-all duration-200">Tambah</router-link>
-                    <!-- <router-link to="/admin/articles/edit" class="block py-2 text-sm text-white hover:text-orange-600 hover:translate-x-1 transition-all duration-200">Edit</router-link> --> 
-                </div>
+                <Transition name="slide-fade">
+                    <div v-show="openMenus.articles" class="mt-1 space-y-1 pl-11 pr-4 relative">
+                        <div class="absolute left-6 top-2 bottom-2 w-px bg-slate-800 rounded-full"></div>
+
+                        <router-link to="/admin/articles" class="group/sub relative flex items-center py-2.5 text-sm text-slate-400 hover:text-white transition-colors">
+                            <div class="absolute -left-5 w-3 h-px bg-slate-800 group-hover/sub:bg-orange-500 transition-colors"></div>
+                            <span class="group-hover/sub:translate-x-1 transition-transform duration-200">Index (List)</span>
+                        </router-link>
+                        <router-link to="/admin/articles/create" class="group/sub relative flex items-center py-2.5 text-sm text-slate-400 hover:text-white transition-colors">
+                            <div class="absolute -left-5 w-3 h-px bg-slate-800 group-hover/sub:bg-orange-500 transition-colors"></div>
+                            <span class="group-hover/sub:translate-x-1 transition-transform duration-200">Tambah Artikel</span>
+                        </router-link>
+                    </div>
+                </Transition>
             </div>
 
-            <div>
-                <button @click="toggleMenu('gallery')" class="w-full flex items-center justify-between px-4 py-3 text-white hover:text-orange-600 hover:bg-slate-800 rounded-xl transition-all font-bold">
-                    <div class="flex items-center gap-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class="pt-1 pb-4">
+                <button @click="toggleMenu('gallery')" class="group w-full flex items-center justify-between px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-xl transition-all font-medium border border-transparent hover:border-slate-700/50 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="flex items-center gap-3 relative z-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" :class="['h-5 w-5 transition-colors', openMenus.gallery ? 'text-orange-500' : 'text-slate-400 group-hover:text-orange-500']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        Galeri
+                        <span>Galeri</span>
                     </div>
-                    <svg :class="{'rotate-180': openMenus.gallery}" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg :class="{'rotate-180 text-orange-500': openMenus.gallery, 'text-slate-500': !openMenus.gallery}" class="w-4 h-4 transition-all duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
-                <div v-show="openMenus.gallery" class="mt-1 space-y-1 pl-12 pr-4 overflow-hidden">
-                    <router-link to="/admin/gallery" class="block py-2 text-sm text-white hover:text-orange-600 hover:translate-x-1 transition-all duration-200">Index (List)</router-link>
-                    <router-link to="/admin/gallery/tambah" class="block py-2 text-sm text-white hover:text-orange-600 hover:translate-x-1 transition-all duration-200">Tambah</router-link>
-                    <!--  <router-link to="/admin/gallery/edit" class="block py-2 text-sm text-white hover:text-orange-600 hover:translate-x-1 transition-all duration-200">Edit</router-link> --> 
-                </div>
+                <Transition name="slide-fade">
+                    <div v-show="openMenus.gallery" class="mt-1 space-y-1 pl-11 pr-4 relative">
+                        <div class="absolute left-6 top-2 bottom-2 w-px bg-slate-800 rounded-full"></div>
+
+                        <router-link to="/admin/gallery" class="group/sub relative flex items-center py-2.5 text-sm text-slate-400 hover:text-white transition-colors">
+                            <div class="absolute -left-5 w-3 h-px bg-slate-800 group-hover/sub:bg-orange-500 transition-colors"></div>
+                            <span class="group-hover/sub:translate-x-1 transition-transform duration-200">Index (List)</span>
+                        </router-link>
+                        <router-link to="/admin/gallery/tambah" class="group/sub relative flex items-center py-2.5 text-sm text-slate-400 hover:text-white transition-colors">
+                            <div class="absolute -left-5 w-3 h-px bg-slate-800 group-hover/sub:bg-orange-500 transition-colors"></div>
+                            <span class="group-hover/sub:translate-x-1 transition-transform duration-200">Tambah Galeri</span>
+                        </router-link>
+                    </div>
+                </Transition>
             </div>
-            
-            <button @click="$emit('logout')" class="w-full flex items-center gap-3 px-4 py-3 text-red-400 hover:text-orange-600 hover:bg-red-600/20 rounded-xl transition-all font-bold mt-10">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+        </nav>
+
+        <div class="p-4 border-t border-slate-800/60 bg-slate-900/80 backdrop-blur-md relative z-20">
+            <button @click="$emit('logout')" class="group w-full flex items-center justify-center gap-2.5 px-4 py-3.5 text-red-400 hover:text-white bg-red-500/10 hover:bg-red-500 rounded-xl transition-all duration-300 font-bold border border-red-500/20 hover:border-red-500 hover:shadow-lg hover:shadow-red-500/25">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:-translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
-                Logout
+                <span>Logout Session</span>
             </button>
-        </nav>
+        </div>
     </aside>
 </template>
 
@@ -113,10 +158,10 @@ const openMenus = ref({
 
 // Fungsi untuk membuka / menutup dropdown
 const toggleMenu = (menu) => {
-    // Opsional: Jika Anda ingin menutup menu lain saat satu menu dibuka, aktifkan kode di bawah ini:
-    // Object.keys(openMenus.value).forEach(key => {
-    //     if (key !== menu) openMenus.value[key] = false
-    // })
+    // Opsional (Uncomment jika ingin accordion style: menutup dropdown lain jika satu dibuka)
+    Object.keys(openMenus.value).forEach(key => {
+         if (key !== menu) openMenus.value[key] = false
+    })
 
     openMenus.value[menu] = !openMenus.value[menu]
 }
@@ -133,18 +178,37 @@ button,
     cursor: pointer !important;
 }
 
-/* Custom Scrollbar khusus untuk Sidebar */
+/* Custom Scrollbar yang lebih mulus dan soft */
 .custom-scrollbar::-webkit-scrollbar {
-    width: 4px;
+    width: 5px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
     background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #334155; 
+    background: rgba(51, 65, 85, 0.5); /* slate-700/50 */
     border-radius: 10px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #475569; 
+    background: rgba(71, 85, 105, 0.8); /* slate-600 */
+}
+
+/* Transisi Dropdown Submenu Vue */
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.3s ease-out;
+  max-height: 150px;
+  opacity: 1;
+  overflow: hidden;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 </style>
