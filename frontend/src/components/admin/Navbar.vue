@@ -1,24 +1,43 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router' //
+import Api from '@/api' //
 
 defineProps({
     user: {
         type: Object,
         required: true
     },
-    // Mengubah title menjadi array breadcrumbs
-    // Contoh format: [{ label: 'Dashboard', link: '/admin' }, { label: 'Articles', link: '/admin/articles' }]
     breadcrumbs: {
         type: Array,
         default: () => [{ label: 'Overview', link: null }]
     }
 })
 
-const emit = defineEmits(['toggle-sidebar', 'logout'])
+// Tetap deklarasikan 'logout' di emits untuk menghilangkan Vue Warn, 
+// meskipun kita menangani logikanya langsung di sini.
+const emit = defineEmits(['toggle-sidebar', 'logout']) 
+
+const router = useRouter()
 const isProfileOpen = ref(false)
 
-const handleLogout = () => {
-    emit('logout')
+const handleLogout = async () => {
+    try {
+        // 1. Panggil API Logout ke backend (menggunakan token yang ada di interceptor)
+        await Api.post('/logout') //
+    } catch (error) {
+        console.error('Logout error:', error)
+    } finally {
+        // 2. Hapus data autentikasi dari penyimpanan lokal
+        localStorage.removeItem('token') //
+        localStorage.removeItem('user')
+
+        // 3. Arahkan kembali ke halaman login
+        router.push({ name: 'login' }) //
+        
+        // 4. (Opsional) Beritahu parent jika perlu
+        emit('logout') 
+    }
 }
 </script>
 
@@ -40,7 +59,6 @@ const handleLogout = () => {
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
                     </span>
-                    
                     <span :class="index === breadcrumbs.length - 1 ? 'text-slate-900' : 'text-slate-400 font-medium'" 
                           class="uppercase tracking-tight truncate max-w-[100px] md:max-w-none">
                         {{ item.label }}
@@ -64,9 +82,9 @@ const handleLogout = () => {
                         <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Active Email</p>
                         <p class="text-sm font-bold text-slate-900 truncate">{{ user.email }}</p>
                     </div>
-                    <button @click="handleLogout" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold text-red-500 hover:bg-red-50 text-left cursor-pointer">
+                    <!-- <button @click="handleLogout" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold text-red-500 hover:bg-red-50 text-left cursor-pointer">
                         Sign Out
-                    </button>
+                    </button> -->
                 </div>
             </transition>
         </div>
