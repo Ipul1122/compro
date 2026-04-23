@@ -108,6 +108,17 @@
     "openGallery": "Open Gallery",
     "empty": "No galleries available yet."
   },
+  "clients_section": {
+    "trusted_partners": "Trusted Partners",
+    "collaborating": "Collaborating with the finest institutions.",
+    "client_testimonials": "Client Testimonials",
+    "what_they_say": "What they say about us.",
+    "testimonials": {
+      "budi_message": "Exceptional service. We are highly satisfied with the professional and timely results delivered by the team.",
+      "siti_message": "Greatly helped by the solutions provided. Communication was smooth, and the results exceeded our expectations.",
+      "andi_message": "Undeniable quality of work. Highly recommend this service to other companies looking for a reliable partner."
+    }
+  },
   "services_section": {
     "capabilities": "Capabilities",
     "title": "Our Services",

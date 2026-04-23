@@ -1,4 +1,9 @@
 <script setup>
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
 const partnerLogos = [
     '/img/BKKBN-LOGO.png',
     '/img/BMKG-LOGO.png',
@@ -18,23 +23,24 @@ const partnerLogos = [
     '/img/ULAT-UNGU-LOGO.png'
 ];
 
-const testimonials = [
+// Menggunakan computed agar ketika bahasa diganti (EN -> ID), teks otomatis reaktif berubah
+const testimonials = computed(() => [
     {
         name: 'Budi Santoso',
         company: 'PT Maju Jaya',
-        message: 'Exceptional service. We are highly satisfied with the professional and timely results delivered by the team.'
+        message: t('clients_section.testimonials.budi_message')
     },
     {
         name: 'Siti Aminah',
         company: 'PT Teknologi Inovasi',
-        message: 'Greatly helped by the solutions provided. Communication was smooth, and the results exceeded our expectations.'
+        message: t('clients_section.testimonials.siti_message')
     },
     {
         name: 'Andi Wijaya',
         company: 'PT Bangun Persada',
-        message: 'Undeniable quality of work. Highly recommend this service to other companies looking for a reliable partner.'
+        message: t('clients_section.testimonials.andi_message')
     }
-];
+]);
 </script>
 
 <template>
@@ -42,10 +48,9 @@ const testimonials = [
         <div class="py-16">
             <div class="max-w-5xl mx-auto px-6">
 
-                <!-- CLIENT -->
                 <div class="text-center mb-4">
-                    <h2 class="text-[10px] font-bold text-orange-500 uppercase tracking-[0.3em] mb-2">Trusted Partners</h2>
-                    <p class="text-3xl font-black text-slate-900 tracking-tighter">Collaborating with the finest institutions.</p>
+                    <h2 class="text-[10px] font-bold text-orange-500 uppercase tracking-[0.3em] mb-2">{{ t('clients_section.trusted_partners') }}</h2>
+                    <p class="text-3xl font-black text-slate-900 tracking-tighter">{{ t('clients_section.collaborating') }}</p>
                 </div>
                 <div class="w-9 h-[3px] bg-orange-500 rounded-full mx-auto mb-10"></div>
 
@@ -59,10 +64,9 @@ const testimonials = [
                     </div>
                 </div>
 
-                <!-- TESTIMONIAL -->
                 <div class="text-center mb-4 mt-8">
-                    <h2 class="text-[10px] font-bold text-orange-500 uppercase tracking-[0.3em] mb-2">Client Testimonials</h2>
-                    <p class="text-3xl font-black text-slate-900 tracking-tighter">What they say about us.</p>
+                    <h2 class="text-[10px] font-bold text-orange-500 uppercase tracking-[0.3em] mb-2">{{ t('clients_section.client_testimonials') }}</h2>
+                    <p class="text-3xl font-black text-slate-900 tracking-tighter">{{ t('clients_section.what_they_say') }}</p>
                 </div>
                 <div class="w-9 h-[3px] bg-orange-500 rounded-full mx-auto mb-10"></div>
 

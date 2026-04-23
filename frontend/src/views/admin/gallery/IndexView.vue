@@ -10,13 +10,19 @@ import { getImageUrl, handleImageError } from '@/utils/imageHelper'
 const route = useRoute()
 const router = useRouter()
 
+// --- STATE USER & UI ---
+const user = ref({ name: 'Admin', email: '' })
+const isSidebarOpen = ref(false)
+const isLoading = ref(true)
+const breadcrumbsData = ref([
+    { label: 'Gallery', link: '/admin/gallery' }
+])
+
+// --- STATE DATA ---
 const galleries = ref([])
 const categories = ref([])
-const isLoading = ref(true)
-const isSidebarOpen = ref(false)
 
 // FRONTEND PAGINATION (SINKRON DENGAN URL)
-// Mengambil nilai page dari URL saat pertama kali dimuat, default ke 1
 const currentPage = ref(parseInt(route.query.page) || 1)
 const itemsPerPage = 10
 
@@ -25,6 +31,20 @@ const deleteModal = ref({
     isOpen: false,
     album: null,
     isDeleting: false
+})
+
+onMounted(() => {
+    // Ambil data user dari localStorage agar prop 'user' pada Navbar terpenuhi
+    const savedUser = localStorage.getItem('user')
+    if (savedUser) {
+        user.value = JSON.parse(savedUser)
+    } else {
+        // Jika tidak ada user, tendang ke login
+        router.push({ name: 'login' })
+    }
+
+    fetchCategories()
+    fetchGalleries()
 })
 
 const fetchCategories = async () => {
@@ -75,34 +95,30 @@ const groupedGalleries = computed(() => {
     return Object.values(groups)
 })
 
-// 2. HITUNG TOTAL HALAMAN BERDASARKAN JUMLAH WADAH
+// 2. HITUNG TOTAL HALAMAN
 const totalPages = computed(() => {
     return Math.ceil(groupedGalleries.value.length / itemsPerPage) || 1
 })
 
-// 3. POTONG ARRAY WADAH UNTUK DITAMPILKAN DI HALAMAN SAAT INI
+// 3. POTONG ARRAY UNTUK PAGINATION
 const paginatedAlbums = computed(() => {
     const start = (currentPage.value - 1) * itemsPerPage
     const end = start + itemsPerPage
     return groupedGalleries.value.slice(start, end)
 })
 
-// 4. FUNGSI GANTI HALAMAN YANG MENGUBAH URL BROWSER (?page=x)
 const changePage = (page) => {
     if (page >= 1 && page <= totalPages.value) {
-        // Mengupdate URL. Ini akan memicu watcher di bawah.
         router.push({ query: { ...route.query, page: page } })
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 }
 
-// 5. PANTAU PERUBAHAN URL (Untuk fitur tombol Back/Forward di browser)
 watch(() => route.query.page, (newPage) => {
-    // Jika URL berubah (misal user klik Back), perbarui data yang tampil
     currentPage.value = parseInt(newPage) || 1
 })
 
-// MODAL HAPUS
+// MODAL HAPUS LOGIC
 const openDeleteModal = (album) => {
     deleteModal.value = { isOpen: true, album: album, isDeleting: false }
 }
@@ -120,12 +136,9 @@ const confirmDelete = async () => {
     try {
         await Api.post('/admin/galleries/bulk-delete', { ids: deleteModal.value.album.ids })
         await fetchGalleries()
-        
-        // Cek jika halaman ini kosong setelah dihapus, mundur 1 halaman
         if (paginatedAlbums.value.length === 1 && currentPage.value > 1) {
             changePage(currentPage.value - 1)
         }
-        
         closeDeleteModal()
     } catch (error) {
         alert('Gagal menghapus wadah galeri')
@@ -133,18 +146,27 @@ const confirmDelete = async () => {
     }
 }
 
-onMounted(() => {
-    fetchCategories()
-    fetchGalleries()
-})
+// Fungsi Logout (dipanggil via event dari Navbar)
+const handleLogout = () => {
+    localStorage.removeItem('user')
+    localStorage.removeItem('token')
+    router.push({ name: 'login' })
+}
 </script>
 
 <template>
     <div class="flex min-h-screen bg-slate-50">
         <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-slate-900/50 z-40 lg:hidden backdrop-blur-sm"></div>
-        <Sidebar v-model:is-open="isSidebarOpen" />
+        
+        <Sidebar v-model:is-open="isSidebarOpen" @logout="handleLogout" />
+
         <div class="flex-1 relative max-w-full overflow-hidden">
-            <Navbar @toggle-sidebar="isSidebarOpen = !isSidebarOpen" />
+            <Navbar 
+                :user="user" 
+                :breadcrumbs="breadcrumbsData"
+                @toggle-sidebar="isSidebarOpen = !isSidebarOpen" 
+                @logout="handleLogout"
+            />
             
             <main class="p-4 sm:p-6 w-full">
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
@@ -161,7 +183,7 @@ onMounted(() => {
                 </div>
 
                 <div class="bg-white rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm flex flex-col relative w-full overflow-hidden">
-                    <div class="overflow-x-auto w-full flex-grow min-h-[300px] sm:min-h-[400px]">
+                    <div class="overflow-x-auto w-full flex-grow min-h-[300px]">
                         <table class="w-full text-left border-collapse min-w-[600px]">
                             <thead>
                                 <tr class="bg-slate-50 text-slate-500 text-xs uppercase font-black tracking-wider">
@@ -176,52 +198,40 @@ onMounted(() => {
                             <tbody class="divide-y divide-slate-100">
                                 <template v-if="isLoading">
                                     <tr v-for="n in 5" :key="n" class="animate-pulse">
-                                        <td class="px-4 sm:px-6 py-4"><div class="w-20 sm:w-24 h-14 sm:h-16 bg-slate-200/70 rounded-lg"></div></td>
-                                        <td class="px-4 sm:px-6 py-4">
-                                            <div class="h-5 w-32 sm:w-48 bg-slate-200/70 rounded mb-2"></div>
-                                            <div class="h-3 w-20 sm:w-24 bg-slate-100 rounded"></div>
-                                        </td>
-                                        <td class="px-4 sm:px-6 py-4"><div class="h-6 w-20 sm:w-24 bg-slate-200/70 rounded-full"></div></td>
-                                        <td class="px-4 sm:px-6 py-4"><div class="h-5 w-16 bg-slate-200/70 rounded"></div></td>
-                                        <td class="px-4 sm:px-6 py-4 text-right">
-                                            <div class="flex justify-end gap-2">
-                                                <div class="h-9 w-24 sm:w-28 bg-slate-200/70 rounded-lg"></div>
-                                                <div class="h-9 w-9 bg-slate-200/70 rounded-lg"></div>
-                                            </div>
-                                        </td>
+                                        <td colspan="5" class="px-4 py-4"><div class="h-16 bg-slate-100 rounded-xl w-full"></div></td>
                                     </tr>
                                 </template>
 
                                 <template v-else-if="paginatedAlbums.length > 0">
                                     <tr v-for="album in paginatedAlbums" :key="album.id" class="hover:bg-slate-50 transition-colors group">
-                                        <td class="px-4 sm:px-6 py-4 align-middle">
-                                            <div class="relative w-20 h-14 sm:w-24 sm:h-16 rounded-lg overflow-hidden shadow-sm border border-slate-200 flex-shrink-0">
+                                        <td class="px-4 sm:px-6 py-4">
+                                            <div class="relative w-20 h-14 sm:w-24 sm:h-16 rounded-lg overflow-hidden shadow-sm border border-slate-200">
                                                 <img :src="getImageUrl(album.cover)" @error="handleImageError" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                                                 <div v-if="album.total_images > 1" class="absolute inset-0 bg-black/40 flex items-center justify-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-white opacity-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                     </svg>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="px-4 sm:px-6 py-4 align-middle">
-                                            <div class="font-bold text-slate-700 text-sm sm:text-base line-clamp-2 max-w-[150px] sm:max-w-xs" :title="album.title">{{ album.title }}</div>
+                                        <td class="px-4 sm:px-6 py-4">
+                                            <div class="font-bold text-slate-700 text-sm sm:text-base">{{ album.title }}</div>
                                         </td>
-                                        <td class="px-4 sm:px-6 py-4 align-middle">
-                                            <span class="bg-blue-50 text-blue-600 border border-blue-100 px-2 sm:px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider whitespace-nowrap">
+                                        <td class="px-4 sm:px-6 py-4">
+                                            <span class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">
                                                 {{ album.category?.name || 'Uncategorized' }}
                                             </span>
                                         </td>
-                                        <td class="px-4 sm:px-6 py-4 align-middle whitespace-nowrap">
-                                            <span class="font-bold text-slate-700 text-sm sm:text-base">{{ album.total_images }} <span class="text-slate-400 font-medium">Foto</span></span>
+                                        <td class="px-4 sm:px-6 py-4">
+                                            <span class="font-bold text-slate-700 text-sm">{{ album.total_images }} <span class="text-slate-400 font-medium">Foto</span></span>
                                         </td>
-                                        <td class="px-4 sm:px-6 py-4 text-right align-middle">
-                                            <div class="flex justify-end items-center gap-1 sm:gap-2">
-                                                <router-link :to="`/admin/gallery/edit/${album.id}`" class="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold bg-slate-100 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all whitespace-nowrap">
-                                                    Buka Wadah
+                                        <td class="px-4 sm:px-6 py-4 text-right">
+                                            <div class="flex justify-end items-center gap-2">
+                                                <router-link :to="`/admin/gallery/edit/${album.id}`" class="px-4 py-2 text-xs font-bold bg-slate-100 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
+                                                    Buka
                                                 </router-link>
-                                                <button @click="openDeleteModal(album)" class="p-1.5 sm:p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all" title="Hapus Album">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <button @click="openDeleteModal(album)" class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                     </svg>
                                                 </button>
@@ -229,61 +239,8 @@ onMounted(() => {
                                         </td>
                                     </tr>
                                 </template>
-
-                                <template v-else>
-                                    <tr>
-                                        <td colspan="5" class="px-4 sm:px-6 py-16 sm:py-20 text-center">
-                                            <div class="mx-auto bg-slate-50 w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mb-4">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 sm:h-10 sm:w-10 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                                </svg>
-                                            </div>
-                                            <h3 class="text-slate-700 font-bold text-base sm:text-lg mb-1">Belum Ada Galeri</h3>
-                                            <p class="text-slate-400 text-sm sm:text-base font-medium mb-4">Mulai dengan mengupload momen pertama Anda.</p>
-                                            <router-link to="/admin/gallery/tambah" class="text-blue-600 font-bold text-sm sm:text-base hover:underline">
-                                                Upload Foto Sekarang
-                                            </router-link>
-                                        </td>
-                                    </tr>
-                                </template>
-
                             </tbody>
                         </table>
-                    </div>
-                    
-                    <div v-if="totalPages > 1 && !isLoading" class="px-4 sm:px-6 py-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-50/50 w-full">
-                        <span class="text-xs sm:text-sm text-slate-500 font-medium">Halaman <span class="font-bold text-slate-700">{{ currentPage }}</span> dari <span class="font-bold text-slate-700">{{ totalPages }}</span></span>
-                        <div class="flex gap-2 w-full sm:w-auto justify-between sm:justify-end">
-                            <button 
-                                @click="changePage(currentPage - 1)" 
-                                :disabled="currentPage === 1" 
-                                class="px-3 sm:px-4 py-2 rounded-lg font-bold text-xs sm:text-sm bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm flex-1 sm:flex-none text-center"
-                            >
-                                Sebelumnya
-                            </button>
-                            
-                            <div class="hidden sm:flex gap-1">
-                                <button 
-                                    v-for="page in totalPages" 
-                                    :key="page"
-                                    @click="changePage(page)"
-                                    :class="[
-                                        'px-3.5 py-2 rounded-lg font-bold text-sm transition-all shadow-sm border',
-                                        currentPage === page ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
-                                    ]"
-                                >
-                                    {{ page }}
-                                </button>
-                            </div>
-
-                            <button 
-                                @click="changePage(currentPage + 1)" 
-                                :disabled="currentPage === totalPages" 
-                                class="px-3 sm:px-4 py-2 rounded-lg font-bold text-xs sm:text-sm bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm flex-1 sm:flex-none text-center"
-                            >
-                                Selanjutnya
-                            </button>
-                        </div>
                     </div>
                 </div>
             </main>
@@ -291,48 +248,16 @@ onMounted(() => {
 
         <div v-if="deleteModal.isOpen" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
             <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" @click="closeDeleteModal"></div>
-            
-            <div class="relative bg-white rounded-2xl sm:rounded-3xl w-full max-w-[90%] sm:max-w-sm p-5 sm:p-6 shadow-2xl animate-popIn">
-                <div class="w-14 h-14 sm:w-16 sm:h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
-                </div>
-                
-                <h2 class="text-lg sm:text-xl font-bold text-center text-slate-800 mb-2">Hapus Album?</h2>
-                <p class="text-center text-slate-500 text-xs sm:text-sm mb-6 leading-relaxed">
-                    Anda akan menghapus wadah <br class="hidden sm:block" /> <span class="font-black text-slate-700">"{{ deleteModal.album?.title }}"</span> yang berisi <span class="font-black text-red-500">{{ deleteModal.album?.total_images }} foto</span>.<br>Tindakan ini permanen.
-                </p>
-                
-                <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
-                    <button @click="closeDeleteModal" :disabled="deleteModal.isDeleting" class="w-full sm:flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-2.5 sm:py-3 rounded-xl transition-colors disabled:opacity-50 text-sm sm:text-base order-2 sm:order-1">
-                        Batal
-                    </button>
-                    <button @click="confirmDelete" :disabled="deleteModal.isDeleting" class="w-full sm:flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-2.5 sm:py-3 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm shadow-red-500/30 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base order-1 sm:order-2">
-                        <span v-if="deleteModal.isDeleting" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+            <div class="relative bg-white rounded-3xl w-full max-w-sm p-6 shadow-2xl">
+                <h2 class="text-xl font-bold text-slate-800 mb-2">Hapus Album?</h2>
+                <p class="text-slate-500 text-sm mb-6">Mengahapus "{{ deleteModal.album?.title }}" akan menghapus {{ deleteModal.album?.total_images }} foto secara permanen.</p>
+                <div class="flex gap-3">
+                    <button @click="closeDeleteModal" class="flex-1 bg-slate-100 py-3 rounded-xl font-bold text-slate-600">Batal</button>
+                    <button @click="confirmDelete" :disabled="deleteModal.isDeleting" class="flex-1 bg-red-500 py-3 rounded-xl font-bold text-white shadow-lg shadow-red-500/30">
                         {{ deleteModal.isDeleting ? 'Loading...' : 'Ya, Hapus' }}
                     </button>
                 </div>
             </div>
         </div>
-
     </div>
 </template>
-
-<style scoped>
-.animate-popIn {
-    animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes popIn {
-    0% { opacity: 0; transform: scale(0.9) translateY(10px); }
-    100% { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-.animate-spin {
-    animation: spin 1s linear infinite;
-}
-</style>

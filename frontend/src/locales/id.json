@@ -107,6 +107,17 @@
     "openGallery": "Buka Galeri",
     "empty": "Belum ada galeri yang tersedia."
   },
+  "clients_section": {
+    "trusted_partners": "Mitra Terpercaya",
+    "collaborating": "Berkolaborasi dengan institusi terbaik.",
+    "client_testimonials": "Testimoni Klien",
+    "what_they_say": "Apa yang mereka katakan tentang kami.",
+    "testimonials": {
+      "budi_message": "Pelayanan yang luar biasa. Kami sangat puas dengan hasil profesional dan tepat waktu yang diberikan oleh tim.",
+      "siti_message": "Sangat terbantu dengan solusi yang diberikan. Komunikasi berjalan lancar dan hasil melebihi ekspektasi kami.",
+      "andi_message": "Kualitas kerja yang tidak diragukan. Sangat merekomendasikan layanan ini untuk perusahaan lain yang mencari mitra andal."
+    }
+  },
   "services_section": {
     "capabilities": "Kemampuan",
     "title": "Layanan Kami",
