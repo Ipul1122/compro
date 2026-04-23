@@ -207,28 +207,46 @@ const getCategoryName = (name) => {
                     :style="`animation-delay: ${index * 60}ms`"
                 >
                     <!-- Image -->
-                    <div class="card-img-wrap">
-                        <img
-                            :src="getImageUrl(article.image)"
-                            :alt="article.title"
-                            :title="article.title"
-                            @error="handleImageError"
-                            class="card-img"
-                        />
-                        <div class="card-img-overlay"></div>
-                        <span class="card-category-badge">
-                            {{ getCategoryName(article.category?.name) }}
-                        </span>
-                        <div class="card-views-badge">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="eye-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                            {{ article.total_view || 0 }}
+                    <router-link :to="`/articles/${article.slug}`" class="article-link">
+                        <div class="card-img-wrap">
+                            <img
+                                :src="getImageUrl(article.image)"
+                                :alt="article.title"
+                                :title="article.title"
+                                @error="handleImageError"
+                                class="card-img"
+                            />
+                            <div class="card-img-overlay"></div>
+                            <span class="card-category-badge">
+                                {{ getCategoryName(article.category?.name) }}
+                            </span>
+                            <div class="card-views-badge">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="eye-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                                {{ article.total_view || 0 }}
+                            </div>
                         </div>
-                    </div>
 
-                    <!--  -->
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <span class="card-date">{{ formatDate(article.created_at) }}</span>
+                            <h2 class="card-title">
+                                {{ locale === 'en' && article.title_en ? article.title_en : article.title }}
+                            </h2>
+                            <div class="card-footer">
+                                <span class="read-more-link">
+                                    {{ $t('articles_index.read_more') || 'Read More' }}
+                                    <span class="link-arrow">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                        </svg>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </router-link>
                 </article>
             </div>
 
@@ -559,6 +577,14 @@ const getCategoryName = (name) => {
     transform: translateY(-6px);
     border-color: rgba(249,115,22,0.35);
     box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(249,115,22,0.15);
+}
+
+.article-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
 }
 @keyframes cardReveal {
     from { opacity: 0; transform: translateY(20px); }

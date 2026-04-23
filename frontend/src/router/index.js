@@ -19,6 +19,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
+    alias: ['/home', '/beranda'],
     component: () => import('../views/HomeView.vue'),
     meta: { title: 'PT Cakrawala Parama Internasional - Home' }
   },
@@ -30,18 +31,21 @@ const routes = [
   {
     path: '/about',
     name: 'about',
+    alias: ['/tentang-kami', '/tentang-kami'],
     component: () => import('../views/pages/AboutView.vue'), 
     meta: { title: 'Tentang Kami - PT Cakrawala Parama Internasional' }
   },
   {
     path: '/project',
     name: 'project',
+    alias: ['/proyek', '/proyek-kami'],
     component: () => import('../views/pages/ProjectView.vue'), 
     meta: { title: 'Proyek Kami - PT Cakrawala Parama Internasional' }
   },
   {
     path: '/service',
     name: 'service',
+    alias: ['/layanan', '/layanan-kami'],
     component: () => import('../views/pages/ServiceView.vue'), 
     meta: { title: 'Layanan Kami - PT Cakrawala Parama Internasional' }
   },
@@ -55,6 +59,7 @@ const routes = [
   {
     path: '/articles',
     name: 'articles',
+    alias: ['/artikel', '/artikel-terkini'],
     component: () => import('../views/articles/IndexView.vue'),
     meta: { title: 'Berita & Artikel Terkini' }
   },
@@ -67,6 +72,7 @@ const routes = [
   {
     path: '/galerry',
     name: 'galerry',
+    alias: ['/galeri', '/galeri-kegiatan'],
     component: () => import('../views/galerry/IndexView.vue'),
     meta: { title: 'Galeri Kegiatan' }
   },
@@ -74,6 +80,7 @@ const routes = [
   {
     path: '/contact',
     name: 'contact',
+    alias: ['/hubungi-kami', '/kontak'],
     component: () => import('../views/pages/ContactView.vue'),
     meta: { title: 'Hubungi Kami - PT Cakrawala Parama Internasional' }
   },
