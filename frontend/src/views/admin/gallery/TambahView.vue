@@ -7,9 +7,16 @@ import Navbar from '@/components/admin/Navbar.vue'
 
 const router = useRouter()
 const isSidebarOpen = ref(false)
+const user = ref({ name: 'Admin', email: '' })
 const categories = ref([])
 const isLoading = ref(false) // State untuk efek loading saat submit
 const errors = ref({})
+
+const breadcrumbsData = ref([
+    { label: 'Dashboard', link: '/admin/dashboard' },
+    { label: 'Manage Gallery', link: '/admin/gallery' },
+    { label: 'Upload Foto', link: null }
+])
 
 const isTranslatingTitle = ref(false)
 let translateTitleTimeout = null
@@ -181,7 +188,15 @@ const confirmSubmit = async () => {
     }
 }
 
-onMounted(fetchCategories)
+onMounted(() => {
+    const savedUser = localStorage.getItem('user')
+    if (savedUser) {
+        user.value = JSON.parse(savedUser)
+    } else {
+        router.push('/view/login')
+    }
+    fetchCategories()
+})
 </script>
 
 <template>
@@ -189,7 +204,7 @@ onMounted(fetchCategories)
         <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-slate-900/50 z-40 lg:hidden backdrop-blur-sm"></div>
         <Sidebar v-model:is-open="isSidebarOpen" />
         <div class="flex-1 relative">
-            <Navbar @toggle-sidebar="isSidebarOpen = !isSidebarOpen" />
+            <Navbar :user="user" :breadcrumbs="breadcrumbsData" @toggle-sidebar="isSidebarOpen = !isSidebarOpen" />
             <main class="p-6">
                 <div class="max-w-4xl mx-auto">
                     <div class="mb-6">

@@ -215,8 +215,12 @@ let translateContentTimeout = null;
 const editorId = useEditor({
   content: '',
   extensions: [
-    StarterKit,
-    Link.configure({ openOnClick: false, HTMLAttributes: { class: 'text-blue-600 underline' } }),
+    StarterKit.configure({
+      link: {
+        openOnClick: false,
+        HTMLAttributes: { class: 'text-blue-600 underline' }
+      }
+    })
   ],
   // FIX: Dihapus event onUpdate agar ketikan ID tidak menimpa otomatis ketikan EN
 });
@@ -224,8 +228,12 @@ const editorId = useEditor({
 const editorEn = useEditor({
   content: '',
   extensions: [
-    StarterKit,
-    Link.configure({ openOnClick: false, HTMLAttributes: { class: 'text-blue-600 underline' } }),
+    StarterKit.configure({
+      link: {
+        openOnClick: false,
+        HTMLAttributes: { class: 'text-blue-600 underline' }
+      }
+    })
   ],
   editable: true, 
 });

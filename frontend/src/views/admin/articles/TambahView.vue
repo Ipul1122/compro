@@ -234,8 +234,12 @@ const clearDraftAndBack = () => {
 const editorId = useEditor({
   content: '',
   extensions: [
-    StarterKit,
-    Link.configure({ openOnClick: false, HTMLAttributes: { class: 'text-blue-600 underline' } }),
+    StarterKit.configure({
+      link: {
+        openOnClick: false,
+        HTMLAttributes: { class: 'text-blue-600 underline' }
+      }
+    })
   ],
   onUpdate: ({ editor }) => {
     autoTranslateContent(editor.getHTML());
@@ -246,8 +250,12 @@ const editorId = useEditor({
 const editorEn = useEditor({
   content: '',
   extensions: [
-    StarterKit,
-    Link.configure({ openOnClick: false, HTMLAttributes: { class: 'text-blue-600 underline' } }),
+    StarterKit.configure({
+      link: {
+        openOnClick: false,
+        HTMLAttributes: { class: 'text-blue-600 underline' }
+      }
+    })
   ],
   editable: true, 
   onUpdate: () => {
