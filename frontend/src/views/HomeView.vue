@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { getImageUrl, handleImageError } from '@/utils/imageHelper' // Import helper gambar
+import Navbar from '@/components/Navbar.vue'
 import HomeSection from './section/HomeSection.vue'
 import AboutSection from './section/AboutSection.vue'
 import ProjectsSection from './section/ProjectsSection.vue';
