@@ -6,6 +6,7 @@ import Sidebar from '@/components/admin/Sidebar.vue'
 import Navbar from '@/components/admin/Navbar.vue'
 
 const router = useRouter()
+const isSidebarOpen = ref(false)
 const categories = ref([])
 const isLoading = ref(false) // State untuk efek loading saat submit
 const errors = ref({})
@@ -184,10 +185,11 @@ onMounted(fetchCategories)
 </script>
 
 <template>
-    <div class="flex min-h-screen bg-slate-50">
-        <Sidebar />
+    <div class="flex min-h-screen bg-slate-50 relative overflow-x-hidden">
+        <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-slate-900/50 z-40 lg:hidden backdrop-blur-sm"></div>
+        <Sidebar v-model:is-open="isSidebarOpen" />
         <div class="flex-1 relative">
-            <Navbar />
+            <Navbar @toggle-sidebar="isSidebarOpen = !isSidebarOpen" />
             <main class="p-6">
                 <div class="max-w-4xl mx-auto">
                     <div class="mb-6">

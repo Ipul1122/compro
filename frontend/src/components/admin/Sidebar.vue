@@ -56,7 +56,7 @@
                 </button>
                 <div v-show="openMenus.articles" class="mt-1 space-y-1 pl-12 pr-4 overflow-hidden">
                     <router-link to="/admin/articles" class="block py-2 text-sm text-white hover:text-orange-600 hover:translate-x-1 transition-all duration-200">Index (List)</router-link>
-                    <router-link to="/admin/articles/tambah" class="block py-2 text-sm text-white hover:text-orange-600 hover:translate-x-1 transition-all duration-200">Tambah</router-link>
+                    <router-link to="/admin/articles/create" class="block py-2 text-sm text-white hover:text-orange-600 hover:translate-x-1 transition-all duration-200">Tambah</router-link>
                     <!-- <router-link to="/admin/articles/edit" class="block py-2 text-sm text-white hover:text-orange-600 hover:translate-x-1 transition-all duration-200">Edit</router-link> --> 
                 </div>
             </div>
