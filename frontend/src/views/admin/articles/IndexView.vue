@@ -183,8 +183,8 @@ const confirmDelete = async (id) => {
 
 <template>
     <div class="flex min-h-screen bg-slate-50 relative overflow-x-hidden">
-        <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-slate-900/50 z-[60] lg:hidden backdrop-blur-sm cursor-pointer"></div>
-        <div v-if="isCategoryDropdownOpen" @click="isCategoryDropdownOpen = false" class="fixed inset-0 z-[110] bg-transparent cursor-default"></div>
+        <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-slate-900/50 z-40 lg:hidden backdrop-blur-sm"></div>
+        <div v-if="isCategoryDropdownOpen" @click="isCategoryDropdownOpen = false" class="fixed inset-0 z-[90] bg-transparent"></div>
 
         <Sidebar 
             v-model:is-open="isSidebarOpen" 

@@ -13,6 +13,7 @@ const router = useRouter()
 const galleries = ref([])
 const categories = ref([])
 const isLoading = ref(true)
+const isSidebarOpen = ref(false)
 
 // FRONTEND PAGINATION (SINKRON DENGAN URL)
 // Mengambil nilai page dari URL saat pertama kali dimuat, default ke 1
@@ -140,9 +141,10 @@ onMounted(() => {
 
 <template>
     <div class="flex min-h-screen bg-slate-50">
-        <Sidebar />
+        <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-slate-900/50 z-40 lg:hidden backdrop-blur-sm"></div>
+        <Sidebar v-model:is-open="isSidebarOpen" />
         <div class="flex-1 relative">
-            <Navbar />
+            <Navbar @toggle-sidebar="isSidebarOpen = !isSidebarOpen" />
             <main class="p-6">
                 <div class="flex justify-between items-center mb-6">
                     <div>
