@@ -71,6 +71,13 @@ const routes = [
     meta: { title: 'Galeri Kegiatan' }
   },
 
+  {
+    path: '/contact',
+    name: 'contact',
+    component: () => import('../views/pages/ContactView.vue'),
+    meta: { title: 'Hubungi Kami - PT Cakrawala Parama Internasional' }
+  },
+
   // --------------------------
   // ADMIN ROUTES
   // --------------------------
