@@ -7,15 +7,38 @@ const isMenuOpen = ref(false)
 const router = useRouter()
 const route = useRoute()
 
-// Tambahkan pemanggilan `t` dari useI18n
 const { t, locale } = useI18n()
 const isIndonesian = computed(() => locale.value === 'id')
 
+// 1. Buat mapping URL untuk EN dan ID
+const routePaths = {
+    home: { en: '/home', id: '/beranda' },
+    about: { en: '/about', id: '/tentang-kami' },
+    project: { en: '/project', id: '/proyek' },
+    articles: { en: '/articles', id: '/artikel' },
+    gallery: { en: '/galerry', id: '/galeri' },
+    service: { en: '/service', id: '/layanan' },
+    contact: { en: '/contact', id: '/kontak' },
+}
+
 const handleLanguageToggle = () => {
-    if (locale.value === 'id') {
-        locale.value = 'en'
-    } else {
-        locale.value = 'id'
+    // Tentukan target bahasa
+    const targetLocale = locale.value === 'id' ? 'en' : 'id'
+    locale.value = targetLocale
+
+    // 2. Cek halaman saat ini untuk mengubah URL di Address Bar
+    let currentKey = null
+    for (const [key, paths] of Object.entries(routePaths)) {
+        // Jika path saat ini cocok dengan EN/ID, atau jika sedang di root '/'
+        if (paths.en === route.path || paths.id === route.path || (key === 'home' && route.path === '/')) {
+            currentKey = key
+            break
+        }
+    }
+
+    // 3. Jika ketemu halamannya, ganti URL (tanpa me-reload page)
+    if (currentKey) {
+        router.replace(routePaths[currentKey][targetLocale])
     }
 }
 </script>
@@ -33,38 +56,38 @@ const handleLanguageToggle = () => {
                     <div class="flex items-center justify-between h-16">
 
                         <div class="flex-shrink-0 flex items-center">
-                            <a href="#home" class="hover:opacity-80 transition-opacity">
+                            <router-link :to="routePaths.home[locale]" class="hover:opacity-80 transition-opacity">
                                 <img src="/src/img/webcakrawala-logo.png" alt="Logo" class="h-13 w-auto" />
-                            </a>
+                            </router-link>
                         </div>
 
                         <div class="hidden md:flex items-center gap-1">
-                            <a href="/#home"
+                            <router-link :to="routePaths.home[locale]"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
                                 {{ t('nav.home') }}
-                            </a>
-
-                            <router-link to="/about"
+                            </router-link>
+                            
+                            <router-link :to="routePaths.about[locale]"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
                                 {{ t('nav.about') }}
                             </router-link>
 
-                            <router-link to="/project"
+                            <router-link :to="routePaths.project[locale]"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
                                 {{ t('nav.projects') }}
                             </router-link>
 
-                            <router-link to="/articles"
+                            <router-link :to="routePaths.articles[locale]"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
                                 {{ t('nav.articles') }}
                             </router-link>
 
-                            <router-link to="/galerry"
+                            <router-link :to="routePaths.gallery[locale]"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
                                 {{ t('nav.gallery') }}
                             </router-link>
 
-                            <router-link to="/service"
+                            <router-link :to="routePaths.service[locale]"
                                 class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
                                 {{ t('nav.services') }}
                             </router-link>
@@ -79,7 +102,7 @@ const handleLanguageToggle = () => {
                                 <span class="text-xs font-black">{{ isIndonesian ? 'EN' : 'ID' }}</span>
                             </button>
 
-                            <router-link to="/contact"
+                            <router-link :to="routePaths.contact[locale]"
                                 class="ml-4 bg-slate-900 text-white hover:bg-brand px-6 py-2.5 rounded-xl text-sm font-black shadow-lg hover:shadow-brand/30 transition-all active:scale-95 flex items-center gap-2">
                                 {{ t('nav.contact') }} <span class="text-xs opacity-50">→</span>
                             </router-link>
