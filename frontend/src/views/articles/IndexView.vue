@@ -228,25 +228,7 @@ const getCategoryName = (name) => {
                         </div>
                     </div>
 
-                    <!-- Content -->
-                    <div class="card-body">
-                        <time class="card-date">{{ formatDate(article.created_at) }}</time>
-
-                        <h3 class="card-title">
-                            {{ locale === 'en' && article.title_en ? article.title_en : article.title }}
-                        </h3>
-
-                        <div class="card-footer">
-                            <router-link :to="`/articles/${article.slug}`" class="read-more-link">
-                                <span>{{ $t('articles_index.read_more') }}</span>
-                                <span class="link-arrow">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                    </svg>
-                                </span>
-                            </router-link>
-                        </div>
-                    </div>
+                    <!--  -->
                 </article>
             </div>
 
@@ -291,9 +273,9 @@ const getCategoryName = (name) => {
 
         </main>
 
-        <div class="relative z-10 w-full">
+        <!-- <div class="relative z-10 w-full">
             <Footer />
-        </div>
+        </div> -->
     </div>
 </template>
 
