@@ -177,9 +177,9 @@ const router = createRouter({
 })
 
 // Dinamis mengganti judul Tab Browser untuk SEO
-router.beforeEach((to, from, next) => {
+router.beforeEach((to) => {
   document.title = to.meta.title || 'PT Cakrawala Parama Internasional'
-  next()
+  return true
 })
 
 export default router

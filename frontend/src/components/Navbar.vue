@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
@@ -21,9 +21,13 @@ const routePaths = {
     contact: { en: '/contact', id: '/kontak' },
 }
 
-const handleLanguageToggle = () => {
+const handleLanguageToggle = async () => {
     // Tentukan target bahasa
     const targetLocale = locale.value === 'id' ? 'en' : 'id'
+    
+    // Simpan posisi scroll vertikal saat ini sebelum memicu router
+    const currentScrollPosition = window.scrollY
+
     locale.value = targetLocale
 
     // 2. Cek halaman saat ini untuk mengubah URL di Address Bar
@@ -38,7 +42,15 @@ const handleLanguageToggle = () => {
 
     // 3. Jika ketemu halamannya, ganti URL (tanpa me-reload page)
     if (currentKey) {
-        router.replace(routePaths[currentKey][targetLocale])
+        // Gunakan await agar kita menunggu navigasi router selesai
+        await router.replace(routePaths[currentKey][targetLocale])
+        
+        // Pastikan DOM sudah update lalu kembalikan posisi scroll secara instan
+        await nextTick()
+        window.scrollTo({
+            top: currentScrollPosition,
+            behavior: 'instant' // 'instant' mencegah transisi scroll/smooth jumping
+        })
     }
 }
 </script>
@@ -97,7 +109,7 @@ const handleLanguageToggle = () => {
                                 {{ t('nav.clients') }}
                             </a>
                             
-                            <button @click="handleLanguageToggle"
+                            <button @click.prevent="handleLanguageToggle"
                                 class="ml-2 flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-brand hover:text-brand transition-all active:scale-95">
                                 <span class="text-xs font-black">{{ isIndonesian ? 'EN' : 'ID' }}</span>
                             </button>
@@ -165,7 +177,7 @@ const handleLanguageToggle = () => {
                     <div class="pt-3 mt-3 border-t border-slate-100 space-y-2">
                         <div class="flex items-center justify-between px-4 py-2">
                             <span class="text-xs font-bold text-slate-500 uppercase">{{ t('nav.switch_language') }}</span>
-                            <button @click="handleLanguageToggle"
+                            <button @click.prevent="handleLanguageToggle"
                                 class="flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-brand hover:text-brand transition-all active:scale-95">
                                 <span class="text-xs font-black">{{ isIndonesian ? 'EN' : 'ID' }}</span>
                             </button>
