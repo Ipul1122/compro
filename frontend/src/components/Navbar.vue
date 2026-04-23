@@ -127,37 +127,37 @@ const handleLanguageToggle = () => {
 
                 <div v-show="isMenuOpen"
                     class="md:hidden border-t border-slate-100 p-4 space-y-1 bg-white rounded-b-2xl">
-                    <a href="#home" @click="isMenuOpen = false"
+                    <router-link :to="routePaths.home[locale]" @click="isMenuOpen = false"
                         class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
                         {{ t('nav.home') }}
-                    </a>
+                    </router-link>
 
-                    <router-link to="/about" @click="isMenuOpen = false"
+                    <router-link :to="routePaths.about[locale]" @click="isMenuOpen = false"
                         class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
                         {{ t('nav.about') }}
                     </router-link>
 
-                    <router-link to="/project" @click="isMenuOpen = false"
+                    <router-link :to="routePaths.project[locale]" @click="isMenuOpen = false"
                         class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
                         {{ t('nav.projects') }}
                     </router-link>
 
-                    <router-link to="/articles" @click="isMenuOpen = false"
+                    <router-link :to="routePaths.articles[locale]" @click="isMenuOpen = false"
                         class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
                         {{ t('nav.articles') }}
                     </router-link>
 
-                    <router-link to="/galerry" @click="isMenuOpen = false"
+                    <router-link :to="routePaths.gallery[locale]" @click="isMenuOpen = false"
                         class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
                         {{ t('nav.gallery') }}
                     </router-link>
 
-                    <router-link to="/service" @click="isMenuOpen = false"
+                    <router-link :to="routePaths.service[locale]" @click="isMenuOpen = false"
                         class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
                         {{ t('nav.services') }}
                     </router-link>
 
-                    <a href="#clients" @click="isMenuOpen = false"
+                    <a href="/#clients" @click="isMenuOpen = false"
                         class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
                         {{ t('nav.clients') }}
                     </a>
@@ -171,10 +171,10 @@ const handleLanguageToggle = () => {
                             </button>
                         </div>
 
-                        <a href="#contact" @click="isMenuOpen = false"
+                        <router-link :to="routePaths.contact[locale]" @click="isMenuOpen = false"
                             class="block px-4 py-2.5 bg-slate-900 text-white hover:bg-brand rounded-xl text-sm font-black text-center shadow-lg hover:shadow-brand/30 transition-all active:scale-95">
                             {{ t('nav.contact') }} <span class="text-xs opacity-50">→</span>
-                        </a>
+                        </router-link>
                     </div>
                 </div>
             </div>
