@@ -8,6 +8,7 @@ import ServicesSection from './section/ServicesSection.vue';
 import ClientsSection from './section/ClientsSection.vue';
 import ArticlesSection from './section/ArticlesSection.vue';
 import GallerySection from './section/GallerySection.vue';
+import ContactSection from './section/ContactSection.vue'
 
 const showBackToTop = ref(false)
 

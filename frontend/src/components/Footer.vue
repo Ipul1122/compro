@@ -24,11 +24,13 @@ const { t } = useI18n()
                     </div>
 
                     <div class="mt-10">
-                        <button
-                            class="group flex items-center gap-3 px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-brand hover:text-white transition-all duration-300">
-                            {{ t('footer.contact_us') }}
-                            <span class="group-hover:translate-x-1 transition-transform">→</span>
-                        </button>
+                        <router-link to="/contact">
+                            <button
+                                class="group flex items-center gap-3 px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-brand hover:text-white transition-all duration-300">
+                                {{ t('footer.contact_us') }}
+                                <span class="group-hover:translate-x-1 transition-transform">→</span>
+                            </button>
+                        </router-link>
                     </div>
                 </div>
 

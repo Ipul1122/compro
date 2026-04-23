@@ -79,10 +79,10 @@ const handleLanguageToggle = () => {
                                 <span class="text-xs font-black">{{ isIndonesian ? 'EN' : 'ID' }}</span>
                             </button>
 
-                            <a href="#contact"
+                            <router-link to="/contact"
                                 class="ml-4 bg-slate-900 text-white hover:bg-brand px-6 py-2.5 rounded-xl text-sm font-black shadow-lg hover:shadow-brand/30 transition-all active:scale-95 flex items-center gap-2">
                                 {{ t('nav.contact') }} <span class="text-xs opacity-50">→</span>
-                            </a>
+                            </router-link>
                         </div>
 
                         <div class="md:hidden flex items-center">
