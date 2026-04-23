@@ -143,15 +143,16 @@ onMounted(() => {
     <div class="flex min-h-screen bg-slate-50">
         <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-slate-900/50 z-40 lg:hidden backdrop-blur-sm"></div>
         <Sidebar v-model:is-open="isSidebarOpen" />
-        <div class="flex-1 relative">
+        <div class="flex-1 relative max-w-full overflow-hidden">
             <Navbar @toggle-sidebar="isSidebarOpen = !isSidebarOpen" />
-            <main class="p-6">
-                <div class="flex justify-between items-center mb-6">
+            
+            <main class="p-4 sm:p-6 w-full">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
                     <div>
-                        <h1 class="text-2xl font-bold text-slate-800">Manajemen Galeri (Album)</h1>
-                        <p class="text-slate-500">Terdapat total <span class="font-bold text-blue-600">{{ groupedGalleries.length }}</span> Wadah Album.</p>
+                        <h1 class="text-xl sm:text-2xl font-bold text-slate-800">Manajemen Galeri (Album)</h1>
+                        <p class="text-sm sm:text-base text-slate-500 mt-1">Terdapat total <span class="font-bold text-blue-600">{{ groupedGalleries.length }}</span> Wadah Album.</p>
                     </div>
-                    <router-link to="/admin/gallery/tambah" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-sm shadow-blue-600/30">
+                    <router-link to="/admin/gallery/tambah" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-sm shadow-blue-600/30 w-full sm:w-auto">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                         </svg>
@@ -159,32 +160,32 @@ onMounted(() => {
                     </router-link>
                 </div>
 
-                <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm flex flex-col">
-                    <div class="overflow-x-auto flex-grow min-h-[400px]">
-                        <table class="w-full text-left border-collapse">
+                <div class="bg-white rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm flex flex-col relative w-full overflow-hidden">
+                    <div class="overflow-x-auto w-full flex-grow min-h-[300px] sm:min-h-[400px]">
+                        <table class="w-full text-left border-collapse min-w-[600px]">
                             <thead>
                                 <tr class="bg-slate-50 text-slate-500 text-xs uppercase font-black tracking-wider">
-                                    <th class="px-6 py-4">Cover Wadah</th>
-                                    <th class="px-6 py-4">Judul Album</th>
-                                    <th class="px-6 py-4">Kategori</th>
-                                    <th class="px-6 py-4">Isi Wadah</th>
-                                    <th class="px-6 py-4 text-right">Aksi</th>
+                                    <th class="px-4 sm:px-6 py-4 whitespace-nowrap w-24">Cover</th>
+                                    <th class="px-4 sm:px-6 py-4 whitespace-nowrap">Judul Album</th>
+                                    <th class="px-4 sm:px-6 py-4 whitespace-nowrap">Kategori</th>
+                                    <th class="px-4 sm:px-6 py-4 whitespace-nowrap">Isi Wadah</th>
+                                    <th class="px-4 sm:px-6 py-4 text-right whitespace-nowrap">Aksi</th>
                                 </tr>
                             </thead>
                             
                             <tbody class="divide-y divide-slate-100">
                                 <template v-if="isLoading">
                                     <tr v-for="n in 5" :key="n" class="animate-pulse">
-                                        <td class="px-6 py-4"><div class="w-24 h-16 bg-slate-200/70 rounded-lg"></div></td>
-                                        <td class="px-6 py-4">
-                                            <div class="h-5 w-48 bg-slate-200/70 rounded mb-2"></div>
-                                            <div class="h-3 w-24 bg-slate-100 rounded"></div>
+                                        <td class="px-4 sm:px-6 py-4"><div class="w-20 sm:w-24 h-14 sm:h-16 bg-slate-200/70 rounded-lg"></div></td>
+                                        <td class="px-4 sm:px-6 py-4">
+                                            <div class="h-5 w-32 sm:w-48 bg-slate-200/70 rounded mb-2"></div>
+                                            <div class="h-3 w-20 sm:w-24 bg-slate-100 rounded"></div>
                                         </td>
-                                        <td class="px-6 py-4"><div class="h-6 w-24 bg-slate-200/70 rounded-full"></div></td>
-                                        <td class="px-6 py-4"><div class="h-5 w-16 bg-slate-200/70 rounded"></div></td>
-                                        <td class="px-6 py-4 text-right">
+                                        <td class="px-4 sm:px-6 py-4"><div class="h-6 w-20 sm:w-24 bg-slate-200/70 rounded-full"></div></td>
+                                        <td class="px-4 sm:px-6 py-4"><div class="h-5 w-16 bg-slate-200/70 rounded"></div></td>
+                                        <td class="px-4 sm:px-6 py-4 text-right">
                                             <div class="flex justify-end gap-2">
-                                                <div class="h-9 w-28 bg-slate-200/70 rounded-lg"></div>
+                                                <div class="h-9 w-24 sm:w-28 bg-slate-200/70 rounded-lg"></div>
                                                 <div class="h-9 w-9 bg-slate-200/70 rounded-lg"></div>
                                             </div>
                                         </td>
@@ -193,34 +194,34 @@ onMounted(() => {
 
                                 <template v-else-if="paginatedAlbums.length > 0">
                                     <tr v-for="album in paginatedAlbums" :key="album.id" class="hover:bg-slate-50 transition-colors group">
-                                        <td class="px-6 py-4">
-                                            <div class="relative w-24 h-16 rounded-lg overflow-hidden shadow-sm border border-slate-200">
+                                        <td class="px-4 sm:px-6 py-4 align-middle">
+                                            <div class="relative w-20 h-14 sm:w-24 sm:h-16 rounded-lg overflow-hidden shadow-sm border border-slate-200 flex-shrink-0">
                                                 <img :src="getImageUrl(album.cover)" @error="handleImageError" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                                                 <div v-if="album.total_images > 1" class="absolute inset-0 bg-black/40 flex items-center justify-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white opacity-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-white opacity-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                     </svg>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="px-6 py-4">
-                                            <div class="font-bold text-slate-700 text-base">{{ album.title }}</div>
+                                        <td class="px-4 sm:px-6 py-4 align-middle">
+                                            <div class="font-bold text-slate-700 text-sm sm:text-base line-clamp-2 max-w-[150px] sm:max-w-xs" :title="album.title">{{ album.title }}</div>
                                         </td>
-                                        <td class="px-6 py-4">
-                                            <span class="bg-blue-50 text-blue-600 border border-blue-100 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">
+                                        <td class="px-4 sm:px-6 py-4 align-middle">
+                                            <span class="bg-blue-50 text-blue-600 border border-blue-100 px-2 sm:px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider whitespace-nowrap">
                                                 {{ album.category?.name || 'Uncategorized' }}
                                             </span>
                                         </td>
-                                        <td class="px-6 py-4">
-                                            <span class="font-bold text-slate-700">{{ album.total_images }} <span class="text-slate-400 font-medium">Foto</span></span>
+                                        <td class="px-4 sm:px-6 py-4 align-middle whitespace-nowrap">
+                                            <span class="font-bold text-slate-700 text-sm sm:text-base">{{ album.total_images }} <span class="text-slate-400 font-medium">Foto</span></span>
                                         </td>
-                                        <td class="px-6 py-4 text-right">
-                                            <div class="flex justify-end gap-2">
-                                                <router-link :to="`/admin/gallery/edit/${album.id}`" class="px-4 py-2 text-sm font-bold bg-slate-100 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
+                                        <td class="px-4 sm:px-6 py-4 text-right align-middle">
+                                            <div class="flex justify-end items-center gap-1 sm:gap-2">
+                                                <router-link :to="`/admin/gallery/edit/${album.id}`" class="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold bg-slate-100 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all whitespace-nowrap">
                                                     Buka Wadah
                                                 </router-link>
-                                                <button @click="openDeleteModal(album)" class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <button @click="openDeleteModal(album)" class="p-1.5 sm:p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all" title="Hapus Album">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                     </svg>
                                                 </button>
@@ -231,15 +232,15 @@ onMounted(() => {
 
                                 <template v-else>
                                     <tr>
-                                        <td colspan="5" class="px-6 py-20 text-center">
-                                            <div class="mx-auto bg-slate-50 w-20 h-20 rounded-full flex items-center justify-center mb-4">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <td colspan="5" class="px-4 sm:px-6 py-16 sm:py-20 text-center">
+                                            <div class="mx-auto bg-slate-50 w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mb-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 sm:h-10 sm:w-10 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                 </svg>
                                             </div>
-                                            <h3 class="text-slate-700 font-bold text-lg mb-1">Belum Ada Galeri</h3>
-                                            <p class="text-slate-400 font-medium mb-4">Mulai dengan mengupload momen pertama Anda.</p>
-                                            <router-link to="/admin/gallery/tambah" class="text-blue-600 font-bold hover:underline">
+                                            <h3 class="text-slate-700 font-bold text-base sm:text-lg mb-1">Belum Ada Galeri</h3>
+                                            <p class="text-slate-400 text-sm sm:text-base font-medium mb-4">Mulai dengan mengupload momen pertama Anda.</p>
+                                            <router-link to="/admin/gallery/tambah" class="text-blue-600 font-bold text-sm sm:text-base hover:underline">
                                                 Upload Foto Sekarang
                                             </router-link>
                                         </td>
@@ -250,13 +251,13 @@ onMounted(() => {
                         </table>
                     </div>
                     
-                    <div v-if="totalPages > 1 && !isLoading" class="px-6 py-4 border-t border-slate-100 flex items-center justify-between bg-slate-50/50">
-                        <span class="text-sm text-slate-500 font-medium">Halaman <span class="font-bold text-slate-700">{{ currentPage }}</span> dari <span class="font-bold text-slate-700">{{ totalPages }}</span></span>
-                        <div class="flex gap-2">
+                    <div v-if="totalPages > 1 && !isLoading" class="px-4 sm:px-6 py-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-50/50 w-full">
+                        <span class="text-xs sm:text-sm text-slate-500 font-medium">Halaman <span class="font-bold text-slate-700">{{ currentPage }}</span> dari <span class="font-bold text-slate-700">{{ totalPages }}</span></span>
+                        <div class="flex gap-2 w-full sm:w-auto justify-between sm:justify-end">
                             <button 
                                 @click="changePage(currentPage - 1)" 
                                 :disabled="currentPage === 1" 
-                                class="px-4 py-2 rounded-lg font-bold text-sm bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
+                                class="px-3 sm:px-4 py-2 rounded-lg font-bold text-xs sm:text-sm bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm flex-1 sm:flex-none text-center"
                             >
                                 Sebelumnya
                             </button>
@@ -278,7 +279,7 @@ onMounted(() => {
                             <button 
                                 @click="changePage(currentPage + 1)" 
                                 :disabled="currentPage === totalPages" 
-                                class="px-4 py-2 rounded-lg font-bold text-sm bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
+                                class="px-3 sm:px-4 py-2 rounded-lg font-bold text-xs sm:text-sm bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm flex-1 sm:flex-none text-center"
                             >
                                 Selanjutnya
                             </button>
@@ -288,26 +289,26 @@ onMounted(() => {
             </main>
         </div>
 
-        <div v-if="deleteModal.isOpen" class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-0">
-            <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" @click="closeDeleteModal"></div>
+        <div v-if="deleteModal.isOpen" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" @click="closeDeleteModal"></div>
             
-            <div class="relative bg-white rounded-3xl w-full max-w-sm p-6 shadow-2xl animate-popIn">
-                <div class="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class="relative bg-white rounded-2xl sm:rounded-3xl w-full max-w-[90%] sm:max-w-sm p-5 sm:p-6 shadow-2xl animate-popIn">
+                <div class="w-14 h-14 sm:w-16 sm:h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                 </div>
                 
-                <h2 class="text-xl font-bold text-center text-slate-800 mb-2">Hapus Album?</h2>
-                <p class="text-center text-slate-500 text-sm mb-6 leading-relaxed">
-                    Anda akan menghapus wadah <span class="font-black text-slate-700">"{{ deleteModal.album?.title }}"</span> yang berisi <span class="font-black text-red-500">{{ deleteModal.album?.total_images }} foto</span>. Tindakan ini permanen.
+                <h2 class="text-lg sm:text-xl font-bold text-center text-slate-800 mb-2">Hapus Album?</h2>
+                <p class="text-center text-slate-500 text-xs sm:text-sm mb-6 leading-relaxed">
+                    Anda akan menghapus wadah <br class="hidden sm:block" /> <span class="font-black text-slate-700">"{{ deleteModal.album?.title }}"</span> yang berisi <span class="font-black text-red-500">{{ deleteModal.album?.total_images }} foto</span>.<br>Tindakan ini permanen.
                 </p>
                 
-                <div class="flex gap-3">
-                    <button @click="closeDeleteModal" :disabled="deleteModal.isDeleting" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-3 rounded-xl transition-colors disabled:opacity-50">
+                <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                    <button @click="closeDeleteModal" :disabled="deleteModal.isDeleting" class="w-full sm:flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-2.5 sm:py-3 rounded-xl transition-colors disabled:opacity-50 text-sm sm:text-base order-2 sm:order-1">
                         Batal
                     </button>
-                    <button @click="confirmDelete" :disabled="deleteModal.isDeleting" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm shadow-red-500/30 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <button @click="confirmDelete" :disabled="deleteModal.isDeleting" class="w-full sm:flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-2.5 sm:py-3 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm shadow-red-500/30 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base order-1 sm:order-2">
                         <span v-if="deleteModal.isDeleting" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
                         {{ deleteModal.isDeleting ? 'Loading...' : 'Ya, Hapus' }}
                     </button>

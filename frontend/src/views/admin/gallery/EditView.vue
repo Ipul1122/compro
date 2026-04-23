@@ -10,6 +10,14 @@ const router = useRouter()
 const route = useRoute()
 const categories = ref([])
 const isLoading = ref(false)
+const isSidebarOpen = ref(false)
+const user = ref({ name: 'Admin', email: '' })
+
+const breadcrumbsData = ref([
+    { label: 'Dashboard', link: '/admin/dashboard' },
+    { label: 'Manage Gallery', link: '/admin/gallery' },
+    { label: 'Edit Wadah', link: null }
+])
 
 const baseTitle = ref('')
 const albumItems = ref([])
@@ -210,7 +218,15 @@ const handleSubmit = async () => {
     }
 }
 
-onMounted(fetchData)
+onMounted(() => {
+    const savedUser = localStorage.getItem('user')
+    if (savedUser) {
+        user.value = JSON.parse(savedUser)
+    } else {
+        router.push('/view/login')
+    }
+    fetchData()
+})
 </script>
 
 <template>
