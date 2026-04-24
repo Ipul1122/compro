@@ -20,13 +20,12 @@ const router = useRouter()
 const isSidebarOpen = ref(false)
 
 const showSuccessNotif = ref(false)
-const currentView = ref('dashboard')
 const user = ref({ name: 'Admin', email: '' })
 
 // State data statistik
 const articles = ref([])
 const categories = ref([])
-const galleries = ref([]) // State baru untuk Gallery
+const galleries = ref([])
 
 onMounted(() => {
     const savedUser = localStorage.getItem('user')
@@ -37,7 +36,7 @@ onMounted(() => {
         
         fetchArticlesStats()
         fetchCategoriesStats()
-        fetchGalleriesStats() // Panggil fetch gallery
+        fetchGalleriesStats()
     } else {
         router.push('/view/login')
     }
@@ -70,7 +69,6 @@ const fetchCategoriesStats = async () => {
 const fetchGalleriesStats = async () => {
     try {
         const token = localStorage.getItem('token')
-        // Asumsi endpoint galeri ada di /api/admin/galleries
         const response = await axios.get('http://localhost:8000/api/admin/galleries', {
             headers: { Authorization: `Bearer ${token}` }
         })
@@ -85,14 +83,14 @@ const chartData = computed(() => {
     // Urutkan artikel dari views terbanyak
     const sortedArticles = [...articles.value]
         .sort((a, b) => (b.total_view || 0) - (a.total_view || 0))
-        .slice(0, 10); // Ambil 10 teratas agar chart tidak terlalu penuh
+        .slice(0, 10);
 
     return {
         labels: sortedArticles.map(a => a.title.length > 15 ? a.title.substring(0, 15) + '...' : a.title),
         datasets: [
             {
                 label: 'Total Views',
-                backgroundColor: '#ea4435', // Warna tema Anda
+                backgroundColor: '#ea4435',
                 borderRadius: 4,
                 data: sortedArticles.map(a => a.total_view || 0)
             }
@@ -105,7 +103,7 @@ const chartOptions = {
     maintainAspectRatio: false,
     plugins: {
         legend: {
-            display: false // Sembunyikan legend jika hanya ada 1 dataset
+            display: false
         },
         tooltip: {
             backgroundColor: '#1e293b',
@@ -132,17 +130,8 @@ const chartOptions = {
     }
 }
 
-const handleNavigation = (view) => {
-    if (view === 'categories') {
-        router.push('/admin/categories')
-    } else if (view === 'articles') {
-        router.push('/admin/articles')
-    } else if (view === 'gallery') {
-        router.push('/admin/gallery') // Navigasi ke gallery
-    }
-}
-
 const handleLogout = () => {
+    // Komponen Navbar juga menjalankan API logout, jadi kita cukup hapus session & redirect
     localStorage.removeItem('user')
     localStorage.removeItem('token')
     router.push('/view/login')
@@ -167,8 +156,6 @@ const breadcrumbsData = ref([
 
         <Sidebar 
             v-model:is-open="isSidebarOpen" 
-            v-model:current-view="currentView"
-            @update:currentView="handleNavigation"
             @logout="handleLogout"
         />
 

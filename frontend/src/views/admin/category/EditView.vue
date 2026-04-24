@@ -1,25 +1,18 @@
 <template>
   <div class="flex min-h-screen bg-slate-50 relative overflow-x-hidden">
-    <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-slate-900/50 z-60 lg:hidden backdrop-blur-sm cursor-pointer"></div>
     
     <Sidebar 
       v-model:is-open="isSidebarOpen" 
-      v-model:current-view="currentView"
-      @update:currentView="handleNavigation"
       @logout="handleLogout"
     />
 
     <div class="flex-1 flex flex-col min-w-0">
-      <nav class="h-20 bg-white border-b border-slate-100 px-4 md:px-8 flex items-center justify-between sticky top-0 z-50">
-        <div class="flex items-center gap-4">
-          <button @click="isSidebarOpen = !isSidebarOpen" class="lg:hidden p-2 text-slate-600 hover:bg-slate-50 rounded-lg cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-          <h2 class="text-base md:text-lg font-bold text-slate-900 uppercase tracking-tight">Edit Category</h2>
-        </div>
-      </nav>
+      <Navbar 
+        :user="user" 
+        :breadcrumbs="breadcrumbsData" 
+        @toggle-sidebar="isSidebarOpen = !isSidebarOpen" 
+        @logout="handleLogout"
+      />
 
       <main class="p-4 md:p-8">
         <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm max-w-2xl mx-auto">
@@ -59,8 +52,11 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import Sidebar from '@/components/admin/Sidebar.vue';
 import { useCategoryStore } from '@/stores/category';
+
+// Import komponen reusable
+import Sidebar from '@/components/admin/Sidebar.vue';
+import Navbar from '@/components/admin/Navbar.vue';
 
 const store = useCategoryStore();
 const route = useRoute();
@@ -68,11 +64,24 @@ const router = useRouter();
 
 // Layout State
 const isSidebarOpen = ref(false);
-const currentView = ref('categories'); 
+const user = ref({ name: 'Admin', email: '' });
+
+// Setup Breadcrumbs untuk Navbar
+const breadcrumbsData = ref([
+  { label: 'Kategori', link: '/admin/categories' },
+  { label: 'Edit', link: null }
+]);
 
 const category = ref({ name: '' });
 
 onMounted(async () => {
+  // 1. Ambil data user dari localStorage agar Navbar memiliki nama user
+  const savedUser = localStorage.getItem('user');
+  if (savedUser) {
+    user.value = JSON.parse(savedUser);
+  }
+
+  // 2. Fetch data kategori yang akan diedit
   const id = route.params.id;
   try {
     const data = await store.getCategoryDetail(id);
@@ -81,15 +90,6 @@ onMounted(async () => {
     router.push('/admin/categories');
   }
 });
-
-// Menangani Klik Menu dari Sidebar
-const handleNavigation = (view) => {
-  if (view === 'dashboard' || view === 'articles') {
-    router.push('/admin/dashboard'); 
-  } else if (view === 'categories') {
-    router.push('/admin/categories');
-  }
-};
 
 const handleLogout = () => {
   localStorage.removeItem('user');
