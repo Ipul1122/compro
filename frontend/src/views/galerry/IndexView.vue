@@ -176,7 +176,7 @@ onUnmounted(() => {
                             <span class="eyebrow-dot"></span>
                             <span>{{ locale === 'en' ? 'Visual Archive' : 'Arsip Visual' }}</span>
                         </div>
-                        <h1 class="hero-title">
+                        <h1 class="hero-title font-montserrat">
                             {{ locale === 'en' ? 'Our' : 'Galeri' }}<br>
                             <span class="hero-title-accent">{{ locale === 'en' ? 'Gallery' : 'Kami' }}</span>
                         </h1>
@@ -529,7 +529,7 @@ onUnmounted(() => {
 }
 
 .hero-title {
-    font-family: 'Syne', sans-serif;
+    /* font-family: 'Syne', sans-serif; */
     font-size: clamp(3rem, 8vw, 6.5rem);
     font-weight: 900;
     line-height: 0.9;

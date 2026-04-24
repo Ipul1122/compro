@@ -7,13 +7,13 @@ import { RouterLink } from 'vue-router'
         <div class="max-w-7xl mx-auto px-4">
 
             <div class="text-center mb-20 relative z-10">
-                <h2 class="text-brand font-bold tracking-[0.4em] uppercase text-sm mb-4 italic">
+                <h2 class="font-montserrat text-orange-600 font-bold tracking-[0.4em] uppercase text-sm mb-4 italic">
                     {{ $t('services_section.capabilities') }}
                 </h2>
-                <h3 class="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight uppercase">
+                <h3 class="font-montserrat text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight uppercase">
                     {{ $t('services_section.title') }}
                 </h3>
-                <p class="text-slate-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                <p class="font-poppins text-slate-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
                     {{ $t('services_section.desc') }}
                 </p>
             </div>
@@ -26,8 +26,8 @@ import { RouterLink } from 'vue-router'
                         class="w-12 h-12 mb-6 rounded-2xl bg-brand/10 flex items-center justify-center text-brand font-bold text-xl group-hover:bg-brand group-hover:text-white transition-all duration-500">
                         1
                     </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-4">{{ $t('services_section.item1.title') }}</h4>
-                    <p class="text-slate-600 text-sm leading-relaxed">
+                    <h4 class="text-xl font-bold text-slate-900 mb-4 font-montserrat">{{ $t('services_section.item1.title') }}</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed font-poppins">
                         {{ $t('services_section.item1.desc1') }} <span class="text-slate-900 font-semibold">
                             {{ $t('services_section.item1.highlight') }}</span>.
                     </p>
@@ -39,16 +39,16 @@ import { RouterLink } from 'vue-router'
                         class="w-12 h-12 mb-6 rounded-2xl bg-brand/10 flex items-center justify-center text-brand font-bold text-xl group-hover:bg-brand group-hover:text-white transition-all duration-500">
                         2
                     </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-4">{{ $t('services_section.item2.title') }}</h4>
-                    <ul class="space-y-4 text-xs text-slate-600">
+                    <h4 class="text-xl font-bold text-slate-900 mb-4 font-montserrat">{{ $t('services_section.item2.title') }}</h4>
+                    <ul class="space-y-4 text-xs text-slate-600 font-poppins">
                         <li class="border-b border-slate-100 pb-2"><strong
-                                class="text-slate-900 block text-sm mb-1">{{ $t('services_section.item2.list1_title') }}</strong>
+                                class="text-slate-900 block text-sm mb-1 font-montserrat">{{ $t('services_section.item2.list1_title') }}</strong>
                                 {{ $t('services_section.item2.list1_desc') }}</li>
                         <li class="border-b border-slate-100 pb-2"><strong
-                                class="text-slate-900 block text-sm mb-1">{{ $t('services_section.item2.list2_title') }}</strong> 
+                                class="text-slate-900 block text-sm mb-1 font-montserrat">{{ $t('services_section.item2.list2_title') }}</strong> 
                                 {{ $t('services_section.item2.list2_desc') }}
                         </li>
-                        <li><strong class="text-slate-900 block text-sm mb-1">{{ $t('services_section.item2.list3_title') }}</strong>
+                        <li><strong class="text-slate-900 block text-sm mb-1 font-montserrat">{{ $t('services_section.item2.list3_title') }}</strong>
                             {{ $t('services_section.item2.list3_desc') }}</li>
                     </ul>
                 </div>
@@ -59,15 +59,15 @@ import { RouterLink } from 'vue-router'
                         class="w-12 h-12 mb-6 rounded-2xl bg-brand/10 flex items-center justify-center text-brand font-bold text-xl group-hover:bg-brand group-hover:text-white transition-all duration-500">
                         3
                     </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-4">{{ $t('services_section.item3.title') }}</h4>
-                    <ul class="space-y-4 text-xs text-slate-600">
+                    <h4 class="text-xl font-bold text-slate-900 mb-4 font-montserrat">{{ $t('services_section.item3.title') }}</h4>
+                    <ul class="space-y-4 text-xs text-slate-600 font-poppins">
                         <li class="border-b border-slate-100 pb-2"><strong
-                                class="text-slate-900 block text-sm mb-1">{{ $t('services_section.item3.list1_title') }}</strong> 
+                                class="text-slate-900 block text-sm mb-1 font-montserrat">{{ $t('services_section.item3.list1_title') }}</strong> 
                                 {{ $t('services_section.item3.list1_desc') }}</li>
                         <li class="border-b border-slate-100 pb-2"><strong
-                                class="text-slate-900 block text-sm mb-1">{{ $t('services_section.item3.list2_title') }}</strong> 
+                                class="text-slate-900 block text-sm mb-1 font-montserrat">{{ $t('services_section.item3.list2_title') }}</strong> 
                                 {{ $t('services_section.item3.list2_desc') }}</li>
-                        <li><strong class="text-slate-900 block text-sm mb-1">{{ $t('services_section.item3.list3_title') }}</strong>
+                        <li><strong class="text-slate-900 block text-sm mb-1 font-montserrat">{{ $t('services_section.item3.list3_title') }}</strong>
                             {{ $t('services_section.item3.list3_desc') }}</li>
                     </ul>
                 </div>
@@ -78,15 +78,15 @@ import { RouterLink } from 'vue-router'
                         class="w-12 h-12 mb-6 rounded-2xl bg-brand/10 flex items-center justify-center text-brand font-bold text-xl group-hover:bg-brand group-hover:text-white transition-all duration-500">
                         4
                     </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-4">{{ $t('services_section.item4.title') }}</h4>
-                    <ul class="space-y-4 text-xs text-slate-600">
+                    <h4 class="text-xl font-bold text-slate-900 mb-4 font-montserrat">{{ $t('services_section.item4.title') }}</h4>
+                    <ul class="space-y-4 text-xs text-slate-600 font-poppins">
                         <li class="border-b border-slate-100 pb-2"><strong
-                                class="text-slate-900 block text-sm mb-1 italic">{{ $t('services_section.item4.list1_title') }}</strong>
+                                class="text-slate-900 block text-sm mb-1 font-montserrat italic">{{ $t('services_section.item4.list1_title') }}</strong>
                                 {{ $t('services_section.item4.list1_desc') }}</li>
                         <li class="border-b border-slate-100 pb-2"><strong
-                                class="text-slate-900 block text-sm mb-1 italic">{{ $t('services_section.item4.list2_title') }}</strong> 
+                                class="text-slate-900 block text-sm mb-1 font-montserrat italic">{{ $t('services_section.item4.list2_title') }}</strong> 
                                 {{ $t('services_section.item4.list2_desc') }}</li>
-                        <li><strong class="text-slate-900 block text-sm mb-1 italic">{{ $t('services_section.item4.list3_title') }}</strong>
+                        <li><strong class="text-slate-900 block text-sm mb-1 font-montserrat italic">{{ $t('services_section.item4.list3_title') }}</strong>
                             {{ $t('services_section.item4.list3_desc') }}</li>
                     </ul>
                 </div>

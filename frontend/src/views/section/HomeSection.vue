@@ -40,11 +40,12 @@
                     </div>
 
                     <!-- Heading -->
-                    <h1 class="flex flex-col gap-1">
-                        <span class="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 leading-tight">
-                            PT <span class="font-light italic text-slate-400">Cakrawala</span>
+                    <h1 class="font-montserrat flex flex-col gap-1">
+                        <span class="text-3xl md:text-5xl font-bold tracking-tight text-slate-900 leading-tight">
+                            PT <span class="bg-gradient-to-r from-orange-600 via-orange-500 to-amber-400 bg-clip-text text-transparent">
+                            Cakrawala</span>
                         </span>
-                        <span class="text-4xl md:text-6xl font-bold tracking-tight leading-tight relative">
+                        <span class="text-3xl md:text-5xl font-bold tracking-tight leading-tight relative">
                             <span class="relative inline-block">
                                 <span class="bg-gradient-to-r from-orange-600 via-orange-500 to-amber-400 bg-clip-text text-transparent">
                                     Parama
@@ -64,7 +65,7 @@
                     </div>
 
                     <!-- Description -->
-                    <p class="mt-7 text-sm md:text-base text-slate-500 tracking-wide leading-relaxed max-w-xl">
+                    <p class="font-poppins mt-7 text-sm md:text-base text-slate-500 tracking-wide leading-relaxed max-w-xl">
                         {{ $t('home.description') }}
                     </p>
 

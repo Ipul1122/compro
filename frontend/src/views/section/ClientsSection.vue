@@ -49,8 +49,8 @@ const testimonials = computed(() => [
             <div class="max-w-5xl mx-auto px-6">
 
                 <div class="text-center mb-4">
-                    <h2 class="text-[10px] font-bold text-orange-500 uppercase tracking-[0.3em] mb-2">{{ t('clients_section.trusted_partners') }}</h2>
-                    <p class="text-3xl font-black text-slate-900 tracking-tighter">{{ t('clients_section.collaborating') }}</p>
+                    <h2 class="text-[10px]  font-bold text-orange-500 uppercase tracking-[0.3em] mb-2">{{ t('clients_section.trusted_partners') }}</h2>
+                    <p class="text-3xl  font-black text-slate-900 tracking-tighter">{{ t('clients_section.collaborating') }}</p>
                 </div>
                 <div class="w-9 h-[3px] bg-orange-500 rounded-full mx-auto mb-10"></div>
 

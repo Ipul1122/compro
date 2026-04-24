@@ -45,19 +45,22 @@ defineProps({
                 <div class="w-full lg:w-1/2">
                     <div class="space-y-6">
                         <div>
-                            <h2 class="text-xs font-bold text-brand uppercase tracking-[0.3em] mb-4">
+                            <!-- Subtitle -->
+                            <h2 class="text-xs font-bold text-orange-600 uppercase tracking-[0.3em] mb-4">
                                 {{ $t('about.subtitle') }}
                             </h2>
-                            <h3 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter leading-tight">
-                                {{ $t('about.title_main') }} <span class="text-brand">{{ $t('about.title_highlight') }}</span>
+                            <!-- Main Title -->
+                            <h3 class="font-montserrat text-4xl md:text-5xl font-black text-slate-900 tracking-tighter leading-tight">
+                                {{ $t('about.title_main') }} <span class="text-orange-600">{{ $t('about.title_highlight') }}</span>
                             </h3>
                         </div>
 
-                        <p class="text-lg text-slate-600 leading-relaxed">
+                        <!-- Description -->
+                        <p class="font-poppins text-lg text-slate-600 leading-relaxed">
                             {{ $t('about.desc_1') }}
                         </p>
-
-                        <p class="text-slate-600 leading-relaxed">
+                        <!-- Description 2 -->
+                        <p class="font-poppins text-slate-600 leading-relaxed">
                             {{ $t('about.desc_2') }}
                         </p>
 
@@ -69,8 +72,8 @@ defineProps({
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-slate-900">{{ $t('about.feature_1_title') }}</h4>
-                                    <p class="text-sm text-slate-500">{{ $t('about.feature_1_desc') }}</p>
+                                    <h4 class="font-montserrat font-bold text-slate-900">{{ $t('about.feature_1_title') }}</h4>
+                                    <p class="font-poppins text-sm text-slate-500">{{ $t('about.feature_1_desc') }}</p>
                                 </div>
                             </div>
 
@@ -81,8 +84,8 @@ defineProps({
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-slate-900">{{ $t('about.feature_2_title') }}</h4>
-                                    <p class="text-sm text-slate-500">{{ $t('about.feature_2_desc') }}</p>
+                                    <h4 class="font-montserrat font-bold text-slate-900">{{ $t('about.feature_2_title') }}</h4>
+                                    <p class="font-poppins text-sm text-slate-500">{{ $t('about.feature_2_desc') }}</p>
                                 </div>
                             </div>
                         </div>
