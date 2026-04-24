@@ -242,7 +242,7 @@ const breadcrumbsData = ref([
                         <div v-else class="w-full h-full flex items-center justify-center text-slate-400 text-sm font-medium">
                             Memuat data grafik...
                         </div>
-                    </div>g
+                    </div>
                 </div>
             </main>
         </div>
