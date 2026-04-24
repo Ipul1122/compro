@@ -1,10 +1,7 @@
 <template>
   <div class="flex min-h-screen bg-slate-50 relative overflow-x-hidden">
-        <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-slate-900/50 z-40 lg:hidden backdrop-blur-sm"></div>
     <Sidebar 
       v-model:is-open="isSidebarOpen" 
-      v-model:current-view="currentView"
-      @update:currentView="handleNavigation"
       @logout="handleLogout"
     />
 
@@ -22,7 +19,7 @@
             <h2 class="font-black text-xl text-slate-900 uppercase tracking-tight">Daftar Kategori</h2>
             <div class="flex gap-3 w-full md:w-auto">
               <input v-model="search" @input="handleSearch" type="text" placeholder="Cari kategori..." class="border border-slate-200 px-4 py-2 rounded-xl text-sm w-full md:w-64 focus:ring-2 focus:ring-slate-900 focus:outline-none text-black">
-              <button @click="router.push('/admin/categories/tambah')" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-[#ea4435] transition-colors whitespace-nowrap">
+              <button @click="router.push('/admin/categories/tambah')" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-[#ea4435] transition-colors whitespace-nowrap cursor-pointer">
                 Tambah Data
               </button>
             </div>
@@ -48,13 +45,13 @@
                   <td class="px-6 py-4 text-center font-bold text-slate-700 text-sm">{{ cat.articles_count }}</td>
                   <td class="px-6 py-4 text-right">
                     <div class="flex justify-end items-center gap-2">
-                      <button @click="router.push('/admin/articles/create')" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors" title="Tambah Artikel">
+                      <button @click="router.push('/admin/articles/create')" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer" title="Tambah Artikel">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg>
                       </button>
 
-                      <router-link :to="`/admin/categories/edit/${cat.id}`" class="p-2 text-yellow-500 hover:bg-yellow-50 rounded-lg transition-colors" title="Edit Kategori">
+                      <router-link :to="`/admin/categories/edit/${cat.id}`" class="p-2 text-yellow-500 hover:bg-yellow-50 rounded-lg transition-colors cursor-pointer" title="Edit Kategori">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                         </svg>
@@ -96,24 +93,6 @@
       </main>
     </div>
 
-    <div v-if="isModalOpen" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-[200]">
-      <div class="bg-white p-6 rounded-3xl w-full max-w-md shadow-2xl">
-        <h3 class="text-xl font-black text-slate-900 mb-4 uppercase tracking-tight">Tambah Kategori</h3>
-        <form @submit.prevent="submitForm">
-          <div class="mb-6">
-            <label class="block text-s font-bold text-black tracking-widest mb-2">Nama Kategori</label>
-            <input v-model="form.name" type="text" placeholder="Masukkan nama..." class="border border-slate-200 w-full p-3 rounded-xl focus:ring-2 focus:ring-slate-900 focus:outline-none text-black" required>
-          </div>
-          <div class="flex justify-end gap-3">
-            <button type="button" @click="closeModal" class="px-4 py-2 text-sm font-bold text-slate-500 hover:text-slate-800 cursor-pointer">Batal</button>
-            <button type="submit" class="bg-slate-900 text-white px-6 py-2 rounded-xl text-sm font-bold hover:bg-[#ea4435] transition-colors cursor-pointer" :disabled="isSubmitting">
-              {{ isSubmitting ? 'Menyimpan...' : 'Simpan' }}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-
     <div v-if="isDeleteModalOpen" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-[200]">
       <div class="bg-white p-6 rounded-3xl w-full max-w-sm shadow-2xl text-center scale-100 transition-transform">
         <div class="w-16 h-16 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -145,17 +124,13 @@ const store = useCategoryStore();
 
 const isSidebarOpen = ref(false);
 const user = ref({ name: 'Admin', email: '' });
-const currentView = ref('categories');
 
 const breadcrumbsData = ref([
-    { label: 'Dashboard', link: '/admin/dashboard' },
-    { label: 'Manage Categories', link: null }
+  { label: 'Dashboard', link: '/admin/dashboard' },
+  { label: 'Manage Categories', link: null }
 ]);
 
 const search = ref('');
-const isModalOpen = ref(false);
-const isSubmitting = ref(false);
-const form = ref({ name: '' });
 
 onMounted(() => {
   const savedUser = localStorage.getItem('user');
@@ -182,11 +157,7 @@ const fetchData = (page = 1) => {
   store.fetchCategories(page, search.value);
 };
 
-const handleNavigation = (view) => {
-  if (view === 'dashboard') router.push('/admin/dashboard');
-  else if (view === 'categories') router.push('/admin/categories');
-  else if (view === 'articles') router.push('/admin/articles'); 
-};
+const handleSearch = () => fetchData(1);
 
 const handleLogout = () => {
   localStorage.removeItem('user');
@@ -194,26 +165,15 @@ const handleLogout = () => {
   router.push('/view/login');
 };
 
-const handleSearch = () => fetchData(1);
-const closeModal = () => { form.value = { name: '' }; isModalOpen.value = false; };
-
-const submitForm = async () => {
-  if (!form.value.name?.trim()) return alert("Nama kategori tidak boleh kosong!");
-  isSubmitting.value = true;
-  try {
-    const payload = { name: form.value.name.trim() };
-    const response = await store.storeCategory(payload);
-    if (response && (response.status === 201 || response.data?.status === 'success')) {
-      closeModal();
-    }
-  } catch (err) {
-    alert(err.response?.data?.message || "Terjadi kesalahan!");
-  } finally { isSubmitting.value = false; }
-};
-
+// Modal Hapus Kategori
 const isDeleteModalOpen = ref(false);
 const deleteId = ref(null);
-const confirmDelete = (id) => { deleteId.value = id; isDeleteModalOpen.value = true; };
+
+const confirmDelete = (id) => { 
+  deleteId.value = id; 
+  isDeleteModalOpen.value = true; 
+};
+
 const executeDelete = async () => {
   if (!deleteId.value) return;
   try {
@@ -221,6 +181,9 @@ const executeDelete = async () => {
     fetchData(store.pagination?.current_page || 1); 
   } catch (err) {
     alert("Gagal menghapus kategori!");
-  } finally { isDeleteModalOpen.value = false; deleteId.value = null; }
+  } finally { 
+    isDeleteModalOpen.value = false; 
+    deleteId.value = null; 
+  }
 };
 </script>

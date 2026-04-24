@@ -1,10 +1,8 @@
 <template>
   <div class="flex min-h-screen bg-slate-50 relative overflow-x-hidden">
-        <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-slate-900/50 z-40 lg:hidden backdrop-blur-sm"></div>
+    
     <Sidebar 
       v-model:is-open="isSidebarOpen" 
-      v-model:current-view="currentView"
-      @update:currentView="handleNavigation"
       @logout="handleLogout"
     />
 
@@ -62,9 +60,11 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useCategoryStore } from '@/stores/category';
+
+// Import komponen reusable
 import Sidebar from '@/components/admin/Sidebar.vue';
 import Navbar from '@/components/admin/Navbar.vue';
-import { useCategoryStore } from '@/stores/category';
 
 const router = useRouter();
 const store = useCategoryStore();
@@ -72,12 +72,10 @@ const store = useCategoryStore();
 // Layout State
 const isSidebarOpen = ref(false);
 const user = ref({ name: 'Admin', email: '' });
-const currentView = ref('categories');
 
 // Breadcrumbs Setup
 const breadcrumbsData = ref([
-    { label: 'Dashboard', link: '/admin/dashboard' },
-    { label: 'Manage Categories', link: '/admin/categories' },
+    { label: 'Kategori', link: '/admin/categories' },
     { label: 'Tambah Kategori', link: null }
 ]);
 
@@ -91,7 +89,7 @@ onMounted(() => {
   const savedUser = localStorage.getItem('user');
   const token = localStorage.getItem('token');
   
-  // Guard untuk nge-cek token sebelum bisa ngakses form
+  // Guard untuk mengecek keberadaan token sebelum bisa mengakses form
   if (!savedUser || !token) {
     alert("Sesi kamu tidak valid atau sudah habis. Silakan relogin.");
     handleLogout();
@@ -100,13 +98,6 @@ onMounted(() => {
   
   user.value = JSON.parse(savedUser);
 });
-
-// Navigation Helpers
-const handleNavigation = (view) => {
-  if (view === 'dashboard') router.push('/admin/dashboard');
-  else if (view === 'categories') router.push('/admin/categories');
-  else if (view === 'articles') router.push('/admin/articles');
-};
 
 const handleLogout = () => {
   localStorage.removeItem('user');
@@ -124,23 +115,23 @@ const submitForm = async () => {
   isSubmitting.value = true;
 
   try {
-    // Memisah payload jadi plain object untuk menghindari bentrok i18n
+    // Memisah payload menjadi plain object untuk menghindari bentrok
     const payload = {
       name: form.value.name.trim()
     };
 
     await store.storeCategory(payload);
     
-    // Redirect balik ke tabel setelah sukses
+    // Redirect kembali ke tabel setelah sukses menyimpan
     router.push('/admin/categories');
 
   } catch (err) {
-    console.error("Gagal nyimpen kategori:", err);
+    console.error("Gagal menyimpan kategori:", err);
 
     let errorMessage = "Terjadi kesalahan sistem saat menyimpan!";
     
     if (err.response && err.response.data) {
-      // Menangkap Unauthenticated secara spesifik
+      // Menangkap status Unauthenticated (401) secara spesifik
       if (err.response.status === 401 || err.response.data.message === 'Unauthenticated.') {
          alert("Sesi login kamu sudah habis (Unauthenticated). Silakan login ulang ya.");
          handleLogout();
