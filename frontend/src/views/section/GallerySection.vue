@@ -67,7 +67,9 @@ const groupedAlbums = computed(() => {
 })
 
 const goToGallery = () => {
-    router.push('/galerry') 
+    // Jika bahasa ID, arahkan ke /id/galeri. Jika EN, arahkan ke /en/gallery
+    const targetPath = locale.value === 'id' ? '/id/galeri' : '/en/gallery'
+    router.push(targetPath) 
 }
 
 onMounted(() => {

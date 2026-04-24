@@ -94,7 +94,7 @@ import { RouterLink } from 'vue-router'
             </div>
 
             <div class="mt-16 flex justify-center relative z-10">
-                <RouterLink to="/service"
+                <RouterLink :to="$i18n.locale === 'id' ? '/id/layanan' : '/en/services'"
                     class="group flex items-center gap-3 bg-brand text-white px-8 py-4 rounded-full font-bold text-sm hover:scale-105 hover:shadow-xl hover:shadow-brand/20 transition-all duration-300">
                     {{ $t('services_section.btn_view_all') }}
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">

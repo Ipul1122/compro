@@ -88,7 +88,7 @@ defineProps({
                         </div>
 
                         <div class="pt-8" v-if="showButton">
-                            <router-link to="/about"
+                            <router-link :to="$i18n.locale === 'id' ? '/id/tentang-kami' : '/en/about'"
                                 class="inline-flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-black hover:bg-brand transition-all duration-300 shadow-xl hover:shadow-brand/20 active:scale-95">
                                 {{ $t('about.button') }}
                                 <span class="text-xl">→</span>
