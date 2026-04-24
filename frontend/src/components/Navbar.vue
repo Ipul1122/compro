@@ -12,45 +12,37 @@ const isIndonesian = computed(() => locale.value === 'id')
 
 // 1. Buat mapping URL untuk EN dan ID
 const routePaths = {
-    home: { en: '/home', id: '/beranda' },
-    about: { en: '/about', id: '/tentang-kami' },
-    project: { en: '/project', id: '/proyek' },
-    articles: { en: '/articles', id: '/artikel' },
-    gallery: { en: '/galerry', id: '/galeri' },
-    service: { en: '/service', id: '/layanan' },
-    contact: { en: '/contact', id: '/kontak' },
+    home: { en: '/en/home', id: '/id/beranda' },
+    about: { en: '/en/about', id: '/id/tentang-kami' },
+    project: { en: '/en/projects', id: '/id/proyek-kami' },
+    articles: { en: '/en/articles', id: '/id/artikel' },
+    gallery: { en: '/en/gallery', id: '/id/galeri' },
+    service: { en: '/en/services', id: '/id/layanan' },
+    contact: { en: '/en/contact', id: '/id/kontak' },
 }
 
 const handleLanguageToggle = async () => {
-    // Tentukan target bahasa
     const targetLocale = locale.value === 'id' ? 'en' : 'id'
-    
-    // Simpan posisi scroll vertikal saat ini sebelum memicu router
-    const currentScrollPosition = window.scrollY
-
     locale.value = targetLocale
 
-    // 2. Cek halaman saat ini untuk mengubah URL di Address Bar
     let currentKey = null
     for (const [key, paths] of Object.entries(routePaths)) {
-        // Jika path saat ini cocok dengan EN/ID, atau jika sedang di root '/'
         if (paths.en === route.path || paths.id === route.path || (key === 'home' && route.path === '/')) {
             currentKey = key
             break
         }
     }
 
-    // 3. Jika ketemu halamannya, ganti URL (tanpa me-reload page)
     if (currentKey) {
-        // Gunakan await agar kita menunggu navigasi router selesai
+        // 1. Beri tanda bahwa kita sedang melakukan transisi bahasa
+        window.isLanguageSwitching = true
+        
         await router.replace(routePaths[currentKey][targetLocale])
         
-        // Pastikan DOM sudah update lalu kembalikan posisi scroll secara instan
-        await nextTick()
-        window.scrollTo({
-            top: currentScrollPosition,
-            behavior: 'instant' // 'instant' mencegah transisi scroll/smooth jumping
-        })
+        // 2. Hapus tanda setelah navigasi selesai (beri jeda sedikit agar router selesai memproses)
+        setTimeout(() => {
+            window.isLanguageSwitching = false
+        }, 50)
     }
 }
 </script>
