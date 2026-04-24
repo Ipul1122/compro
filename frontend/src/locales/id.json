@@ -233,5 +233,62 @@
     "modal": {
       "close": "Tutup"
     }
+  },
+  "contact_section": {
+    "badge": "Siap Membantu Anda",
+    "title": "Hubungi Kami",
+    "description": "Kami siap membantu kebutuhan Anda. Hubungi kami melalui formulir atau kunjungi kantor kami melalui peta di bawah ini.",
+    "company_name": "PT Cakrawala Parama Internasional",
+    "address": "Mall Thamrin City, Jakarta, Indonesia",
+    "form_title": "Kirim Pesan",
+    "form_subtitle": "Isi formulir dan kami akan diarahkan ke WhatsApp",
+    "form": {
+      "name_label": "Nama Lengkap",
+      "name_placeholder": "Siapa nama Anda?",
+      "email_label": "Gmail / Email",
+      "email_placeholder": "alamat@gmail.com",
+      "message_label": "Pesan",
+      "message_placeholder": "Apa yang bisa kami bantu?",
+      "submit": "Kirim ke WhatsApp"
+    },
+    "info": {
+      "title": "Hubungi Kami",
+      "status": "Online"
+    },
+    "whatsapp_greeting": "Halo PT Cakrawala Parama Internasional,%0A%0ASaya *{name}* ({email}) ingin menanyakan:%0A{message}"
+  },
+  "privacy_policy": {
+    "title": "Kebijakan Privasi",
+    "last_updated": "Terakhir diperbarui: April 2026",
+    "sections": {
+      "intro_title": "Pendahuluan",
+      "intro_text": "PT Cakrawala Parama Internasional berkomitmen untuk melindungi dan menghormati privasi Anda. Kebijakan ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi data pribadi Anda saat menggunakan layanan kami.",
+      "collection_title": "Informasi yang Kami Kumpulkan",
+      "collection_text": "Kami mengumpulkan informasi yang Anda berikan secara langsung kepada kami, seperti nama, alamat email, dan pesan saat Anda mengisi formulir kontak atau menggunakan sistem manajemen rekrutmen kami.",
+      "usage_title": "Penggunaan Informasi",
+      "usage_text": "Informasi tersebut kami gunakan untuk menyediakan, memelihara, dan meningkatkan layanan kami, termasuk untuk keperluan asesmen, pelatihan, dan komunikasi terkait layanan.",
+      "security_title": "Keamanan Data",
+      "security_text": "Kami menerapkan langkah-langkah keamanan teknis dan organisasi yang ketat untuk melindungi data pribadi Anda dari akses yang tidak sah, kehilangan, atau penyalahgunaan.",
+      "contact_title": "Hubungi Kami",
+      "contact_text": "Jika Anda memiliki pertanyaan mengenai Kebijakan Privasi ini, Anda dapat menghubungi kami melalui halaman kontak yang tersedia."
+    }
+  },
+  "terms_of_service": {
+    "title": "Ketentuan Layanan",
+    "last_updated": "Terakhir diperbarui: April 2026",
+    "sections": {
+      "acceptance_title": "Penerimaan Ketentuan",
+      "acceptance_text": "Dengan mengakses dan menggunakan situs web PT Cakrawala Parama Internasional, Anda setuju untuk terikat oleh Ketentuan Layanan ini dan semua hukum serta peraturan yang berlaku.",
+      "services_title": "Penggunaan Layanan",
+      "services_text": "Layanan kami, termasuk namun tidak terbatas pada E-Recruitment, Asesmen, dan Training, disediakan untuk tujuan profesional. Pengguna dilarang menyalahgunakan sistem atau mencoba mengakses data tanpa izin.",
+      "intellectual_title": "Hak Kekayaan Intelektual",
+      "intellectual_text": "Semua konten, logo, desain, dan teknologi yang ada di situs ini adalah milik sah PT Cakrawala Parama Internasional dan dilindungi oleh hukum hak cipta di Indonesia.",
+      "limitation_title": "Batasan Tanggung Jawab",
+      "limitation_text": "PT Cakrawala Parama Internasional tidak bertanggung jawab atas kerugian yang timbul dari penggunaan atau ketidakmampuan menggunakan layanan kami, kecuali diatur secara eksplisit oleh hukum.",
+      "governing_title": "Hukum yang Mengatur",
+      "governing_text": "Ketentuan ini diatur oleh dan ditafsirkan sesuai dengan hukum Republik Indonesia. Setiap perselisihan akan diselesaikan di pengadilan yang berwenang di Jakarta.",
+      "changes_title": "Perubahan Ketentuan",
+      "changes_text": "Kami berhak untuk mengubah ketentuan ini kapan saja. Perubahan akan berlaku segera setelah dipublikasikan di halaman ini."
+    }
   }
 }

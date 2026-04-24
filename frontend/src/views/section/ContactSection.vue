@@ -13,7 +13,11 @@ const form = ref({
 const sendToWhatsApp = () => {
     // Nomor tujuan: 085693672730 -> format internasional 6285693672730
     const waNumber = '6285693672730'
-    const message = `Halo PT Cakrawala Parama Internasional,%0A%0ASaya *${form.value.nama}* (${form.value.email}) ingin menanyakan:%0A${form.value.pesan}`
+    const message = t('contact_section.whatsapp_greeting', {
+        name: form.value.nama,
+        email: form.value.email,
+        message: form.value.pesan
+    })
     
     window.open(`https://wa.me/${waNumber}?text=${message}`, '_blank')
 }
@@ -22,43 +26,38 @@ const sendToWhatsApp = () => {
 <template>
     <section id="contact" class="contact-section py-28 font-montserrat relative overflow-hidden">
 
-        <!-- Animated background blobs -->
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
         <div class="blob blob-3"></div>
 
-        <!-- Grid texture overlay -->
         <div class="grid-overlay"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-            <!-- Header -->
             <div class="text-center mb-20">
                 <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full badge-pill mb-6">
                     <span class="dot-pulse"></span>
-                    <span class="text-xs font-black uppercase tracking-[0.2em] text-orange-600">Siap Membantu Anda</span>
+                    <span class="text-xs font-black uppercase tracking-[0.2em] text-orange-600">
+                        {{ t('contact_section.badge') }}
+                    </span>
                 </div>
                 <h2 class="text-4xl md:text-6xl font-black text-slate-900 mb-5 tracking-tight leading-none">
-                    <!-- {{ t('nav.contact') }} -->
                     <span class="block text-orange-500 relative inline-block mt-1">
-                        Hubungi Kami
+                        {{ t('contact_section.title') }}
                         <svg class="underline-svg" viewBox="0 0 300 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2 9C60 3 120 1 180 5C220 8 260 10 298 8" stroke="#f97316" stroke-width="3.5" stroke-linecap="round"/>
                         </svg>
                     </span>
                 </h2>
                 <p class="text-slate-500 max-w-xl mx-auto font-medium text-base leading-relaxed">
-                    Kami siap membantu kebutuhan Anda. Hubungi kami melalui formulir atau kunjungi kantor kami melalui peta di bawah ini.
+                    {{ t('contact_section.description') }}
                 </p>
             </div>
 
-            <!-- Main Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
 
-                <!-- Map Column -->
                 <div class="lg:col-span-7 h-[420px] lg:h-auto min-h-[480px]">
                     <div class="map-card w-full h-full rounded-[2rem] overflow-hidden relative group">
-                        <!-- Decorative corner accent -->
                         <div class="corner-accent top-4 left-4"></div>
                         <div class="corner-accent bottom-4 right-4 rotate-180"></div>
 
@@ -69,7 +68,6 @@ const sendToWhatsApp = () => {
                             allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                         </iframe>
 
-                        <!-- Location badge -->
                         <div class="location-badge absolute bottom-6 left-6 right-6">
                             <div class="flex items-center gap-3">
                                 <div class="loc-icon">
@@ -78,101 +76,94 @@ const sendToWhatsApp = () => {
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-black text-slate-900">PT Cakrawala Parama Internasional</p>
-                                    <p class="text-xs text-slate-500 mt-0.5">Mall Thamrin City, Jakarta, Indonesia</p>
+                                    <p class="text-sm font-black text-slate-900">{{ t('contact_section.company_name') }}</p>
+                                    <p class="text-xs text-slate-500 mt-0.5">{{ t('contact_section.address') }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Form Column -->
                 <div class="lg:col-span-5">
                     <div class="form-card rounded-[2rem] p-8 md:p-10 h-full flex flex-col justify-center">
 
-                        <!-- Form title -->
                         <div class="mb-8">
-                            <h3 class="text-xl font-black text-slate-900 mb-1">Kirim Pesan</h3>
-                            <p class="text-xs text-slate-400 font-medium">Isi formulir dan kami akan diarahkan ke WhatsApp</p>
+                            <h3 class="text-xl font-black text-slate-900 mb-1">{{ t('contact_section.form_title') }}</h3>
+                            <p class="text-xs text-slate-400 font-medium">{{ t('contact_section.form_subtitle') }}</p>
                         </div>
 
                         <form @submit.prevent="sendToWhatsApp" class="space-y-5">
 
-                            <!-- Nama -->
                             <div class="input-group">
                                 <label class="input-label">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
                                     </svg>
-                                    Nama Lengkap
+                                    {{ t('contact_section.form.name_label') }}
                                 </label>
                                 <div class="input-wrapper">
                                     <input
                                         v-model="form.nama"
                                         type="text"
                                         required
-                                        placeholder="Siapa nama Anda?"
+                                        :placeholder="t('contact_section.form.name_placeholder')"
                                         class="styled-input"
                                     />
                                     <div class="input-line"></div>
                                 </div>
                             </div>
 
-                            <!-- Email -->
                             <div class="input-group">
                                 <label class="input-label">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                                     </svg>
-                                    Gmail / Email
+                                    {{ t('contact_section.form.email_label') }}
                                 </label>
                                 <div class="input-wrapper">
                                     <input
                                         v-model="form.email"
                                         type="email"
                                         required
-                                        placeholder="alamat@gmail.com"
+                                        :placeholder="t('contact_section.form.email_placeholder')"
                                         class="styled-input"
                                     />
                                     <div class="input-line"></div>
                                 </div>
                             </div>
 
-                            <!-- Pesan -->
                             <div class="input-group">
                                 <label class="input-label">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
                                     </svg>
-                                    Pesan
+                                    {{ t('contact_section.form.message_label') }}
                                 </label>
                                 <div class="input-wrapper">
                                     <textarea
                                         v-model="form.pesan"
                                         required
                                         rows="4"
-                                        placeholder="Apa yang bisa kami bantu?"
+                                        :placeholder="t('contact_section.form.message_placeholder')"
                                         class="styled-input resize-none"
                                     ></textarea>
                                     <div class="input-line"></div>
                                 </div>
                             </div>
 
-                            <!-- Submit Button -->
                             <button type="submit" class="wa-button group">
                                 <span class="wa-button-bg"></span>
                                 <span class="wa-button-content">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                                     </svg>
-                                    <span class="font-black tracking-wide">Kirim ke WhatsApp</span>
+                                    <span class="font-black tracking-wide">{{ t('contact_section.form.submit') }}</span>
                                     <span class="arrow-icon">→</span>
                                 </span>
                             </button>
 
                         </form>
 
-                        <!-- Phone info -->
                         <div class="mt-8 pt-7 border-t border-slate-100">
                             <div class="flex items-center gap-4">
                                 <div class="phone-icon-wrap">
@@ -181,12 +172,12 @@ const sendToWhatsApp = () => {
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Hubungi Kami</p>
+                                    <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">{{ t('contact_section.info.title') }}</p>
                                     <p class="text-sm font-black text-slate-800 mt-0.5">0856-9367-2730</p>
                                 </div>
                                 <div class="available-tag ml-auto">
                                     <span class="dot-green"></span>
-                                    <span class="text-[10px] font-bold text-green-700">Online</span>
+                                    <span class="text-[10px] font-bold text-green-700">{{ t('contact_section.info.status') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -199,6 +190,7 @@ const sendToWhatsApp = () => {
 </template>
 
 <style scoped>
+/* Seluruh blok CSS/Style tidak berubah, dibiarkan seperti file aslinya */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
 
 /* ─── Base ─── */
