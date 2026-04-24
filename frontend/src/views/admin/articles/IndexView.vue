@@ -2,23 +2,22 @@
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import axios from 'axios'
-import Sidebar from '@/components/admin/Sidebar.vue'
-import Navbar from '@/components/admin/Navbar.vue' // 1. IMPORT NAVBAR COMPONENT
 import { getImageUrl, handleImageError } from '@/utils/imageHelper' 
+
+// Import komponen reusable
+import Sidebar from '@/components/admin/Sidebar.vue'
+import Navbar from '@/components/admin/Navbar.vue' 
 
 const router = useRouter()
 const route = useRoute() 
 
 const isSidebarOpen = ref(false)
-// isProfileOpen dihapus karena sudah ada di dalam Navbar.vue
-
-const currentView = ref('articles')
 const user = ref({ name: 'Admin', email: '' })
 
-// 2. DATA BREADCRUMBS UNTUK DIKIRIM KE NAVBAR
+// Setup Breadcrumbs untuk Navbar
 const breadcrumbsData = ref([
-    { label: 'Dashboard', link: '/admin/dashboard' },
-    { label: 'Manage Articles', link: null }
+    { label: 'Artikel', link: '/admin/articles' },
+    { label: 'Index', link: null }
 ])
 
 const articles = ref([])
@@ -141,15 +140,6 @@ const resetFilters = () => {
     fetchArticles(1)
 }
 
-const handleNavigation = (view) => {
-    if (view === 'dashboard') {
-        router.push('/admin/dashboard')
-    } else if (view === 'categories') {
-        router.push('/admin/categories')
-    } else if (view === 'articles') {
-        router.push('/admin/articles') 
-    }
-}
 const handleLogout = () => {
     localStorage.removeItem('user')
     localStorage.removeItem('token')
@@ -183,13 +173,10 @@ const confirmDelete = async (id) => {
 
 <template>
     <div class="flex min-h-screen bg-slate-50 relative overflow-x-hidden">
-        <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-slate-900/50 z-40 lg:hidden backdrop-blur-sm"></div>
         <div v-if="isCategoryDropdownOpen" @click="isCategoryDropdownOpen = false" class="fixed inset-0 z-[90] bg-transparent"></div>
 
         <Sidebar 
             v-model:is-open="isSidebarOpen" 
-            v-model:current-view="currentView"
-            @update:currentView="handleNavigation"
             @logout="handleLogout"
         />
 
