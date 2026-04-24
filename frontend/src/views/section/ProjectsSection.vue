@@ -147,7 +147,7 @@ const filteredProjects = computed(() => {
             </transition-group>
 
             <div class="mt-24 flex flex-col items-center gap-8">
-                <router-link to="/project" v-if="showButton"
+                <router-link  :to="$i18n.locale === 'id' ? '/id/proyek-kami' : '/en/projects'" v-if="showButton"
                     class="group relative px-14 py-6 bg-slate-900 text-white rounded-full font-black text-[11px] uppercase tracking-[0.3em] overflow-hidden transition-all active:scale-95 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] flex items-center justify-center inline-flex">
                     <span class="relative z-10 flex items-center gap-6">
                         {{ $t('projects.button_more') || 'View Full Project Library' }}

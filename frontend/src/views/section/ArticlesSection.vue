@@ -66,7 +66,7 @@ onMounted(() => {
                 </div>
 
                 <router-link
-                    to="/articles"
+                    :to="$i18n.locale === 'id' ? '/id/artikel' : '/en/articles'"
                     class="inline-flex items-center gap-2 text-orange-500 font-bold text-[11px] uppercase tracking-[.15em] border-[1.5px] border-orange-500 rounded-full px-5 py-2 transition-all hover:bg-orange-500 hover:text-white whitespace-nowrap">
                     {{ locale === 'en' ? 'See All Articles' : 'Lihat Semua Artikel' }}
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
