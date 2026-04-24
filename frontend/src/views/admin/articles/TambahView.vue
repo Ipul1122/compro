@@ -1,18 +1,18 @@
 <template>
   <div class="flex min-h-screen bg-slate-50 relative overflow-x-hidden">
-    <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-slate-900/50 z-40 lg:hidden backdrop-blur-sm"></div>
     
-    <Sidebar v-model:is-open="isSidebarOpen" v-model:current-view="currentView" @update:currentView="handleNavigation" @logout="handleLogout" />
+    <Sidebar 
+      v-model:is-open="isSidebarOpen" 
+      @logout="handleLogout" 
+    />
 
     <div class="flex-1 flex flex-col min-w-0">
-      <nav class="h-20 bg-white border-b border-slate-100 px-4 md:px-8 flex items-center justify-between sticky top-0 z-[50]">
-        <div class="flex items-center gap-4">
-          <button @click="isSidebarOpen = !isSidebarOpen" class="lg:hidden p-2 text-slate-600 hover:bg-slate-50 rounded-lg cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-          </button>
-          <h2 class="text-base md:text-lg font-bold text-slate-900 uppercase tracking-tight">Tambah Artikel</h2>
-        </div>
-      </nav>
+      <Navbar 
+        :user="user" 
+        :breadcrumbs="breadcrumbsData" 
+        @toggle-sidebar="isSidebarOpen = !isSidebarOpen" 
+        @logout="handleLogout"
+      />
 
       <main class="p-4 md:p-8">
         <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm max-w-5xl mx-auto">
@@ -142,7 +142,10 @@
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+
+// Import komponen Sidebar dan Navbar
 import Sidebar from '@/components/admin/Sidebar.vue';
+import Navbar from '@/components/admin/Navbar.vue';
 
 // TIPTAP IMPORTS
 import { useEditor, EditorContent } from '@tiptap/vue-3';
@@ -151,12 +154,19 @@ import Link from '@tiptap/extension-link';
 
 const router = useRouter();
 
+// UI State
 const isSidebarOpen = ref(false);
-const currentView = ref('articles');
 const isSaving = ref(false);
 const categories = ref([]);
 const previewImage = ref(null);
 const hasDraft = ref(false);
+
+// State untuk dikirim ke Navbar
+const user = ref({ name: 'Admin', email: '' });
+const breadcrumbsData = ref([
+    { label: 'Artikel', link: '/admin/articles' },
+    { label: 'Tambah Artikel', link: null }
+]);
 
 const form = ref({
     title: '',
@@ -363,6 +373,9 @@ onMounted(async () => {
         handleLogout();
         return;
     }
+    
+    user.value = JSON.parse(savedUser);
+    
     await fetchCategories();
     // Load draft dipanggil setelah fetch categories agar dropdown bind dengan benar
     loadDraft();
@@ -489,11 +502,6 @@ const storeArticle = async () => {
             handleLogout();
         } else { alert('Gagal menyimpan artikel. Pastikan semua field wajib terisi.'); }
     } finally { isSaving.value = false; }
-};
-
-const handleNavigation = (view) => {
-    if (view === 'dashboard') router.push('/admin/dashboard');
-    else if (view === 'categories') router.push('/admin/categories');
 };
 
 const handleLogout = () => {
