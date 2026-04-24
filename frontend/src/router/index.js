@@ -184,6 +184,16 @@ const routes = [
       lang: 'en'
     }
   },
+  {
+    path: '/privacy-policy',
+    name: 'privacy-policy',
+    component: () => import('../views/pages/PrivacyPolicyView.vue')
+  },
+  {
+    path: '/terms-of-service',
+    name: 'terms-of-service',
+    component: () => import('../views/pages/TermsOfServiceView.vue')
+  },
 
   // --------------------------
   // ADMIN ROUTES

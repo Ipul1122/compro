@@ -234,5 +234,62 @@
     "modal": {
       "close": "Close"
     }
+  },
+  "contact_section": {
+    "badge": "Ready to Help You",
+    "title": "Contact Us",
+    "description": "We are ready to assist with your needs. Contact us via the form or visit our office using the map below.",
+    "company_name": "PT Cakrawala Parama Internasional",
+    "address": "Thamrin City Mall, Jakarta, Indonesia",
+    "form_title": "Send a Message",
+    "form_subtitle": "Fill out the form and you will be directed to WhatsApp",
+    "form": {
+      "name_label": "Full Name",
+      "name_placeholder": "What is your name?",
+      "email_label": "Gmail / Email",
+      "email_placeholder": "address@gmail.com",
+      "message_label": "Message",
+      "message_placeholder": "How can we help you?",
+      "submit": "Send to WhatsApp"
+    },
+    "info": {
+      "title": "Call Us",
+      "status": "Online"
+    },
+    "whatsapp_greeting": "Hello PT Cakrawala Parama Internasional,%0A%0AI am *{name}* ({email}) and I would like to ask:%0A{message}"
+  },
+  "privacy_policy": {
+    "title": "Privacy Policy",
+    "last_updated": "Last updated: April 2026",
+    "sections": {
+      "intro_title": "Introduction",
+      "intro_text": "PT Cakrawala Parama Internasional is committed to protecting and respecting your privacy. This policy explains how we collect, use, and protect your personal data when using our services.",
+      "collection_title": "Information We Collect",
+      "collection_text": "We collect information you provide directly to us, such as name, email address, and messages when you fill out a contact form or use our recruitment management system.",
+      "usage_title": "Information Usage",
+      "usage_text": "We use this information to provide, maintain, and improve our services, including for assessment, training, and service-related communication.",
+      "security_title": "Data Security",
+      "security_text": "We implement strict technical and organizational security measures to protect your personal data from unauthorized access, loss, or misuse.",
+      "contact_title": "Contact Us",
+      "contact_text": "If you have any questions about this Privacy Policy, you can contact us through the available contact page."
+    }
+  },
+  "terms_of_service": {
+    "title": "Terms of Service",
+    "last_updated": "Last updated: April 2026",
+    "sections": {
+      "acceptance_title": "Acceptance of Terms",
+      "acceptance_text": "By accessing and using the PT Cakrawala Parama Internasional website, you agree to be bound by these Terms of Service and all applicable laws and regulations.",
+      "services_title": "Use of Services",
+      "services_text": "Our services, including but not limited to E-Recruitment, Assessment, and Training, are provided for professional purposes. Users are prohibited from misusing the system or attempting unauthorized access.",
+      "intellectual_title": "Intellectual Property Rights",
+      "intellectual_text": "All content, logos, designs, and technology on this site are the legal property of PT Cakrawala Parama Internasional and are protected by copyright laws in Indonesia.",
+      "limitation_title": "Limitation of Liability",
+      "limitation_text": "PT Cakrawala Parama Internasional is not liable for any damages arising from the use or inability to use our services, unless explicitly required by law.",
+      "governing_title": "Governing Law",
+      "governing_text": "These terms are governed by and construed in accordance with the laws of the Republic of Indonesia. Any disputes will be resolved in the competent courts in Jakarta.",
+      "changes_title": "Changes to Terms",
+      "changes_text": "We reserve the right to modify these terms at any time. Changes will take effect immediately upon being posted on this page."
+    }
   }
 }
