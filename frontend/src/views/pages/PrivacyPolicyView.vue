@@ -9,9 +9,8 @@ onMounted(() => {
 
 <template>
   <main>
-    <Navbar />
-    <div class=""> <PrivacyPolicySection />
+    <div class=""> 
+      <PrivacyPolicySection />
     </div>
-    <Footer />
   </main>
 </template>

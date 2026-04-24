@@ -247,7 +247,7 @@
       "name_label": "Full Name",
       "name_placeholder": "What is your name?",
       "email_label": "Gmail / Email",
-      "email_placeholder": "address@gmail.com",
+      "email_placeholder": "address{'@'}gmail.com",
       "message_label": "Message",
       "message_placeholder": "How can we help you?",
       "submit": "Send to WhatsApp"
