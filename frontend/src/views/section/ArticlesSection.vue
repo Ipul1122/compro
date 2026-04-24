@@ -46,18 +46,18 @@ onMounted(() => {
             <!-- Header -->
             <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
                 <div>
-                    <div class="w-12 h-1 bg-orange-500 rounded-full mb-3"></div>
+                    <div class="font-montserrat w-12 h-1 bg-orange-500 rounded-full mb-3"></div>
                     <p class="text-[11px] font-bold tracking-[.2em] uppercase text-orange-500 mb-1">
                         {{ locale === 'en' ? 'Blog & Insights' : 'Blog & Wawasan' }}
                     </p>
-                    <h2 class="text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tight leading-none">
+                    <h2 class="font-montserrat text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tight leading-none">
                         {{ locale === 'en' ? 'Latest ' : 'Artikel ' }}
-                        <span class="text-orange-500 relative">
+                        <span class="font-montserrat text-orange-500 relative">
                             {{ locale === 'en' ? 'Articles' : 'Terbaru' }}
                             <span class="absolute bottom-0 left-0 right-0 h-[3px] bg-orange-500 rounded-full"></span>
                         </span>
                     </h2>
-                    <p class="text-slate-500 max-w-md mt-3 text-sm leading-relaxed">
+                    <p class="font-poppins text-slate-500 max-w-md mt-3 text-sm leading-relaxed">
                         {{ locale === 'en'
                             ? 'Get the latest insights, tips, and news about our projects and services.'
                             : 'Dapatkan wawasan terbaru, tips, dan berita seputar proyek serta layanan kami melalui artikel pilihan.'

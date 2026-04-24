@@ -2,13 +2,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
 @theme {
-  /* 1. Define your brand color again (if you haven't already) */
+  /* 1. Define your brand color again */
   --color-brand: oklch(57.7% 0.245 27.325);
 
-  /* 2. Map 'Inter' to the default sans font */
+  /* 2. Map default sans font */
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  
+  /* 3. Tambahkan Custom Fonts Anda di sini */
+  --font-montserrat: "Montserrat", sans-serif;
+  --font-poppins: "Poppins", sans-serif;
 }
-
 /* 3. Apply it to the body globally */
 @layer base {
   body {

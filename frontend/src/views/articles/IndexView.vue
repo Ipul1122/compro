@@ -134,10 +134,10 @@ const getCategoryName = (name) => {
             <!-- Hero Header -->
             <div class="hero-section">
                 <div class="hero-eyebrow">
-                    <span class="eyebrow-dot"></span>
+                    <span class="eyebrow-dot font-montserrat"></span>
                     <span>{{ $t('articles_index.subtitle') }}</span>
                 </div>
-                <h1 class="hero-title">
+                <h1 class="hero-title font-montserrat">
                     {{ $t('articles_index.title') }}
                 </h1>
                 <div class="hero-line"></div>
@@ -398,7 +398,7 @@ const getCategoryName = (name) => {
     50% { opacity: 0.5; transform: scale(0.8); }
 }
 .hero-title {
-    font-family: 'Syne', sans-serif;
+    /* font-family: */
     font-size: clamp(2.8rem, 7vw, 5.5rem);
     font-weight: 800;
     line-height: 1.0;
