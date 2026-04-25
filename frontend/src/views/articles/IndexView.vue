@@ -63,7 +63,7 @@ const changePage = (page) => {
     if (filters.value.search) queryParams.search = filters.value.search
     if (filters.value.category_id) queryParams.category_id = filters.value.category_id
 
-    router.push({ name: 'articles.index', query: queryParams })
+    router.push({ name: route.name, query: queryParams })
 }
 
 watch(() => route.query, (newQuery) => {
