@@ -24,8 +24,10 @@
 
           <form v-else @submit.prevent="updateData">
             <div class="mb-6">
-              <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Nama Kategori</label>
+              <label for="nama_kategori" class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Nama Kategori</label>
               <input 
+                id="nama_kategori"
+                name="nama_kategori"
                 v-model="category.name" 
                 type="text" 
                 class="w-full border border-slate-500 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 focus:outline-none font-bold text-black"

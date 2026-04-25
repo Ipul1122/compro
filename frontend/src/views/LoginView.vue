@@ -75,17 +75,17 @@ const handleLogin = async () => {
 
                 <form @submit.prevent="handleLogin" class="space-y-6">
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-2">Email Address</label>
-                        <input v-model="email" type="email"
+                        <label for="email" class="block text-sm font-bold text-slate-700 mb-2">Email Address</label>
+                        <input id="email" name="email" v-model="email" type="email"
                             class="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/10 transition-all"
                             required />
                     </div>
                     <div>
                         <div class="flex justify-between mb-2">
-                            <label class="block text-sm font-bold text-slate-700">Password</label>
+                            <label for="password" class="block text-sm font-bold text-slate-700">Password</label>
                             <a href="#" class="text-xs font-bold text-brand hover:underline">Forgot?</a>
                         </div>
-                        <input v-model="password" type="password"
+                        <input id="password" name="password" v-model="password" type="password"
                             class="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/10 transition-all"
                             required />
                     </div>

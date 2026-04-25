@@ -220,32 +220,32 @@ onMounted(() => {
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label class="block text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Kategori <span class="text-red-500">*</span></label>
-                                <select v-model="form.category_id" class="w-full bg-slate-50 text-black border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium transition-all" :class="{'border-red-400 bg-red-50': errors.category_id}">
+                                <label for="kategori" class="block text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Kategori <span class="text-red-500">*</span></label>
+                                <select id="kategori" name="kategori" v-model="form.category_id" class="w-full bg-slate-50 text-black border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium transition-all" :class="{'border-red-400 bg-red-50': errors.category_id}">
                                     <option value="" disabled>Pilih Kategori</option>
                                     <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
                                 </select>
                                 <p v-if="errors.category_id" class="text-red-500 text-xs mt-1 font-bold">{{ errors.category_id[0] }}</p>
                             </div>
                             <div>
-                                <label class="block text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Judul Dasar Wadah (ID)</label>
-                                <input v-model="form.title_image" @input="autoTranslateTitle" type="text" placeholder="Contoh: Momen Gathering" class="w-full text-black bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium transition-all" required />
+                                <label for="judul_id" class="block text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Judul Dasar Wadah (ID)</label>
+                                <input id="judul_id" name="judul_id" v-model="form.title_image" @input="autoTranslateTitle" type="text" placeholder="Contoh: Momen Gathering" class="w-full text-black bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium transition-all" required />
                             </div>
                             <div class="relative">
-                                <label class="block text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Judul Dasar Wadah (EN)</label>
-                                <input v-model="form.title_image_en" type="text" placeholder="Terjemahan otomatis muncul di sini..." class="w-full text-black bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium transition-all" />
+                                <label for="judul_en" class="block text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Judul Dasar Wadah (EN)</label>
+                                <input id="judul_en" name="judul_en" v-model="form.title_image_en" type="text" placeholder="Terjemahan otomatis muncul di sini..." class="w-full text-black bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium transition-all" />
                                 <span v-if="isTranslatingTitle" class="absolute right-4 top-[42px] text-xs font-bold text-slate-400 animate-pulse">Translating...</span>
                             </div>
                             <div>
-                                <label class="block text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Slug</label>
-                                <input v-model="form.slug" type="text" disabled placeholder="otomatis-mengikuti-judul" class="w-full text-slate-500 bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 cursor-not-allowed font-medium transition-all" />
+                                <label for="slug" class="block text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Slug</label>
+                                <input id="slug" name="slug" v-model="form.slug" type="text" disabled placeholder="otomatis-mengikuti-judul" class="w-full text-slate-500 bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 cursor-not-allowed font-medium transition-all" />
                             </div>
                         </div>
 
-                        <div>
-                            <label class="block text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Pilih Gambar (Maksimal 10) <span class="text-red-500">*</span></label>
-                            <div class="border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center hover:bg-slate-50 transition-all cursor-pointer relative" :class="{'border-red-400 bg-red-50': form.images.length > 10 || errors.images}">
-                                <input type="file" multiple @change="handleFileChange" class="absolute inset-0 opacity-0 cursor-pointer z-10" accept="image/*" />
+                            <div>
+                                <label for="pilih_gambar" class="block text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Pilih Gambar (Maksimal 10) <span class="text-red-500">*</span></label>
+                                <div class="border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center hover:bg-slate-50 transition-all cursor-pointer relative" :class="{'border-red-400 bg-red-50': form.images.length > 10 || errors.images}">
+                                    <input id="pilih_gambar" name="pilih_gambar" type="file" multiple @change="handleFileChange" class="absolute inset-0 opacity-0 cursor-pointer z-10" accept="image/*" />
                                 <div class="text-slate-400 pointer-events-none">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-2" :class="errors.images ? 'text-red-400' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                                     <p class="font-bold text-slate-600">Klik atau seret foto ke sini</p>

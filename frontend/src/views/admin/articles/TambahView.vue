@@ -27,32 +27,32 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               
               <div class="md:col-span-2">
-                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Gambar Utama <span class="text-red-500">*</span></label>
+                <label for="gambar_utama" class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Gambar Utama <span class="text-red-500">*</span></label>
                 <div class="flex flex-col items-start gap-4">
                   <img v-if="previewImage" :src="previewImage" class="w-full max-w-2xl aspect-video rounded-xl object-cover border border-slate-200 shadow-sm" />
-                  <input type="file" @change="handleFileChange" accept="image/*" class="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-900 file:text-white hover:file:bg-[#ea4435] cursor-pointer" :required="!previewImage">
+                  <input id="gambar_utama" name="gambar_utama" type="file" @change="handleFileChange" accept="image/*" class="text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-900 file:text-white hover:file:bg-[#ea4435] cursor-pointer" :required="!previewImage">
                 </div>
               </div>
 
               <div>
-                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Judul Artikel (ID) <span class="text-red-500">*</span></label>
-                <input v-model="form.title" @input="autoTranslateTitle" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-slate-50 focus:bg-white transition-colors" required placeholder="Masukkan judul artikel (ID)">
+                <label for="judul_id" class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Judul Artikel (ID) <span class="text-red-500">*</span></label>
+                <input id="judul_id" name="judul_id" v-model="form.title" @input="autoTranslateTitle" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-slate-50 focus:bg-white transition-colors" required placeholder="Masukkan judul artikel (ID)">
               </div>
 
               <div class="relative">
-                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Judul Artikel (EN)</label>
-                <input v-model="form.title_en" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-slate-50 focus:bg-white transition-colors" placeholder="Terjemahan otomatis muncul di sini...">
+                <label for="judul_en" class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Judul Artikel (EN)</label>
+                <input id="judul_en" name="judul_en" v-model="form.title_en" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-slate-50 focus:bg-white transition-colors" placeholder="Terjemahan otomatis muncul di sini...">
                 <span v-if="isTranslatingTitle" class="absolute right-4 top-[42px] text-xs font-bold text-slate-400 animate-pulse">Translating...</span>
               </div>
 
               <div>
-                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Slug</label>
-                <input v-model="form.slug" type="text" disabled class="w-full border border-slate-300 p-3 rounded-xl outline-none font-bold text-slate-500 bg-slate-100 cursor-not-allowed" placeholder="otomatis-mengikuti-judul">
+                <label for="slug" class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Slug</label>
+                <input id="slug" name="slug" v-model="form.slug" type="text" disabled class="w-full border border-slate-300 p-3 rounded-xl outline-none font-bold text-slate-500 bg-slate-100 cursor-not-allowed" placeholder="otomatis-mengikuti-judul">
               </div>
 
               <div>
-                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Kategori <span class="text-red-500">*</span></label>
-                <select v-model="form.category_id" @change="handleCategoryChange" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-white" required>
+                <label for="kategori" class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Kategori <span class="text-red-500">*</span></label>
+                <select id="kategori" name="kategori" v-model="form.category_id" @change="handleCategoryChange" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-white" required>
                   <option value="" disabled>Pilih Kategori</option>
                   <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
                   <option value="redirect_create" class="font-bold text-blue-600 bg-blue-50">Tidak ada kategori yang sesuai?</option>
@@ -61,7 +61,7 @@
 
               <div class="md:col-span-2 mt-4">
                 <div class="flex justify-between items-end mb-2">
-                  <label class="block text-xs font-bold text-black uppercase tracking-widest">Isi Konten (ID) <span class="text-red-500">*</span></label>
+                  <label id="label_konten_id" class="block text-xs font-bold text-black uppercase tracking-widest" aria-label="Isi Konten ID">Isi Konten (ID) <span class="text-red-500">*</span></label>
                   <button type="button" @click="generateTOC(editorId)" class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-blue-100 transition-colors flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
                     Buat TOC (Daftar Isi)
@@ -82,7 +82,7 @@
 
               <div class="md:col-span-2 mt-4">
                 <div class="flex justify-between items-end mb-2">
-                  <label class="block text-xs font-bold text-black uppercase tracking-widest">Isi Konten (EN)</label>
+                  <label id="label_konten_en" class="block text-xs font-bold text-black uppercase tracking-widest" aria-label="Isi Konten EN">Isi Konten (EN)</label>
                   <button type="button" @click="generateTOC(editorEn)" class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-blue-100 transition-colors flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
                     Buat TOC (Daftar Isi)
@@ -101,23 +101,23 @@
               </div>
               
               <div>
-                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Title (SEO)</label>
-                <input v-model="form.meta_title" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-white" placeholder="Judul untuk SEO">
+                <label for="meta_title" class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Title (SEO)</label>
+                <input id="meta_title" name="meta_title" v-model="form.meta_title" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-white" placeholder="Judul untuk SEO">
               </div>
 
               <div>
-                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Keywords (SEO)</label>
-                <input v-model="form.meta_keywords" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-white" placeholder="pisahkan, dengan, koma">
+                <label for="meta_keywords" class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Keywords (SEO)</label>
+                <input id="meta_keywords" name="meta_keywords" v-model="form.meta_keywords" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-white" placeholder="pisahkan, dengan, koma">
               </div>
 
               <div class="md:col-span-2">
-                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Description (SEO)</label>
-                <textarea v-model="form.meta_description" rows="3" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-medium text-black" placeholder="Deskripsi singkat untuk SEO..."></textarea>
+                <label for="meta_description" class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Description (SEO)</label>
+                <textarea id="meta_description" name="meta_description" v-model="form.meta_description" rows="3" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-medium text-black" placeholder="Deskripsi singkat untuk SEO..."></textarea>
               </div>
 
               <div>
-                <label class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Status</label>
-                <select v-model="form.published" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-white">
+                <label for="status" class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Status</label>
+                <select id="status" name="status" v-model="form.published" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-white">
                   <option value="publish">Publish</option>
                   <option value="draft">Draft</option>
                 </select>

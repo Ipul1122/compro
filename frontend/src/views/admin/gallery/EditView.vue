@@ -254,23 +254,23 @@ onMounted(() => {
                             <h2 class="text-sm font-black text-slate-700 uppercase tracking-wider mb-6 border-b border-slate-100 pb-3">1. Informasi Wadah</h2>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Kategori</label>
-                                    <select v-model="form.category_id" class="w-full text-black bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium">
+                                    <label for="kategori" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Kategori</label>
+                                    <select id="kategori" name="kategori" v-model="form.category_id" class="w-full text-black bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium">
                                         <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Judul Dasar Wadah (ID)</label>
-                                    <input v-model="form.title_image" @input="autoTranslateTitle" type="text" class="w-full text-black bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium" required />
+                                    <label for="judul_id" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Judul Dasar Wadah (ID)</label>
+                                    <input id="judul_id" name="judul_id" v-model="form.title_image" @input="autoTranslateTitle" type="text" class="w-full text-black bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium" required />
                                 </div>
                                 <div class="relative">
-                                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Judul Dasar Wadah (EN)</label>
-                                    <input v-model="form.title_image_en" type="text" class="w-full text-black bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium" placeholder="Terjemahan otomatis muncul di sini..." />
+                                    <label for="judul_en" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Judul Dasar Wadah (EN)</label>
+                                    <input id="judul_en" name="judul_en" v-model="form.title_image_en" type="text" class="w-full text-black bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/20 font-medium" placeholder="Terjemahan otomatis muncul di sini..." />
                                     <span v-if="isTranslatingTitle" class="absolute right-4 top-[42px] text-xs font-bold text-slate-400 animate-pulse">Translating...</span>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Slug</label>
-                                    <input v-model="form.slug" type="text" class="w-full text-slate-500 bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 cursor-not-allowed font-medium" disabled placeholder="otomatis-mengikuti-judul" />
+                                    <label for="slug" class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Slug</label>
+                                    <input id="slug" name="slug" v-model="form.slug" type="text" class="w-full text-slate-500 bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 cursor-not-allowed font-medium" disabled placeholder="otomatis-mengikuti-judul" />
                                 </div>
                             </div>
                         </div>
@@ -311,7 +311,7 @@ onMounted(() => {
                         <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
                             <h2 class="text-sm font-black text-slate-700 uppercase tracking-wider mb-6 border-b border-slate-100 pb-3">3. Tambah Foto Ke Wadah Ini</h2>
                             <div class="border-2 border-dashed border-slate-200 rounded-2xl p-6 text-center hover:bg-blue-50/50 hover:border-blue-300 transition-all cursor-pointer relative mb-6">
-                                <input type="file" multiple @change="handleFileChange" class="absolute inset-0 opacity-0 cursor-pointer z-10" accept="image/*" />
+                                <input id="tambah_foto" name="tambah_foto" aria-label="Tambah foto ke wadah" type="file" multiple @change="handleFileChange" class="absolute inset-0 opacity-0 cursor-pointer z-10" accept="image/*" />
                                 <div class="text-slate-400">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto mb-2 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
                                     <p class="font-bold text-slate-600">Klik / Seret foto tambahan ke sini</p>

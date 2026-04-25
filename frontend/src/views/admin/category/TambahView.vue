@@ -23,8 +23,10 @@
 
           <form @submit.prevent="submitForm" class="space-y-6">
             <div>
-              <label class="block text-sm font-bold text-slate-900 tracking-widest mb-2">Nama Kategori <span class="text-red-500">*</span></label>
+              <label for="nama_kategori" class="block text-sm font-bold text-slate-900 tracking-widest mb-2">Nama Kategori <span class="text-red-500">*</span></label>
               <input 
+                id="nama_kategori"
+                name="nama_kategori"
                 v-model="form.name" 
                 type="text" 
                 placeholder="Contoh: Teknologi, Pendidikan, dll..." 
