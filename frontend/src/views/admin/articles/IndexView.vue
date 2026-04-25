@@ -203,14 +203,14 @@ const confirmDelete = async (id) => {
                 <div class="bg-white rounded-3xl border border-slate-100 p-6 mb-6 shadow-sm">
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div>
-                            <label class="text-[10px] font-black text-slate-400 uppercase mb-2 block">Search Title</label>
-                            <input v-model="filters.search" @keyup.enter="applyFilters" type="text" placeholder="Ketik judul artikel..." 
+                            <label for="search_title" class="text-[10px] font-black text-slate-400 uppercase mb-2 block">Search Title</label>
+                            <input id="search_title" name="search_title" v-model="filters.search" @keyup.enter="applyFilters" type="text" placeholder="Ketik judul artikel..." 
                                 class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/5 transition-all text-black" />
                         </div>
 
                         <div>
-                            <label class="text-[10px] font-black text-slate-400 uppercase mb-2 block">Status</label>
-                            <select v-model="filters.status" @change="applyFilters" 
+                            <label for="filter_status" class="text-[10px] font-black text-slate-400 uppercase mb-2 block">Status</label>
+                            <select id="filter_status" name="filter_status" v-model="filters.status" @change="applyFilters" 
                                 class="w-full bg-slate-50 border text-black border-slate-100 rounded-xl px-4 py-2 text-sm focus:outline-none cursor-pointer">
                                 <option value="">Semua Status</option>
                                 <option value="publish">Published</option>
@@ -219,9 +219,12 @@ const confirmDelete = async (id) => {
                         </div>
 
                         <div class="relative">
-                            <label class="text-[10px] font-black text-slate-400 uppercase mb-2 block">Category</label>
+                            <label for="filter_category" class="text-[10px] font-black text-slate-400 uppercase mb-2 block">Category</label>
                             <div class="relative">
                                 <input 
+                                    id="filter_category"
+                                    name="filter_category"
+                                    aria-label="Cari dan pilih kategori"
                                     v-model="categorySearchText" 
                                     @focus="isCategoryDropdownOpen = true"
                                     placeholder="Cari & pilih kategori..." 

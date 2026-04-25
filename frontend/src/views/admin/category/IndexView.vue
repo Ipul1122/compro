@@ -18,7 +18,7 @@
           <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
             <h2 class="font-black text-xl text-slate-900 uppercase tracking-tight">Daftar Kategori</h2>
             <div class="flex gap-3 w-full md:w-auto">
-              <input v-model="search" @input="handleSearch" type="text" placeholder="Cari kategori..." class="border border-slate-200 px-4 py-2 rounded-xl text-sm w-full md:w-64 focus:ring-2 focus:ring-slate-900 focus:outline-none text-black">
+              <input id="search_kategori" name="search_kategori" aria-label="Cari kategori" v-model="search" @input="handleSearch" type="text" placeholder="Cari kategori..." class="border border-slate-200 px-4 py-2 rounded-xl text-sm w-full md:w-64 focus:ring-2 focus:ring-slate-900 focus:outline-none text-black">
               <button @click="router.push('/admin/categories/tambah')" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-[#ea4435] transition-colors whitespace-nowrap cursor-pointer">
                 Tambah Data
               </button>
@@ -82,7 +82,7 @@
             <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
               <h2 class="font-black text-xl text-slate-900 uppercase tracking-tight">Daftar Kategori</h2>
               <div class="flex gap-3 w-full md:w-auto">
-                <input v-model="search" @input="handleSearch" type="text" placeholder="Cari kategori..." class="border border-slate-200 px-4 py-2 rounded-xl text-sm w-full md:w-64 focus:ring-2 focus:ring-slate-900 focus:outline-none text-black">
+                <input id="search_kategori_2" name="search_kategori_2" aria-label="Cari kategori" v-model="search" @input="handleSearch" type="text" placeholder="Cari kategori..." class="border border-slate-200 px-4 py-2 rounded-xl text-sm w-full md:w-64 focus:ring-2 focus:ring-slate-900 focus:outline-none text-black">
                 <button @click="router.push('/admin/categories/tambah')" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-[#ea4435] transition-colors whitespace-nowrap cursor-pointer">
                   Tambah Data
                 </button>
