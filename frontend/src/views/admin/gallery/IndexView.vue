@@ -22,6 +22,10 @@ const breadcrumbsData = ref([
 const galleries = ref([])
 const categories = ref([])
 
+// --- STATE FILTER ---
+const searchQuery = ref(route.query.search || '')
+const selectedCategory = ref(route.query.category_id || '')
+
 // FRONTEND PAGINATION (SINKRON DENGAN URL)
 const currentPage = ref(parseInt(route.query.page) || 1)
 const itemsPerPage = 10
@@ -95,16 +99,32 @@ const groupedGalleries = computed(() => {
     return Object.values(groups)
 })
 
-// 2. HITUNG TOTAL HALAMAN
-const totalPages = computed(() => {
-    return Math.ceil(groupedGalleries.value.length / itemsPerPage) || 1
+// 2. FILTER BERDASARKAN SEARCH & KATEGORI
+const filteredAlbums = computed(() => {
+    let result = groupedGalleries.value
+
+    if (selectedCategory.value) {
+        result = result.filter(album => String(album.category_id) === String(selectedCategory.value))
+    }
+
+    if (searchQuery.value.trim()) {
+        const q = searchQuery.value.trim().toLowerCase()
+        result = result.filter(album => album.title.toLowerCase().includes(q))
+    }
+
+    return result
 })
 
-// 3. POTONG ARRAY UNTUK PAGINATION
+// 3. HITUNG TOTAL HALAMAN
+const totalPages = computed(() => {
+    return Math.ceil(filteredAlbums.value.length / itemsPerPage) || 1
+})
+
+// 4. POTONG ARRAY UNTUK PAGINATION
 const paginatedAlbums = computed(() => {
     const start = (currentPage.value - 1) * itemsPerPage
     const end = start + itemsPerPage
-    return groupedGalleries.value.slice(start, end)
+    return filteredAlbums.value.slice(start, end)
 })
 
 const changePage = (page) => {
@@ -114,8 +134,31 @@ const changePage = (page) => {
     }
 }
 
+const applyFilters = () => {
+    currentPage.value = 1
+    router.push({
+        query: {
+            ...route.query,
+            page: 1,
+            search: searchQuery.value || undefined,
+            category_id: selectedCategory.value || undefined
+        }
+    })
+}
+
+const clearFilters = () => {
+    searchQuery.value = ''
+    selectedCategory.value = ''
+    currentPage.value = 1
+    router.push({ query: {} })
+}
+
 watch(() => route.query.page, (newPage) => {
     currentPage.value = parseInt(newPage) || 1
+})
+
+watch([searchQuery, selectedCategory], () => {
+    applyFilters()
 })
 
 // MODAL HAPUS LOGIC
@@ -172,7 +215,9 @@ const handleLogout = () => {
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
                     <div>
                         <h1 class="text-xl sm:text-2xl font-bold text-slate-800">Manajemen Galeri (Album)</h1>
-                        <p class="text-sm sm:text-base text-slate-500 mt-1">Terdapat total <span class="font-bold text-blue-600">{{ groupedGalleries.length }}</span> Wadah Album.</p>
+                        <p class="text-sm sm:text-base text-slate-500 mt-1">
+                            Menampilkan <span class="font-bold text-blue-600">{{ filteredAlbums.length }}</span> dari <span class="font-bold text-slate-700">{{ groupedGalleries.length }}</span> Wadah Album.
+                        </p>
                     </div>
                     <router-link to="/admin/gallery/tambah" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-sm shadow-blue-600/30 w-full sm:w-auto">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -180,6 +225,59 @@ const handleLogout = () => {
                         </svg>
                         Tambah Foto Baru
                     </router-link>
+                </div>
+
+                <!-- SEARCH & FILTER TOOLBAR -->
+                <div class="flex flex-col sm:flex-row gap-3 mb-5">
+                    <!-- Search Input -->
+                    <div class="relative flex-1">
+                        <span class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-black">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 0 5 11a6 6 0 0 0 12 0z" />
+                            </svg>
+                        </span>
+                        <input
+                            id="gallery-search"
+                            v-model="searchQuery"
+                            type="text"
+                            placeholder="Cari nama album..."
+                            class="w-full text-black pl-9 pr-4 py-2.5 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400 transition-all shadow-sm"
+                        />
+                    </div>
+
+                    <!-- Category Dropdown -->
+                    <div class="relative sm:w-56">
+                        <span class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-black">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h12M3 17h6" />
+                            </svg>
+                        </span>
+                        <select
+                            id="gallery-category-filter"
+                            v-model="selectedCategory"
+                            class="w-full text-black pl-9 pr-8 py-2.5 text-sm bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-400 transition-all shadow-sm appearance-none cursor-pointer"
+                        >
+                            <option value="">Semua Kategori</option>
+                            <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+                        </select>
+                        <span class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-slate-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </span>
+                    </div>
+
+                    <!-- Clear Filters Button (visible only when filters are active) -->
+                    <button
+                        v-if="searchQuery || selectedCategory"
+                        @click="clearFilters"
+                        class="flex items-center justify-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-slate-500 bg-slate-100 hover:bg-red-50 hover:text-red-500 border border-slate-200 rounded-xl transition-all shadow-sm whitespace-nowrap"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        Reset Filter
+                    </button>
                 </div>
 
                 <div class="bg-white rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm flex flex-col relative w-full overflow-hidden">
@@ -239,9 +337,46 @@ const handleLogout = () => {
                                         </td>
                                     </tr>
                                 </template>
+
+                                <!-- EMPTY STATE SAAT FILTER AKTIF -->
+                                <template v-else-if="!isLoading && filteredAlbums.length === 0">
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-16 text-center">
+                                            <div class="flex flex-col items-center gap-3 text-slate-400">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-4.35-4.35M17 11A6 6 0 1 0 5 11a6 6 0 0 0 12 0z" />
+                                                </svg>
+                                                <p class="font-semibold text-slate-500">Album tidak ditemukan</p>
+                                                <p class="text-sm">Coba ubah kata kunci atau pilih kategori lain.</p>
+                                                <button @click="clearFilters" class="mt-1 text-sm font-bold text-blue-600 hover:underline">Reset Filter</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
                             </tbody>
                         </table>
                     </div>
+                </div>
+
+                <!-- PAGINATION -->
+                <div v-if="totalPages > 1" class="flex justify-center items-center gap-2 mt-6">
+                    <button
+                        @click="changePage(currentPage - 1)"
+                        :disabled="currentPage === 1"
+                        class="px-3 py-2 rounded-xl text-sm font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-blue-50 hover:text-blue-600 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm"
+                    >
+                        &larr; Prev
+                    </button>
+                    <span class="text-sm text-slate-500 font-medium px-2">
+                        Halaman {{ currentPage }} / {{ totalPages }}
+                    </span>
+                    <button
+                        @click="changePage(currentPage + 1)"
+                        :disabled="currentPage === totalPages"
+                        class="px-3 py-2 rounded-xl text-sm font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-blue-50 hover:text-blue-600 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-sm"
+                    >
+                        Next &rarr;
+                    </button>
                 </div>
             </main>
         </div>
@@ -260,4 +395,5 @@ const handleLogout = () => {
             </div>
         </div>
     </div>
+    
 </template>

@@ -15,7 +15,8 @@ const routes = [
     component: () => import('../views/HomeView.vue'),
     meta: { 
       title: 'Beranda - PT Cakrawala Parama Internasional',
-      lang: 'id'
+      lang: 'id',
+      description: 'Selamat Datang Di PT Cakrawal Parama Internasional'
     }
   },
 
@@ -26,7 +27,8 @@ const routes = [
     component: () => import('../views/HomeView.vue'),
     meta: { 
       title: 'Home - PT Cakrawala Parama Internasional',
-      lang: 'en'
+      lang: 'en',
+      description: 'Welcome at PT Cakrawala Parama Internasional'
     }
   },
   {
@@ -41,7 +43,8 @@ const routes = [
     component: () => import('../views/pages/AboutView.vue'), 
     meta: { 
       title: 'Tentang Kami - PT Cakrawala Parama Internasional',
-      lang: 'id'
+      lang: 'id',
+      description: 'Mengenal lebih dekat tim profesional kami di bidang pengembangan dan manajemen sumber daya manusia.'
     }
   },
 
@@ -52,7 +55,8 @@ const routes = [
     component: () => import('../views/pages/AboutView.vue'), 
     meta: { 
       title: 'About Us - PT Cakrawala Parama Internasional',
-      lang: 'en'
+      lang: 'en',
+      description: "Get to know our professional team in the field of human resource development and management"
     }
   },
   {
@@ -62,7 +66,8 @@ const routes = [
     component: () => import('../views/pages/ProjectView.vue'), 
     meta: { 
       title: 'Proyek Kami - PT Cakrawala Parama Internasional',
-      lang: 'id'
+      lang: 'id',
+      description: 'Berikut hasil project yang telah kami lakukan'
     }
   },
 
@@ -73,7 +78,8 @@ const routes = [
     component: () => import('../views/pages/ProjectView.vue'), 
     meta: { 
       title: 'Our Projects - PT Cakrawala Parama Internasional',
-      lang: 'en'
+      lang: 'en',
+      description: 'The following are the results of the projects we have carried out'
     }
   },
   // ==========================================
@@ -85,7 +91,8 @@ const routes = [
     component: () => import('../views/pages/ServiceView.vue'), 
     meta: { 
       title: 'Layanan Kami - PT Cakrawala Parama Internasional',
-      lang: 'id'
+      lang: 'id',
+      description: 'Layanan yang kami sediakan untuk membantu bisnis anda'
     }
   },
   {
@@ -94,7 +101,8 @@ const routes = [
     component: () => import('../views/pages/ServiceView.vue'), 
     meta: { 
       title: 'Our Services - PT Cakrawala Parama Internasional',
-      lang: 'en'
+      lang: 'en',
+      description: 'Services we provide to help your business'
     }
   },
   {
@@ -113,7 +121,8 @@ const routes = [
     component: () => import('../views/articles/IndexView.vue'),
     meta: { 
       title: 'Artikel Terkini - PT Cakrawala Parama Internasional',
-      lang: 'id'
+      lang: 'id',
+      description: 'Lihat artikel terbaru kami'
     }
   },
   {
@@ -122,7 +131,8 @@ const routes = [
     component: () => import('../views/articles/IndexView.vue'),
     meta: { 
       title: 'Latest Articles - PT Cakrawala Parama Internasional',
-      lang: 'en'
+      lang: 'en',
+      description: 'Check out our latest articles'
     }
   },
   {
@@ -140,7 +150,8 @@ const routes = [
     component: () => import('../views/galerry/IndexView.vue'),
     meta: { 
       title: 'Galeri Kegiatan - PT Cakrawala Parama Internasional',
-      lang: 'id'
+      lang: 'id',
+      description: 'Momen hasil project, event dan layanan yang telah kami dokumentasi'
     }
   },
   {
@@ -149,7 +160,8 @@ const routes = [
     component: () => import('../views/galerry/IndexView.vue'),
     meta: { 
       title: 'Activity Gallery - PT Cakrawala Parama Internasional',
-      lang: 'en'
+      lang: 'en',
+      description:'Moments of project results, events and services that we have documented'
     }
   },
 
@@ -159,7 +171,8 @@ const routes = [
     component: () => import('../views/pages/ContactView.vue'),
     meta: { 
       title: 'Hubungi Kami - PT Cakrawala Parama Internasional',
-      lang: 'id'
+      lang: 'id',
+      description: 'butuh bantuan? kami siap'
     }
   },
   {
@@ -168,7 +181,8 @@ const routes = [
     component: () => import('../views/pages/ContactView.vue'),
     meta: { 
       title: 'Contact Us - PT Cakrawala Parama Internasional',
-      lang: 'en'
+      lang: 'en',
+      description: 'Need some help? We Ready'
     }
   },
   {
@@ -277,10 +291,16 @@ const router = createRouter({
 })
 
 // Dinamis mengganti judul Tab Browser untuk SEO
-router.beforeEach((to) => {
-  document.title = to.meta.title || 'PT Cakrawala Parama Internasional'
-  return true
-})
+router.beforeEach((to, from) => {
+  document.title = to.meta.title || 'CPI Group';
+  
+  // Update Meta Description
+  let metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) {
+    metaDesc.setAttribute('content', to.meta.description || 'Deskripsi default website');
+  }
+  // next();
+});
 
 // sync bahasa vue-i18n berdasarkan URL yang dituju
 router.beforeEach((to) => {
