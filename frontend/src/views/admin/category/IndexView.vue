@@ -51,6 +51,12 @@
                         </svg>
                       </button>
 
+                      <button @click="router.push('/admin/gallery/tambah')" class="p-2 text-emerald-500 hover:bg-emerald-50 rounded-lg transition-colors cursor-pointer" title="Tambah Galeri">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </button>
+
                       <router-link :to="`/admin/categories/edit/${cat.id}`" class="p-2 text-yellow-500 hover:bg-yellow-50 rounded-lg transition-colors cursor-pointer" title="Edit Kategori">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -70,6 +76,18 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+
+          <div class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden p-6">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+              <h2 class="font-black text-xl text-slate-900 uppercase tracking-tight">Daftar Kategori</h2>
+              <div class="flex gap-3 w-full md:w-auto">
+                <input v-model="search" @input="handleSearch" type="text" placeholder="Cari kategori..." class="border border-slate-200 px-4 py-2 rounded-xl text-sm w-full md:w-64 focus:ring-2 focus:ring-slate-900 focus:outline-none text-black">
+                <button @click="router.push('/admin/categories/tambah')" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-[#ea4435] transition-colors whitespace-nowrap cursor-pointer">
+                  Tambah Data
+                </button>
+              </div>
+            </div>
           </div>
 
           <div class="mt-6 flex justify-between items-center" v-if="store.pagination?.total > 0">

@@ -102,7 +102,8 @@ const handleLanguageToggle = async () => {
                             </a>
                             
                             <button @click.prevent="handleLanguageToggle"
-                                class="ml-2 flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-brand hover:text-brand transition-all active:scale-95">
+                                class="ml-2 flex items-center justify-center text-black w-10 h-10 rounded-xl border border-slate-200 hover:bg-slate-50 transition-all active:scale-95"
+                                :title="isIndonesian ? 'Switch to English' : 'Ganti ke Bahasa Indonesia'">
                                 <span class="text-xs font-black">{{ isIndonesian ? 'EN' : 'ID' }}</span>
                             </button>
 
@@ -112,7 +113,13 @@ const handleLanguageToggle = async () => {
                             </router-link>
                         </div>
 
-                        <div class="md:hidden flex items-center">
+                        <div class="md:hidden flex items-center gap-2">
+                            <button @click.prevent="handleLanguageToggle"
+                                class="flex items-center justify-center text-black w-10 h-10 rounded-xl border border-slate-200 hover:bg-slate-50 transition-all active:scale-95"
+                                :title="isIndonesian ? 'Switch to English' : 'Ganti ke Bahasa Indonesia'">
+                                <span class="text-xs font-black">{{ isIndonesian ? 'EN' : 'ID' }}</span>
+                            </button>
+
                             <button @click="isMenuOpen = !isMenuOpen"
                                 class="p-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
                                 <svg v-if="!isMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor"
@@ -167,14 +174,6 @@ const handleLanguageToggle = async () => {
                     </a>
 
                     <div class="pt-3 mt-3 border-t border-slate-100 space-y-2">
-                        <div class="flex items-center justify-between px-4 py-2">
-                            <span class="text-xs font-bold text-slate-500 uppercase">{{ t('nav.switch_language') }}</span>
-                            <button @click.prevent="handleLanguageToggle"
-                                class="flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-brand hover:text-brand transition-all active:scale-95">
-                                <span class="text-xs font-black">{{ isIndonesian ? 'EN' : 'ID' }}</span>
-                            </button>
-                        </div>
-
                         <router-link :to="routePaths.contact[locale]" @click="isMenuOpen = false"
                             class="block px-4 py-2.5 bg-slate-900 text-white hover:bg-brand rounded-xl text-sm font-black text-center shadow-lg hover:shadow-brand/30 transition-all active:scale-95">
                             {{ t('nav.contact') }} <span class="text-xs opacity-50">→</span>

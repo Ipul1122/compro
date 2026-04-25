@@ -1,19 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "@/views/HomeView.vue";
-// import IdLanguage from "@/components/IdLanguage.vue";
-import NotFoundView from '../views/NotFoundView.vue'
-import CategoryIndex from '../views/admin/category/IndexView.vue'
-import CategoryEdit from '../views/admin/category/EditView.vue'
-import ArticleIndex from '../views/admin/articles/IndexView.vue'
-import ArticleCreate from '../views/admin/articles/TambahView.vue'
-import ArticleEdit from '../views/admin/articles/EditView.vue'
-import ArticlePublicIndex from '../views/articles/IndexView.vue'
-import ArticlePublicDetail from '../views/articles/DetailView.vue'
-import GalleryIndexView from '../views/galerry/IndexView.vue'
-// GALLERY
-import GalleryIndex from '../views/admin/gallery/IndexView.vue'
-import GalleryTambah from '../views/admin/gallery/TambahView.vue'
-import GalleryEdit from '../views/admin/gallery/EditView.vue'
+
+// Kita akan menggunakan Dynamic Import () => import('...') di dalam routes agar loading website sangat cepat.
 
 const routes = [
   {
@@ -45,7 +32,7 @@ const routes = [
   {
       path: '/:pathMatch(.*)*', 
       name: 'NotFound',
-      component: NotFoundView
+      component: () => import('../views/NotFoundView.vue')
   },
   {
     // Rute About Us (Bahasa Indonesia)
@@ -141,10 +128,10 @@ const routes = [
   {
     path: '/articles/:slug', 
     name: 'articles.detail',
-    component: ArticlePublicDetail
+    component: () => import('../views/articles/DetailView.vue')
   },
 
- // ==========================================
+  // ==========================================
   // RUTE GALLERY / GALERI
   // ==========================================
   {
@@ -208,14 +195,14 @@ const routes = [
   {
     path: '/admin/categories',
     name: 'admin.categories.index',
-    component: CategoryIndex,
+    component: () => import('../views/admin/category/IndexView.vue'),
     meta: { requiresAuth: true }
   },
   {
     // edit categories
     path: '/admin/categories/edit/:id',
     name: 'admin.categories.edit',
-    component: CategoryEdit
+    component: () => import('../views/admin/category/EditView.vue')
   },
   {
     // tambah categories
@@ -227,42 +214,41 @@ const routes = [
     // index articles
     path: '/admin/articles',
     name: 'admin.articles.index',
-    component: ArticleIndex 
+    component: () => import('../views/admin/articles/IndexView.vue') 
   },
   {
     // create articles
     path: '/admin/articles/create',
     name: 'admin.articles.create',
-    component: ArticleCreate
+    component: () => import('../views/admin/articles/TambahView.vue')
   },
   {
     // edit articles
     path: '/admin/articles/edit/:id',
     name: 'admin.articles.edit',
-    component: ArticleEdit
+    component: () => import('../views/admin/articles/EditView.vue')
   },
-
   {
     // index gallery
-      path: '/admin/gallery',
-      name: 'admin.gallery.index',
-      component: GalleryIndex,
-      meta: { requiresAuth: true }
-    },
-    {
-      // create gallery 
-      path: '/admin/gallery/tambah',
-      name: 'admin.gallery.tambah',
-      component: GalleryTambah,
-      meta: { requiresAuth: true }
-    },
-    {
-      // edit gallery
-      path: '/admin/gallery/edit/:id',
-      name: 'admin.gallery.edit',
-      component: GalleryEdit,
-      meta: { requiresAuth: true }
-    },
+    path: '/admin/gallery',
+    name: 'admin.gallery.index',
+    component: () => import('../views/admin/gallery/IndexView.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    // create gallery 
+    path: '/admin/gallery/tambah',
+    name: 'admin.gallery.tambah',
+    component: () => import('../views/admin/gallery/TambahView.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    // edit gallery
+    path: '/admin/gallery/edit/:id',
+    name: 'admin.gallery.edit',
+    component: () => import('../views/admin/gallery/EditView.vue'),
+    meta: { requiresAuth: true }
+  },
 ];
 
 const router = createRouter({
@@ -309,4 +295,4 @@ router.beforeEach((to) => {
   return true
 })
 
-export default router
+export default router;

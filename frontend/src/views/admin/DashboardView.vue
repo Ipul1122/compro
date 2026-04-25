@@ -1,46 +1,69 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
-// Import Chart.js dan vue-chartjs
 import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
-
-// Daftarkan komponen Chart.js
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
-// Import Komponen Terpisah
 import Sidebar from '@/components/admin/Sidebar.vue'
 import Navbar from '@/components/admin/Navbar.vue'
 
 const router = useRouter()
-
-// State yang menghubungkan Sidebar & Navbar
 const isSidebarOpen = ref(false)
-
 const showSuccessNotif = ref(false)
 const user = ref({ name: 'Admin', email: '' })
+const isLoading = ref(true)
 
 // State data statistik
 const articles = ref([])
 const categories = ref([])
 const galleries = ref([])
 
+// Live clock
+const currentTime = ref(new Date())
+let clockInterval = null
+
+const formattedDate = computed(() => {
+    return currentTime.value.toLocaleDateString('id-ID', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    })
+})
+
+const formattedTime = computed(() => {
+    return currentTime.value.toLocaleTimeString('id-ID', {
+        hour: '2-digit', minute: '2-digit'
+    })
+})
+
+const greeting = computed(() => {
+    const h = currentTime.value.getHours()
+    if (h < 12) return 'Selamat Pagi'
+    if (h < 15) return 'Selamat Siang'
+    if (h < 18) return 'Selamat Sore'
+    return 'Selamat Malam'
+})
+
 onMounted(() => {
+    clockInterval = setInterval(() => { currentTime.value = new Date() }, 1000)
+
     const savedUser = localStorage.getItem('user')
     if (savedUser) {
         user.value = JSON.parse(savedUser)
         showSuccessNotif.value = true
         setTimeout(() => { showSuccessNotif.value = false }, 4000)
-        
-        fetchArticlesStats()
-        fetchCategoriesStats()
-        fetchGalleriesStats()
+        Promise.all([
+            fetchArticlesStats(),
+            fetchCategoriesStats(),
+            fetchGalleriesStats()
+        ]).finally(() => { isLoading.value = false })
     } else {
         router.push('/view/login')
     }
 })
+
+onUnmounted(() => { clearInterval(clockInterval) })
 
 const fetchArticlesStats = async () => {
     try {
@@ -78,60 +101,73 @@ const fetchGalleriesStats = async () => {
     }
 }
 
-// Data dinamis untuk Chart.js (Mengambil Top 10 Artikel berdasarkan view)
+const totalViews = computed(() => {
+    return articles.value.reduce((sum, art) => sum + (art.total_view || 0), 0)
+})
+
+// Chart data
 const chartData = computed(() => {
-    // Urutkan artikel dari views terbanyak
     const sortedArticles = [...articles.value]
         .sort((a, b) => (b.total_view || 0) - (a.total_view || 0))
         .slice(0, 10);
 
     return {
-        labels: sortedArticles.map(a => a.title.length > 15 ? a.title.substring(0, 15) + '...' : a.title),
-        datasets: [
-            {
-                label: 'Total Views',
-                backgroundColor: '#ea4435',
-                borderRadius: 4,
-                data: sortedArticles.map(a => a.total_view || 0)
-            }
-        ]
+        labels: sortedArticles.map(a => a.title.length > 18 ? a.title.substring(0, 18) + '…' : a.title),
+        datasets: [{
+            label: 'Total Views',
+            backgroundColor: (ctx) => {
+                const chart = ctx.chart;
+                const { ctx: c, chartArea } = chart;
+                if (!chartArea) return '#ea4435';
+                const gradient = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+                gradient.addColorStop(0, 'rgba(234, 68, 53, 0.6)');
+                gradient.addColorStop(1, 'rgba(234, 68, 53, 1)');
+                return gradient;
+            },
+            hoverBackgroundColor: '#c53225',
+            borderRadius: 8,
+            borderSkipped: false,
+            data: sortedArticles.map(a => a.total_view || 0),
+            barThickness: 32,
+            maxBarThickness: 40,
+        }]
     }
 })
 
 const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
+    animation: { duration: 800, easing: 'easeOutQuart' },
     plugins: {
-        legend: {
-            display: false
-        },
+        legend: { display: false },
         tooltip: {
-            backgroundColor: '#1e293b',
-            titleFont: { size: 14 },
-            bodyFont: { size: 13 },
-            padding: 10,
-            cornerRadius: 8,
+            backgroundColor: '#0f172a',
+            titleFont: { size: 13, weight: '600', family: 'Inter' },
+            bodyFont: { size: 12, family: 'Inter' },
+            padding: 12,
+            cornerRadius: 10,
+            displayColors: false,
+            callbacks: {
+                label: (ctx) => `${ctx.parsed.y.toLocaleString('id-ID')} views`
+            }
         }
     },
     scales: {
         y: {
             beginAtZero: true,
-            grid: {
-                color: '#f1f5f9',
-                drawBorder: false,
-            }
+            border: { display: false },
+            grid: { color: '#f1f5f9', drawBorder: false },
+            ticks: { font: { size: 11, family: 'Inter' }, color: '#94a3b8', padding: 8 }
         },
         x: {
-            grid: {
-                display: false,
-                drawBorder: false,
-            }
+            border: { display: false },
+            grid: { display: false },
+            ticks: { font: { size: 10, family: 'Inter' }, color: '#94a3b8', maxRotation: 45, padding: 4 }
         }
     }
 }
 
 const handleLogout = () => {
-    // Komponen Navbar juga menjalankan API logout, jadi kita cukup hapus session & redirect
     localStorage.removeItem('user')
     localStorage.removeItem('token')
     router.push('/view/login')
@@ -140,97 +176,197 @@ const handleLogout = () => {
 const breadcrumbsData = ref([
     { label: 'Dashboard', link: '/admin' }
 ])
+
+// Stat cards config
+const statCards = computed(() => [
+    {
+        label: 'Kategori', value: categories.value.length, route: '/admin/categories',
+        icon: 'M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z',
+        color: 'violet'
+    },
+    {
+        label: 'Artikel', value: articles.value.length, route: '/admin/articles',
+        icon: 'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H14',
+        color: 'sky'
+    },
+    {
+        label: 'Galeri', value: galleries.value.length, route: '/admin/gallery',
+        icon: 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z',
+        color: 'amber'
+    }
+])
 </script>
 
 <template>
     <div class="flex min-h-screen bg-slate-50 relative overflow-x-hidden">
+        <!-- Success Notification -->
         <transition name="slide">
-            <div v-if="showSuccessNotif" class="fixed top-4 right-4 left-4 md:left-auto z-150 bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border border-slate-700 md:w-80">
-                <div class="h-8 w-8 shrink-0 bg-emerald-500 rounded-full flex items-center justify-center font-bold">✓</div>
+            <div v-if="showSuccessNotif"
+                class="fixed top-4 right-4 left-4 md:left-auto z-[150] bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-700 md:w-80">
+                <div class="h-8 w-8 shrink-0 bg-emerald-500 rounded-full flex items-center justify-center font-bold text-sm">✓</div>
                 <div class="truncate">
                     <p class="font-bold text-sm leading-none">Login Successful</p>
-                    <p class="text-xs text-slate-400 mt-1 truncate">Welcome back!</p>
+                    <p class="text-xs text-slate-400 mt-1 truncate">Welcome back, {{ user.name }}!</p>
                 </div>
             </div>
         </transition>
 
-        <Sidebar 
-            v-model:is-open="isSidebarOpen" 
-            @logout="handleLogout"
-        />
+        <Sidebar v-model:is-open="isSidebarOpen" @logout="handleLogout" />
 
         <div class="flex-1 flex flex-col min-w-0">
-            <Navbar 
-                :user="user" 
-                :breadcrumbs="breadcrumbsData" 
-                @toggle-sidebar="isSidebarOpen = !isSidebarOpen" 
-                @logout="handleLogout"
-            />
+            <Navbar :user="user" :breadcrumbs="breadcrumbsData"
+                @toggle-sidebar="isSidebarOpen = !isSidebarOpen" @logout="handleLogout" />
 
-            <main class="p-4 md:p-8">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
-                    
-                    <router-link to="/admin/categories" class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#ea4435] transition-all group flex flex-col justify-between">
-                        <div class="flex justify-between items-center mb-4">
-                            <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] group-hover:text-[#ea4435] transition-colors">Kategori</p>
-                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-red-50 transition-colors">
-                                <svg class="w-4 h-4 text-slate-400 group-hover:text-[#ea4435]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
-                            </div>
-                        </div>
-                        <h3 class="text-3xl md:text-4xl font-black text-slate-900 mt-1">{{ categories.length || 0 }}</h3>
-                    </router-link>
+            <main class="p-4 md:p-6 lg:p-8 space-y-6">
 
-                    <router-link to="/admin/articles" class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#ea4435] transition-all group flex flex-col justify-between">
-                        <div class="flex justify-between items-center mb-4">
-                            <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] group-hover:text-[#ea4435] transition-colors">Artikel</p>
-                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-red-50 transition-colors">
-                                <svg class="w-4 h-4 text-slate-400 group-hover:text-[#ea4435]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H14"></path></svg>
-                            </div>
-                        </div>
-                        <h3 class="text-3xl md:text-4xl font-black text-slate-900 mt-1">{{ articles.length || 0 }}</h3>
-                    </router-link>
-
-                    <router-link to="/admin/gallery" class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md hover:border-[#ea4435] transition-all group flex flex-col justify-between">
-                        <div class="flex justify-between items-center mb-4">
-                            <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] group-hover:text-[#ea4435] transition-colors">Galeri</p>
-                            <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-red-50 transition-colors">
-                                <svg class="w-4 h-4 text-slate-400 group-hover:text-[#ea4435]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            </div>
-                        </div>
-                        <h3 class="text-3xl md:text-4xl font-black text-slate-900 mt-1">{{ galleries.length || 0 }}</h3>
-                    </router-link>
-
-                    <div class="bg-gradient-to-br from-[#ea4435] to-[#c53225] p-6 rounded-3xl shadow-lg flex flex-col justify-between text-white relative overflow-hidden">
-                        <div class="absolute -right-6 -top-6 w-24 h-24 bg-white opacity-10 rounded-full blur-xl"></div>
-                        <div class="absolute -left-6 -bottom-6 w-24 h-24 bg-black opacity-10 rounded-full blur-xl"></div>
-                        
-                        <div class="flex justify-between items-center mb-4 relative z-10">
-                            <p class="text-white/80 text-[10px] font-black uppercase tracking-[0.2em]">Total Views</p>
-                            <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm">
-                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                            </div>
-                        </div>
-                        <h3 class="text-3xl md:text-4xl font-black mt-1 relative z-10">
-                            {{ articles.reduce((sum, art) => sum + (art.total_view || 0), 0).toLocaleString('id-ID') }}
-                        </h3>
+                <!-- Greeting Header -->
+                <div class="dash-greeting flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                    <div>
+                        <p class="text-slate-400 text-xs font-semibold uppercase tracking-widest mb-1">{{ formattedDate }}</p>
+                        <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight">
+                            {{ greeting }}, <span class="text-[#ea4435]">{{ user.name }}</span> 👋
+                        </h1>
+                        <p class="text-slate-500 text-sm mt-1">Berikut ringkasan konten website Anda hari ini.</p>
+                    </div>
+                    <div class="flex items-center gap-2 text-slate-400 text-sm font-mono bg-white border border-slate-100 rounded-xl px-4 py-2 shadow-sm shrink-0">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        {{ formattedTime }}
                     </div>
                 </div>
 
-                <div class="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm">
-                    <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Dynamic stat cards -->
+                    <router-link v-for="(card, i) in statCards" :key="card.label" :to="card.route"
+                        class="stat-card group relative bg-white rounded-2xl border border-slate-100 p-5 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden"
+                        :style="{ animationDelay: `${i * 80}ms` }">
+                        <!-- Hover gradient overlay -->
+                        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                            :class="{
+                                'bg-gradient-to-br from-violet-50/80 to-transparent': card.color === 'violet',
+                                'bg-gradient-to-br from-sky-50/80 to-transparent': card.color === 'sky',
+                                'bg-gradient-to-br from-amber-50/80 to-transparent': card.color === 'amber',
+                            }"></div>
+
+                        <div class="relative z-10">
+                            <div class="flex justify-between items-center mb-4">
+                                <p class="text-slate-400 text-[10px] font-bold uppercase tracking-[0.15em] group-hover:text-slate-600 transition-colors">
+                                    {{ card.label }}
+                                </p>
+                                <div class="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300"
+                                    :class="{
+                                        'bg-violet-50 group-hover:bg-violet-100': card.color === 'violet',
+                                        'bg-sky-50 group-hover:bg-sky-100': card.color === 'sky',
+                                        'bg-amber-50 group-hover:bg-amber-100': card.color === 'amber',
+                                    }">
+                                    <svg class="w-4 h-4 transition-colors duration-300"
+                                        :class="{
+                                            'text-violet-500': card.color === 'violet',
+                                            'text-sky-500': card.color === 'sky',
+                                            'text-amber-500': card.color === 'amber',
+                                        }"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="card.icon"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="flex items-end justify-between">
+                                <h3 class="text-3xl font-extrabold text-slate-900 tabular-nums">
+                                    {{ isLoading ? '—' : card.value }}
+                                </h3>
+                                <svg class="w-4 h-4 text-slate-300 group-hover:text-slate-500 group-hover:translate-x-0.5 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </router-link>
+
+                    <!-- Total Views — accent card -->
+                    <div class="stat-card relative bg-gradient-to-br from-[#ea4435] to-[#b82d21] rounded-2xl p-5 shadow-lg text-white overflow-hidden"
+                        style="animation-delay: 240ms">
+                        <div class="absolute -right-8 -top-8 w-28 h-28 bg-white/10 rounded-full blur-2xl"></div>
+                        <div class="absolute -left-6 -bottom-6 w-20 h-20 bg-black/10 rounded-full blur-2xl"></div>
+                        <div class="relative z-10">
+                            <div class="flex justify-between items-center mb-4">
+                                <p class="text-white/70 text-[10px] font-bold uppercase tracking-[0.15em]">Total Views</p>
+                                <div class="w-9 h-9 rounded-xl bg-white/15 backdrop-blur-sm flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <h3 class="text-3xl font-extrabold tabular-nums">
+                                {{ isLoading ? '—' : totalViews.toLocaleString('id-ID') }}
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div class="p-5 md:p-6 border-b border-slate-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                         <div>
-                            <h2 class="text-xl font-black text-slate-900">Analisis Kunjungan Artikel</h2>
-                            <p class="text-sm text-slate-500 mt-1">10 Artikel dengan performa views terbaik</p>
+                            <h2 class="text-lg font-extrabold text-slate-900">Analisis Kunjungan Artikel</h2>
+                            <p class="text-xs text-slate-400 mt-0.5">10 artikel dengan performa views terbaik</p>
                         </div>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 bg-slate-50 px-3 py-1.5 rounded-lg">Top 10</span>
                     </div>
-                    
-                    <div class="h-[300px] md:h-[400px] w-full">
-                        <Bar v-if="articles.length > 0" :data="chartData" :options="chartOptions" />
-                        <div v-else class="w-full h-full flex items-center justify-center text-slate-400 text-sm font-medium">
-                            Memuat data grafik...
+                    <div class="p-5 md:p-6">
+                        <div class="h-[280px] md:h-[360px] w-full">
+                            <Bar v-if="articles.length > 0" :data="chartData" :options="chartOptions" />
+                            <div v-else class="w-full h-full flex flex-col items-center justify-center text-slate-300 gap-3">
+                                <svg class="w-10 h-10 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                                <p class="text-sm font-medium">Memuat data grafik...</p>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Quick Actions -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <router-link to="/admin/articles/create"
+                        class="quick-action group flex items-center gap-4 bg-white rounded-2xl border border-slate-100 p-4 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all duration-300">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-50 group-hover:bg-emerald-100 flex items-center justify-center transition-colors shrink-0">
+                            <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-sm font-bold text-slate-900">Tulis Artikel Baru</p>
+                            <p class="text-[11px] text-slate-400 truncate">Buat konten baru untuk website</p>
+                        </div>
+                    </router-link>
+
+                    <router-link to="/admin/categories"
+                        class="quick-action group flex items-center gap-4 bg-white rounded-2xl border border-slate-100 p-4 shadow-sm hover:shadow-md hover:border-violet-200 transition-all duration-300">
+                        <div class="w-10 h-10 rounded-xl bg-violet-50 group-hover:bg-violet-100 flex items-center justify-center transition-colors shrink-0">
+                            <svg class="w-5 h-5 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-sm font-bold text-slate-900">Kelola Kategori</p>
+                            <p class="text-[11px] text-slate-400 truncate">Atur kategori konten</p>
+                        </div>
+                    </router-link>
+
+                    <router-link to="/admin/gallery"
+                        class="quick-action group flex items-center gap-4 bg-white rounded-2xl border border-slate-100 p-4 shadow-sm hover:shadow-md hover:border-amber-200 transition-all duration-300">
+                        <div class="w-10 h-10 rounded-xl bg-amber-50 group-hover:bg-amber-100 flex items-center justify-center transition-colors shrink-0">
+                            <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-sm font-bold text-slate-900">Upload Galeri</p>
+                            <p class="text-[11px] text-slate-400 truncate">Tambah foto ke galeri</p>
+                        </div>
+                    </router-link>
+                </div>
+
             </main>
         </div>
     </div>
@@ -238,6 +374,31 @@ const breadcrumbsData = ref([
 
 <style scoped>
 a { text-decoration: none; }
+
+/* Notification slide-in */
 .slide-enter-active, .slide-leave-active { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .slide-enter-from { transform: translateX(100%); opacity: 0; }
+.slide-leave-to { transform: translateX(100%); opacity: 0; }
+
+/* Card entrance animation */
+.stat-card {
+    animation: cardUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes cardUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Greeting fade */
+.dash-greeting {
+    animation: fadeIn 0.6s ease-out both;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Quick action hover lift */
+.quick-action { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.quick-action:hover { transform: translateY(-2px); }
 </style>
