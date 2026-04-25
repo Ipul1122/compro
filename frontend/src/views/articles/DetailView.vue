@@ -12,6 +12,7 @@ const { locale } = useI18n()
 
 const article = ref(null)
 const latestArticles = ref([])
+const relatedArticles = ref([])
 const isLoading = ref(true)
 
 // Update Judul Halaman secara dinamis
@@ -31,6 +32,10 @@ const fetchDetail = async (slug) => {
         article.value = response.data.data
         updateDocumentTitle()
         
+        if (article.value && article.value.category_id) {
+            fetchRelated(article.value.category_id, article.value.id)
+        }
+        
         // Tunggu sampai DOM selesai me-render v-html
         nextTick(() => {
             normalizeHeadingIds()
@@ -48,6 +53,17 @@ const fetchLatest = async () => {
         latestArticles.value = response.data.data
     } catch (error) {
         console.error("Error fetching latest articles:", error)
+    }
+}
+
+const fetchRelated = async (categoryId, currentArticleId) => {
+    try {
+        relatedArticles.value = []
+        const response = await Api.get(`/articles?category_id=${categoryId}&limit=4`)
+        const articles = response.data.data || []
+        relatedArticles.value = articles.filter(a => a.id !== currentArticleId).slice(0, 3)
+    } catch (error) {
+        console.error("Error fetching related articles:", error)
     }
 }
 
@@ -286,83 +302,130 @@ const handleContentClick = (e) => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-slate-50 flex flex-col">
+    <div class="min-h-screen bg-white flex flex-col font-montserrat">
         <Navbar />
 
-        <main class="flex-grow container mx-auto px-4 py-12 max-w-6xl">
-            <div class="flex flex-col lg:flex-row gap-12">
-                
+        <main class="flex-grow container mx-auto px-4 sm:px-6 py-10 md:py-16 max-w-6xl">
+            <div class="flex flex-col lg:flex-row gap-10 lg:gap-14">
+
+                <!-- Main Content -->
                 <div class="lg:w-2/3">
-                    <div v-if="isLoading" class="animate-pulse space-y-6">
-                        <div class="h-10 bg-slate-200 rounded w-3/4"></div>
-                        <div class="h-96 bg-slate-200 rounded-3xl"></div>
-                        <div class="h-64 bg-slate-200 rounded-3xl"></div>
+                    <!-- Loading Skeleton -->
+                    <div v-if="isLoading" class="space-y-6">
+                        <div class="h-8 bg-slate-100 rounded-lg w-2/3 animate-pulse"></div>
+                        <div class="h-5 bg-slate-100 rounded-lg w-1/3 animate-pulse"></div>
+                        <div class="h-80 bg-slate-100 rounded-2xl animate-pulse"></div>
+                        <div class="h-48 bg-slate-100 rounded-2xl animate-pulse"></div>
                     </div>
 
-                    <div v-else-if="article">
-                        <h1 class="text-3xl md:text-5xl font-black text-slate-900 leading-tight my-16">
+                    <!-- Article -->
+                    <div v-else-if="article" class="detail-fade-in">
+                        <!-- Category Badge -->
+                        <span v-if="article.category" class="inline-block px-4 py-1.5 bg-orange-50 text-orange-600 text-[11px] font-bold uppercase tracking-widest rounded-full mb-6">
+                            {{ locale === 'en' && article.category?.name_en ? article.category.name_en : article.category?.name }}
+                        </span>
+
+                        <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 leading-snug mb-6">
                             {{ locale === 'en' && article.title_en ? article.title_en : article.title }}
                         </h1>
-                        
-                        <div class="flex flex-wrap items-center justify-between gap-4 mb-8 border-b border-slate-100 pb-6">
-                            <div class="flex items-center gap-4 text-[11px] font-black text-slate-400 uppercase tracking-wider">
+
+                        <!-- Meta Row -->
+                        <div class="flex flex-wrap items-center gap-4 mb-8 text-xs text-slate-400 font-medium">
+                            <div class="flex items-center gap-2">
+                                <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                 <span>{{ formatDate(article.created_at) }}</span>
-                                <span class="w-1.5 h-1.5 bg-slate-300 rounded-full"></span>
+                            </div>
+                            <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                            <div class="flex items-center gap-2">
+                                <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                                 <span>{{ article.total_view || 0 }} Views</span>
                             </div>
-
-                            <div class="flex items-center gap-3">
-                                <span class="text-[10px] font-black text-slate-400 uppercase mr-2">Share:</span>
-                                <div class="flex gap-2">
-                                    <button class="p-2 bg-white rounded-xl border border-slate-100 text-pink-600 hover:bg-pink-50 transition-colors">IG</button>
-                                    <button class="p-2 bg-white rounded-xl border border-slate-100 text-blue-600 hover:bg-blue-50 transition-colors">FB</button>
-                                </div>
+                            <!-- Share -->
+                            <div class="ml-auto flex items-center gap-2">
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-300">Share</span>
+                                <button class="share-btn text-pink-500 hover:bg-pink-50" aria-label="Share to Instagram">IG</button>
+                                <button class="share-btn text-blue-500 hover:bg-blue-50" aria-label="Share to Facebook">FB</button>
                             </div>
                         </div>
 
-                        <div class="bg-white rounded-3xl p-2 border border-slate-100 shadow-sm mb-10 overflow-hidden">
-                            <img :src="getImageUrl(article.image)" @error="handleImageError" class="w-full h-auto object-cover rounded-2xl" />
+                        <!-- Featured Image -->
+                        <div class="rounded-2xl overflow-hidden mb-10 shadow-sm hover:shadow-lg transition-shadow duration-300">
+                            <img :src="getImageUrl(article.image)" @error="handleImageError" class="w-full h-auto object-cover" />
                         </div>
 
-                        <article 
+                        <!-- Article Body -->
+                        <article
                             @click="handleContentClick"
-                            class="bg-white rounded-3xl border border-slate-100 shadow-sm p-8 md:p-12 text-slate-700 prose prose-slate prose-lg max-w-none prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline" 
+                            class="article-body rounded-2xl border border-slate-100 bg-white p-6 sm:p-8 md:p-10 text-slate-700 prose prose-slate prose-lg max-w-none prose-a:text-orange-600 prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl"
                             v-html="locale === 'en' && article.content_en ? article.content_en : article.content">
                         </article>
                     </div>
                 </div>
 
+                <!-- Sidebar -->
                 <div class="lg:w-1/3">
-                    <div class="sticky top-8">
-                        <h2 class="text-xl font-black text-slate-900 uppercase tracking-tight mb-6">
-                            {{ locale === 'en' ? 'Latest Articles' : 'Artikel Terbaru' }}
-                        </h2>
-                        
-                        <div class="flex flex-col gap-6">
-                            <router-link v-for="lat in latestArticles" :key="lat.id" :to="`/articles/${lat.slug}`" 
-                                class="group flex gap-4 bg-white p-3 rounded-2xl border border-slate-100 hover:shadow-xl hover:shadow-slate-200/50 transition-all">
-                                <div class="w-24 h-20 flex-shrink-0 overflow-hidden rounded-xl">
-                                    <img :src="getImageUrl(lat.image)" @error="handleImageError" class="w-full h-full object-cover group-hover:scale-110 transition-transform" />
-                                </div>
-                                <div class="flex flex-col justify-center">
-                                    <span class="text-[9px] font-black text-blue-600 uppercase mb-1">
-                                        {{ locale === 'en' && lat.category?.name_en ? lat.category?.name_en : lat.category?.name }}
-                                    </span>
-                                    <h3 class="text-sm font-bold text-slate-900 line-clamp-2 leading-tight group-hover:text-blue-600 transition-colors">
-                                        {{ locale === 'en' && lat.title_en ? lat.title_en : lat.title }}
-                                    </h3>
-                                </div>
-                            </router-link>
+                    <div class="sticky top-24 space-y-8">
+                        <!-- Latest Articles -->
+                        <div>
+                            <h2 class="text-sm font-bold text-slate-900 uppercase tracking-widest mb-5 flex items-center gap-2">
+                                <span class="w-6 h-0.5 bg-orange-500 rounded-full"></span>
+                                {{ locale === 'en' ? 'Latest Articles' : 'Artikel Terbaru' }}
+                            </h2>
+
+                            <div class="flex flex-col gap-4">
+                                <router-link v-for="lat in latestArticles" :key="lat.id" :to="`/articles/${lat.slug}`"
+                                    class="group flex gap-4 p-3 rounded-xl bg-slate-50/70 hover:bg-orange-50 border border-transparent hover:border-orange-100 transition-all duration-200">
+                                    <div class="w-20 h-16 flex-shrink-0 overflow-hidden rounded-lg">
+                                        <img :src="getImageUrl(lat.image)" @error="handleImageError" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                    </div>
+                                    <div class="flex flex-col justify-center min-w-0">
+                                        <span class="text-[10px] font-bold text-orange-500 uppercase tracking-wider mb-1">
+                                            {{ locale === 'en' && lat.category?.name_en ? lat.category?.name_en : lat.category?.name }}
+                                        </span>
+                                        <h3 class="text-sm font-semibold text-slate-800 line-clamp-2 leading-snug group-hover:text-orange-600 transition-colors duration-200">
+                                            {{ locale === 'en' && lat.title_en ? lat.title_en : lat.title }}
+                                        </h3>
+                                    </div>
+                                </router-link>
+                            </div>
                         </div>
 
-                        <div class="mt-8 bg-blue-600 rounded-3xl p-8 text-white">
-                            <h4 class="text-xl font-black mb-2">{{ locale === 'en' ? 'Need Help?' : 'Butuh Bantuan?' }}</h4>
-                            <p class="text-blue-100 text-sm mb-6">{{ locale === 'en' ? 'Contact our team for a free consultation.' : 'Hubungi tim kami untuk konsultasi gratis.' }}</p>
-                            <button class="w-full bg-white text-blue-600 py-3 rounded-xl font-black uppercase text-xs">
+                        <!-- CTA Card -->
+                        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 p-7 text-white">
+                            <div class="absolute -top-8 -right-8 w-28 h-28 bg-white/10 rounded-full"></div>
+                            <div class="absolute -bottom-6 -left-6 w-20 h-20 bg-white/10 rounded-full"></div>
+                            <h4 class="text-lg font-extrabold mb-2 relative z-10">{{ locale === 'en' ? 'Need Help?' : 'Butuh Bantuan?' }}</h4>
+                            <p class="text-orange-100 text-sm mb-5 relative z-10">{{ locale === 'en' ? 'Contact our team for a free consultation.' : 'Hubungi tim kami untuk konsultasi gratis.' }}</p>
+                            <button class="relative z-10 w-full bg-white text-orange-600 py-3 rounded-xl font-bold text-xs uppercase tracking-wider hover:bg-orange-50 hover:shadow-lg transition-all duration-200">
                                 {{ locale === 'en' ? 'Start Now' : 'Mulai Sekarang' }}
                             </button>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Related Articles -->
+            <div v-if="relatedArticles.length > 0" class="mt-20 pt-12 border-t border-slate-100">
+                <h2 class="text-xl md:text-2xl font-extrabold text-slate-900 mb-8 flex items-center gap-3">
+                    <span class="w-8 h-1 bg-orange-500 rounded-full"></span>
+                    {{ locale === 'en' ? 'Related Articles' : 'Artikel Terkait' }}
+                </h2>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    <router-link v-for="rel in relatedArticles" :key="rel.id" :to="`/articles/${rel.slug}`"
+                        class="group rounded-2xl border border-slate-100 bg-white hover:shadow-xl hover:shadow-orange-100/40 transition-all duration-300 overflow-hidden flex flex-col h-full hover:-translate-y-1">
+                        <div class="w-full h-48 overflow-hidden">
+                            <img :src="getImageUrl(rel.image)" @error="handleImageError" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        </div>
+                        <div class="p-5 flex flex-col flex-grow">
+                            <span class="text-[10px] font-bold text-orange-500 uppercase mb-2 tracking-wider">
+                                {{ locale === 'en' && rel.category?.name_en ? rel.category?.name_en : rel.category?.name }}
+                            </span>
+                            <h3 class="text-base font-semibold text-slate-800 line-clamp-2 leading-snug group-hover:text-orange-600 transition-colors duration-200">
+                                {{ locale === 'en' && rel.title_en ? rel.title_en : rel.title }}
+                            </h3>
+                        </div>
+                    </router-link>
                 </div>
             </div>
         </main>
@@ -370,14 +433,112 @@ const handleContentClick = (e) => {
 </template>
 
 <style scoped>
+/* Fade-in animation */
+.detail-fade-in {
+    animation: fadeUp 0.5s ease-out both;
+}
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Share buttons */
+.share-btn {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    border-radius: 0.5rem;
+    border: 1px solid #e2e8f0;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+/* Line clamp utility */
 .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;  
+    -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
+/* Smooth scrolling */
 html {
     scroll-behavior: smooth;
+}
+
+/* Article body deep styles — restore heading & whitespace */
+.article-body :deep(h2) {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    line-height: 1.35;
+    color: #0f172a;
+    margin-top: 2.25rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #fed7aa;
+}
+
+.article-body :deep(h3) {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1.4;
+    color: #1e293b;
+    margin-top: 1.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.article-body :deep(h4) {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    line-height: 1.4;
+    color: #334155;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.article-body :deep(p) {
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+    line-height: 1.8;
+}
+
+.article-body :deep(ul),
+.article-body :deep(ol) {
+    margin-top: 0.5rem;
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+}
+
+.article-body :deep(li) {
+    margin-bottom: 0.4rem;
+    line-height: 1.75;
+}
+
+.article-body :deep(blockquote) {
+    border-left: 4px solid #ea580c;
+    padding: 0.75rem 1.25rem;
+    margin: 1.5rem 0;
+    background: #fff7ed;
+    border-radius: 0 0.5rem 0.5rem 0;
+    color: #9a3412;
+    font-style: italic;
+}
+
+.article-body :deep(img) {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.article-body :deep(pre) {
+    margin: 1.5rem 0;
+}
+
+.article-body :deep(hr) {
+    margin: 2rem 0;
+    border-color: #f1f5f9;
 }
 </style>

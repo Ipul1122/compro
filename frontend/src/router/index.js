@@ -271,7 +271,7 @@ const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
     // TAMBAHKAN KODE INI: Cegah scroll ke atas jika sedang ganti bahasa
     if (window.isLanguageSwitching) {
-      return false // false berarti posisi layar tidak akan diubah sama sekali
+      return false 
     }
 
     // Jika user klik tombol Back/Forward di browser
