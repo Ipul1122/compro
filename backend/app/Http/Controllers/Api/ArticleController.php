@@ -12,10 +12,14 @@ class ArticleController extends Controller
 {
     public function index(Request $request)
     {
-        // Tambahkan title_en di select
         $query = Article::select('id', 'category_id', 'title', 'title_en', 'slug', 'image', 'published', 'total_view', 'created_at', 'updated_at')
-            ->with('category:id,name,slug') 
-            ->latest();
+            ->with('category:id,name,slug');
+
+        if ($request->filled('views')) {
+            $query->orderBy('total_view', $request->views);
+        } else {
+            $query->latest();
+        }
 
         if ($request->filled('published')) {
             $query->where('published', $request->published);

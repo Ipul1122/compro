@@ -33,12 +33,14 @@ const totalItems = ref(0)
 const filters = ref({
     search: route.query.search || '',
     status: route.query.status || '',
-    category_id: route.query.category_id || ''
+    category_id: route.query.category_id || '',
+    views: route.query.views || ''
 })
 
 // Searchable Category Dropdown Logic
 const categorySearchText = ref('')
 const isCategoryDropdownOpen = ref(false)
+const isCategoryDropdownOpenBottom = ref(false)
 
 const filteredCategories = computed(() => {
     return categories.value.filter(cat => 
@@ -50,6 +52,7 @@ const selectCategory = (cat) => {
     filters.value.category_id = cat.id
     categorySearchText.value = cat.name
     isCategoryDropdownOpen.value = false
+    isCategoryDropdownOpenBottom.value = false
     applyFilters()
 }
 
@@ -100,7 +103,8 @@ const fetchArticles = async (page = 1) => {
             page: page,
             search: filters.value.search,
             published: filters.value.status,
-            category_id: filters.value.category_id
+            category_id: filters.value.category_id,
+            views: filters.value.views
         }
 
         const response = await axios.get('http://localhost:8000/api/admin/articles', {
@@ -120,6 +124,7 @@ const fetchArticles = async (page = 1) => {
             if (params.search) queryParams.search = params.search
             if (params.published) queryParams.status = params.published
             if (params.category_id) queryParams.category_id = params.category_id
+            if (params.views) queryParams.views = params.views
 
             router.push({ path: '/admin/articles', query: queryParams })
         }
@@ -135,7 +140,7 @@ const applyFilters = () => {
 }
 
 const resetFilters = () => {
-    filters.value = { search: '', status: '', category_id: '' }
+    filters.value = { search: '', status: '', category_id: '', views: '' }
     categorySearchText.value = ''
     fetchArticles(1)
 }
@@ -195,13 +200,13 @@ const confirmDelete = async (id) => {
                         <h3 class="font-black text-xl text-slate-900 uppercase tracking-tight">Article List</h3>
                         <p class="text-xs text-slate-500 font-bold mt-1">Total: {{ totalItems }} Artikel ditemukan</p>
                     </div>
-                    <router-link to="/admin/articles/create" class="bg-slate-900 text-white px-6 py-2 rounded-xl text-sm font-bold hover:bg-[#ea4435] transition-colors cursor-pointer w-full md:w-auto text-center inline-block">
+                    <router-link to="/admin/articles/create" class="bg-blue-600 text-white px-6 py-2 rounded-xl text-sm font-bold hover:bg-orange-600 transition-colors cursor-pointer w-full md:w-auto text-center inline-block">
                         Create New
                     </router-link>
                 </div>
 
                 <div class="bg-white rounded-3xl border border-slate-100 p-6 mb-6 shadow-sm">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
                         <div>
                             <label for="search_title" class="text-[10px] font-black text-slate-400 uppercase mb-2 block">Search Title</label>
                             <input id="search_title" name="search_title" v-model="filters.search" @keyup.enter="applyFilters" type="text" placeholder="Ketik judul artikel..." 
@@ -244,6 +249,16 @@ const confirmDelete = async (id) => {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <div>
+                            <label for="filter_views" class="text-[10px] font-black text-slate-400 uppercase mb-2 block">Views</label>
+                            <select id="filter_views" name="filter_views" v-model="filters.views" @change="applyFilters" 
+                                class="w-full bg-slate-50 border text-black border-slate-100 rounded-xl px-4 py-2 text-sm focus:outline-none cursor-pointer">
+                                <option value="">Semua</option>
+                                <option value="desc">Terbanyak</option>
+                                <option value="asc">Tersedikit</option>
+                            </select>
                         </div>
 
                         <div class="flex items-end gap-2">
@@ -365,6 +380,86 @@ const confirmDelete = async (id) => {
                             </button>
                         </div>
                     </div>
+                </div>
+
+                <div class="bg-white rounded-3xl border border-slate-100 p-6 mt-6 shadow-sm">
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                        <div>
+                            <label for="search_title_bottom" class="text-[10px] font-black text-slate-400 uppercase mb-2 block">Search Title</label>
+                            <input id="search_title_bottom" name="search_title_bottom" v-model="filters.search" @keyup.enter="applyFilters" type="text" placeholder="Ketik judul artikel..." 
+                                class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/5 transition-all text-black" />
+                        </div>
+
+                        <div>
+                            <label for="filter_status_bottom" class="text-[10px] font-black text-slate-400 uppercase mb-2 block">Status</label>
+                            <select id="filter_status_bottom" name="filter_status_bottom" v-model="filters.status" @change="applyFilters" 
+                                class="w-full bg-slate-50 border text-black border-slate-100 rounded-xl px-4 py-2 text-sm focus:outline-none cursor-pointer">
+                                <option value="">Semua Status</option>
+                                <option value="publish">Published</option>
+                                <option value="draft">Draft</option>
+                            </select>
+                        </div>
+
+                        <div class="relative">
+                            <label for="filter_category_bottom" class="text-[10px] font-black text-slate-400 uppercase mb-2 block">Category</label>
+                            <div class="relative">
+                                <input 
+                                    id="filter_category_bottom"
+                                    name="filter_category_bottom"
+                                    aria-label="Cari dan pilih kategori"
+                                    v-model="categorySearchText" 
+                                    @focus="isCategoryDropdownOpenBottom = true"
+                                    placeholder="Cari & pilih kategori..." 
+                                    class="w-full bg-slate-50 border text-black border-slate-100 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/5 transition-all"
+                                />
+                                <div v-if="isCategoryDropdownOpenBottom" class="absolute z-[120] bottom-[110%] w-full mb-2 bg-white border border-slate-100 rounded-xl shadow-xl max-h-48 overflow-y-auto">
+                                    <div @click="filters.category_id = ''; categorySearchText = ''; isCategoryDropdownOpenBottom = false; applyFilters()" 
+                                        class="px-4 py-3 text-sm hover:bg-slate-50 cursor-pointer text-slate-500 italic font-medium">
+                                        Semua Kategori
+                                    </div>
+                                    <div v-for="cat in filteredCategories" :key="cat.id" @click="selectCategory(cat)"
+                                        class="px-4 py-3 text-sm hover:bg-slate-50 cursor-pointer border-t border-slate-50 font-medium text-slate-700">
+                                        {{ cat.name }}
+                                    </div>
+                                    <div v-if="filteredCategories.length === 0" class="px-4 py-3 text-xs text-slate-400 text-center">
+                                        Tidak ditemukan
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="filter_views_bottom" class="text-[10px] font-black text-slate-400 uppercase mb-2 block">Views</label>
+                            <select id="filter_views_bottom" name="filter_views_bottom" v-model="filters.views" @change="applyFilters" 
+                                class="w-full bg-slate-50 border text-black border-slate-100 rounded-xl px-4 py-2 text-sm focus:outline-none cursor-pointer">
+                                <option value="">Semua</option>
+                                <option value="desc">Terbanyak</option>
+                                <option value="asc">Tersedikit</option>
+                            </select>
+                        </div>
+
+                        <div class="flex items-end gap-2">
+                            <button @click="applyFilters" class="flex-1 bg-blue-50 text-blue-600 border border-blue-100 font-bold py-2 rounded-xl text-sm hover:bg-blue-100 transition-all cursor-pointer">
+                                Filter
+                            </button>
+                            <button @click="resetFilters" class="p-2 text-slate-400 hover:text-red-600 bg-slate-50 border border-slate-100 hover:bg-red-50 rounded-xl transition-all cursor-pointer" title="Reset Semua Filter">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Summary for UX -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mt-6 gap-4">
+                    <div>
+                        <h3 class="font-black text-xl text-slate-900 uppercase tracking-tight">Article List</h3>
+                        <p class="text-xs text-slate-500 font-bold mt-1">Total: {{ totalItems }} Artikel ditemukan</p>
+                    </div>
+                    <router-link to="/admin/articles/create" class="bg-blue-600 text-white px-6 py-2 rounded-xl text-sm font-bold hover:bg-orange-600 transition-colors cursor-pointer w-full md:w-auto text-center inline-block">
+                        Create New
+                    </router-link>
                 </div>
             </main>
         </div>

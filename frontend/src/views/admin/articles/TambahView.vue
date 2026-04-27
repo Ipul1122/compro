@@ -77,7 +77,6 @@
                   <button type="button" @click="editorId.chain().focus().toggleHeading({ level: 3 }).run()" :class="{'bg-slate-200': editorId.isActive('heading', { level: 3 })}" class="px-3 py-1 text-black rounded hover:bg-slate-200 text-sm font-bold">H3</button>
                 </div>
                 <EditorContent :editor="editorId" class="prose  text-black prose-slate max-w-none border border-slate-300 rounded-b-xl p-4 min-h-[300px] bg-white focus:outline-none" />
-                <p v-if="isTranslatingContent" class="text-xs text-blue-500 font-bold mt-2 animate-pulse">Menyiapkan terjemahan teks otomatis ke EN...</p>
               </div>
 
               <div class="md:col-span-2 mt-4">
@@ -181,9 +180,7 @@ const form = ref({
 });
 
 const isTranslatingTitle = ref(false);
-const isTranslatingContent = ref(false);
 let translateTitleTimeout = null;
-let translateContentTimeout = null;
 
 // ==========================================
 // LOGIC LOCALSTORAGE DRAFT
@@ -251,8 +248,7 @@ const editorId = useEditor({
       }
     })
   ],
-  onUpdate: ({ editor }) => {
-    autoTranslateContent(editor.getHTML());
+  onUpdate: () => {
     saveDraft(); // Simpan draft otomatis saat editor diubah
   }
 });
@@ -431,31 +427,7 @@ const autoTranslateTitle = () => {
     }, 600);
 };
 
-const autoTranslateContent = (contentHtml) => {
-    if (translateContentTimeout) clearTimeout(translateContentTimeout);
 
-    const textOnly = contentHtml.replace(/<[^>]*>?/gm, '').trim();
-    
-    if (!textOnly) {
-        editorEn.value?.commands.setContent('');
-        isTranslatingContent.value = false;
-        return;
-    }
-
-    isTranslatingContent.value = true;
-    translateContentTimeout = setTimeout(async () => {
-        try {
-            const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(textOnly.slice(0, 500))}&langpair=id|en`);
-            const data = await res.json();
-            
-            if (data && data.responseData) {
-                editorEn.value?.commands.setContent(`<p>${data.responseData.translatedText}</p>`);
-                saveDraft();
-            }
-        } catch (error) { console.error("Gagal terjemah konten:", error); } 
-        finally { isTranslatingContent.value = false; }
-    }, 1200);
-};
 
 const handleFileChange = (e) => {
     const file = e.target.files[0];
