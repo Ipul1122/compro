@@ -17,6 +17,13 @@ const interiorImages = [
     '/img/servicesSection/interio-design-4.jpeg'
 ]
 
+const assessmentImages = [
+    '/img/servicesSection/assestmen-1.jpg',
+    '/img/servicesSection/assestmen-2.jpeg',
+    '/img/servicesSection/assestmen-3.jpeg',
+    '/img/servicesSection/assestmen-4.jpeg' 
+];
+
 const images = [
     '/img/servicesSection/slide-gallery-10.jpg',
     '/img/servicesSection/slide-gallery-14.jpg',
@@ -57,6 +64,7 @@ const closeModal = () => {
                 
                 <div class="grid lg:grid-cols-2 gap-20 items-center">
 
+                    <!-- SECTION 1 -->
                     <div class="relative z-10">
                         <span class="inline-block py-1.5 px-4 rounded-full bg-orange-50 text-orange-600 font-bold tracking-[0.2em] uppercase text-xs mb-6 border border-orange-100">
                             Space & Comfort
@@ -128,21 +136,35 @@ const closeModal = () => {
             </div>
         </section>
 
-        <section id="services" class="py-24 relative overflow-hidden bg-white/50 border-y border-gray-100">
+        <!-- SECTION 2 -->
+       <section id="services" class="py-24 relative overflow-hidden bg-white/50 border-y border-gray-100">
             <div class="max-w-7xl mx-auto px-4">
                 <div class="grid lg:grid-cols-2 gap-16 items-center">
 
                     <div class="order-1 lg:order-1">
                         <div class="relative group">
-                            <div class="aspect-video lg:aspect-square w-full bg-gray-100 rounded-[2rem] border border-gray-200 overflow-hidden flex items-center justify-center shadow-lg relative z-10">
-                                <img src="/src/img/section-two.jpg" alt="Assessment Service"
-                                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                                <div class="absolute inset-0 bg-gray-900/40 group-hover:bg-gray-900/20 transition-colors duration-500 z-10"></div>
-                                <p class="relative z-20 text-white font-black uppercase tracking-widest text-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-4 group-hover:translate-y-0">
-                                    Assessment Center
-                                </p>
+                            
+                            <div class="aspect-video lg:aspect-square w-full flex bg-gray-100 rounded-[2rem] border border-gray-200 overflow-hidden relative shadow-lg group-hover:shadow-2xl transition-all duration-500">
+                                
+                                <div v-for="(img, index) in assessmentImages" :key="index"
+                                    class="group/item relative h-full flex-1 hover:flex-[5] transition-all duration-700 ease-in-out cursor-pointer z-10 hover:z-[99] border-r border-white/20 last:border-r-0 overflow-hidden">
+                                    
+                                    <img :src="img" :alt="'Assessment ' + index" class="absolute inset-0 w-full h-full object-cover" />
+                                    
+                                    <div class="absolute inset-0 bg-gray-900/50 group-hover/item:bg-gradient-to-t group-hover/item:from-gray-900/80 group-hover/item:via-transparent group-hover/item:to-transparent transition-all duration-500"></div>
+
+                                    <div class="absolute bottom-8 left-6 z-20 opacity-0 group-hover/item:opacity-100 transition-all duration-700 delay-100 translate-y-4 group-hover/item:translate-y-0 whitespace-nowrap">
+                                        <p class="text-orange-500 font-bold tracking-[0.2em] uppercase text-[10px] mb-2">Process 0{{ index + 1 }}</p>
+                                        <h3 class="text-2xl md:text-3xl font-black text-white tracking-tighter drop-shadow-lg">
+                                            Assessment
+                                        </h3>
+                                    </div>
+                                </div>
+                                
                             </div>
-                            <div class="absolute -bottom-4 -left-4 w-full h-full bg-orange-50 rounded-[2rem] -z-10 group-hover:-translate-x-2 group-hover:-translate-y-2 transition-transform duration-500 border border-orange-100"></div>
+                            
+                            <div class="absolute -bottom-4 -right-4 w-full h-full border-2 border-orange-600/20 rounded-[2rem] -z-10 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-500"></div>
+                            
                         </div>
                     </div>
 
@@ -188,38 +210,10 @@ const closeModal = () => {
             </div>
         </section>
 
-        <section id="event-organizer" class="py-32 relative overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="grid lg:grid-cols-2 gap-16 items-start">
+       <section id="event-organizer" class="py-32 relative overflow-hidden bg-slate-50 border-y border-gray-100"> <div class="max-w-7xl mx-auto px-4">
+                <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
 
-                    <div class="relative mb-10 lg:mb-0">
-                        <div class="lg:sticky lg:top-32">
-                            <div class="relative group">
-                                <div class="aspect-[4/3] rounded-[2rem] bg-white border border-gray-100 overflow-hidden shadow-xl relative z-10">
-                                    <div class="absolute inset-0 w-full h-full">
-                                        <swiper :modules="[Autoplay, Pagination, EffectFade]" :slides-per-view="1"
-                                            :loop="true" :effect="'fade'"
-                                            :autoplay="{ delay: 3000, disableOnInteraction: false }"
-                                            :pagination="{ clickable: true }" class="h-full w-full">
-                                            <swiper-slide v-for="(img, index) in images" :key="index">
-                                                <img :src="img" class="w-full h-full object-cover" :alt="'Event ' + index">
-                                            </swiper-slide>
-                                            <div class="swiper-pagination !bottom-6 !z-20"></div>
-                                        </swiper>
-                                    </div>
-                                    <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-gray-900/60 to-transparent z-10 pointer-events-none"></div>
-                                </div>
-                                <div class="absolute -bottom-8 -left-8 px-8 py-5 bg-white border border-gray-100 rounded-2xl shadow-xl z-20 hidden md:block group-hover:-translate-y-2 transition-transform duration-300">
-                                    <p class="text-gray-900 font-black text-3xl mb-1">100<span class="text-orange-600">+</span></p>
-                                    <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold">
-                                        {{ $t('service_view.event.events_managed') }}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="relative">
+                    <div class="relative order-2 lg:order-1 mb-16 lg:mb-0">
                         <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-orange-50 border border-orange-100 text-orange-600 text-xs font-bold uppercase tracking-[0.2em] mb-8">
                             <span class="relative flex h-2 w-2">
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-500 opacity-75"></span>
@@ -240,7 +234,7 @@ const closeModal = () => {
                         </p>
 
                         <div class="mt-12 space-y-10">
-                            <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
+                            <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-lg transition-shadow duration-300">
                                 <h3 class="text-xl font-extrabold text-gray-900 flex items-center gap-3 border-b border-gray-100 pb-4">
                                     <span class="text-orange-600 text-sm font-black bg-orange-50 px-2 py-1 rounded">01</span>
                                     {{ $t('service_view.event.subtitle') }}
@@ -277,6 +271,39 @@ const closeModal = () => {
                                     </span> 
                                     {{ $t('service_view.event.quote2') }}"
                                 </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative order-1 lg:order-2">
+                        <div class="lg:sticky lg:top-32">
+                            <div class="relative group">
+                                
+                                <div class="aspect-[4/3] w-full flex bg-gray-100 rounded-[2rem] border border-gray-100 overflow-hidden shadow-xl relative z-10">
+                                    
+                                    <div v-for="(img, index) in images.slice(0, 4)" :key="index"
+                                        class="group/item relative h-full flex-1 hover:flex-[5] transition-all duration-700 ease-in-out cursor-pointer z-10 hover:z-[99] border-r border-white/20 last:border-r-0 overflow-hidden">
+                                        
+                                        <img :src="img" class="absolute inset-0 w-full h-full object-cover" :alt="'Event ' + index" />
+                                        
+                                        <div class="absolute inset-0 bg-gray-900/50 group-hover/item:bg-gradient-to-t group-hover/item:from-gray-900/80 group-hover/item:via-transparent group-hover/item:to-transparent transition-all duration-500"></div>
+                                        
+                                        <div class="absolute bottom-8 left-6 z-20 opacity-0 group-hover/item:opacity-100 transition-all duration-700 delay-100 translate-y-4 group-hover/item:translate-y-0 whitespace-nowrap">
+                                            <p class="text-orange-500 font-bold tracking-[0.2em] uppercase text-[10px] mb-1">Moment 0{{ index + 1 }}</p>
+                                            <h3 class="text-2xl lg:text-3xl font-black text-white tracking-tighter drop-shadow-lg font-montserrat">
+                                                Event Highlight
+                                            </h3>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="absolute -bottom-8 -right-8 px-8 py-5 bg-white border border-gray-100 rounded-2xl shadow-xl z-20 hidden md:block group-hover:-translate-y-2 transition-transform duration-300">
+                                    <p class="text-gray-900 font-black text-3xl mb-1">100<span class="text-orange-600">+</span></p>
+                                    <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold">
+                                        {{ $t('service_view.event.events_managed') }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
