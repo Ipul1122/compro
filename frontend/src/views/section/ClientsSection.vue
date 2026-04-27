@@ -5,22 +5,22 @@ import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 
 const partnerLogos = [
-    '/img/BKKBN-LOGO.png',
-    '/img/BMKG-LOGO.png',
-    '/img/BNI-LOGO.png',
-    '/img/DPR-LOGO.png',
-    '/img/DPR-RI-LOGO.png',
-    '/img/DYNO-LOGO.png',
-    '/img/ITL-TRISAKTI-LOGO.png',
-    '/img/KEMENTERIAN-PERINDUSTRIAN-LOGO.png',
-    '/img/LOGO-KUNING.png',
-    '/img/PARIWISATA-LOGO.png',
-    '/img/RISTEK-LOGO.png',
-    '/img/SETJEN-DPD-LOGO.png',
-    '/img/STAN-LOGO.png',
-    '/img/STIK-LOGO.png',
-    '/img/TRISAKTI-LOGO.png',
-    '/img/ULAT-UNGU-LOGO.png'
+    '/img/logo/BKKBN-LOGO.png',
+    '/img/logo/BMKG-LOGO.png',
+    '/img/logo/BNI-LOGO.png',
+    '/img//logo/DPR-LOGO.png',
+    '/img/logo/DPR-RI-LOGO.png',
+    '/img/logo/DYNO-LOGO.png',
+    '/img/logo/ITL-TRISAKTI-LOGO.png',
+    '/img/logo/KEMENTERIAN-PERINDUSTRIAN-LOGO.png',
+    '/img/logo/LOGO-KUNING.png',
+    '/img/logo/PARIWISATA-LOGO.png',
+    '/img/logo/RISTEK-LOGO.png',
+    '/img/logo/SETJEN-DPD-LOGO.png',
+    '/img/logo/STAN-LOGO.png',
+    '/img/logo/STIK-LOGO.png',
+    '/img/logo/TRISAKTI-LOGO.png',
+    '/img/logo/ULAT-UNGU-LOGO.png'
 ];
 
 // Menggunakan computed agar ketika bahasa diganti (EN -> ID), teks otomatis reaktif berubah

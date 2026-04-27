@@ -3,110 +3,481 @@ import { RouterLink } from 'vue-router'
 </script>
 
 <template>
-    <section id="our-services" class="py-32 relative overflow-hidden bg-white">
-        <div class="max-w-7xl mx-auto px-4">
+    <section id="our-services" class="services-section font-montserrat">
 
-            <div class="text-center mb-20 relative z-10">
-                <h2 class="font-montserrat text-orange-600 font-bold tracking-[0.4em] uppercase text-sm mb-4 italic">
-                    {{ $t('services_section.capabilities') }}
-                </h2>
-                <h3 class="font-montserrat text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight uppercase">
-                    {{ $t('services_section.title') }}
-                </h3>
-                <p class="font-poppins text-slate-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-                    {{ $t('services_section.desc') }}
-                </p>
+        <!-- Grid Background -->
+        <div class="grid-bg" aria-hidden="true"></div>
+
+        <div class="services-container">
+
+            <!-- Header — split layout -->
+            <div class="services-header">
+                <div class="header-left">
+                    <span class="badge">{{ $t('services_section.capabilities') }}</span>
+                    <h2 class="services-title">
+                        {{ $t('services_section.title') }}
+                    </h2>
+                </div>
+                <div class="header-right">
+                    <p class="services-desc">{{ $t('services_section.desc') }}</p>
+                    <RouterLink
+                        :to="$i18n.locale === 'id' ? '/id/layanan' : '/en/services'"
+                        class="cta-btn"
+                    >
+                        <span>{{ $t('services_section.btn_view_all') }}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </RouterLink>
+                </div>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
+            <!-- Divider line -->
+            <div class="divider"></div>
 
-                <div
-                    class="group p-8 rounded-3xl bg-white border border-slate-200 hover:border-brand/50 hover:scale-105 hover:shadow-2xl transition-all duration-500">
-                    <div
-                        class="w-12 h-12 mb-6 rounded-2xl bg-brand/10 flex items-center justify-center text-brand font-bold text-xl group-hover:bg-brand group-hover:text-white transition-all duration-500">
-                        1
+            <!-- Services Grid -->
+            <div class="services-grid">
+
+                <!-- Card 01 -->
+                <div class="service-card card-featured">
+                    <div class="card-number">01</div>
+                    <div class="card-body">
+                        <h3 class="card-title">{{ $t('services_section.item1.title') }}</h3>
+                        <p class="card-desc">
+                            {{ $t('services_section.item1.desc1') }}
+                            <strong class="highlight">{{ $t('services_section.item1.highlight') }}</strong>.
+                        </p>
                     </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-4 font-montserrat">{{ $t('services_section.item1.title') }}</h4>
-                    <p class="text-slate-600 text-sm leading-relaxed font-poppins">
-                        {{ $t('services_section.item1.desc1') }} <span class="text-slate-900 font-semibold">
-                            {{ $t('services_section.item1.highlight') }}</span>.
-                    </p>
+                    <div class="card-accent" aria-hidden="true"></div>
                 </div>
 
-                <div
-                    class="group p-8 rounded-3xl bg-white border border-slate-200 hover:border-brand/50 hover:scale-105 hover:shadow-2xl transition-all duration-500">
-                    <div
-                        class="w-12 h-12 mb-6 rounded-2xl bg-brand/10 flex items-center justify-center text-brand font-bold text-xl group-hover:bg-brand group-hover:text-white transition-all duration-500">
-                        2
+                <!-- Card 02 -->
+                <div class="service-card">
+                    <div class="card-number">02</div>
+                    <div class="card-body">
+                        <h3 class="card-title">{{ $t('services_section.item2.title') }}</h3>
+                        <ul class="card-list">
+                            <li>
+                                <span class="list-dot"></span>
+                                <div>
+                                    <strong>{{ $t('services_section.item2.list1_title') }}</strong>
+                                    <p>{{ $t('services_section.item2.list1_desc') }}</p>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="list-dot"></span>
+                                <div>
+                                    <strong>{{ $t('services_section.item2.list2_title') }}</strong>
+                                    <p>{{ $t('services_section.item2.list2_desc') }}</p>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="list-dot"></span>
+                                <div>
+                                    <strong>{{ $t('services_section.item2.list3_title') }}</strong>
+                                    <p>{{ $t('services_section.item2.list3_desc') }}</p>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-4 font-montserrat">{{ $t('services_section.item2.title') }}</h4>
-                    <ul class="space-y-4 text-xs text-slate-600 font-poppins">
-                        <li class="border-b border-slate-100 pb-2"><strong
-                                class="text-slate-900 block text-sm mb-1 font-montserrat">{{ $t('services_section.item2.list1_title') }}</strong>
-                                {{ $t('services_section.item2.list1_desc') }}</li>
-                        <li class="border-b border-slate-100 pb-2"><strong
-                                class="text-slate-900 block text-sm mb-1 font-montserrat">{{ $t('services_section.item2.list2_title') }}</strong> 
-                                {{ $t('services_section.item2.list2_desc') }}
-                        </li>
-                        <li><strong class="text-slate-900 block text-sm mb-1 font-montserrat">{{ $t('services_section.item2.list3_title') }}</strong>
-                            {{ $t('services_section.item2.list3_desc') }}</li>
-                    </ul>
                 </div>
 
-                <div
-                    class="group p-8 rounded-3xl bg-white border border-slate-200 hover:border-brand/50 hover:scale-105 hover:shadow-2xl transition-all duration-500">
-                    <div
-                        class="w-12 h-12 mb-6 rounded-2xl bg-brand/10 flex items-center justify-center text-brand font-bold text-xl group-hover:bg-brand group-hover:text-white transition-all duration-500">
-                        3
+                <!-- Card 03 -->
+                <div class="service-card">
+                    <div class="card-number">03</div>
+                    <div class="card-body">
+                        <h3 class="card-title">{{ $t('services_section.item3.title') }}</h3>
+                        <ul class="card-list">
+                            <li>
+                                <span class="list-dot"></span>
+                                <div>
+                                    <strong>{{ $t('services_section.item3.list1_title') }}</strong>
+                                    <p>{{ $t('services_section.item3.list1_desc') }}</p>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="list-dot"></span>
+                                <div>
+                                    <strong>{{ $t('services_section.item3.list2_title') }}</strong>
+                                    <p>{{ $t('services_section.item3.list2_desc') }}</p>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="list-dot"></span>
+                                <div>
+                                    <strong>{{ $t('services_section.item3.list3_title') }}</strong>
+                                    <p>{{ $t('services_section.item3.list3_desc') }}</p>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-4 font-montserrat">{{ $t('services_section.item3.title') }}</h4>
-                    <ul class="space-y-4 text-xs text-slate-600 font-poppins">
-                        <li class="border-b border-slate-100 pb-2"><strong
-                                class="text-slate-900 block text-sm mb-1 font-montserrat">{{ $t('services_section.item3.list1_title') }}</strong> 
-                                {{ $t('services_section.item3.list1_desc') }}</li>
-                        <li class="border-b border-slate-100 pb-2"><strong
-                                class="text-slate-900 block text-sm mb-1 font-montserrat">{{ $t('services_section.item3.list2_title') }}</strong> 
-                                {{ $t('services_section.item3.list2_desc') }}</li>
-                        <li><strong class="text-slate-900 block text-sm mb-1 font-montserrat">{{ $t('services_section.item3.list3_title') }}</strong>
-                            {{ $t('services_section.item3.list3_desc') }}</li>
-                    </ul>
                 </div>
 
-                <div
-                    class="group p-8 rounded-3xl bg-white border border-slate-200 hover:border-brand/50 hover:scale-105 hover:shadow-2xl transition-all duration-500">
-                    <div
-                        class="w-12 h-12 mb-6 rounded-2xl bg-brand/10 flex items-center justify-center text-brand font-bold text-xl group-hover:bg-brand group-hover:text-white transition-all duration-500">
-                        4
+                <!-- Card 04 -->
+                <div class="service-card">
+                    <div class="card-number">04</div>
+                    <div class="card-body">
+                        <h3 class="card-title">{{ $t('services_section.item4.title') }}</h3>
+                        <ul class="card-list">
+                            <li>
+                                <span class="list-dot"></span>
+                                <div>
+                                    <strong>{{ $t('services_section.item4.list1_title') }}</strong>
+                                    <p>{{ $t('services_section.item4.list1_desc') }}</p>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="list-dot"></span>
+                                <div>
+                                    <strong>{{ $t('services_section.item4.list2_title') }}</strong>
+                                    <p>{{ $t('services_section.item4.list2_desc') }}</p>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="list-dot"></span>
+                                <div>
+                                    <strong>{{ $t('services_section.item4.list3_title') }}</strong>
+                                    <p>{{ $t('services_section.item4.list3_desc') }}</p>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-4 font-montserrat">{{ $t('services_section.item4.title') }}</h4>
-                    <ul class="space-y-4 text-xs text-slate-600 font-poppins">
-                        <li class="border-b border-slate-100 pb-2"><strong
-                                class="text-slate-900 block text-sm mb-1 font-montserrat italic">{{ $t('services_section.item4.list1_title') }}</strong>
-                                {{ $t('services_section.item4.list1_desc') }}</li>
-                        <li class="border-b border-slate-100 pb-2"><strong
-                                class="text-slate-900 block text-sm mb-1 font-montserrat italic">{{ $t('services_section.item4.list2_title') }}</strong> 
-                                {{ $t('services_section.item4.list2_desc') }}</li>
-                        <li><strong class="text-slate-900 block text-sm mb-1 font-montserrat italic">{{ $t('services_section.item4.list3_title') }}</strong>
-                            {{ $t('services_section.item4.list3_desc') }}</li>
-                    </ul>
                 </div>
 
-            </div>
-
-            <div class="mt-16 flex justify-center relative z-10">
-                <RouterLink :to="$i18n.locale === 'id' ? '/id/layanan' : '/en/services'"
-                    class="group flex items-center gap-3 bg-brand text-white px-8 py-4 rounded-full font-bold text-sm hover:scale-105 hover:shadow-xl hover:shadow-brand/20 transition-all duration-300">
-                    {{ $t('services_section.btn_view_all') }}
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                </RouterLink>
-            </div>
-
-            <div
-                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15rem] font-black text-slate-900/[0.03] pointer-events-none select-none -z-10 tracking-tighter">
-                {{ $t('services_section.watermark') }}
             </div>
         </div>
     </section>
 </template>
+
+<style scoped>
+/* ── Base Section ── */
+.services-section {
+    position: relative;
+    background: #fff;
+    padding: 7rem 0 6rem;
+    overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* ── Grid Background ── */
+.grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(to right, #f1f5f9 1px, transparent 1px),
+        linear-gradient(to bottom, #f1f5f9 1px, transparent 1px);
+    background-size: 3.5rem 3.5rem;
+    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, #000 50%, transparent 100%);
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, #000 50%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── Container ── */
+.services-container {
+    position: relative;
+    z-index: 1;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* ── Header Split Layout ── */
+.services-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: end;
+    margin-bottom: 3rem;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.badge {
+    display: inline-block;
+    width: fit-content;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #ea580c;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+}
+
+.services-title {
+    font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+    font-weight: 900;
+    color: #0f172a;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.header-right {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-bottom: 0.25rem;
+}
+
+.services-desc {
+    font-size: 1rem;
+    color: #64748b;
+    line-height: 1.75;
+    font-weight: 500;
+    margin: 0;
+    max-width: 480px;
+}
+
+/* ── CTA Button ── */
+.cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: #0f172a;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.85rem 1.75rem;
+    border-radius: 999px;
+    width: fit-content;
+    transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.cta-btn:hover {
+    background: #ea580c;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(234, 88, 12, 0.25);
+}
+
+.cta-btn svg {
+    transition: transform 0.25s ease;
+}
+
+.cta-btn:hover svg {
+    transform: translateX(4px);
+}
+
+/* ── Divider ── */
+.divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, #e2e8f0 20%, #e2e8f0 80%, transparent);
+    margin-bottom: 3rem;
+}
+
+/* ── Services Grid ── */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 1.5rem;
+    overflow: hidden;
+}
+
+/* ── Service Card ── */
+.service-card {
+    position: relative;
+    padding: 2.25rem 2rem;
+    background: #fff;
+    border-right: 1px solid #e2e8f0;
+    overflow: hidden;
+    transition: background 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.service-card:last-child {
+    border-right: none;
+}
+
+.service-card:hover {
+    background: #fafafa;
+}
+
+/* Featured card — first one gets orange accent treatment */
+.card-featured {
+    background: #0f172a;
+}
+
+.card-featured:hover {
+    background: #1e293b;
+}
+
+.card-featured .card-number {
+    color: rgba(255, 255, 255, 0.1);
+}
+
+.card-featured .card-title {
+    color: #fff;
+}
+
+.card-featured .card-desc {
+    color: #94a3b8;
+}
+
+.card-featured .highlight {
+    color: #fb923c;
+}
+
+.card-accent {
+    position: absolute;
+    bottom: -1.5rem;
+    right: -1.5rem;
+    width: 6rem;
+    height: 6rem;
+    background: #ea580c;
+    border-radius: 50%;
+    opacity: 0.15;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.card-featured:hover .card-accent {
+    transform: scale(1.4);
+    opacity: 0.2;
+}
+
+/* ── Card Number ── */
+.card-number {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #f1f5f9;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+    transition: color 0.3s ease;
+}
+
+.service-card:hover .card-number {
+    color: #fee2e2;
+}
+
+.service-card:hover:not(.card-featured) .card-number {
+    color: #fed7aa;
+}
+
+/* ── Card Body ── */
+.card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    flex: 1;
+}
+
+.card-title {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    line-height: 1.3;
+    margin: 0;
+}
+
+.card-desc {
+    font-size: 0.82rem;
+    color: #64748b;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.highlight {
+    color: #ea580c;
+    font-weight: 700;
+}
+
+/* ── Card List ── */
+.card-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.card-list li {
+    display: flex;
+    gap: 0.65rem;
+    align-items: flex-start;
+}
+
+.list-dot {
+    flex-shrink: 0;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #ea580c;
+    margin-top: 0.45rem;
+}
+
+.card-list strong {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: 0.01em;
+    margin-bottom: 0.2rem;
+}
+
+.card-list p {
+    font-size: 0.76rem;
+    color: #94a3b8;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .service-card:nth-child(2) {
+        border-right: none;
+    }
+
+    .service-card:nth-child(1),
+    .service-card:nth-child(2) {
+        border-bottom: 1px solid #e2e8f0;
+    }
+}
+
+@media (max-width: 768px) {
+    .services-section {
+        padding: 4rem 0;
+    }
+
+    .services-header {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+        border-radius: 1rem;
+    }
+
+    .service-card {
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .service-card:last-child {
+        border-bottom: none;
+    }
+}
+</style>
