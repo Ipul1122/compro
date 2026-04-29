@@ -138,7 +138,7 @@
                         <!-- Image card -->
                         <div class="w-[440px] h-[460px] bg-white rounded-[2.5rem] border border-slate-100 relative overflow-hidden flex items-center justify-center shadow-[0_40px_80px_-15px_rgba(0,0,0,0.12),0_0_0_1px_rgba(234,68,53,0.06)] z-20 transition-all duration-700 group-hover:shadow-[0_60px_100px_-15px_rgba(234,68,53,0.18)]">
 
-                            <img src="/src/img/slide-gallery-17.jpg" alt="PT Cakrawala Project"
+                            <img src="/src/img/phising.jpg" alt="PT Cakrawala Project"
                                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
 
                             <!-- Overlay gradient -->

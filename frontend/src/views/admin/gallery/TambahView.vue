@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import Api from '@/api'
 import Sidebar from '@/components/admin/Sidebar.vue'
@@ -9,7 +9,7 @@ const router = useRouter()
 const isSidebarOpen = ref(false)
 const user = ref({ name: 'Admin', email: '' })
 const categories = ref([])
-const isLoading = ref(false) // State untuk efek loading saat submit
+const isLoading = ref(false)
 const errors = ref({})
 
 const breadcrumbsData = ref([
@@ -20,25 +20,96 @@ const breadcrumbsData = ref([
 
 const isTranslatingTitle = ref(false)
 let translateTitleTimeout = null
+const hasDraft = ref(false)
 
 const form = ref({
     category_id: '',
     title_image: '',
     title_image_en: '',
     slug: '',
-    images: [] // Untuk multiple files
+    images: []
 })
 
 const previews = ref([])
-
-// STATE UNTUK MODAL KONFIRMASI
 const isConfirmModalOpen = ref(false)
-
-// STATE UNTUK DRAG AND DROP
 const draggedIndex = ref(null)
 const dragOverIndex = ref(null)
 
-// Load daftar kategori
+// ==========================================
+// 1. LOGIC LOCALSTORAGE DRAFT
+// ==========================================
+const saveDraft = () => {
+    const draftData = {
+        category_id: form.value.category_id,
+        title_image: form.value.title_image,
+        title_image_en: form.value.title_image_en,
+        slug: form.value.slug,
+        previews: previews.value // Simpan base64 images
+    }
+    
+    try {
+        localStorage.setItem('gallery_draft', JSON.stringify(draftData))
+        hasDraft.value = true
+    } catch (e) {
+        console.warn("Gagal menyimpan draft (Mungkin gambar terlalu besar)", e)
+    }
+}
+
+const loadDraft = () => {
+    const draftStr = localStorage.getItem('gallery_draft')
+    if (draftStr) {
+        try {
+            const draft = JSON.parse(draftStr)
+            form.value.category_id = draft.category_id || ''
+            form.value.title_image = draft.title_image || ''
+            form.value.title_image_en = draft.title_image_en || ''
+            form.value.slug = draft.slug || ''
+            
+            if (draft.previews && draft.previews.length > 0) {
+                 previews.value = draft.previews
+                 hasDraft.value = true
+                 reconstructFilesFromBase64(draft.previews)
+            }
+        } catch (err) {
+            console.error("Gagal memuat draft", err)
+        }
+    }
+}
+
+const reconstructFilesFromBase64 = async (base64Array) => {
+    const reconstructedFiles = []
+    for (let i = 0; i < base64Array.length; i++) {
+        const base64 = base64Array[i]
+        try {
+            const match = base64.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*,.*/)
+            if (match) {
+                const mimeType = match[1]
+                const response = await fetch(base64)
+                const blob = await response.blob()
+                const file = new File([blob], `draft-image-${i}.${mimeType.split('/')[1]}`, { type: mimeType })
+                reconstructedFiles.push(file)
+            }
+        } catch (e) {
+            console.error("Gagal merekonstruksi file", e)
+        }
+    }
+    form.value.images = reconstructedFiles
+}
+
+const clearDraftAndBack = () => {
+    localStorage.removeItem('gallery_draft')
+    hasDraft.value = false
+    router.push('/admin/gallery')
+}
+
+// Pantau perubahan pada form text untuk autosave
+watch(() => [form.value.category_id, form.value.title_image, form.value.title_image_en], () => {
+    saveDraft()
+}, { deep: true })
+
+// ==========================================
+// 2. FUNGSI API & UTILS
+// ==========================================
 const fetchCategories = async () => {
     try {
         const response = await Api.get('/admin/categories/list')
@@ -48,12 +119,10 @@ const fetchCategories = async () => {
     }
 }
 
-// Generate Slug
 const generateSlug = (text) => {
     return text.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, '')
 }
 
-// Handle Judul & Translate
 const handleTitleInput = () => {
     form.value.slug = generateSlug(form.value.title_image)
 }
@@ -75,6 +144,7 @@ const autoTranslateTitle = () => {
             const res = await fetch(`https://api.mymemory.translated.net/get?q=${textToTranslate}&langpair=id|en`)
             const data = await res.json()
             if (data && data.responseData) form.value.title_image_en = data.responseData.translatedText
+            saveDraft()
         } catch (error) {
             console.error("Gagal terjemah judul:", error)
         } finally {
@@ -83,31 +153,70 @@ const autoTranslateTitle = () => {
     }, 600)
 }
 
-// Handle pemilihan file gambar
+// ==========================================
+// 3. FILE HANDLING (APPEND, 10 MAX, 2MB LIMIT)
+// ==========================================
 const handleFileChange = (e) => {
-    const files = Array.from(e.target.files)
+    const newFiles = Array.from(e.target.files)
+    if (newFiles.length === 0) return;
     
-    if (files.length > 10) {
-        alert('Maksimal upload adalah 10 gambar sekaligus.')
-        e.target.value = ''
-        form.value.images = []
-        previews.value = []
-        return
+    // Hitung total gambar yang sudah ada di list + gambar baru
+    const totalFiles = form.value.images.length + newFiles.length;
+
+    // Cek Batas 10 Gambar (Total keseluruhan)
+    if (totalFiles > 10) {
+        alert('Gambar sudah maksimal (10), hapus salah satu terlebih dahulu jika ingin mengganti/menambah.')
+        e.target.value = '' // Reset input agar bisa klik ulang
+        return // Hentikan eksekusi, biarkan gambar yang lama tetap ada
     }
 
-    form.value.images = files
-    errors.value.images = null // Hapus error jika ada
+    // Cek Validasi Ukuran (Maks 2MB per gambar baru)
+    const maxSize = 2 * 1024 * 1024;
+    const oversizedFiles = [];
+
+    newFiles.forEach(file => {
+        if (file.size > maxSize) {
+            oversizedFiles.push(file.name);
+        }
+    });
+
+    if (oversizedFiles.length > 0) {
+        alert(`Ups, foto melebihi 2MB, mohon dicompress dahulu. Berikut file yang melebihi batas:\n\n- ${oversizedFiles.join('\n- ')}`);
+        e.target.value = ''; 
+        return; // Hentikan eksekusi, jangan masukkan gambar yang ukurannya kebesaran
+    }
+
+    // Eksekusi Jika Lolos Validasi (Menambahkan ke array eksisting)
+    form.value.images.push(...newFiles)
+    errors.value.images = null 
     
-    // Generate Previews
-    previews.value = []
-    files.forEach(file => {
+    let loadedCount = 0;
+    
+    newFiles.forEach(file => {
         const reader = new FileReader()
-        reader.onload = (e) => previews.value.push(e.target.result)
+        reader.onload = (event) => {
+            previews.value.push(event.target.result)
+            loadedCount++
+            // Save jika semua gambar baru selesai diload preview-nya
+            if (loadedCount === newFiles.length) saveDraft() 
+        }
         reader.readAsDataURL(file)
     })
+
+    // Reset value input supaya file yang sama bisa dipilih lagi jika dihapus
+    e.target.value = '';
 }
 
-// FUNGSI DRAG AND DROP
+// Fungsi Hapus Satu Gambar
+const removeImage = (index) => {
+    form.value.images.splice(index, 1) // Hapus file dari object FormData
+    previews.value.splice(index, 1) // Hapus preview UI
+    saveDraft() // Simpan draft terbaru
+}
+
+// ==========================================
+// 4. DRAG AND DROP & SUBMIT
+// ==========================================
 const handleDragStart = (index, event) => {
     draggedIndex.value = index
     event.dataTransfer.effectAllowed = 'move'
@@ -116,22 +225,19 @@ const handleDragStart = (index, event) => {
 const handleDrop = (index) => {
     if (draggedIndex.value === null || draggedIndex.value === index) return
     
-    // Pindahkan urutan di array file form
     const draggedFile = form.value.images.splice(draggedIndex.value, 1)[0]
     form.value.images.splice(index, 0, draggedFile)
     
-    // Pindahkan urutan di array preview visual
     const draggedPreview = previews.value.splice(draggedIndex.value, 1)[0]
     previews.value.splice(index, 0, draggedPreview)
 
     draggedIndex.value = null
     dragOverIndex.value = null
+    saveDraft() 
 }
 
-// Validasi Frontend sebelum membuka Modal
 const openConfirmModal = () => {
     errors.value = {}
-    
     let hasError = false
     
     if (!form.value.category_id) {
@@ -144,17 +250,14 @@ const openConfirmModal = () => {
         hasError = true
     }
 
-    if (!hasError) {
-        isConfirmModalOpen.value = true
-    }
+    if (!hasError) isConfirmModalOpen.value = true
 }
 
 const closeConfirmModal = () => {
-    if (isLoading.value) return // Cegah tutup saat sedang loading submit
+    if (isLoading.value) return 
     isConfirmModalOpen.value = false
 }
 
-// Eksekusi Submit Data setelah dikonfirmasi
 const confirmSubmit = async () => {
     isLoading.value = true
     errors.value = {}
@@ -172,7 +275,9 @@ const confirmSubmit = async () => {
     try {
         await Api.post('/admin/galleries/bulk-store', formData)
         
-        // Tutup modal dan arahkan ke halaman list
+        localStorage.removeItem('gallery_draft')
+        hasDraft.value = false
+        
         isConfirmModalOpen.value = false
         router.push('/admin/gallery')
         
@@ -182,7 +287,7 @@ const confirmSubmit = async () => {
         } else {
             alert('Terjadi kesalahan saat menyimpan data.')
         }
-        isConfirmModalOpen.value = false // Tutup modal jika error
+        isConfirmModalOpen.value = false 
     } finally {
         isLoading.value = false
     }
@@ -196,6 +301,7 @@ onMounted(() => {
         router.push('/view/login')
     }
     fetchCategories()
+    loadDraft()
 })
 </script>
 
@@ -207,13 +313,19 @@ onMounted(() => {
             <Navbar :user="user" :breadcrumbs="breadcrumbsData" @toggle-sidebar="isSidebarOpen = !isSidebarOpen" />
             <main class="p-6">
                 <div class="max-w-4xl mx-auto">
-                    <div class="mb-6">
-                        <router-link to="/admin/gallery" class="text-slate-400 hover:text-slate-600 text-sm font-bold flex items-center gap-2 mb-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-                            Kembali ke Daftar
-                        </router-link>
-                        <h1 class="text-2xl font-bold text-slate-800">Upload Foto Baru</h1>
-                        <p class="text-slate-500 text-sm">Pilih kategori, berikan judul, dan upload hingga 10 foto sekaligus.</p>
+                    <div class="mb-6 flex justify-between items-end">
+                        <div>
+                            <button @click="router.push('/admin/gallery')" class="text-slate-400 hover:text-slate-600 text-sm font-bold flex items-center gap-2 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                                Kembali ke Daftar
+                            </button>
+                            <h1 class="text-2xl font-bold text-slate-800">Upload Foto Baru</h1>
+                            <p class="text-slate-500 text-sm">Pilih kategori, berikan judul, dan upload hingga 10 foto sekaligus.</p>
+                        </div>
+                        
+                        <span v-if="hasDraft" class="text-xs font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-full animate-pulse border border-green-200">
+                            Draft tersimpan otomatis
+                        </span>
                     </div>
 
                     <form @submit.prevent="openConfirmModal" class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm space-y-6">
@@ -244,14 +356,30 @@ onMounted(() => {
 
                             <div>
                                 <label for="pilih_gambar" class="block text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Pilih Gambar (Maksimal 10) <span class="text-red-500">*</span></label>
-                                <div class="border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center hover:bg-slate-50 transition-all cursor-pointer relative" :class="{'border-red-400 bg-red-50': form.images.length > 10 || errors.images}">
-                                    <input id="pilih_gambar" name="pilih_gambar" type="file" multiple @change="handleFileChange" class="absolute inset-0 opacity-0 cursor-pointer z-10" accept="image/*" />
-                                <div class="text-slate-400 pointer-events-none">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-2" :class="errors.images ? 'text-red-400' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                                    <p class="font-bold text-slate-600">Klik atau seret foto ke sini</p>
-                                    <p class="text-xs mt-1" v-if="form.images.length > 0"><span class="text-blue-600 font-black">{{ form.images.length }}</span> file terpilih</p>
-                                    <p class="text-xs mt-1" v-else>PNG, JPG, WEBP hingga 2MB per file</p>
-                                </div>
+                                <div class="border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center transition-all relative" :class="[errors.images ? 'border-red-400 bg-red-50' : 'hover:bg-slate-50', form.images.length >= 10 ? 'opacity-50 cursor-not-allowed bg-slate-100' : 'cursor-pointer']">
+                                    <input 
+                                        v-if="form.images.length < 10"
+                                        id="pilih_gambar" 
+                                        name="pilih_gambar" 
+                                        type="file" 
+                                        multiple 
+                                        @change="handleFileChange" 
+                                        class="absolute inset-0 opacity-0 cursor-pointer z-10" 
+                                        accept="image/*" 
+                                    />
+                                    <div class="text-slate-400 pointer-events-none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-2" :class="errors.images ? 'text-red-400' : ''" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                        
+                                        <div v-if="form.images.length >= 10">
+                                            <p class="font-bold text-red-500">Kuota gambar sudah penuh (10/10)</p>
+                                            <p class="text-xs mt-1 text-slate-500">Hapus salah satu gambar di bawah untuk menambah lagi</p>
+                                        </div>
+                                        <div v-else>
+                                            <p class="font-bold text-slate-600">Klik atau seret foto ke sini</p>
+                                            <p class="text-xs mt-1"><span class="text-blue-600 font-black">{{ form.images.length }}</span> / 10 file terpilih</p>
+                                            <p class="text-xs mt-1">PNG, JPG, WEBP hingga 2MB per file</p>
+                                        </div>
+                                    </div>
                             </div>
                             <p v-if="errors.images" class="text-red-500 text-xs mt-1 font-bold">{{ errors.images[0] }}</p>
                         </div>
@@ -272,18 +400,32 @@ onMounted(() => {
                                     @dragleave.prevent="dragOverIndex = null"
                                     @drop.prevent="handleDrop(index)"
                                     :class="[
-                                        'relative aspect-square rounded-xl overflow-hidden shadow-sm cursor-move transition-all duration-200 border-2',
+                                        'relative aspect-square rounded-xl overflow-hidden shadow-sm transition-all duration-200 border-2 group bg-slate-100',
                                         dragOverIndex === index ? 'border-blue-500 scale-105 z-10' : 'border-slate-200',
-                                        draggedIndex === index ? 'opacity-40' : 'opacity-100'
+                                        draggedIndex === index ? 'opacity-40' : 'opacity-100 cursor-move'
                                     ]"
                                 >
                                     <img :src="src" class="w-full h-full object-cover pointer-events-none" />
                                     <div class="absolute top-1.5 left-1.5 bg-slate-900/80 backdrop-blur-sm text-white text-[10px] font-black px-2 py-0.5 rounded-md pointer-events-none shadow-sm">{{ index + 1 }}</div>
+                                    
+                                    <button 
+                                        type="button" 
+                                        @click.stop="removeImage(index)" 
+                                        class="absolute top-1.5 right-1.5 bg-red-500/90 hover:bg-red-600 text-white p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity shadow-sm z-20"
+                                        title="Hapus Gambar"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="pt-6 mt-6 border-t border-slate-100 flex justify-end">
+                        <div class="pt-6 mt-6 border-t border-slate-100 flex justify-end gap-3">
+                            <button type="button" @click="clearDraftAndBack" class="bg-slate-100 text-slate-600 px-6 py-3.5 rounded-xl font-bold hover:bg-slate-200 transition-colors cursor-pointer">
+                                Batal & Hapus Draft
+                            </button>
                             <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 rounded-xl font-black uppercase tracking-wider transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-600/40 hover:-translate-y-0.5">
                                 Simpan Galeri
                             </button>
@@ -327,7 +469,7 @@ onMounted(() => {
                 </div>
             </div>
         </div>
-        </div>
+    </div>
 </template>
 
 <style scoped>
@@ -340,7 +482,6 @@ onMounted(() => {
     100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-/* Animasi Putar untuk Loading */
 @keyframes spin {
     to { transform: rotate(360deg); }
 }

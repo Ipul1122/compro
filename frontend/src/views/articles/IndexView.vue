@@ -26,7 +26,7 @@ const filters = ref({
 
 const fetchCategories = async () => {
     try {
-        const response = await Api.get('/admin/categories/list')
+        const response = await Api.get('/categories')
         categories.value = response.data.data || response.data
     } catch (error) {
         console.error("Error fetching categories:", error)

@@ -480,6 +480,15 @@ const autoTranslateTitle = () => {
 const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+        if (file.size > 2 * 1024 * 1024) {
+            alert("ups, foto melebih 2MB, mohon dicompress dahulu");
+            e.target.value = ''; 
+            form.value.image = null;
+            
+           
+            return; // Hentikan eksekusi
+        }
+
         form.value.image = file;
         previewImage.value = URL.createObjectURL(file);
     }
