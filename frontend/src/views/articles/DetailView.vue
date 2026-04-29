@@ -1,7 +1,8 @@
 <script setup>
-import { ref, onMounted, watch, nextTick } from 'vue'
+import { ref, onMounted, watch, nextTick, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useHead } from '@unhead/vue'
 import Api from '@/api'
 import Navbar from '@/components/Navbar.vue'
 import { getImageUrl, handleImageError } from '@/utils/imageHelper'
@@ -15,22 +16,66 @@ const latestArticles = ref([])
 const relatedArticles = ref([])
 const isLoading = ref(true)
 
-// Update Judul Halaman secara dinamis
-const updateDocumentTitle = () => {
-    if (article.value) {
-        const title = locale.value === 'en' && article.value.title_en 
-            ? article.value.title_en 
-            : article.value.title
-        document.title = `${title} - Cakrawala`
-    }
-}
+// =========================================================================
+// SETUP SEO & META TAGS (DINAMIS & REAKTIF)
+// Mengganti fungsi manual updateDocumentTitle() dengan Vue Computed
+// =========================================================================
+
+const articleTitle = computed(() => {
+    if (!article.value) return 'Cakrawala'
+    const title = locale.value === 'en' && article.value.title_en 
+        ? article.value.title_en 
+        : article.value.title
+    return `${title} - Cakrawala`
+})
+
+// Gunakan short_description/excerpt artikel jika ada, agar deskripsi link bagus.
+const articleDesc = computed(() => {
+    if (!article.value) return 'Artikel Cakrawala'
+    return locale.value === 'en' && article.value.short_description_en
+        ? article.value.short_description_en
+        : (article.value.short_description || article.value.excerpt || 'Baca artikel selengkapnya di Cakrawala.')
+})
+
+const articleImage = computed(() => {
+    return article.value && article.value.image ? getImageUrl(article.value.image) : ''
+})
+
+const currentUrl = computed(() => {
+    return typeof window !== 'undefined' ? window.location.href : ''
+})
+
+// Inject Head menggunakan @unhead/vue
+useHead({
+    title: articleTitle,
+    meta: [
+        { name: 'description', content: articleDesc },
+        
+        // Open Graph / Facebook / WhatsApp
+        { property: 'og:type', content: 'article' },
+        { property: 'og:title', content: articleTitle },
+        { property: 'og:description', content: articleDesc },
+        { property: 'og:image', content: articleImage },
+        { property: 'og:url', content: currentUrl },
+        { property: 'og:site_name', content: 'Cakrawala' },
+        
+        // Twitter Card
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: articleTitle },
+        { name: 'twitter:description', content: articleDesc },
+        { name: 'twitter:image', content: articleImage }
+    ]
+})
+
+// =========================================================================
+// FETCHING DATA
+// =========================================================================
 
 const fetchDetail = async (slug) => {
     isLoading.value = true
     try {
         const response = await Api.get(`/articles/${slug}`)
         article.value = response.data.data
-        updateDocumentTitle()
         
         if (article.value && article.value.category_id) {
             fetchRelated(article.value.category_id, article.value.id)
@@ -77,11 +122,6 @@ watch(() => route.params.slug, (newSlug) => {
     if (newSlug) fetchDetail(newSlug)
 })
 
-// Deteksi perubahan bahasa untuk update title browser
-watch(locale, () => {
-    updateDocumentTitle()
-})
-
 const formatDate = (dateString) => {
     if (!dateString) return '-'
     const currentLocale = locale.value === 'en' ? 'en-US' : 'id-ID'
@@ -89,6 +129,10 @@ const formatDate = (dateString) => {
         day: 'numeric', month: 'long', year: 'numeric'
     })
 }
+
+// =========================================================================
+// TABLE OF CONTENT (TOC) HELPER FUNCTIONS
+// =========================================================================
 
 // Fungsi helper untuk generate ID dari text (sebagai backup)
 const generateIdFromText = (text) => {
@@ -100,7 +144,7 @@ const generateIdFromText = (text) => {
         .replace(/^-|-$/g, '')
 }
 
-// FUNGSI INTI PERBAIKAN: Suntikkan ID dari link TOC ke elemen Heading
+// Suntikkan ID dari link TOC ke elemen Heading
 const normalizeHeadingIds = () => {
     const articleElement = document.querySelector('article')
     if (!articleElement) return
@@ -285,19 +329,7 @@ const handleContentClick = (e) => {
         }
     }
     
-    console.error(`
-        ❌ TOC: Gagal menemukan elemen untuk "#${decodedId}"
-        
-        Debugging Info:
-        - TOC Link ID: #${decodedId}
-        - Heading count: ${headings.length}
-        - Attempted strategies: ID lookup, name attr, section-N index, generated ID, keyword match
-        
-        💡 Possible Solutions:
-        1. Re-generate TOC di admin (klik "Buat TOC" lagi)
-        2. Pastikan H2/H3 dalam artikel memiliki text yang jelas
-        3. Check HTML di Database apakah heading ada
-    `)
+    console.error(`❌ TOC: Gagal menemukan elemen untuk "#${decodedId}"`)
 }
 </script>
 
