@@ -106,7 +106,17 @@
 
               <div>
                 <label for="meta_keywords" class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Keywords (SEO)</label>
-                <input id="meta_keywords" name="meta_keywords" v-model="form.meta_keywords" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-white" placeholder="pisahkan, dengan, koma">
+                <div class="w-full border border-slate-300 p-2 rounded-xl focus-within:ring-2 focus-within:ring-slate-900 bg-white flex flex-wrap gap-2 items-center min-h-[50px]">
+                  <span v-for="(keyword, index) in metaKeywordsArray" :key="index" class="bg-blue-50 text-blue-600 border border-blue-200 text-xs font-bold px-2.5 py-1 rounded-lg flex items-center gap-1 cursor-default">
+                    {{ keyword }}
+                    <button type="button" @click="removeKeyword(index)" class="hover:text-red-500 text-blue-400 focus:outline-none flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                      </svg>
+                    </button>
+                  </span>
+                  <input id="meta_keywords" type="text" v-model="keywordInput" @keydown.enter.prevent="addKeyword" @keydown.comma.prevent="addKeyword" @keydown.delete="removeLastKeyword" @blur="addKeyword" class="flex-1 min-w-[120px] outline-none font-bold text-black bg-transparent text-sm p-1" placeholder="Ketik lalu koma/enter">
+                </div>
               </div>
 
               <div class="md:col-span-2">
@@ -140,7 +150,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
+import Api from '@/api';
 
 // Import komponen Sidebar dan Navbar
 import Sidebar from '@/components/admin/Sidebar.vue';
@@ -182,6 +192,31 @@ const form = ref({
 const isTranslatingTitle = ref(false);
 let translateTitleTimeout = null;
 
+// State untuk Tag Input Meta Keywords
+const keywordInput = ref('');
+const metaKeywordsArray = ref([]);
+
+const addKeyword = () => {
+    let val = keywordInput.value.replace(/,/g, '').trim();
+    if (val && !metaKeywordsArray.value.includes(val)) {
+        metaKeywordsArray.value.push(val);
+        form.value.meta_keywords = metaKeywordsArray.value.join(', ');
+    }
+    keywordInput.value = '';
+};
+
+const removeKeyword = (index) => {
+    metaKeywordsArray.value.splice(index, 1);
+    form.value.meta_keywords = metaKeywordsArray.value.join(', ');
+};
+
+const removeLastKeyword = (e) => {
+    if (keywordInput.value === '' && metaKeywordsArray.value.length > 0) {
+        metaKeywordsArray.value.pop();
+        form.value.meta_keywords = metaKeywordsArray.value.join(', ');
+    }
+};
+
 // ==========================================
 // LOGIC LOCALSTORAGE DRAFT
 // ==========================================
@@ -215,6 +250,11 @@ const loadDraft = () => {
             form.value.meta_title = draft.meta_title || '';
             form.value.meta_description = draft.meta_description || '';
             form.value.meta_keywords = draft.meta_keywords || '';
+            if (form.value.meta_keywords) {
+                metaKeywordsArray.value = form.value.meta_keywords.split(',').map(s => s.trim()).filter(s => s);
+            } else {
+                metaKeywordsArray.value = [];
+            }
             form.value.published = draft.published || 'publish';
 
             if (draft.contentId && editorId.value) {
@@ -379,10 +419,7 @@ onMounted(async () => {
 
 const fetchCategories = async () => {
     try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:8000/api/admin/categories/list', {
-            headers: { Authorization: `Bearer ${token}` }
-        });
+        const response = await Api.get('/admin/categories/list');
         categories.value = response.data.data;
     } catch (err) { console.error("Error fetching categories:", err); }
 };
@@ -467,8 +504,8 @@ const storeArticle = async () => {
         
         if (form.value.image) formData.append('image', form.value.image);
 
-        await axios.post('http://localhost:8000/api/admin/articles', formData, {
-            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' }
+        await Api.post('/admin/articles', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
         });
 
         // Sukses Simpan -> Hapus history draft dari LocalStorage

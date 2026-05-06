@@ -1,8 +1,9 @@
 // src/api/index.js
 import axios from 'axios';
 
+// Gunakan environment variable, fallback ke localhost untuk development
 const Api = axios.create({
-    baseURL: 'http://localhost:8000/api'
+    baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api'
 });
 
 // Interceptor untuk menyisipkan token

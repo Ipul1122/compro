@@ -14,7 +14,7 @@ import AboutSection from '../section/AboutSection.vue'
         <div class="card-header">
           <div class="header-accent"></div>
           <div>
-            <h1 class="card-title">Visi &amp; Misi <span class="text-orange">Perusahaan</span></h1>
+            <h1 class="card-title">Vision &amp; Missions <span class="text-orange">Company</span></h1>
             <div class="badge">
               <span class="badge-dot"></span>
               Company Foundation
@@ -33,11 +33,12 @@ import AboutSection from '../section/AboutSection.vue'
                   <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
                 </svg>
               </div>
-              <span class="section-label">Visi Kami</span>
+              <span class="section-label">Our Vision</span>
             </div>
             <p class="section-text">
-              Menjadi perusahaan terdepan berskala internasional yang memberikan solusi komprehensif
-              dan inovatif, serta menciptakan nilai tambah bagi seluruh pemangku kepentingan.
+              To become an Indonesian company with a global reach in the fields of human
+              capital and organizational development, information technology, and event
+              management.
             </p>
           </div>
 
@@ -49,20 +50,39 @@ import AboutSection from '../section/AboutSection.vue'
                   <path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-12a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm0 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
                 </svg>
               </div>
-              <span class="section-label">Misi Kami</span>
+              <span class="section-label">Our Missions</span>
             </div>
             <ul class="misi-list">
               <li>
                 <span class="li-num">01</span>
-                Memberikan layanan dan produk berkualitas tinggi yang melebihi ekspektasi pelanggan.
+                Establish partnerships both domestically and internationally to provide broader
+                insights into human capital and organizational development.
               </li>
               <li>
                 <span class="li-num">02</span>
-                Mengembangkan inovasi berkelanjutan dalam setiap aspek operasional perusahaan.
+                Drive innovation in the execution of events, both locally and globally.
               </li>
               <li>
                 <span class="li-num">03</span>
-                Membangun kemitraan strategis yang saling menguntungkan.
+                Conduct international benchmarking to enhance and develop the services offered.
+              </li>
+              <li>
+                <span class="li-num">04</span>
+                Develop appropriate information technology solutions aligned with the needs
+                and capabilities of human capital and organizations.
+              </li>
+              <li>
+                <span class="li-num">05</span>
+                Deliver comprehensive services in the fields of human resource and
+                organizational development, education, and gender equality.
+              </li>
+              <li>
+                <span class="li-num">06</span>
+                Contribute to human development and support equitable access to education in Indonesia.
+              </li>
+              <li>
+                <span class="li-num">07</span>
+                Continuously innovate to provide the highest quality of service.
               </li>
             </ul>
           </div>
@@ -71,7 +91,7 @@ import AboutSection from '../section/AboutSection.vue'
 
         <!-- Footer -->
         <div class="card-footer">
-          <span class="footer-text">© 2026 Perusahaan · All rights reserved</span>
+          <span class="footer-text">© 2026 Company · All rights reserved</span>
           <div class="footer-dots">
             <div class="dot dot-1"></div>
             <div class="dot dot-2"></div>

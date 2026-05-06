@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import axios from 'axios'
+import Api from '@/api'
 import { getImageUrl, handleImageError } from '@/utils/imageHelper' 
 
 // Import komponen reusable
@@ -79,10 +79,7 @@ watch(() => route.query.page, (newPage) => {
 // Ambil daftar kategori untuk dropdown
 const fetchCategories = async () => {
     try {
-        const token = localStorage.getItem('token')
-        const response = await axios.get('http://localhost:8000/api/admin/categories/list', {
-            headers: { Authorization: `Bearer ${token}` }
-        })
+        const response = await Api.get('/admin/categories/list')
         categories.value = response.data.data || response.data
         
         // Set label teks pencarian jika URL punya filter category_id
@@ -98,7 +95,6 @@ const fetchCategories = async () => {
 const fetchArticles = async (page = 1) => {
     isLoading.value = true
     try {
-        const token = localStorage.getItem('token')
         const params = {
             page: page,
             search: filters.value.search,
@@ -107,8 +103,7 @@ const fetchArticles = async (page = 1) => {
             views: filters.value.views
         }
 
-        const response = await axios.get('http://localhost:8000/api/admin/articles', {
-            headers: { Authorization: `Bearer ${token}` },
+        const response = await Api.get('/admin/articles', {
             params: params
         })
         
@@ -161,10 +156,7 @@ const formatDate = (dateString) => {
 const confirmDelete = async (id) => {
     if (confirm('Apakah Anda yakin ingin menghapus artikel ini?')) {
         try {
-            const token = localStorage.getItem('token')
-            await axios.delete(`http://localhost:8000/api/admin/articles/${id}`, {
-                headers: { Authorization: `Bearer ${token}` }
-            })
+            await Api.delete(`/admin/articles/${id}`)
             
             alert('Artikel berhasil dihapus!')
             fetchArticles(currentPage.value)

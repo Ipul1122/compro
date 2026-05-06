@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
+import Api from '@/api'
 
 import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
@@ -67,10 +67,7 @@ onUnmounted(() => { clearInterval(clockInterval) })
 
 const fetchArticlesStats = async () => {
     try {
-        const token = localStorage.getItem('token')
-        const response = await axios.get('http://localhost:8000/api/admin/articles', {
-            headers: { Authorization: `Bearer ${token}` }
-        })
+        const response = await Api.get('/admin/articles')
         articles.value = response.data.data || response.data 
     } catch (error) {
         console.error("Error fetching article stats:", error)
@@ -79,10 +76,7 @@ const fetchArticlesStats = async () => {
 
 const fetchCategoriesStats = async () => {
     try {
-        const token = localStorage.getItem('token')
-        const response = await axios.get('http://localhost:8000/api/admin/categories', {
-            headers: { Authorization: `Bearer ${token}` }
-        })
+        const response = await Api.get('/admin/categories')
         categories.value = response.data.data || response.data
     } catch (error) {
         console.error("Error fetching category stats:", error)
@@ -91,10 +85,7 @@ const fetchCategoriesStats = async () => {
 
 const fetchGalleriesStats = async () => {
     try {
-        const token = localStorage.getItem('token')
-        const response = await axios.get('http://localhost:8000/api/admin/galleries', {
-            headers: { Authorization: `Bearer ${token}` }
-        })
+        const response = await Api.get('/admin/galleries')
         galleries.value = response.data.data || response.data
     } catch (error) {
         console.error("Error fetching gallery stats:", error)

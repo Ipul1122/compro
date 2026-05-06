@@ -1,10 +1,12 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import Api from '@/api'
 import axios from 'axios'
 
-// Axios Configuration
-axios.defaults.baseURL = 'http://localhost:8000'
+// Axios Configuration - Gunakan env variable
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api'
+axios.defaults.baseURL = apiBaseUrl.replace(/\/api\/?$/, '')
 axios.defaults.withCredentials = true
 
 const router = useRouter()
@@ -61,7 +63,7 @@ const handleLogin = async () => {
         <div class="max-w-md w-full">
             <div class="text-center mb-10">
                 <router-link to="/">
-                    <img src="/src/img/webcakrawala-logo.png" alt="Logo" class="h-12 w-auto mx-auto mb-6" />
+                    <img src="/webcakrawala-logo.png" alt="Logo" class="h-12 w-auto mx-auto mb-6" />
                 </router-link>
                 <h2 class="text-3xl font-black text-slate-900 tracking-tighter">Admin Portal</h2>
                 <p class="text-slate-500 mt-2">Please enter your details to sign in.</p>

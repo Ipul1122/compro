@@ -61,7 +61,7 @@ const handleLanguageToggle = async () => {
 
                         <div class="flex-shrink-0 flex items-center">
                             <router-link :to="routePaths.home[locale]" class="hover:opacity-80 transition-opacity">
-                                <img src="/src/img/logo-cakrawal.png" alt="Logo" class="h-13 w-auto" />
+                                <img src="/img/logo-cakrawal.png" alt="Logo" class="h-13 w-auto" />
                             </router-link>
                         </div>
 

@@ -11,8 +11,7 @@ const form = ref({
 })
 
 const sendToWhatsApp = () => {
-    // Nomor tujuan: 085693672730 -> format internasional 6285693672730
-    const waNumber = '6285693672730'
+    const waNumber = '6285284201428'
     const message = t('contact_section.whatsapp_greeting', {
         name: form.value.nama,
         email: form.value.email,
@@ -173,7 +172,7 @@ const sendToWhatsApp = () => {
                                 </div>
                                 <div>
                                     <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">{{ t('contact_section.info.title') }}</p>
-                                    <p class="text-sm font-black text-slate-800 mt-0.5">0856-9367-2730</p>
+                                    <p class="text-sm font-black text-slate-800 mt-0.5">0852-8420-1428</p>
                                 </div>
                                 <div class="available-tag ml-auto">
                                     <span class="dot-green"></span>

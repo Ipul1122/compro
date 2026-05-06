@@ -12,6 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Trust all proxies (penting untuk shared hosting Rumahweb agar HTTPS terdeteksi)
+        $middleware->trustProxies(at: '*');
+
         // Setup CORS for API requests
         $middleware->api(append: [
             \Illuminate\Http\Middleware\HandleCors::class,

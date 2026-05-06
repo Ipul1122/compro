@@ -30,12 +30,12 @@ defineProps({
                     <div class="absolute -top-6 -left-6 w-32 h-32 bg-brand/10 rounded-full blur-3xl group-hover:bg-brand/20 transition-all duration-700"></div>
 
                     <div class="relative rounded-3xl overflow-hidden shadow-2xl transition-transform duration-500 hover:scale-[1.02]">
-                        <img src="/src/img/skyscraper.jpg" alt="Our Creative Team" class="w-full h-[400px] md:h-[500px] object-cover" />
+                        <img src="/img/skyscraper.jpg" alt="Our Creative Team" class="w-full h-[400px] md:h-[500px] object-cover" />
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
                     </div>
 
                     <div class="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-xl border border-slate-50 hidden md:block">
-                        <p class="text-3xl font-black text-brand">10+</p>
+                        <p class="text-3xl font-black text-brand">20+</p>
                         <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">
                             {{ $t('about.years_experience') }}
                         </p>
