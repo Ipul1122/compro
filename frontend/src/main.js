@@ -9,6 +9,7 @@ import "./style.css";
 import router from "./router";
 import en from './locales/en.json'
 import id from './locales/id.json'
+import axios from 'axios';
 
 // Konfigurasi i18n
 const i18n = createI18n({
@@ -22,6 +23,9 @@ const i18n = createI18n({
   }
 })
 
+axios.defaults.baseURL = 'https://api.cakrawala-internasional.co.id';
+axios.defaults.withCredentials = true; 
+axios.defaults.withXSRFToken = true;
 
 
 const app = createApp(App);

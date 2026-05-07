@@ -1,0 +1,17 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # ============================================
+    # FORCE HTTPS
+    # ============================================
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # ============================================
+    # Arahkan semua request ke folder public/
+    # ============================================
+    # Jika file/folder ada di public/, langsung serve
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ /public/$1 [L]
+
+</IfModule>
