@@ -18,6 +18,7 @@ const routePaths = {
     articles: { en: '/en/articles', id: '/id/artikel' },
     gallery: { en: '/en/gallery', id: '/id/galeri' },
     service: { en: '/en/services', id: '/id/layanan' },
+    InteriorDesign: { en: '/en/interior-design', id: '/id/interior-design' },
     contact: { en: '/en/contact', id: '/id/kontak' },
 }
 
@@ -103,6 +104,11 @@ const handleLanguageToggle = async () => {
                                         <router-link :to="routePaths.service[locale]"
                                             class="text-black hover:text-brand px-5 py-2.5 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 block">
                                             {{ t('nav.services') }}
+                                        </router-link>
+
+                                        <router-link :to="routePaths.InteriorDesign[locale]"
+                                            class="text-black hover:text-brand px-5 py-2.5 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 block">
+                                            {{ t('nav.Interior-Design') }}
                                         </router-link>
 
                                         <router-link :to="routePaths.project[locale]"

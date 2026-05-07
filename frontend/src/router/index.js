@@ -105,6 +105,20 @@ const routes = [
       description: 'Services we provide to help your business'
     }
   },
+  // INTERIOR DESIGN
+  {
+    path: "/id/interior-design",
+    name: "interior-design-id",
+    component: () => import("@/views/pages/service/InteriorDesign.vue"),
+    meta: { hideNavbar: true },
+  },
+  {
+    path: "/en/interior-design",
+    name: "interior-design-en",
+    component: () => import("@/views/pages/service/InteriorDesign.vue"),
+    meta: { hideNavbar: true },
+  },
+
   {
     path: "/view/login",
     name: "login",
