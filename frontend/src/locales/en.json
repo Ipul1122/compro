@@ -186,7 +186,33 @@
       "badge_title": "Professional",
       "badge_subtitle": "Design",
       "loading": "Loading...",
-      "watermark": "INTERIOR"
+      "watermark": "INTERIOR",
+      "our_vision": "Our Vision",
+      "vision_desc": "\"To become a trusted interior design and renovation company in Indonesia that can create inspiring workspaces with global standards.\"",
+      "our_mission": "Our Mission",
+      "mission1": "Providing integrated, effective workspace design and renovation services tailored to clients' needs.",
+      "mission2": "Implementing modern design innovations with attention to space efficiency, functionality, and aesthetics.",
+      "mission3": "Prioritizing quality workmanship, timeliness, and customer satisfaction.",
+      "mission4": "Building long-term relationships with clients through professional and transparent service.",
+      "mission5": "Contributing to the creation of a productive, comfortable, and sustainable work environment.",
+      "why_choose_us": {
+        "title1": "Why",
+        "title2": "Choose",
+        "title3": "Us?",
+        "gallery_button": "View Gallery",
+        "items": {
+          "expertise_title": "Professional Expertise",
+          "expertise_desc": "Our team of designers and technicians is experienced in handling corporate, government, and commercial projects.",
+          "integrated_title": "Integrated Approach",
+          "integrated_desc": "We provide end-to-end services, starting from design concept planning, material selection, to renovation execution.",
+          "sustainable_title": "Sustainable Design",
+          "sustainable_desc": "Prioritizing eco-friendly materials and energy-efficient design concepts.",
+          "quality_title": "Commitment to Quality",
+          "quality_desc": "We ensure that every project is completed with high quality standards and timeliness.",
+          "registered_title": "Registered in the Transparency & Accountability National E-Katalog",
+          "registered_desc": "Every stage of the work is carried out transparently with a monitoring system and regular reports to the client."
+        }
+      }
     },
     "assessment": {
       "badge": "Specialized Service",

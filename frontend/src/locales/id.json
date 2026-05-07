@@ -185,7 +185,33 @@
       "badge_title": "Profesional",
       "badge_subtitle": "Desain",
       "loading": "Memuat...",
-      "watermark": "INTERIOR"
+      "watermark": "INTERIOR",
+      "our_vision": "Visi Kami",
+      "vision_desc": "\"Menjadi perusahaan desain interior dan renovasi terpercaya di Indonesia yang dapat menciptakan ruang kerja inspiratif dengan standar global.\"",
+      "our_mission": "Misi Kami",
+      "mission1": "Memberikan layanan desain dan renovasi ruang kerja yang terintegrasi dan efektif, disesuaikan dengan kebutuhan klien.",
+      "mission2": "Menerapkan inovasi desain modern dengan memperhatikan efisiensi ruang, fungsionalitas, dan estetika.",
+      "mission3": "Mengutamakan kualitas pengerjaan, ketepatan waktu, dan kepuasan pelanggan.",
+      "mission4": "Membangun hubungan jangka panjang dengan klien melalui layanan yang profesional dan transparan.",
+      "mission5": "Berkontribusi pada penciptaan lingkungan kerja yang produktif, nyaman, dan berkelanjutan.",
+      "why_choose_us": {
+        "title1": "Mengapa",
+        "title2": "Memilih",
+        "title3": "Kami?",
+        "gallery_button": "Lihat Galeri",
+        "items": {
+          "expertise_title": "Keahlian Profesional",
+          "expertise_desc": "Tim desainer dan teknisi kami berpengalaman dalam menangani proyek korporat, pemerintah, dan komersial.",
+          "integrated_title": "Pendekatan Terintegrasi",
+          "integrated_desc": "Kami menyediakan layanan end-to-end, mulai dari perencanaan konsep desain, pemilihan material, hingga eksekusi renovasi.",
+          "sustainable_title": "Desain Berkelanjutan",
+          "sustainable_desc": "Memprioritaskan material ramah lingkungan dan konsep desain hemat energi.",
+          "quality_title": "Komitmen terhadap Kualitas",
+          "quality_desc": "Kami memastikan setiap proyek diselesaikan dengan standar kualitas tinggi dan tepat waktu.",
+          "registered_title": "Terdaftar dalam E-Katalog Nasional Transparansi & Akuntabilitas",
+          "registered_desc": "Setiap tahap pekerjaan dilakukan secara transparan dengan sistem pemantauan dan laporan berkala kepada klien."
+        }
+      }
     },
     "assessment": {
       "badge": "Layanan Khusus",
