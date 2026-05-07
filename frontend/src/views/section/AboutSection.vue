@@ -11,7 +11,7 @@ defineProps({
 <template>
     <section id="about" class="py-24 bg-white overflow-hidden relative">
 
-        <!-- Orange-500 Background Grid -->
+        <!-- red-500 Background Grid -->
         <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
             <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                 <defs>
@@ -26,17 +26,26 @@ defineProps({
         <div class="max-w-7xl mx-auto px-6 relative">
             <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
 
-                <div class="w-full lg:w-1/2 relative group">
-                    <div class="absolute -top-6 -left-6 w-32 h-32 bg-brand/10 rounded-full blur-3xl group-hover:bg-brand/20 transition-all duration-700"></div>
+               <div class="w-full lg:w-1/2 relative group">
+                    <div class="absolute -top-6 -left-6 w-32 h-32 bg-red/10 rounded-full blur-3xl group-hover:bg-red/20 transition-all duration-700"></div>
 
                     <div class="relative rounded-3xl overflow-hidden shadow-2xl transition-transform duration-500 hover:scale-[1.02]">
-                        <img src="/img/skyscraper.jpg" alt="Our Creative Team" class="w-full h-[400px] md:h-[500px] object-cover" />
+                        <img src="/img/ibu-dian-melani.jpeg" alt="Dian Melani M.Psi - CEO" class="w-full h-[400px] md:h-[500px] object-cover" />
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
                     </div>
 
-                    <div class="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-xl border border-slate-50 hidden md:block">
-                        <p class="text-3xl font-black text-brand">20+</p>
-                        <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">
+                    <div class="absolute -bottom-6 -left-4 md:-left-6 bg-white p-5 md:p-6 rounded-2xl shadow-xl border border-slate-50 z-10 transition-transform duration-500 hover:-translate-y-1">
+                        <p class="font-montserrat text-base font-black text-red-500 uppercase tracking-widest mb-1">
+                            Dian Melani M.Psi
+                        </p>
+                        <p class="font-quicksand text-sm font-bold text-black tracking-widest mt-2">
+                            Direktur Utama
+                        </p>
+                    </div>
+
+                    <div class="absolute -bottom-6 -right-4 md:-right-6 bg-white p-5 md:p-6 rounded-2xl shadow-xl border border-slate-50 hidden md:block z-10 transition-transform duration-500 hover:-translate-y-1">
+                        <p class="font-montserrat text-xl font-black text-red-500 uppercase tracking-widest mb-1">20+</p>
+                        <p class="font-quicksand text-sm font-bold text-black tracking-widest mt-2">
                             {{ $t('about.years_experience') }}
                         </p>
                     </div>
@@ -46,21 +55,20 @@ defineProps({
                     <div class="space-y-6">
                         <div>
                             <!-- Subtitle -->
-                            <h2 class="text-xs font-bold text-orange-600 uppercase tracking-[0.3em] mb-4">
+                            <h2 class="text-xs font-bold text-red-600 uppercase tracking-[0.3em] mb-4">
                                 {{ $t('about.subtitle') }}
                             </h2>
                             <!-- Main Title -->
                             <h3 class="font-montserrat text-4xl md:text-5xl font-black text-slate-900 tracking-tighter leading-tight">
-                                {{ $t('about.title_main') }} <span class="text-orange-600">{{ $t('about.title_highlight') }}</span>
+                                {{ $t('about.title_main') }} <span class="text-red-600">{{ $t('about.title_highlight') }}</span>
                             </h3>
                         </div>
 
-                        <!-- Description -->
-                        <p class="font-poppins text-lg text-slate-600 leading-relaxed">
+                        <p class="font-quicksand text-justify text-lg text-slate-600 leading-relaxed">
                             {{ $t('about.desc_1') }}
                         </p>
-                        <!-- Description 2 -->
-                        <p class="font-poppins text-slate-600 leading-relaxed">
+
+                        <p class="font-quicksand text-justify text-slate-600 leading-relaxed">
                             {{ $t('about.desc_2') }}
                         </p>
 
@@ -73,7 +81,7 @@ defineProps({
                                 </div>
                                 <div>
                                     <h4 class="font-montserrat font-bold text-slate-900">{{ $t('about.feature_1_title') }}</h4>
-                                    <p class="font-poppins text-sm text-slate-500">{{ $t('about.feature_1_desc') }}</p>
+                                    <p class="font-quicksand text-sm text-slate-500">{{ $t('about.feature_1_desc') }}</p>
                                 </div>
                             </div>
 
@@ -85,7 +93,7 @@ defineProps({
                                 </div>
                                 <div>
                                     <h4 class="font-montserrat font-bold text-slate-900">{{ $t('about.feature_2_title') }}</h4>
-                                    <p class="font-poppins text-sm text-slate-500">{{ $t('about.feature_2_desc') }}</p>
+                                    <p class="font-quicksand text-sm text-slate-500">{{ $t('about.feature_2_desc') }}</p>
                                 </div>
                             </div>
                         </div>

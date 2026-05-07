@@ -3,317 +3,110 @@ import AboutSection from '../section/AboutSection.vue'
 </script>
 
 <template>
-  <div class="page-wrapper">
-
+  <div class="about-page">
     <AboutSection :showButton="false" />
 
-    <section class="content-wrap">
-      <div class="card">
-
-        <!-- Header -->
-        <div class="card-header">
-          <div class="header-accent"></div>
-          <div>
-            <h1 class="card-title">Vision &amp; Missions <span class="text-orange">Company</span></h1>
-            <div class="badge">
-              <span class="badge-dot"></span>
-              Company Foundation
-            </div>
-          </div>
-        </div>
-
-        <!-- Body -->
-        <div class="card-body">
-
-          <!-- Visi -->
-          <div class="section-block">
-            <div class="section-icon-row">
-              <div class="icon-box">
-                <svg class="icon-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+    <main class="container mx-auto px-6 py-16">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        
+        <div class="lg:col-span-7 group">
+          <div class="h-full p-8 md:p-12 rounded-3xl bg-white/70 backdrop-blur-md border border-red-100 shadow-xl shadow-red-50/50 hover:shadow-2xl hover:shadow-red-100/50 transition-all duration-500 hover:-translate-y-1">
+            <div class="flex items-center gap-4 mb-6">
+              <div class="p-3 bg-red-500 rounded-2xl shadow-lg shadow-red-200">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                 </svg>
               </div>
-              <span class="section-label">Our Vision</span>
+              <h2 class="font-montserrat font-extrabold text-2xl md:text-3xl text-slate-900 tracking-tight">
+                {{ $t('about.our_vision') }}
+              </h2>
             </div>
-            <p class="section-text">
-              To become an Indonesian company with a global reach in the fields of human
-              capital and organizational development, information technology, and event
-              management.
+            <p class="font-quicksand text-lg text-slate-600 leading-relaxed text-justify">
+              {{ $t('about.vision_desc') }}
             </p>
-          </div>
-
-          <!-- Misi -->
-          <div class="section-block">
-            <div class="section-icon-row">
-              <div class="icon-box">
-                <svg class="icon-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm0-12a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm0 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
-                </svg>
-              </div>
-              <span class="section-label">Our Missions</span>
+            <div class="mt-8 pt-8 border-t border-slate-100 flex items-center justify-between">
+              <span class="font-montserrat text-xs font-bold uppercase tracking-widest text-red-500">{{ $t('about.company_foundation') }}</span>
+              <div class="h-1 w-24 bg-gradient-to-r from-red-500 to-transparent rounded-full"></div>
             </div>
-            <ul class="misi-list">
-              <li>
-                <span class="li-num">01</span>
-                Establish partnerships both domestically and internationally to provide broader
-                insights into human capital and organizational development.
-              </li>
-              <li>
-                <span class="li-num">02</span>
-                Drive innovation in the execution of events, both locally and globally.
-              </li>
-              <li>
-                <span class="li-num">03</span>
-                Conduct international benchmarking to enhance and develop the services offered.
-              </li>
-              <li>
-                <span class="li-num">04</span>
-                Develop appropriate information technology solutions aligned with the needs
-                and capabilities of human capital and organizations.
-              </li>
-              <li>
-                <span class="li-num">05</span>
-                Deliver comprehensive services in the fields of human resource and
-                organizational development, education, and gender equality.
-              </li>
-              <li>
-                <span class="li-num">06</span>
-                Contribute to human development and support equitable access to education in Indonesia.
-              </li>
-              <li>
-                <span class="li-num">07</span>
-                Continuously innovate to provide the highest quality of service.
-              </li>
-            </ul>
-          </div>
-
-        </div>
-
-        <!-- Footer -->
-        <div class="card-footer">
-          <span class="footer-text">© 2026 Company · All rights reserved</span>
-          <div class="footer-dots">
-            <div class="dot dot-1"></div>
-            <div class="dot dot-2"></div>
-            <div class="dot dot-3"></div>
           </div>
         </div>
 
+        <div class="lg:col-span-5 flex flex-col gap-6">
+          <div class="flex-1 p-8 rounded-3xl bg-slate-900 text-white shadow-2xl relative overflow-hidden group">
+            <div class="absolute -right-4 -bottom-4 w-32 h-32 bg-red-500/10 rounded-full blur-3xl group-hover:bg-red-500/20 transition-colors"></div>
+            <h3 class="font-montserrat font-bold text-xl mb-4 relative z-10">{{ $t('about.vision_title') }}</h3>
+            <p class="font-quicksand text-slate-300 text-sm leading-relaxed mb-6 relative z-10">
+              {{ $t('about.desc_1') }}
+            </p>
+            <div class="flex gap-4 items-center">
+              <div class="h-12 w-12 rounded-full border border-white/20 flex items-center justify-center font-montserrat font-black text-red-400">CPI</div>
+              <div class="text-xs font-montserrat tracking-tighter text-slate-400 uppercase">Global Reach<br/>Local Insight</div>
+            </div>
+          </div>
+        </div>
       </div>
-    </section>
+
+      <section class="mt-20">
+        <div class="text-center mb-12">
+          <h2 class="font-montserrat font-black text-3xl md:text-4xl text-slate-900 mb-4">
+            {{ $t('about.our_missions') }}
+          </h2>
+          <div class="w-20 h-1.5 bg-red-500 mx-auto rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div v-for="n in 7" :key="n" 
+               class="group p-6 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:border-red-200 transition-all duration-300"
+               :class="{'lg:col-span-1': true, 'md:col-span-2 lg:col-span-1': n === 7}">
+            <div class="flex items-start gap-4">
+              <span class="font-montserrat font-black text-3xl text-red-100 group-hover:text-red-500 transition-colors duration-300">
+                0{{ n }}
+              </span>
+              <p class="font-quicksand text-slate-600 group-hover:text-slate-900 leading-snug transition-colors pt-1">
+                {{ $t(`about.mission_${n}`) }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="container mx-auto px-6 pb-12">
+      <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6">
+        <p class="font-quicksand text-sm text-slate-500 italic">
+          {{ $t('about.footer_text') }}
+        </p>
+        <div class="flex gap-2">
+          <div v-for="i in 3" :key="i" :class="`w-2 h-2 rounded-full ${i===1?'bg-red-500':i===2?'bg-red-300':'bg-red-100'}`"></div>
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
-
-:root {
-  --orange: #f97316;
-  --orange-dark: #ea6005;
-  --orange-light: #fed7aa;
-}
-
-/* Grid background */
-.page-wrapper {
-  position: relative;
-  background-color: #fff8f4;
-  background-image:
-    linear-gradient(rgba(249,115,22,0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(249,115,22,0.08) 1px, transparent 1px);
-  background-size: 40px 40px;
+.about-page {
+  background-color: #fdfdfd;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.03) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(249, 115, 22, 0.03) 0px, transparent 50%);
   min-height: 100vh;
-  font-family: 'DM Sans', sans-serif;
 }
 
-.content-wrap {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 48px 24px 80px;
+/* Animasi Masuk */
+.container {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Card */
-.card {
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(12px);
-  border-radius: 28px;
-  border: 1px solid rgba(249,115,22,0.15);
-  box-shadow: 0 8px 40px rgba(249,115,22,0.08), 0 1px 3px rgba(0,0,0,0.04);
-  overflow: hidden;
-  transition: box-shadow 0.3s ease;
-  animation: slideUp 0.5s cubic-bezier(0.22,1,0.36,1) both;
-}
-.card:hover {
-  box-shadow: 0 16px 60px rgba(249,115,22,0.14), 0 2px 8px rgba(0,0,0,0.06);
-}
-
-/* Card Header */
-.card-header {
-  padding: 40px 48px 32px;
-  border-bottom: 1px solid rgba(249,115,22,0.10);
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-}
-.header-accent {
-  width: 5px;
-  min-height: 56px;
-  background: linear-gradient(180deg, #f97316 0%, #fed7aa 100%);
-  border-radius: 99px;
-  flex-shrink: 0;
-  margin-top: 4px;
-}
-.card-title {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: clamp(26px, 4vw, 38px);
-  color: #111111;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-}
-.text-orange { color: #f97316; }
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(249,115,22,0.08);
-  color: #ea6005;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 4px 12px;
-  border-radius: 99px;
-  margin-top: 10px;
-  border: 1px solid rgba(249,115,22,0.2);
-}
-.badge-dot {
-  width: 6px; height: 6px;
-  background: #f97316;
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-}
-
-/* Section Blocks */
-.section-block {
-  padding: 36px 48px;
-  transition: background 0.25s ease;
-  animation: fadeIn 0.4s both;
-}
-.section-block:not(:last-child) {
-  border-bottom: 1px solid rgba(249,115,22,0.08);
-}
-.section-block:nth-child(1) { animation-delay: 0.15s; }
-.section-block:nth-child(2) { animation-delay: 0.28s; }
-.section-block:hover { background: rgba(249,115,22,0.02); }
-
-.section-icon-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 16px;
-}
-.icon-box {
-  width: 42px; height: 42px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0 4px 14px rgba(249,115,22,0.3);
-}
-.icon-svg { width: 20px; height: 20px; fill: white; }
-.section-label {
-  font-family: 'Syne', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: #111111;
-  letter-spacing: -0.01em;
-}
-.section-text {
-  font-size: 15px;
-  color: #4b5563;
-  line-height: 1.75;
-  padding-left: 56px;
-}
-
-/* Misi List */
-.misi-list {
-  list-style: none;
-  padding-left: 56px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.misi-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  font-size: 15px;
-  color: #4b5563;
-  line-height: 1.7;
-  padding: 14px 18px;
-  background: rgba(249,115,22,0.035);
-  border-radius: 12px;
-  border: 1px solid rgba(249,115,22,0.08);
-  transition: border-color 0.2s, background 0.2s, transform 0.2s;
-  cursor: default;
-}
-.misi-list li:hover {
-  border-color: rgba(249,115,22,0.25);
-  background: rgba(249,115,22,0.07);
-  transform: translateX(4px);
-}
-.li-num {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: 13px;
-  color: #f97316;
-  background: rgba(249,115,22,0.1);
-  border-radius: 6px;
-  min-width: 26px; height: 26px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
-/* Footer */
-.card-footer {
-  padding: 20px 48px;
-  background: rgba(249,115,22,0.04);
-  border-top: 1px solid rgba(249,115,22,0.10);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.footer-text { font-size: 12px; color: #9ca3af; letter-spacing: 0.02em; }
-.footer-dots { display: flex; gap: 6px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; }
-.dot-1 { background: #f97316; }
-.dot-2 { background: #fb923c; }
-.dot-3 { background: #fed7aa; }
-
-/* Animations */
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.5; transform: scale(0.85); }
-}
-
-@media (max-width: 640px) {
-  .card-header, .section-block, .card-footer { padding-left: 24px; padding-right: 24px; }
-  .section-text, .misi-list { padding-left: 0; }
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
