@@ -60,46 +60,69 @@ const handleLanguageToggle = async () => {
                     <div class="flex items-center justify-between h-16">
 
                         <div class="flex-shrink-0 flex items-center">
-                            <router-link :to="routePaths.home[locale]" class="hover:opacity-80 transition-opacity">
-                                <img src="/img/logo-cakrawal.png" alt="Logo" class="h-13 w-auto" />
+                            <router-link :to="routePaths.home[locale]" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                                <img src="/img/LOGO-CPI.png" alt="Logo" class="h-13 w-auto" />
+                                
+                                <span class="hidden lg:block font-bold tracking-tight
+                                            font-['Montserrat']
+                                            bg-gradient-to-r from-red-600 via-red-700 to-red-800 
+                                            bg-clip-text text-transparent">
+                                    PT Cakrawala Parama Internasional
+                                </span>
                             </router-link>
                         </div>
 
-                        <div class="hidden md:flex items-center gap-1">
+                        <div class="hidden md:flex items-center gap-1 font-['Montserrat']">
                             <router-link :to="routePaths.home[locale]"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
+                                class="text-black hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
                                 {{ t('nav.home') }}
                             </router-link>
                             
                             <router-link :to="routePaths.about[locale]"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
+                                class="text-black hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
                                 {{ t('nav.about') }}
                             </router-link>
 
-                            <router-link :to="routePaths.project[locale]"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
-                                {{ t('nav.projects') }}
-                            </router-link>
-
                             <router-link :to="routePaths.articles[locale]"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
+                                class="text-black hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
                                 {{ t('nav.articles') }}
                             </router-link>
 
-                            <router-link :to="routePaths.gallery[locale]"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
-                                {{ t('nav.gallery') }}
-                            </router-link>
+                            <!-- Dropdown Menu Services -->
+                            <div class="relative group">
+                                <button class="text-black group-hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all group-hover:bg-slate-50 rounded-xl flex items-center gap-1">
+                                    {{ t('nav.services') }}
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-200 group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
 
-                            <router-link :to="routePaths.service[locale]"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
-                                {{ t('nav.services') }}
-                            </router-link>
+                                <!-- Isi Dropdown -->
+                                <div class="absolute top-full left-0 pt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                                    <div class="bg-white rounded-xl shadow-xl border border-slate-100 py-2 flex flex-col overflow-hidden">
+                                        <router-link :to="routePaths.service[locale]"
+                                            class="text-black hover:text-brand px-5 py-2.5 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 block">
+                                            {{ t('nav.services') }}
+                                        </router-link>
 
-                            <a href="/#clients"
-                                class="text-slate-600 hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
-                                {{ t('nav.clients') }}
-                            </a>
+                                        <router-link :to="routePaths.project[locale]"
+                                            class="text-black hover:text-brand px-5 py-2.5 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 block">
+                                            {{ t('nav.projects') }}
+                                        </router-link>
+
+                                        <router-link :to="routePaths.gallery[locale]"
+                                            class="text-black hover:text-brand px-5 py-2.5 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 block">
+                                            {{ t('nav.gallery') }}
+                                        </router-link>
+
+                                        <a href="/#clients"
+                                            class="text-black hover:text-brand px-5 py-2.5 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 block">
+                                            {{ t('nav.clients') }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End of Dropdown Menu Services -->
                             
                             <button @click.prevent="handleLanguageToggle"
                                 class="ml-2 flex items-center justify-center text-black w-10 h-10 rounded-xl border border-slate-200 hover:bg-slate-50 transition-all active:scale-95"
@@ -121,7 +144,7 @@ const handleLanguageToggle = async () => {
                             </button>
 
                             <button @click="isMenuOpen = !isMenuOpen"
-                                class="p-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
+                                class="p-2 text-black hover:bg-slate-100 rounded-lg transition-colors">
                                 <svg v-if="!isMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -139,37 +162,37 @@ const handleLanguageToggle = async () => {
                 <div v-show="isMenuOpen"
                     class="md:hidden border-t border-slate-100 p-4 space-y-1 bg-white rounded-b-2xl">
                     <router-link :to="routePaths.home[locale]" @click="isMenuOpen = false"
-                        class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
+                        class="block px-4 py-2.5 text-black hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
                         {{ t('nav.home') }}
                     </router-link>
 
                     <router-link :to="routePaths.about[locale]" @click="isMenuOpen = false"
-                        class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
+                        class="block px-4 py-2.5 text-black hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
                         {{ t('nav.about') }}
                     </router-link>
 
                     <router-link :to="routePaths.project[locale]" @click="isMenuOpen = false"
-                        class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
+                        class="block px-4 py-2.5 text-black hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
                         {{ t('nav.projects') }}
                     </router-link>
 
                     <router-link :to="routePaths.articles[locale]" @click="isMenuOpen = false"
-                        class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
+                        class="block px-4 py-2.5 text-black hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
                         {{ t('nav.articles') }}
                     </router-link>
 
                     <router-link :to="routePaths.gallery[locale]" @click="isMenuOpen = false"
-                        class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
+                        class="block px-4 py-2.5 text-black hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
                         {{ t('nav.gallery') }}
                     </router-link>
 
                     <router-link :to="routePaths.service[locale]" @click="isMenuOpen = false"
-                        class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
+                        class="block px-4 py-2.5 text-black hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
                         {{ t('nav.services') }}
                     </router-link>
 
                     <a href="/#clients" @click="isMenuOpen = false"
-                        class="block px-4 py-2.5 text-slate-600 hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
+                        class="block px-4 py-2.5 text-black hover:text-brand hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
                         {{ t('nav.clients') }}
                     </a>
 
