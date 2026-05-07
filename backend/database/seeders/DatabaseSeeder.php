@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
         // Membuat data Admin Default untuk testing
         User::create([
             'name' => 'Administrator',
-            'email' => 'admin@admin.com',
-            'password' => Hash::make('password123'), 
+            'email' => 'syaiful@cakrawala-internasional.co.id',
+            'password' => Hash::make('Sejauhmatamemandang1945'), 
         ]);
     }
 }

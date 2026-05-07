@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => explode(',', env('CORS_ALLOWED_ORIGINS', 'https://cakrwala-internasional.co.id')),
+    'allowed_origins' => explode(',', env('CORS_ALLOWED_ORIGINS', 'https://cakrawala-internasional.co.id')),
 
     'allowed_origins_patterns' => [],
 
