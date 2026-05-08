@@ -156,11 +156,281 @@ onUnmounted(() => {
         </section>
 
         <!-- SECTION Psychological Asessment  -->
-         
+
+        <section id="psychological-assessment" class="w-full">
+        <div class="bg-gradient-to-r from-[#af1719] to-[#bca281] px-8 py-16 md:px-20 text-white">
+            <div class="max-w-6xl mx-auto">
+            <h1 class="font-['Montserrat'] text-5xl md:text-6xl font-extrabold leading-tight mb-6 tracking-wide">
+                {{ $t('service_view.psychological_assessment.title') }}<br>{{ $t('service_view.psychological_assessment.title_break') }}
+            </h1>
+            <p class="font-['Quicksand'] text-base md:text-[17px] max-w-4xl leading-relaxed font-medium">
+                {{ $t('service_view.psychological_assessment.desc') }}
+            </p>
+            </div>
+        </div>
+
+        <div class="bg-white px-8 py-16 md:px-20">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-14">
+            
+            <div class="flex flex-col items-center">
+                <div class="w-20 h-20 rounded-full bg-gradient-to-b from-[#ff5e4d] to-[#fc8645] p-[4px] mb-6 shadow-sm">
+                <div class="w-full h-full rounded-full bg-white flex items-center justify-center p-1">
+                    <div class="w-full h-full rounded-full border-2 border-[#af1719] flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="#251624" class="w-7 h-7">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
+                    </svg>
+                    </div>
+                </div>
+                </div>
+                <div class="bg-gradient-to-r from-[#ff4b3e] to-[#ff8c42] text-white font-['Montserrat'] font-bold py-3 px-6 rounded-3xl w-full text-center mb-6 text-sm md:text-[15px] leading-tight shadow-md">
+                {{ $t('service_view.psychological_assessment.online.title1') }}<br>{{ $t('service_view.psychological_assessment.online.title2') }}
+                </div>
+                <p class="text-justify font-['Quicksand'] text-[#333333] text-sm md:text-[15px] text-left w-full leading-relaxed font-medium">
+                {{ $t('service_view.psychological_assessment.online.desc') }}
+                </p>
+            </div>
+
+            <div class="flex flex-col items-center">
+                <div class="w-20 h-20 rounded-full bg-gradient-to-b from-[#ff5e4d] to-[#fc8645] p-[4px] mb-6 shadow-sm">
+                <div class="w-full h-full rounded-full bg-white flex items-center justify-center p-1">
+                    <div class="w-full h-full rounded-full border-2 border-[#af1719] flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="#251624" class="w-7 h-7">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
+                    </svg>
+                    </div>
+                </div>
+                </div>
+                <div class="bg-gradient-to-r from-[#ff4b3e] to-[#ff8c42] text-white font-['Montserrat'] font-bold py-3 px-6 rounded-3xl w-full text-center mb-6 text-sm md:text-[15px] leading-tight shadow-md">
+                {{ $t('service_view.psychological_assessment.offline.title1') }}<br>{{ $t('service_view.psychological_assessment.offline.title2') }}
+                </div>
+                <p class="font-['Quicksand'] text-[#333333] text-sm md:text-[15px] text-left w-full leading-relaxed font-medium">
+                {{ $t('service_view.psychological_assessment.offline.desc') }}
+                </p>
+            </div>
+
+            <div class="flex flex-col items-center">
+                <div class="w-20 h-20 rounded-full bg-gradient-to-b from-[#ff5e4d] to-[#fc8645] p-[4px] mb-6 shadow-sm">
+                <div class="w-full h-full rounded-full bg-white flex items-center justify-center p-1">
+                    <div class="w-full h-full rounded-full border-2 border-[#af1719] flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="#251624" class="w-7 h-7">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
+                    </svg>
+                    </div>
+                </div>
+                </div>
+                <div class="bg-gradient-to-r from-[#ff4b3e] to-[#ff8c42] text-white font-['Montserrat'] font-bold py-3 px-6 rounded-3xl w-full text-center mb-6 text-sm md:text-[15px] leading-tight shadow-md">
+                {{ $t('service_view.psychological_assessment.hybrid.title1') }}<br>{{ $t('service_view.psychological_assessment.hybrid.title2') }}
+                </div>
+                <p class="font-['Quicksand'] text-[#333333] text-sm md:text-[15px] text-left w-full leading-relaxed font-medium">
+                {{ $t('service_view.psychological_assessment.hybrid.desc') }}
+                </p>
+            </div>
+            </div>
+        </div>
+        </section>
+
+        <!-- SECTION INTEGRATED TALENT ASSESTMENT DAN DEVELOPMENT -->
+         <section id="integrated-talent-assessment" class="w-full">
+  <div class="bg-gradient-to-r from-[#af1719] to-[#bca281] px-8 py-16 md:px-20 text-white">
+    <div class="max-w-6xl mx-auto">
+      <h1 class="font-['Montserrat'] text-5xl md:text-6xl font-extrabold leading-tight mb-6 tracking-wide">
+        {{ $t('service_view.integrated_talent_assessment.title1') }}<br>{{ $t('service_view.integrated_talent_assessment.title2') }}<br>{{ $t('service_view.integrated_talent_assessment.title3') }}
+      </h1>
+      <p class="font-['Quicksand'] text-base md:text-[17px] max-w-4xl leading-relaxed font-medium">
+        {{ $t('service_view.integrated_talent_assessment.desc') }}
+      </p>
+    </div>
+  </div>
+
+  <div class="bg-white px-4 py-16 md:px-8 overflow-hidden">
+    
+    <div class="hidden md:block relative max-w-5xl mx-auto">
+      <div class="absolute left-1/2 transform -translate-x-1/2 w-1.5 bg-[#f16936] top-4 bottom-12 z-0"></div>
+
+      <div class="grid grid-cols-[1fr_auto_1fr] gap-x-0 w-full relative z-10">
+        
+        <div class="flex flex-col items-end pr-0 pb-10">
+          <div class="w-full max-w-[440px] flex flex-col items-end">
+            <div class="bg-gradient-to-r from-[#ea3837] to-[#f16936] text-white font-['Montserrat'] font-bold py-3 px-6 rounded-l-full h-[52px] w-full flex items-center shadow-md text-sm lg:text-base tracking-wide">
+              {{ $t('service_view.integrated_talent_assessment.step1.title') }}
+            </div>
+            <div class="mt-4 px-2 w-full text-left">
+              <p class="font-['Quicksand'] text-[14px] text-[#333333] leading-relaxed font-medium">
+                {{ $t('service_view.integrated_talent_assessment.step1.desc_start') }}<b class="font-bold">{{ $t('service_view.integrated_talent_assessment.step1.desc_bold') }}</b>{{ $t('service_view.integrated_talent_assessment.step1.desc_end') }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="relative flex justify-center w-14">
+          <div class="w-12 h-12 rounded-full bg-[#f16936] text-white font-['Montserrat'] font-bold text-2xl flex items-center justify-center relative z-20 border-[3px] border-white shadow-sm mt-0.5">
+            1
+          </div>
+        </div>
+        <div></div>
+
+        <div></div>
+        <div class="relative flex justify-center w-14">
+          <div class="w-12 h-12 rounded-full bg-[#f6a042] text-white font-['Montserrat'] font-bold text-2xl flex items-center justify-center relative z-20 border-[3px] border-white shadow-sm mt-0.5">
+            2
+          </div>
+        </div>
+        <div class="flex flex-col items-start pl-0 pb-10">
+          <div class="w-full max-w-[440px] flex flex-col items-start">
+            <div class="bg-gradient-to-r from-[#f6a042] to-[#fcd15b] text-white font-['Montserrat'] font-bold py-3 px-6 rounded-r-full h-[52px] w-full flex items-center shadow-md text-sm lg:text-base tracking-wide">
+              {{ $t('service_view.integrated_talent_assessment.step2.title') }}
+            </div>
+            <div class="mt-4 px-2 w-full text-left">
+              <p class="font-['Quicksand'] text-[14px] text-[#333333] leading-relaxed font-medium">
+                {{ $t('service_view.integrated_talent_assessment.step2.desc_start') }}<b class="font-bold">{{ $t('service_view.integrated_talent_assessment.step2.desc_bold') }}</b>{{ $t('service_view.integrated_talent_assessment.step2.desc_end') }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col items-end pr-0 pb-10">
+          <div class="w-full max-w-[440px] flex flex-col items-end">
+            <div class="bg-gradient-to-r from-[#ea3837] to-[#f16936] text-white font-['Montserrat'] font-bold py-3 px-6 rounded-l-full h-[52px] w-full flex items-center shadow-md text-sm lg:text-base tracking-wide">
+              {{ $t('service_view.integrated_talent_assessment.step3.title') }}
+            </div>
+            <div class="mt-4 px-2 w-full text-left">
+              <p class="font-['Quicksand'] text-[14px] text-[#333333] leading-relaxed font-medium">
+                {{ $t('service_view.integrated_talent_assessment.step3.desc_start') }}<b class="font-bold">{{ $t('service_view.integrated_talent_assessment.step3.desc_bold') }}</b>{{ $t('service_view.integrated_talent_assessment.step3.desc_end') }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="relative flex justify-center w-14">
+          <div class="w-12 h-12 rounded-full bg-[#f16936] text-white font-['Montserrat'] font-bold text-2xl flex items-center justify-center relative z-20 border-[3px] border-white shadow-sm mt-0.5">
+            3
+          </div>
+        </div>
+        <div></div>
+
+        <div></div>
+        <div class="relative flex justify-center w-14">
+          <div class="w-12 h-12 rounded-full bg-[#f6a042] text-white font-['Montserrat'] font-bold text-2xl flex items-center justify-center relative z-20 border-[3px] border-white shadow-sm mt-0.5">
+            4
+          </div>
+        </div>
+        <div class="flex flex-col items-start pl-0 pb-10">
+          <div class="w-full max-w-[440px] flex flex-col items-start">
+            <div class="bg-gradient-to-r from-[#f6a042] to-[#fcd15b] text-white font-['Montserrat'] font-bold py-3 px-6 rounded-r-full h-[52px] w-full flex items-center shadow-md text-sm lg:text-base tracking-wide">
+              {{ $t('service_view.integrated_talent_assessment.step4.title') }}
+            </div>
+            <div class="mt-4 px-2 w-full text-left">
+              <p class="font-['Quicksand'] text-[14px] text-[#333333] leading-relaxed font-medium">
+                {{ $t('service_view.integrated_talent_assessment.step4.desc_start') }}<b class="font-bold">{{ $t('service_view.integrated_talent_assessment.step4.desc_bold') }}</b>{{ $t('service_view.integrated_talent_assessment.step4.desc_end') }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col items-end pr-0 pb-4">
+          <div class="w-full max-w-[440px] flex flex-col items-end">
+            <div class="bg-gradient-to-r from-[#ea3837] to-[#f16936] text-white font-['Montserrat'] font-bold py-2 px-6 rounded-l-full h-[60px] w-full flex flex-col justify-center shadow-md text-sm lg:text-base tracking-wide leading-tight">
+              <span>{{ $t('service_view.integrated_talent_assessment.step5.title1') }}</span>
+              <span>{{ $t('service_view.integrated_talent_assessment.step5.title2') }}</span>
+            </div>
+            <div class="mt-4 px-2 w-full text-left">
+              <p class="font-['Quicksand'] text-[14px] text-[#333333] leading-relaxed font-medium">
+                {{ $t('service_view.integrated_talent_assessment.step5.desc_start') }}<b class="font-bold">{{ $t('service_view.integrated_talent_assessment.step5.desc_bold') }}</b>{{ $t('service_view.integrated_talent_assessment.step5.desc_end') }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="relative flex justify-center w-14">
+          <div class="w-12 h-12 rounded-full bg-[#f16936] text-white font-['Montserrat'] font-bold text-2xl flex items-center justify-center relative z-20 border-[3px] border-white shadow-sm mt-1">
+            5
+          </div>
+        </div>
+        <div></div>
+
+      </div>
+    </div>
+
+    <div class="md:hidden relative w-full max-w-md mx-auto">
+      <div class="absolute left-[22px] w-1.5 bg-[#f16936] top-4 bottom-8 z-0"></div>
+
+      <div class="flex mb-10 relative z-10">
+        <div class="w-12 h-12 rounded-full bg-[#f16936] text-white font-['Montserrat'] font-bold text-xl flex items-center justify-center shrink-0 border-[3px] border-white shadow-sm mr-4 relative top-0">
+          1
+        </div>
+        <div class="flex-1 pt-1">
+          <div class="bg-gradient-to-r from-[#ea3837] to-[#f16936] text-white font-['Montserrat'] font-bold py-2.5 px-4 rounded-xl text-sm mb-3 shadow-md tracking-wide">
+            {{ $t('service_view.integrated_talent_assessment.step1.title') }}
+          </div>
+          <p class="font-['Quicksand'] text-[14px] text-[#333333] leading-relaxed font-medium">
+            {{ $t('service_view.integrated_talent_assessment.step1.desc_start') }}<b class="font-bold">{{ $t('service_view.integrated_talent_assessment.step1.desc_bold') }}</b>{{ $t('service_view.integrated_talent_assessment.step1.desc_end') }}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex mb-10 relative z-10">
+        <div class="w-12 h-12 rounded-full bg-[#f6a042] text-white font-['Montserrat'] font-bold text-xl flex items-center justify-center shrink-0 border-[3px] border-white shadow-sm mr-4 relative top-0">
+          2
+        </div>
+        <div class="flex-1 pt-1">
+          <div class="bg-gradient-to-r from-[#f6a042] to-[#fcd15b] text-white font-['Montserrat'] font-bold py-2.5 px-4 rounded-xl text-sm mb-3 shadow-md tracking-wide">
+            {{ $t('service_view.integrated_talent_assessment.step2.title') }}
+          </div>
+          <p class="font-['Quicksand'] text-[14px] text-[#333333] leading-relaxed font-medium">
+            {{ $t('service_view.integrated_talent_assessment.step2.desc_start') }}<b class="font-bold">{{ $t('service_view.integrated_talent_assessment.step2.desc_bold') }}</b>{{ $t('service_view.integrated_talent_assessment.step2.desc_end') }}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex mb-10 relative z-10">
+        <div class="w-12 h-12 rounded-full bg-[#f16936] text-white font-['Montserrat'] font-bold text-xl flex items-center justify-center shrink-0 border-[3px] border-white shadow-sm mr-4 relative top-0">
+          3
+        </div>
+        <div class="flex-1 pt-1">
+          <div class="bg-gradient-to-r from-[#ea3837] to-[#f16936] text-white font-['Montserrat'] font-bold py-2.5 px-4 rounded-xl text-sm mb-3 shadow-md tracking-wide">
+            {{ $t('service_view.integrated_talent_assessment.step3.title') }}
+          </div>
+          <p class="font-['Quicksand'] text-[14px] text-[#333333] leading-relaxed font-medium">
+            {{ $t('service_view.integrated_talent_assessment.step3.desc_start') }}<b class="font-bold">{{ $t('service_view.integrated_talent_assessment.step3.desc_bold') }}</b>{{ $t('service_view.integrated_talent_assessment.step3.desc_end') }}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex mb-10 relative z-10">
+        <div class="w-12 h-12 rounded-full bg-[#f6a042] text-white font-['Montserrat'] font-bold text-xl flex items-center justify-center shrink-0 border-[3px] border-white shadow-sm mr-4 relative top-0">
+          4
+        </div>
+        <div class="flex-1 pt-1">
+          <div class="bg-gradient-to-r from-[#f6a042] to-[#fcd15b] text-white font-['Montserrat'] font-bold py-2.5 px-4 rounded-xl text-sm mb-3 shadow-md tracking-wide">
+            {{ $t('service_view.integrated_talent_assessment.step4.title') }}
+          </div>
+          <p class="font-['Quicksand'] text-[14px] text-[#333333] leading-relaxed font-medium">
+            {{ $t('service_view.integrated_talent_assessment.step4.desc_start') }}<b class="font-bold">{{ $t('service_view.integrated_talent_assessment.step4.desc_bold') }}</b>{{ $t('service_view.integrated_talent_assessment.step4.desc_end') }}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex relative z-10">
+        <div class="w-12 h-12 rounded-full bg-[#f16936] text-white font-['Montserrat'] font-bold text-xl flex items-center justify-center shrink-0 border-[3px] border-white shadow-sm mr-4 relative top-0">
+          5
+        </div>
+        <div class="flex-1 pt-1">
+          <div class="bg-gradient-to-r from-[#ea3837] to-[#f16936] text-white font-['Montserrat'] font-bold py-2.5 px-4 rounded-xl text-sm mb-3 shadow-md tracking-wide leading-tight">
+            {{ $t('service_view.integrated_talent_assessment.step5.title1') }}<br>{{ $t('service_view.integrated_talent_assessment.step5.title2') }}
+          </div>
+          <p class="font-['Quicksand'] text-[14px] text-[#333333] leading-relaxed font-medium">
+            {{ $t('service_view.integrated_talent_assessment.step5.desc_start') }}<b class="font-bold">{{ $t('service_view.integrated_talent_assessment.step5.desc_bold') }}</b>{{ $t('service_view.integrated_talent_assessment.step5.desc_end') }}
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
     </main>
 </template>
 
 <style scoped>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Quicksand:wght@500;600&display=swap');
+
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.8s ease;
