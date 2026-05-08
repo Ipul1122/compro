@@ -225,6 +225,63 @@
       "point2": "Identifikasi Promosi yang Disesuaikan",
       "btn_cta": "Pelajari Lebih Lanjut"
     },
+    "psychological_assessment": {
+      "title": "Psychological",
+      "title_break": "Assessment",
+      "desc": "Pengukuran potensi dan kompetensi menggunakan alat ukur yang valid untuk keperluan rekrutmen, pemetaan, promosi, mutasi, dan kebutuhan organisasi lainnya.",
+      "online": {
+        "title1": "Online",
+        "title2": "Assessment",
+        "desc": "Proses tes psikometri dan asesmen dilakukan melalui platform berbasis internet yang dapat diakses dari jarak jauh melalui PC/laptop dan ponsel. Tes psikometri dapat dilakukan 24/7."
+      },
+      "offline": {
+        "title1": "Offline",
+        "title2": "Assessment",
+        "desc": "Proses tes psikometri dan asesmen dilakukan melalui sesi tatap muka menggunakan instrumen tes berbasis kertas dan pensil. Tes psikometri dilakukan hari Senin hingga Jumat, dari pukul 08:00 hingga 17:00 WIB."
+      },
+      "hybrid": {
+        "title1": "Hybrid",
+        "title2": "Assessment",
+        "desc": "Proses tes psikometri dilakukan melalui platform berbasis internet, dengan fasilitasi tatap muka di tempat. Tes psikometri dilakukan hari Senin hingga Jumat, dari pukul 08:00 hingga 17:00 WIB."
+      }
+    },
+    "integrated_talent_assessment": {
+      "title1": "Integrated Talent",
+      "title2": "Assessment &",
+      "title3": "Development",
+      "desc": "Solusi terintegrasi yang menghubungkan hasil asesmen kompetensi dengan program pelatihan yang tepat sasaran, memungkinkan organisasi mengembangkan sumber daya manusianya secara efektif, efisien, dan berbasis data.",
+      "step1": {
+        "title": "ASESMEN KOMPETENSI",
+        "desc_start": "Secara objektif ",
+        "desc_bold": "mengukur kompetensi",
+        "desc_end": " individu atau spesifik pekerjaan untuk mendapatkan gambaran akurat tentang kemampuan saat ini yang selaras dengan kebutuhan organisasi."
+      },
+      "step2": {
+        "title": "ANALISIS KESENJANGAN KOMPETENSI",
+        "desc_start": "",
+        "desc_bold": "Menganalisis kesenjangan",
+        "desc_end": " antara kompetensi yang ada dan standar yang dibutuhkan sebagai dasar perencanaan pengembangan."
+      },
+      "step3": {
+        "title": "DESAIN PROGRAM PELATIHAN",
+        "desc_start": "",
+        "desc_bold": "Merancang program pelatihan,",
+        "desc_end": " kurikulum, dan metode pembelajaran berdasarkan hasil asesmen dan analisis kesenjangan kompetensi."
+      },
+      "step4": {
+        "title": "PELAKSANAAN PELATIHAN",
+        "desc_start": "",
+        "desc_bold": "Menyampaikan pelatihan",
+        "desc_end": " melalui metode yang relevan dan praktis untuk memastikan pengembangan kompetensi peserta."
+      },
+      "step5": {
+        "title1": "EVALUASI DAN",
+        "title2": "REKOMENDASI",
+        "desc_start": "Melakukan ",
+        "desc_bold": "evaluasi hasil pelatihan",
+        "desc_end": " dan menyusun rekomendasi pengembangan tindak lanjut yang terukur dan berkelanjutan selaras dengan kebutuhan organisasi."
+      }
+    },
     "event": {
       "events_managed": "Acara Dikelola",
       "badge": "Keunggulan di Setiap Acara",

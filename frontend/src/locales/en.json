@@ -226,6 +226,63 @@
       "point2": "Tailored Promotion Identification",
       "btn_cta": "Learn More About Assessments"
     },
+    "psychological_assessment": {
+      "title": "Psychological",
+      "title_break": "Assessment",
+      "desc": "Measurement of potential and competencies using validated assessment tools for the purposes of recruitment, mapping, promotion, transfers, and other organizational needs.",
+      "online": {
+        "title1": "Online",
+        "title2": "Assessment",
+        "desc": "The psychometric testing and assessment process is conducted through an internet-based platform that can be accessed remotely via PC/laptop and mobile phones. The psychometric tests can be administered 24/7."
+      },
+      "offline": {
+        "title1": "Offline",
+        "title2": "Assessment",
+        "desc": "The psychometric testing and assessment process is conducted through inperson sessions using paper-and-pencil-based test instruments. The psychometric tests are administered Monday to Friday, from 08:00 to 17:00 WIB."
+      },
+      "hybrid": {
+        "title1": "Hybrid",
+        "title2": "Assessment",
+        "desc": "The psychometric testing process is conducted through an internet-based platform, with on-site, inperson facilitation. The psychometric tests are administered Monday to Friday, from 08:00 to 17:00 WIB."
+      }
+    },
+    "integrated_talent_assessment": {
+      "title1": "Integrated Talent",
+      "title2": "Assessment &",
+      "title3": "Development",
+      "desc": "An integrated solution that connects competency assessment results with targeted training programs, enabling organizations to develop their human resources effectively, efficiently, and in a data-driven manner.",
+      "step1": {
+        "title": "COMPETENCIES ASSESSMENT",
+        "desc_start": "Objectively ",
+        "desc_bold": "measure individual",
+        "desc_end": " or job-specific competencies to obtain an accurate picture of current capabilities in alignment with organizational needs."
+      },
+      "step2": {
+        "title": "COMPETENCIES GAP ANALYSIS",
+        "desc_start": "",
+        "desc_bold": "Analyze the gap",
+        "desc_end": " between existing competencies and the required standards as a basis for development planning."
+      },
+      "step3": {
+        "title": "TRAINING PROGRAM DESIGN",
+        "desc_start": "",
+        "desc_bold": "Design training programs,",
+        "desc_end": " curricula, and learning methods based on assessment results and competency gap analysis."
+      },
+      "step4": {
+        "title": "DELIVER TRAINING",
+        "desc_start": "",
+        "desc_bold": "Deliver training",
+        "desc_end": " through relevant and practical methods to ensure participants' competency development."
+      },
+      "step5": {
+        "title1": "EVALUATION AND",
+        "title2": "RECOMMENDATION",
+        "desc_start": "Conduct ",
+        "desc_bold": "training outcome evaluations",
+        "desc_end": " and develop measurable, sustainable follow-up development recommendations aligned with the organization's needs."
+      }
+    },
     "event": {
       "events_managed": "Events Managed",
       "badge": "Excellence in Every Event",
