@@ -10,12 +10,6 @@ import 'swiper/css/effect-fade';
 const { t } = useI18n();
 
 
-const assessmentImages = [
-    '/img/servicesSection/assestmen-1.jpg',
-    '/img/servicesSection/assestmen-2.jpeg',
-    '/img/servicesSection/assestmen-3.jpeg',
-    '/img/servicesSection/assestmen-4.jpeg' 
-];
 
 const images = [
     '/img/servicesSection/slide-gallery-10.jpg',
@@ -53,79 +47,7 @@ const closeModal = () => {
         <div class="absolute inset-0 bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px),linear-gradient(to_bottom,#f1f5f9_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_100%)] -z-10 pointer-events-none"></div>
 
 
-        <!-- SECTION 2 -->
-       <section id="services" class="py-24 relative overflow-hidden bg-white/50 border-y border-gray-100">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="grid lg:grid-cols-2 gap-16 items-center">
-
-                    <div class="order-1 lg:order-1">
-                        <div class="relative group">
-                            
-                            <div class="aspect-video lg:aspect-square w-full flex bg-gray-100 rounded-[2rem] border border-gray-200 overflow-hidden relative shadow-lg group-hover:shadow-2xl transition-all duration-500">
-                                
-                                <div v-for="(img, index) in assessmentImages" :key="index"
-                                    class="group/item relative h-full flex-1 hover:flex-[5] transition-all duration-700 ease-in-out cursor-pointer z-10 hover:z-[99] border-r border-white/20 last:border-r-0 overflow-hidden">
-                                    
-                                    <img :src="img" :alt="'Assessment ' + index" class="absolute inset-0 w-full h-full object-cover" />
-                                    
-                                    <div class="absolute inset-0 bg-gray-900/50 group-hover/item:bg-gradient-to-t group-hover/item:from-gray-900/80 group-hover/item:via-transparent group-hover/item:to-transparent transition-all duration-500"></div>
-
-                                    <div class="absolute bottom-8 left-6 z-20 opacity-0 group-hover/item:opacity-100 transition-all duration-700 delay-100 translate-y-4 group-hover/item:translate-y-0 whitespace-nowrap">
-                                        <p class="text-orange-500 font-bold tracking-[0.2em] uppercase text-[10px] mb-2">Process 0{{ index + 1 }}</p>
-                                        <h3 class="text-2xl md:text-3xl font-black text-white tracking-tighter drop-shadow-lg">
-                                            Assessment
-                                        </h3>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            
-                            <div class="absolute -bottom-4 -right-4 w-full h-full border-2 border-orange-600/20 rounded-[2rem] -z-10 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-500"></div>
-                            
-                        </div>
-                    </div>
-
-                    <div id="psikotest" class="order-2 lg:order-2">
-                        <span class="inline-block py-1.5 px-4 rounded-full bg-gray-900 text-white font-bold tracking-[0.2em] uppercase text-xs mb-6 shadow-sm">
-                            {{ $t('service_view.assessment.badge') }}
-                        </span>
-
-                        <h2 class="text-4xl md:text-5xl font-black leading-[1.1] text-gray-900 uppercase tracking-tight">
-                            {{ $t('service_view.assessment.title') }} <br class="hidden md:block" />
-                            <span class="text-orange-600">{{ $t('service_view.assessment.title_break') }}</span> 
-                            <span class="text-gray-400 text-2xl md:text-3xl font-medium block mt-2 normal-case tracking-normal">
-                                {{ $t('service_view.assessment.subtitle') }}
-                            </span>
-                        </h2>
-
-                        <p class="mt-6 text-lg text-gray-500 leading-relaxed font-medium">
-                            {{ $t('service_view.assessment.desc') }}
-                        </p>
-
-                        <ul class="mt-8 space-y-4 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-                            <li class="flex items-center gap-4 text-gray-700 font-medium">
-                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center text-orange-600 font-bold">1</div>
-                                <span>{{ $t('service_view.assessment.point1') }}</span>
-                            </li>
-                            <li class="flex items-center gap-4 text-gray-700 font-medium">
-                                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center text-orange-600 font-bold">2</div>
-                                <span>{{ $t('service_view.assessment.point2') }}</span>
-                            </li>
-                        </ul>
-
-                        <div class="mt-10">
-                            <button class="group flex items-center gap-3 text-white bg-gray-900 px-8 py-4 rounded-full font-bold text-sm hover:bg-orange-600 transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1">
-                                {{ $t('service_view.assessment.btn_cta') }}
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
+        
 
        <section id="event-organizer" class="py-32 relative overflow-hidden bg-slate-50 border-y border-gray-100"> <div class="max-w-7xl mx-auto px-4">
                 <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">

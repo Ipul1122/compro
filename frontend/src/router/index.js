@@ -119,6 +119,28 @@ const routes = [
     meta: { hideNavbar: true },
   },
 
+  // ASSESSMENT
+  {
+    path: "/id/assessment",
+    name: "assessment-id",
+    component: () => import("@/views/pages/service/AssestmentView.vue"),
+    meta: { 
+      title: 'Assessment - PT Cakrawala Parama Internasional',
+      lang: 'id',
+      description: 'Layanan Assessment kami'
+    },
+  },
+  {
+    path: "/en/assessment",
+    name: "assessment-en",
+    component: () => import("@/views/pages/service/AssestmentView.vue"),
+    meta: { 
+      title: 'Assessment - PT Cakrawala Parama Internasional',
+      lang: 'en',
+      description: 'Our Assessment Services'
+    },
+  },
+
   {
     path: "/view/login",
     name: "login",

@@ -20,6 +20,7 @@ const routePaths = {
     gallery: { en: '/en/gallery', id: '/id/galeri' },
     service: { en: '/en/services', id: '/id/layanan' },
     InteriorDesign: { en: '/en/interior-design', id: '/id/interior-design' },
+    assessment: { en: '/en/assessment', id: '/id/assessment' },
     contact: { en: '/en/contact', id: '/id/kontak' },
 }
 
@@ -73,6 +74,7 @@ const handleLanguageToggle = async () => {
                             </router-link>
                         </div>
 
+                        <!-- DESKTOP -->
                         <div class="hidden md:flex items-center gap-1 font-['Montserrat']">
                             <router-link :to="routePaths.home[locale]"
                                 class="text-black hover:text-brand px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
@@ -109,6 +111,11 @@ const handleLanguageToggle = async () => {
                                         <router-link :to="routePaths.InteriorDesign[locale]"
                                             class="text-black hover:text-brand px-5 py-2.5 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 block">
                                             {{ t('nav.interior_design') }}
+                                        </router-link>
+
+                                        <router-link :to="routePaths.assessment[locale]"
+                                            class="text-black hover:text-brand px-5 py-2.5 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 block">
+                                            {{ t('nav.assessment') }}
                                         </router-link>
 
                                         <router-link :to="routePaths.project[locale]"
@@ -165,6 +172,8 @@ const handleLanguageToggle = async () => {
                     </div>
                 </div>
 
+
+                <!-- MOBILE -->
                 <div v-show="isMenuOpen"
                     class="md:hidden border-t border-slate-100 p-4 space-y-1 bg-white rounded-b-2xl">
                     <router-link :to="routePaths.home[locale]" @click="isMenuOpen = false"
@@ -201,6 +210,11 @@ const handleLanguageToggle = async () => {
                             <router-link :to="routePaths.InteriorDesign[locale]" @click="isMenuOpen = false"
                                 class="block px-4 py-2 text-black hover:text-brand hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
                                 {{ t('nav.interior_design') }}
+                            </router-link>
+
+                            <router-link :to="routePaths.assessment[locale]" @click="isMenuOpen = false"
+                                class="block px-4 py-2 text-black hover:text-brand hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
+                                {{ t('nav.assessment') }}
                             </router-link>
 
                             <router-link :to="routePaths.project[locale]" @click="isMenuOpen = false"
