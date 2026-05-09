@@ -46,7 +46,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <main class="relative bg-white font-montserrat z-0 pt-20 md:pt-24">
+    <main class="relative bg-white font-montserrat z-0 pt-20 md:pt-24 overflow-x-hidden">
         <div class="absolute inset-0 bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px),linear-gradient(to_bottom,#f1f5f9_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_100%)] -z-10 pointer-events-none"></div>
 
         <!-- SECTION ASSESSMENT  -->
@@ -158,9 +158,9 @@ onUnmounted(() => {
         <!-- SECTION Psychological Asessment  -->
 
         <section id="psychological-assessment" class="w-full">
-        <div class="bg-gradient-to-r from-[#af1719] to-[#bca281] px-8 py-16 md:px-20 text-white">
+        <div class="bg-gradient-to-r from-[#af1719] to-[#bca281] px-4 sm:px-8 py-16 md:px-20 text-white">
             <div class="max-w-6xl mx-auto">
-            <h1 class="font-['Montserrat'] text-5xl md:text-6xl font-extrabold leading-tight mb-6 tracking-wide">
+            <h1 class="font-['Montserrat'] text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6 tracking-wide break-words">
                 {{ $t('service_view.psychological_assessment.title') }}<br>{{ $t('service_view.psychological_assessment.title_break') }}
             </h1>
             <p class="font-['Quicksand'] text-base md:text-[17px] max-w-4xl leading-relaxed font-medium">
@@ -169,7 +169,7 @@ onUnmounted(() => {
             </div>
         </div>
 
-        <div class="bg-white px-8 py-16 md:px-20">
+        <div class="bg-white px-4 sm:px-8 py-16 md:px-20">
             <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-14">
             
             <div class="flex flex-col items-center">
@@ -231,9 +231,9 @@ onUnmounted(() => {
 
         <!-- SECTION INTEGRATED TALENT ASSESTMENT DAN DEVELOPMENT -->
          <section id="integrated-talent-assessment" class="w-full">
-  <div class="bg-gradient-to-r from-[#af1719] to-[#bca281] px-8 py-16 md:px-20 text-white">
+  <div class="bg-gradient-to-r from-[#af1719] to-[#bca281] px-4 sm:px-8 py-16 md:px-20 text-white">
     <div class="max-w-6xl mx-auto">
-      <h1 class="font-['Montserrat'] text-5xl md:text-6xl font-extrabold leading-tight mb-6 tracking-wide">
+      <h1 class="font-['Montserrat'] text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6 tracking-wide break-words">
         {{ $t('service_view.integrated_talent_assessment.title1') }}<br>{{ $t('service_view.integrated_talent_assessment.title2') }}<br>{{ $t('service_view.integrated_talent_assessment.title3') }}
       </h1>
       <p class="font-['Quicksand'] text-base md:text-[17px] max-w-4xl leading-relaxed font-medium">
