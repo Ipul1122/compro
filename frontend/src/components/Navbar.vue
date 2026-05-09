@@ -15,6 +15,7 @@ const isIndonesian = computed(() => locale.value === 'id')
 const routePaths = {
     home: { en: '/en/home', id: '/id/beranda' },
     about: { en: '/en/about', id: '/id/tentang-kami' },
+    our_teams: { en: '/en/our-teams', id: '/id/tim-kami' },
     project: { en: '/en/projects', id: '/id/proyek-kami' },
     articles: { en: '/en/articles', id: '/id/artikel' },
     gallery: { en: '/en/gallery', id: '/id/galeri' },
@@ -95,6 +96,12 @@ const handleLanguageToggle = async () => {
                             <router-link :to="routePaths.about[locale]" active-class="active-link"
                                 class="text-black hover:text-red-700 px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
                                 {{ t('nav.about') }}
+                            </router-link>
+
+                            <!-- OUR TEAMS -->
+                            <router-link :to="routePaths.our_teams[locale]" active-class="active-link"
+                                class="text-black hover:text-red-700 px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
+                                {{ t('nav.our_teams') }}
                             </router-link>
 
                             <router-link :to="routePaths.articles[locale]" active-class="active-link"
@@ -193,6 +200,11 @@ const handleLanguageToggle = async () => {
                         class="block px-4 py-2.5 text-black hover:text-red-700 hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
                         {{ t('nav.about') }}
                     </router-link>
+
+                    <router-link :to="routePaths.our_teams[locale]" @click="isMenuOpen = false" active-class="active-link"
+    class="block px-4 py-2.5 text-black hover:text-red-700 hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
+    {{ t('nav.our_teams') }}
+</router-link>
 
                     <router-link :to="routePaths.articles[locale]" @click="isMenuOpen = false" active-class="active-link"
                         class="block px-4 py-2.5 text-black hover:text-red-700 hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
