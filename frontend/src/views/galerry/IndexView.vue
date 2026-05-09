@@ -93,7 +93,7 @@ const groupedAlbums = computed(() => {
     })
 
     if (selectedCategory.value) {
-        result = result.filter(g => g.category_id === selectedCategory.value)
+        result = result.filter(g => String(g.category_id) === String(selectedCategory.value))
     }
     return result
 })
@@ -107,7 +107,10 @@ const paginatedAlbums = computed(() => {
 
 const changePage = (page) => {
     if (page >= 1 && page <= totalPages.value) {
-        router.push({ query: { ...route.query, page: page } })
+        router.push({ query: { ...route.query, page: page } }).catch((err) => {
+            // Abaikan error navigasi redundan atau devtools payload error
+            console.warn('Router push ignored:', err);
+        })
         window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 }
