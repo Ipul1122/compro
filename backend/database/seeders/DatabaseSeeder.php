@@ -32,17 +32,5 @@ class DatabaseSeeder extends Seeder
                 'role' => 'direktur'
             ]
         );
-=======
-        User::create([
-            'name' => 'Administrator',
-            'email' => 'syaiful@cakrawala-internasional.co.id',
-            'password' => Hash::make('Sejauhmatamemandang1945'), 
-        ]);
-
-        // Memanggil DirekturSeeder
-        $this->call([
-            DirekturSeeder::class,
-        ]);
-
     }
 }
