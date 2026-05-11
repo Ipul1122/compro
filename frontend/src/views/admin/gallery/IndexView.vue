@@ -38,8 +38,8 @@ const deleteModal = ref({
 })
 
 onMounted(() => {
-    // Ambil data user dari localStorage agar prop 'user' pada Navbar terpenuhi
-    const savedUser = localStorage.getItem('user')
+    // Ambil data user dari sessionStorage agar prop 'user' pada Navbar terpenuhi
+    const savedUser = sessionStorage.getItem('user')
     if (savedUser) {
         user.value = JSON.parse(savedUser)
     } else {
@@ -191,8 +191,8 @@ const confirmDelete = async () => {
 
 // Fungsi Logout (dipanggil via event dari Navbar)
 const handleLogout = () => {
-    localStorage.removeItem('user')
-    localStorage.removeItem('token')
+    sessionStorage.removeItem('user')
+    sessionStorage.removeItem('token')
     router.push({ name: 'login' })
 }
 </script>

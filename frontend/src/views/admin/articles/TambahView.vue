@@ -235,12 +235,12 @@ const saveDraft = () => {
         contentId: editorId.value?.getHTML() || '',
         contentEn: editorEn.value?.getHTML() || ''
     };
-    localStorage.setItem('article_draft', JSON.stringify(draftData));
+    sessionStorage.setItem('article_draft', JSON.stringify(draftData));
     hasDraft.value = true;
 };
 
 const loadDraft = () => {
-    const draftStr = localStorage.getItem('article_draft');
+    const draftStr = sessionStorage.getItem('article_draft');
     if (draftStr) {
         try {
             const draft = JSON.parse(draftStr);
@@ -272,7 +272,7 @@ const loadDraft = () => {
 };
 
 const clearDraftAndBack = () => {
-    localStorage.removeItem('article_draft');
+    sessionStorage.removeItem('article_draft');
     router.push('/admin/articles');
 };
 
@@ -402,8 +402,8 @@ const setLink = (editorInstance) => {
 // LOGIC API & FORM
 // ==========================================
 onMounted(async () => {
-    const savedUser = localStorage.getItem('user');
-    const token = localStorage.getItem('token');
+    const savedUser = sessionStorage.getItem('user');
+    const token = sessionStorage.getItem('token');
     
     if (!savedUser || !token) {
         alert("Sesi kamu tidak valid. Silakan relogin.");
@@ -492,7 +492,7 @@ const handleFileChange = (e) => {
 const storeArticle = async () => {
     isSaving.value = true;
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         const formData = new FormData();
         
         formData.append('title', form.value.title);
@@ -515,7 +515,7 @@ const storeArticle = async () => {
         });
 
         // Sukses Simpan -> Hapus history draft dari LocalStorage
-        localStorage.removeItem('article_draft');
+        sessionStorage.removeItem('article_draft');
         hasDraft.value = false;
 
         alert('Artikel berhasil ditambahkan!');
@@ -529,8 +529,8 @@ const storeArticle = async () => {
 };
 
 const handleLogout = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('token');
     router.push('/view/login');
 };
 </script>

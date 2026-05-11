@@ -77,8 +77,8 @@ const breadcrumbsData = ref([
 const category = ref({ name: '' });
 
 onMounted(async () => {
-  // 1. Ambil data user dari localStorage agar Navbar memiliki nama user
-  const savedUser = localStorage.getItem('user');
+  // 1. Ambil data user dari sessionStorage agar Navbar memiliki nama user
+  const savedUser = sessionStorage.getItem('user');
   if (savedUser) {
     user.value = JSON.parse(savedUser);
   }
@@ -94,8 +94,8 @@ onMounted(async () => {
 });
 
 const handleLogout = () => {
-  localStorage.removeItem('user');
-  localStorage.removeItem('token');
+  sessionStorage.removeItem('user');
+  sessionStorage.removeItem('token');
   router.push('/view/login');
 };
 

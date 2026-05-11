@@ -219,7 +219,7 @@ const handleSubmit = async () => {
 }
 
 onMounted(() => {
-    const savedUser = localStorage.getItem('user')
+    const savedUser = sessionStorage.getItem('user')
     if (savedUser) {
         user.value = JSON.parse(savedUser)
     } else {

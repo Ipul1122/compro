@@ -151,7 +151,7 @@ const breadcrumbsData = ref([
 const search = ref('');
 
 onMounted(() => {
-  const savedUser = localStorage.getItem('user');
+  const savedUser = sessionStorage.getItem('user');
   if (savedUser) {
     user.value = JSON.parse(savedUser);
   } else {
@@ -178,8 +178,8 @@ const fetchData = (page = 1) => {
 const handleSearch = () => fetchData(1);
 
 const handleLogout = () => {
-  localStorage.removeItem('user');
-  localStorage.removeItem('token');
+  sessionStorage.removeItem('user');
+  sessionStorage.removeItem('token');
   router.push('/view/login');
 };
 

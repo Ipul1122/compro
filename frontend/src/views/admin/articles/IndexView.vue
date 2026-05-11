@@ -57,7 +57,7 @@ const selectCategory = (cat) => {
 }
 
 onMounted(() => {
-    const savedUser = localStorage.getItem('user')
+    const savedUser = sessionStorage.getItem('user')
     if (savedUser) {
         user.value = JSON.parse(savedUser)
         
@@ -141,8 +141,8 @@ const resetFilters = () => {
 }
 
 const handleLogout = () => {
-    localStorage.removeItem('user')
-    localStorage.removeItem('token')
+    sessionStorage.removeItem('user')
+    sessionStorage.removeItem('token')
     router.push('/view/login')
 }
 
