@@ -22,6 +22,7 @@ const routePaths = {
     service: { en: '/en/services', id: '/id/layanan' },
     InteriorDesign: { en: '/en/interior-design', id: '/id/interior-design' },
     assessment: { en: '/en/assessment', id: '/id/assessment' },
+    event_organizer: { en: '/en/event-organizer', id: '/id/event-organizer' },
     contact: { en: '/en/contact', id: '/id/kontak' },
 }
 
@@ -31,6 +32,7 @@ const isServiceActive = computed(() => {
         routePaths.service.en, routePaths.service.id,
         routePaths.InteriorDesign.en, routePaths.InteriorDesign.id,
         routePaths.assessment.en, routePaths.assessment.id,
+        routePaths.event_organizer.en, routePaths.event_organizer.id,
         routePaths.project.en, routePaths.project.id,
         routePaths.gallery.en, routePaths.gallery.id
     ].includes(currentPath);
@@ -146,6 +148,10 @@ const handleLanguageToggle = async () => {
                                                 class="text-black hover:text-red-700 px-3 py-2.5 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 block rounded-lg">
                                                 {{ t('nav.assessment') }}
                                             </router-link>
+                                            <router-link :to="routePaths.event_organizer[locale]" active-class="active-link"
+                                                class="text-black hover:text-red-700 px-3 py-2.5 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 block rounded-lg">
+                                                {{ t('nav.event_organizer') }}
+                                            </router-link>
                                         </div>
                                     </div>
                                 </div>
@@ -202,9 +208,9 @@ const handleLanguageToggle = async () => {
                     </router-link>
 
                     <router-link :to="routePaths.our_teams[locale]" @click="isMenuOpen = false" active-class="active-link"
-    class="block px-4 py-2.5 text-black hover:text-red-700 hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
-    {{ t('nav.our_teams') }}
-</router-link>
+                        class="block px-4 py-2.5 text-black hover:text-red-700 hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
+                        {{ t('nav.our_teams') }}
+                    </router-link>
 
                     <router-link :to="routePaths.articles[locale]" @click="isMenuOpen = false" active-class="active-link"
                         class="block px-4 py-2.5 text-black hover:text-red-700 hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
@@ -246,6 +252,10 @@ const handleLanguageToggle = async () => {
                                 <router-link :to="routePaths.assessment[locale]" @click="isMenuOpen = false" active-class="active-link"
                                     class="block px-2 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
                                     {{ t('nav.assessment') }}
+                                </router-link>
+                                <router-link :to="routePaths.event_organizer[locale]" @click="isMenuOpen = false" active-class="active-link"
+                                    class="block px-2 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
+                                    {{ t('nav.event_organizer') }}
                                 </router-link>
                             </div>
                         </div>
