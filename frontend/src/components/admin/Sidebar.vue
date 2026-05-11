@@ -65,6 +65,28 @@
                     </Transition>
                 </div>
 
+                <div v-if="user.role === 'direktur'" class="pt-1">
+                    <button @click="toggleMenu('employees')" class="group w-full flex items-center justify-between px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-xl transition-all font-medium border border-transparent hover:border-slate-700/50 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="flex items-center gap-3 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" :class="['h-5 w-5 transition-colors', openMenus.employees ? 'text-orange-500' : 'text-slate-400 group-hover:text-orange-500']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-3-3h-1M4 20h5v-2a3 3 0 00-3-3H5m9-4a4 4 0 10-8 0 4 4 0 008 0zm4 0a4 4 0 10-8 0 4 4 0 008 0z" />
+                            </svg>
+                            <span>Karyawan</span>
+                        </div>
+                        <svg :class="{'rotate-180 text-orange-500': openMenus.employees, 'text-slate-500': !openMenus.employees}" class="w-4 h-4 transition-all duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <Transition name="slide-fade">
+                        <div v-show="openMenus.employees" class="mt-1 space-y-1 pl-11 pr-4 relative">
+                            <div class="absolute left-6 top-2 bottom-2 w-px bg-slate-800 rounded-full"></div>
+                            <router-link to="/admin/karyawan" class="group/sub relative flex items-center py-2.5 text-sm text-slate-400 hover:text-white transition-colors">
+                                <div class="absolute -left-5 w-3 h-px bg-slate-800 group-hover/sub:bg-orange-500 transition-colors"></div>
+                                <span class="group-hover/sub:translate-x-1 transition-transform duration-200">Index (List)</span>
+                            </router-link>
+                        </div>
+                    </Transition>
+                </div>
+
                 <div class="pt-1">
                     <button @click="toggleMenu('articles')" class="group w-full flex items-center justify-between px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-xl transition-all font-medium border border-transparent hover:border-slate-700/50 relative overflow-hidden">
                         <div class="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -149,7 +171,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const props = defineProps({
     isOpen: { type: Boolean, default: false },
@@ -158,10 +180,23 @@ const props = defineProps({
 
 const emit = defineEmits(['update:isOpen', 'update:currentView', 'logout'])
 
+const user = ref({ role: '' })
 const openMenus = ref({
     categories: false,
     articles: false,
-    gallery: false
+    gallery: false,
+    employees: false
+})
+
+onMounted(() => {
+    const savedUser = localStorage.getItem('user')
+    if (savedUser) {
+        try {
+            user.value = JSON.parse(savedUser)
+        } catch (err) {
+            console.error('Gagal mem-parsing user dari localStorage', err)
+        }
+    }
 })
 
 const toggleMenu = (menu) => {

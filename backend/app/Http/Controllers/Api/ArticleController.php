@@ -12,8 +12,8 @@ class ArticleController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Article::select('id', 'category_id', 'title', 'title_en', 'slug', 'image', 'published', 'total_view', 'created_at', 'updated_at')
-            ->with('category:id,name,slug');
+        $query = Article::select('id', 'category_id', 'author_id', 'title', 'title_en', 'slug', 'image', 'published', 'total_view', 'created_at', 'updated_at')
+            ->with(['category:id,name,slug', 'author:id,name,email']);
 
         if ($request->filled('views')) {
             $query->orderBy('total_view', $request->views);
@@ -103,11 +103,13 @@ class ArticleController extends Controller
             'content' => 'required|string',
             'content_en' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'published' => 'nullable|in:draft,publish'
+            'published' => 'nullable|in:draft,pending,publish'
         ]);
 
         $data = $request->all();
         $data['slug'] = Str::slug($request->input('title'));
+        $data['author_id'] = auth()->id();
+        $data['published'] = $request->input('published', 'draft');
         
         $data['meta_title'] = $request->input('meta_title') ?? $request->input('title');
         $data['meta_description'] = $request->input('meta_description') ?? Str::limit(strip_tags($request->input('content')), 150);
@@ -170,7 +172,7 @@ class ArticleController extends Controller
             'content' => 'sometimes|required|string',
             'content_en' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'published' => 'nullable|in:draft,publish'
+            'published' => 'nullable|in:draft,pending,publish'
         ]);
 
         $data = $request->all();
@@ -198,7 +200,27 @@ class ArticleController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Article Updated Successfully',
-            'data' => $article->load('category')
+            'data' => $article->load(['category', 'author'])
+        ], 200);
+    }
+
+    public function approve($id)
+    {
+        $user = auth()->user();
+        if ($user->role !== 'direktur') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Akses persetujuan hanya untuk Direktur'
+            ], 403);
+        }
+
+        $article = Article::findOrFail($id);
+        $article->update(['published' => 'publish']);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Artikel berhasil disetujui',
+            'data' => $article->load(['category', 'author'])
         ], 200);
     }
 

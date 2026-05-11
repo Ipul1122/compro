@@ -71,7 +71,7 @@ const handleLogout = async () => {
             <button @click="isProfileOpen = !isProfileOpen" class="flex items-center gap-3 md:gap-4 hover:bg-slate-50 p-1.5 rounded-2xl transition-all cursor-pointer outline-none shrink-0">
                 <div class="text-right hidden sm:block">
                     <p class="text-sm font-black text-slate-900 leading-none">{{ user?.name }}</p>
-                    <p class="text-[10px] text-slate-400 mt-1 uppercase tracking-widest font-bold">Admin</p>
+                    <p class="text-[10px] text-slate-400 mt-1 uppercase tracking-widest font-bold">{{ user?.role === 'direktur' ? 'Direktur' : user?.role === 'admin' ? 'Admin' : user?.role }}</p>
                 </div>
                 <img :src="`https://ui-avatars.com/api/?name=${user?.name}&background=0f172a&color=fff&bold=true`" class="h-10 w-10 rounded-full border-2 border-white shadow-sm shrink-0" />
             </button>

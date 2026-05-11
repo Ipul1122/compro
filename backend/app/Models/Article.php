@@ -11,6 +11,7 @@ class Article extends Model
 
     protected $fillable = [
         'category_id',
+        'author_id',
         'title',
         'title_en',
         'slug',
@@ -27,5 +28,10 @@ class Article extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author_id');
     }
 }

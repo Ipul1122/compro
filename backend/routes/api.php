@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\ArticleController;
+use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\GalleryController;
 
 /*
@@ -67,6 +68,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('galleries/bulk-store', [GalleryController::class, 'bulkStore']);
         Route::post('galleries/bulk-delete', [GalleryController::class, 'bulkDestroy']);
         Route::apiResource('galleries', GalleryController::class);
+        Route::apiResource('employees', EmployeeController::class);
+        Route::post('articles/{id}/approve', [ArticleController::class, 'approve']);
     });
 });
 
