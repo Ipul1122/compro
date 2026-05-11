@@ -19,5 +19,10 @@ class DatabaseSeeder extends Seeder
             'email' => 'syaiful@cakrawala-internasional.co.id',
             'password' => Hash::make('Sejauhmatamemandang1945'), 
         ]);
+
+        // Memanggil DirekturSeeder
+        $this->call([
+            DirekturSeeder::class,
+        ]);
     }
 }
