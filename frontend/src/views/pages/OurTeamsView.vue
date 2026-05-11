@@ -15,7 +15,7 @@ onMounted(() => {
 const teams = [
   {
     id: 1,
-    name: 'Ibu Dian Melani',
+    name: 'Ibu Dian Melani M.Psi',
     title: { en: 'Chief Executive Officer', id: 'Direktur Utama' },
     image: '/img/ibu-dian-melani.jpeg',
     department: { en: 'Executive', id: 'Eksekutif' },
@@ -24,6 +24,14 @@ const teams = [
   },
   {
     id: 2,
+    name: 'Nisrina Adnin Naqiyya',
+    title: { en: 'Learning, Development Spesialis and Multimedia', id: 'Spesialis Pembelajaran, Pengembangan dan Multimedia' },
+    image: '/img/Foto-Nisrina-Adnin-Naqiyya.jpeg',
+    social: { linkedin: 'https://id.linkedin.com/in/nisrinaqiyyaa?trk=people-guest_people_search-card'},
+    color: '#1a1a2e'
+  },
+  {
+    id: 3,
     name: 'Muhammad Ariiq Fawwazi',
     title: { en: 'Quantity Surveyor', id: 'Survey Kuantitas' },
     image: '/img/arik.jpeg',
@@ -31,25 +39,41 @@ const teams = [
     color: '#1a1a2e'
   },
   {
-    id: 3,
+    id: 4,
     name: 'Lely Hidayah Rohmah',
-    title: { en: 'HR Generalist', id: 'Generalis HR' },
+    title: { en: 'Human Capital Specialist', id: 'Spesialis Sumber Daya Manusia' },
     image: '/img/Lely.jpeg',
     social: { linkedin: '#'},
     color: '#16213e'
   },
   {
-    id: 4,
+    id: 5,
+    name: 'Prammudito Dwi Prakoso',
+    title: { en: 'Quality Control', id: 'Kontrol Kualitas' },
+    image: '/img/dito.png',
+    social: { linkedin: 'https://www.linkedin.com/in/prammudito'},
+    color: '#16213e'
+  },
+  {
+    id: 6,
     name: 'Muhammad Syaifulloh',
-    title: { en: 'Assesment Fullstack Developer', id: 'Pengembang Fullstack' },
+    title: { en: 'IT (FULLSTACK DEVELOPER)', id: 'IT (Pengembang Fullstack)' },
     image: '/img/ipul.jpeg',
+    social: { linkedin: 'https://id.linkedin.com/in/muhammad-syaifulloh-99a233305?trk=people-guest_people_search-card'},
+    color: '#0f3460'
+  },
+  {
+    id: 7,
+    name: 'Muhammad Azzam',
+    title: { en: 'Learning and Development Specialist', id: 'Spesialis Pembelajaran dan Pengembangan' },
+    image: '/img/azzam.png',
     social: { linkedin: 'https://www.linkedin.com/in/muhammad-syaifulloh-99a233305/'},
     color: '#0f3460'
   },
   {
-    id: 5,
+    id: 8,
     name: 'Wahyu Nur A',
-    title: { en: 'Intern Fullstack Developer', id: 'Magang Pengembang Fullstack' },
+    title: { en: 'IT (FULLSTACK DEVELOPER)', id: 'IT (Pengembang Fullstack)' },
     image: '/img/wahyu.jpeg',
     social: { linkedin: 'https://www.linkedin.com/in/wahyu-nur-a7247923a?utm_source=share_via&utm_content=profile&utm_medium=member_android'},
     color: '#0f3460'
