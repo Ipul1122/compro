@@ -306,6 +306,12 @@ const routes = [
     component: () => import("@/views/admin/DashboardView.vue"), 
     meta: { hideNavbar: true },
   },
+  {
+    path: "/direktur/dashboard", 
+    name: "direktur.dashboard",
+    component: () => import("@/views/admin/DashboardView.vue"), 
+    meta: { hideNavbar: true },
+  },
 
   {
     path: '/admin/categories',
@@ -413,8 +419,8 @@ router.beforeEach((to, from) => {
     metaDesc.setAttribute('content', to.meta.description || 'Deskripsi default website');
   }
 
-  const token = localStorage.getItem('token')
-  const requiresAuth = to.meta.requiresAuth || to.path.startsWith('/admin')
+  const token = sessionStorage.getItem('token')
+  const requiresAuth = to.meta.requiresAuth || to.path.startsWith('/admin') || to.path.startsWith('/direktur')
   if (requiresAuth && !token) {
     return { path: '/view/login' }
   }
@@ -424,11 +430,11 @@ router.beforeEach((to, from) => {
 router.beforeEach((to) => {
   // Mengecek apakah URL mengandung /en/
   if (to.path.startsWith('/en/')) {
-    localStorage.setItem('user-locale', 'en')
+    sessionStorage.setItem('user-locale', 'en')
   } 
   // Mengecek apakah URL mengandung /id/
   else if (to.path.startsWith('/id/')) {
-    localStorage.setItem('user-locale', 'id')
+    sessionStorage.setItem('user-locale', 'id')
   }
   return true
 })

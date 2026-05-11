@@ -29,8 +29,8 @@ const handleLogout = async () => {
         console.error('Logout error:', error)
     } finally {
         // 2. Hapus data autentikasi dari penyimpanan lokal
-        localStorage.removeItem('token') //
-        localStorage.removeItem('user')
+        sessionStorage.removeItem('token') //
+        sessionStorage.removeItem('user')
 
         // 3. Arahkan kembali ke halaman login
         router.push({ name: 'login' }) //

@@ -88,8 +88,8 @@ const form = ref({
 });
 
 onMounted(() => {
-  const savedUser = localStorage.getItem('user');
-  const token = localStorage.getItem('token');
+  const savedUser = sessionStorage.getItem('user');
+  const token = sessionStorage.getItem('token');
   
   // Guard untuk mengecek keberadaan token sebelum bisa mengakses form
   if (!savedUser || !token) {
@@ -102,8 +102,8 @@ onMounted(() => {
 });
 
 const handleLogout = () => {
-  localStorage.removeItem('user');
-  localStorage.removeItem('token');
+  sessionStorage.removeItem('user');
+  sessionStorage.removeItem('token');
   router.push('/view/login');
 };
 

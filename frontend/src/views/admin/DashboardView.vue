@@ -50,7 +50,7 @@ const greeting = computed(() => {
 onMounted(() => {
     clockInterval = setInterval(() => { currentTime.value = new Date() }, 1000)
 
-    const savedUser = localStorage.getItem('user')
+    const savedUser = sessionStorage.getItem('user')
     if (savedUser) {
         user.value = JSON.parse(savedUser)
         showSuccessNotif.value = true
@@ -161,8 +161,8 @@ const chartOptions = {
 }
 
 const handleLogout = () => {
-    localStorage.removeItem('user')
-    localStorage.removeItem('token')
+    sessionStorage.removeItem('user')
+    sessionStorage.removeItem('token')
     router.push('/view/login')
 }
 

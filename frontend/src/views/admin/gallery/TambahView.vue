@@ -48,7 +48,7 @@ const saveDraft = () => {
     }
     
     try {
-        localStorage.setItem('gallery_draft', JSON.stringify(draftData))
+        sessionStorage.setItem('gallery_draft', JSON.stringify(draftData))
         hasDraft.value = true
     } catch (e) {
         console.warn("Gagal menyimpan draft (Mungkin gambar terlalu besar)", e)
@@ -56,7 +56,7 @@ const saveDraft = () => {
 }
 
 const loadDraft = () => {
-    const draftStr = localStorage.getItem('gallery_draft')
+    const draftStr = sessionStorage.getItem('gallery_draft')
     if (draftStr) {
         try {
             const draft = JSON.parse(draftStr)
@@ -97,7 +97,7 @@ const reconstructFilesFromBase64 = async (base64Array) => {
 }
 
 const clearDraftAndBack = () => {
-    localStorage.removeItem('gallery_draft')
+    sessionStorage.removeItem('gallery_draft')
     hasDraft.value = false
     router.push('/admin/gallery')
 }
@@ -275,7 +275,7 @@ const confirmSubmit = async () => {
     try {
         await Api.post('/admin/galleries/bulk-store', formData)
         
-        localStorage.removeItem('gallery_draft')
+        sessionStorage.removeItem('gallery_draft')
         hasDraft.value = false
         
         isConfirmModalOpen.value = false
@@ -294,7 +294,7 @@ const confirmSubmit = async () => {
 }
 
 onMounted(() => {
-    const savedUser = localStorage.getItem('user')
+    const savedUser = sessionStorage.getItem('user')
     if (savedUser) {
         user.value = JSON.parse(savedUser)
     } else {

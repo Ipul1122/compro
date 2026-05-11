@@ -64,13 +64,13 @@ const submitUpdate = async () => {
 }
 
 const handleLogout = () => {
-    localStorage.removeItem('user')
-    localStorage.removeItem('token')
+    sessionStorage.removeItem('user')
+    sessionStorage.removeItem('token')
     router.push('/view/login')
 }
 
 onMounted(() => {
-    const savedUser = localStorage.getItem('user')
+    const savedUser = sessionStorage.getItem('user')
     if (!savedUser) {
         router.push('/view/login')
         return

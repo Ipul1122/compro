@@ -73,13 +73,13 @@ const deleteEmployee = async (id) => {
 }
 
 const handleLogout = () => {
-    localStorage.removeItem('user')
-    localStorage.removeItem('token')
+    sessionStorage.removeItem('user')
+    sessionStorage.removeItem('token')
     router.push('/view/login')
 }
 
 onMounted(() => {
-    const saved = localStorage.getItem('user')
+    const saved = sessionStorage.getItem('user')
     if (!saved) {
         router.push('/view/login')
         return

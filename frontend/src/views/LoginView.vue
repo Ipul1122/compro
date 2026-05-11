@@ -84,17 +84,21 @@ const handleLogin = async () => {
             successMessage.value = 'Login berhasil! Mengalihkan ke dashboard...'
 
             // PERBAIKAN: Gunakan response.data.data.user sesuai struktur API
-            localStorage.setItem('user', JSON.stringify(response.data.data.user))
+            sessionStorage.setItem('user', JSON.stringify(response.data.data.user))
 
             // TAMBAHAN WAJIB: Simpan token untuk otorisasi endpoint dashboard/admin
-            localStorage.setItem('token', response.data.data.token)
+            sessionStorage.setItem('token', response.data.data.token)
 
             // Set default header axios agar otomatis mengirim token di request berikutnya
             axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.data.token}`
 
             // Redirect ke dashboard setelah delay singkat untuk show success message
             setTimeout(() => {
-                router.push('/admin/dashboard')
+                if (response.data.data.user.role === 'direktur') {
+                    router.push('/direktur/dashboard')
+                } else {
+                    router.push('/admin/dashboard')
+                }
             }, 1000)
         }
 

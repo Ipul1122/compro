@@ -355,7 +355,7 @@ const saveDraftToLocalStorage = () => {
         // Catatan: File gambar (form.value.image) tidak di-save ke localstorage untuk menghindari memory issue
     };
     
-    localStorage.setItem(draftKey, JSON.stringify(draftData));
+    sessionStorage.setItem(draftKey, JSON.stringify(draftData));
     
     draftSavedText.value = 'Draft Tersimpan ✓';
     if (draftTimeout) clearTimeout(draftTimeout);
@@ -372,7 +372,7 @@ watch(() => form.value, (newVal, oldVal) => {
 }, { deep: true });
 
 const checkAndRestoreDraft = (apiData) => {
-    const savedDraft = localStorage.getItem(draftKey);
+    const savedDraft = sessionStorage.getItem(draftKey);
     if (savedDraft) {
         const confirmRestore = confirm("Ditemukan draft yang belum tersimpan untuk artikel ini (mungkin karena refresh/kembali). Apakah Anda ingin mengembalikan ketikan terakhir Anda?");
         
@@ -409,7 +409,7 @@ const checkAndRestoreDraft = (apiData) => {
             }
         } else {
             // User menolak restore draft, hapus draft
-            localStorage.removeItem(draftKey);
+            sessionStorage.removeItem(draftKey);
         }
     }
     
@@ -441,8 +441,8 @@ const checkAndRestoreDraft = (apiData) => {
 // LOGIC API & FORM
 // ==========================================
 onMounted(async () => {
-    const savedUser = localStorage.getItem('user');
-    const token = localStorage.getItem('token');
+    const savedUser = sessionStorage.getItem('user');
+    const token = sessionStorage.getItem('token');
     
     if (!savedUser || !token) {
         alert("Sesi kamu tidak valid. Silakan relogin.");
@@ -470,7 +470,7 @@ const fetchArticleDetail = async () => {
         // Pengecekan draft atau apply API data
         checkAndRestoreDraft(data);
 
-        // Load gambar current API (tidak masuk localStorage draft)
+        // Load gambar current API (tidak masuk sessionStorage draft)
         if (data.image) {
             currentImageUrl.value = getImageUrl(data.image);
         } else {
@@ -543,7 +543,7 @@ const executeSubmit = async () => {
     showConfirmModal.value = false;
     isSaving.value = true;
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         const formData = new FormData();
         
         formData.append('_method', 'PUT'); // Method Spoofing
@@ -572,7 +572,7 @@ const executeSubmit = async () => {
         });
         
         // Jika berhasil di-save ke database, bersihkan draft localstorage
-        localStorage.removeItem(draftKey);
+        sessionStorage.removeItem(draftKey);
 
         alert('Artikel berhasil diperbarui!');
         router.push('/admin/articles');
@@ -590,8 +590,8 @@ const handleNavigation = (view) => {
 };
 
 const handleLogout = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('token');
     router.push('/view/login');
 };
 </script>

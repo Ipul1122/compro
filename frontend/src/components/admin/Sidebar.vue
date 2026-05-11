@@ -21,17 +21,17 @@
             <div class="p-6 border-b border-slate-800/60 flex justify-between items-center relative z-10 bg-slate-900/50 backdrop-blur-md shrink-0">
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center shadow-lg shadow-orange-500/20">
-                        <span class="text-white font-bold text-lg leading-none">A</span>
+                        <span class="text-white font-bold text-lg leading-none">{{ user?.role === 'direktur' ? 'D' : 'A' }}</span>
                     </div>
                     <h2 class="text-white font-black text-xl uppercase tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
-                        Admin
+                        {{ user?.role === 'direktur' ? 'Direktur' : 'Admin' }}
                     </h2>
                 </div>
             </div>
             
             <nav class="flex-1 p-4 space-y-1.5 overflow-y-auto custom-scrollbar relative z-10">
                 
-                <router-link to="/admin/dashboard" class="group flex items-center gap-3 px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-xl transition-all font-medium border border-transparent hover:border-slate-700/50 relative overflow-hidden">
+                <router-link :to="user.role === 'direktur' ? '/direktur/dashboard' : '/admin/dashboard'" class="group flex items-center gap-3 px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-xl transition-all font-medium border border-transparent hover:border-slate-700/50 relative overflow-hidden">
                     <div class="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-orange-500 transition-colors relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -189,12 +189,12 @@ const openMenus = ref({
 })
 
 onMounted(() => {
-    const savedUser = localStorage.getItem('user')
+    const savedUser = sessionStorage.getItem('user')
     if (savedUser) {
         try {
             user.value = JSON.parse(savedUser)
         } catch (err) {
-            console.error('Gagal mem-parsing user dari localStorage', err)
+            console.error('Gagal mem-parsing user dari sessionStorage', err)
         }
     }
 })
