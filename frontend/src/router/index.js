@@ -284,6 +284,18 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: '/admin/karyawan',
+    name: 'admin.karyawan.index',
+    component: () => import('../views/admin/employee/IndexView.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/admin/karyawan/edit/:id',
+    name: 'admin.karyawan.edit',
+    component: () => import('../views/admin/employee/EditView.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
     // edit categories
     path: '/admin/categories/edit/:id',
     name: 'admin.categories.edit',
@@ -370,7 +382,12 @@ router.beforeEach((to, from) => {
   if (metaDesc) {
     metaDesc.setAttribute('content', to.meta.description || 'Deskripsi default website');
   }
-  // next();
+
+  const token = localStorage.getItem('token')
+  const requiresAuth = to.meta.requiresAuth || to.path.startsWith('/admin')
+  if (requiresAuth && !token) {
+    return { path: '/view/login' }
+  }
 });
 
 // sync bahasa vue-i18n berdasarkan URL yang dituju

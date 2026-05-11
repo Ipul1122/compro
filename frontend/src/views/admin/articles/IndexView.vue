@@ -12,7 +12,7 @@ const router = useRouter()
 const route = useRoute() 
 
 const isSidebarOpen = ref(false)
-const user = ref({ name: 'Admin', email: '' })
+const user = ref({ name: 'Admin', email: '', role: '' })
 
 // Setup Breadcrumbs untuk Navbar
 const breadcrumbsData = ref([
@@ -166,6 +166,23 @@ const confirmDelete = async (id) => {
         }
     }
 }
+
+const approveArticle = async (article) => {
+    if (!confirm('Setujui artikel ini untuk dipublikasikan?')) return
+
+    try {
+        await Api.post(`/admin/articles/${article.id}/approve`)
+        alert('Artikel berhasil disetujui')
+        fetchArticles(currentPage.value)
+    } catch (error) {
+        console.error('Error approving article:', error)
+        if (error.response && error.response.data && error.response.data.message) {
+            alert(error.response.data.message)
+        } else {
+            alert('Gagal menyetujui artikel. Silakan coba lagi.')
+        }
+    }
+}
 </script>
 
 <template>
@@ -211,6 +228,7 @@ const confirmDelete = async (id) => {
                                 class="w-full bg-slate-50 border text-black border-slate-100 rounded-xl px-4 py-2 text-sm focus:outline-none cursor-pointer">
                                 <option value="">Semua Status</option>
                                 <option value="publish">Published</option>
+                                <option value="pending">Pending</option>
                                 <option value="draft">Draft</option>
                             </select>
                         </div>
@@ -274,6 +292,7 @@ const confirmDelete = async (id) => {
                                     <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase">Category</th>
                                     <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase">Article</th>
                                     <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase">Status</th>
+                                    <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase">Author</th>
                                     <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase text-center">Views</th>
                                     <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase">Created</th>
                                     <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase">Updated</th>
@@ -307,9 +326,13 @@ const confirmDelete = async (id) => {
                                     </td>
                                     
                                     <td class="px-6 py-4">
-                                        <span :class="article.published === 'publish' ? 'bg-emerald-100 text-emerald-600 border-emerald-200' : 'bg-orange-100 text-orange-600 border-orange-200'" class="px-3 py-1.5 rounded-lg border text-[10px] font-black uppercase tracking-wider">
-                                            {{ article.published === 'publish' ? 'Published' : 'Draft' }}
+                                        <span :class="article.published === 'publish' ? 'bg-emerald-100 text-emerald-600 border-emerald-200' : article.published === 'pending' ? 'bg-amber-100 text-amber-700 border-amber-200' : 'bg-orange-100 text-orange-600 border-orange-200'" class="px-3 py-1.5 rounded-lg border text-[10px] font-black uppercase tracking-wider">
+                                            {{ article.published === 'publish' ? 'Published' : article.published === 'pending' ? 'Pending' : 'Draft' }}
                                         </span>
+                                    </td>
+
+                                    <td class="px-6 py-4 text-sm text-slate-600 font-medium whitespace-nowrap">
+                                        {{ article.author?.name || '-' }}
                                     </td>
                                     
                                     <td class="px-6 py-4 text-center font-bold text-slate-700 text-sm">
@@ -333,6 +356,14 @@ const confirmDelete = async (id) => {
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                                 </svg>
                                             </router-link>
+
+                                            <button v-if="user.role === 'direktur' && article.published !== 'publish'" @click="approveArticle(article)"
+                                                class="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all cursor-pointer"
+                                                title="Setujui Artikel">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                </svg>
+                                            </button>
 
                                             <button @click="confirmDelete(article.id)" 
                                                 class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all cursor-pointer"
@@ -388,6 +419,7 @@ const confirmDelete = async (id) => {
                                 class="w-full bg-slate-50 border text-black border-slate-100 rounded-xl px-4 py-2 text-sm focus:outline-none cursor-pointer">
                                 <option value="">Semua Status</option>
                                 <option value="publish">Published</option>
+                                <option value="pending">Pending</option>
                                 <option value="draft">Draft</option>
                             </select>
                         </div>

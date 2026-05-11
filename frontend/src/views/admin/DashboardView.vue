@@ -37,6 +37,8 @@ const formattedTime = computed(() => {
     })
 })
 
+const isDirector = computed(() => user.value.role === 'direktur')
+
 const greeting = computed(() => {
     const h = currentTime.value.getHours()
     if (h < 12) return 'Selamat Pagi'
@@ -291,6 +293,61 @@ const statCards = computed(() => [
                                 {{ isLoading ? '—' : totalViews.toLocaleString('id-ID') }}
                             </h3>
                         </div>
+                    </div>
+                </div>
+
+                <div v-if="isDirector" class="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+                        <div>
+                            <h2 class="text-lg font-extrabold text-slate-900">Fitur Direktur</h2>
+                            <p class="text-sm text-slate-500 mt-1">Akses cepat ke fungsi direktur: tambah/hapus karyawan, approve artikel, dan lihat pembuat artikel.</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <router-link to="/admin/karyawan" class="group block rounded-3xl border border-slate-200 p-5 bg-slate-50 hover:bg-slate-100 transition-all">
+                            <div class="flex items-center justify-between gap-3 mb-4">
+                                <div>
+                                    <p class="text-slate-400 uppercase tracking-[0.2em] text-[10px] font-black">Karyawan</p>
+                                    <h3 class="text-xl font-bold text-slate-900 mt-2">Tambah & hapus</h3>
+                                </div>
+                                <div class="h-12 w-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-3-3h-1M4 20h5v-2a3 3 0 00-3-3H5m9-4a4 4 0 10-8 0 4 4 0 008 0zm4 0a4 4 0 10-8 0 4 4 0 008 0z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <p class="text-slate-500 text-sm">Input data karyawan baru dan hapus akun karyawan melalui halaman manajemen karyawan.</p>
+                        </router-link>
+
+                        <router-link to="/admin/articles" class="group block rounded-3xl border border-slate-200 p-5 bg-slate-50 hover:bg-slate-100 transition-all">
+                            <div class="flex items-center justify-between gap-3 mb-4">
+                                <div>
+                                    <p class="text-slate-400 uppercase tracking-[0.2em] text-[10px] font-black">Artikel</p>
+                                    <h3 class="text-xl font-bold text-slate-900 mt-2">Approve</h3>
+                                </div>
+                                <div class="h-12 w-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <p class="text-slate-500 text-sm">Approve artikel yang berstatus pending agar dapat dipublikasikan.</p>
+                        </router-link>
+
+                        <router-link to="/admin/articles" class="group block rounded-3xl border border-slate-200 p-5 bg-slate-50 hover:bg-slate-100 transition-all">
+                            <div class="flex items-center justify-between gap-3 mb-4">
+                                <div>
+                                    <p class="text-slate-400 uppercase tracking-[0.2em] text-[10px] font-black">Author</p>
+                                    <h3 class="text-xl font-bold text-slate-900 mt-2">Lihat pembuat</h3>
+                                </div>
+                                <div class="h-12 w-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 15c2.766 0 5.353.88 7.379 2.379M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <p class="text-slate-500 text-sm">Lihat nama pembuat artikel langsung di kolom Author.</p>
+                        </router-link>
                     </div>
                 </div>
 

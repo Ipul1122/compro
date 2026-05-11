@@ -127,7 +127,8 @@
               <div>
                 <label for="status" class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Status</label>
                 <select id="status" name="status" v-model="form.published" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-white">
-                  <option value="publish">Publish</option>
+                  <option v-if="user.role === 'direktur'" value="publish">Publish</option>
+                  <option v-else value="pending">Pending (Ajukan ke Direktur)</option>
                   <option value="draft">Draft</option>
                 </select>
               </div>
@@ -411,6 +412,11 @@ onMounted(async () => {
     }
     
     user.value = JSON.parse(savedUser);
+    
+    // Set default status
+    if (user.value.role !== 'direktur') {
+        form.value.published = 'pending';
+    }
     
     await fetchCategories();
     // Load draft dipanggil setelah fetch categories agar dropdown bind dengan benar

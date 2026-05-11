@@ -46,7 +46,7 @@ class AuthController extends Controller
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
-                    // Tambahkan field lain jika perlu, misal: 'role' => $user->role
+                    'role' => $user->role,
                 ],
                 'token' => $token,
                 'token_type' => 'Bearer'

@@ -7,16 +7,17 @@ import Footer from './components/Footer.vue';
 
 const route = useRoute();
 
-// Fungsi untuk mengecek apakah URL saat ini adalah halaman Admin
-const isAdminRoute = computed(() => {
-  // Jika URL diawali dengan '/admin', maka nilainya true
-  return route.path.startsWith('/admin');
+// Fungsi untuk mengecek apakah URL saat ini adalah halaman Admin atau halaman dengan meta `hideNavbar`
+const hideLayoutNav = computed(() => {
+  const shouldHide = route.path.startsWith('/admin') || Boolean(route.meta.hideNavbar);
+  console.log('Current route:', route.path, 'Meta hideNavbar:', route.meta.hideNavbar, 'Should hide:', shouldHide);
+  return shouldHide;
 });
 </script>
 
 <template>
-  <Navbar v-if="!isAdminRoute" />
+  <Navbar v-if="!hideLayoutNav" />
 
   <router-view></router-view>
-  <Footer v-if="!isAdminRoute" />
+  <Footer v-if="!hideLayoutNav" />
 </template>
