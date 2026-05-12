@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('meta_keywords')->nullable();
             
             // Status & Views
-            $table->enum('published', ['draft', 'publish'])->default('draft');
+            $table->enum('published', ['draft', 'pending', 'publish'])->default('draft');
             $table->unsignedBigInteger('total_view')->default(0);
 
            

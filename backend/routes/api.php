@@ -56,20 +56,25 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // Group khusus Admin Panel
     Route::prefix('admin')->group(function () {
-        // Dashboard Rekapitulasi
-        Route::get('/dashboard', [DashboardController::class, 'index']);
-        Route::get('/dashboard/search', [DashboardController::class, 'globalSearch']);
-        
-        // Endpoint khusus untuk dropdown form (Get All tanpa pagination)
-        Route::get('categories/list', [CategoryController::class, 'list']);
-        // CRUD Category (Hanya method Store, Update, Destroy, Show berdasarkan ID)
-        Route::apiResource('categories', CategoryController::class);
-        Route::apiResource('articles', ArticleController::class);
-        Route::post('galleries/bulk-store', [GalleryController::class, 'bulkStore']);
-        Route::post('galleries/bulk-delete', [GalleryController::class, 'bulkDestroy']);
-        Route::apiResource('galleries', GalleryController::class);
-        Route::apiResource('employees', EmployeeController::class);
-        Route::post('articles/{id}/approve', [ArticleController::class, 'approve']);
+    // Dashboard Rekapitulasi
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::get('/dashboard/search', [DashboardController::class, 'globalSearch']);
+    
+    // Endpoint khusus untuk dropdown form (Get All tanpa pagination)
+    Route::get('categories/list', [CategoryController::class, 'list']);
+    
+    // CRUD Category
+    Route::apiResource('categories', CategoryController::class);
+
+    // --- RUTE BARU UNTUK PREVIEW (Tambahkan baris ini) ---
+    Route::get('articles/preview/{slug}', [ArticleController::class, 'showPreview']);
+    Route::apiResource('articles', ArticleController::class);
+    
+    Route::post('galleries/bulk-store', [GalleryController::class, 'bulkStore']);
+    Route::post('galleries/bulk-delete', [GalleryController::class, 'bulkDestroy']);
+    Route::apiResource('galleries', GalleryController::class);
+    Route::apiResource('employees', EmployeeController::class);
+    Route::post('articles/{id}/approve', [ArticleController::class, 'approve']);
     });
 });
 
