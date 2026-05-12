@@ -29,6 +29,10 @@ class ArticleController extends Controller
             $query->where('category_id', $request->category_id);
         }
 
+        if ($request->filled('author_id')) {
+            $query->where('author_id', $request->author_id);
+        }
+
         if ($request->filled('search')) {
             $query->where('title', 'like', '%' . $request->search . '%')
                   ->orWhere('title_en', 'like', '%' . $request->search . '%');

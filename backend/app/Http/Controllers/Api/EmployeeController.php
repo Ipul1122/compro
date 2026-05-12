@@ -38,7 +38,14 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
-        $this->authorizeDirector();
+        try {
+            $this->authorizeDirector();
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Akses hanya untuk Direktur: ' . $e->getMessage(),
+            ], 403);
+        }
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
@@ -132,8 +139,13 @@ class EmployeeController extends Controller
     private function authorizeDirector()
     {
         $user = auth()->user();
-        if (!$user || $user->role !== 'direktur') {
-            abort(403, 'Akses hanya untuk Direktur');
+        
+        if (!$user) {
+            throw new \Exception('User tidak terautentikasi');
+        }
+        
+        if ($user->role !== 'direktur') {
+            throw new \Exception('User role: ' . $user->role . ', hanya direktur yang diizinkan');
         }
     }
 }
