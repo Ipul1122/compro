@@ -186,7 +186,7 @@ const form = ref({
     meta_title: '',
     meta_description: '',
     meta_keywords: '',
-    published: 'publish',
+    published: 'draft',
     image: null
 });
 
@@ -256,7 +256,13 @@ const loadDraft = () => {
             } else {
                 metaKeywordsArray.value = [];
             }
-            form.value.published = draft.published || 'publish';
+
+            // Pastikan published yang di-load sesuai role user
+            const allowedStatuses = user.value.role === 'direktur' 
+                ? ['publish', 'draft'] 
+                : ['pending', 'draft'];
+            const defaultStatus = user.value.role === 'direktur' ? 'publish' : 'pending';
+            form.value.published = allowedStatuses.includes(draft.published) ? draft.published : defaultStatus;
 
             if (draft.contentId && editorId.value) {
                 editorId.value.commands.setContent(draft.contentId);
@@ -490,6 +496,23 @@ const handleFileChange = (e) => {
 };
 
 const storeArticle = async () => {
+    // Validasi client-side sebelum kirim ke API
+    const contentHtml = editorId.value?.getHTML() || '';
+    const isContentEmpty = !contentHtml || contentHtml === '<p></p>' || contentHtml.replace(/<[^>]*>/g, '').trim() === '';
+
+    if (!form.value.title.trim()) {
+        alert('Judul Artikel (ID) wajib diisi.');
+        return;
+    }
+    if (!form.value.category_id || form.value.category_id === 'redirect_create') {
+        alert('Kategori wajib dipilih.');
+        return;
+    }
+    if (isContentEmpty) {
+        alert('Isi Konten (ID) wajib diisi.');
+        return;
+    }
+
     isSaving.value = true;
     try {
         const token = sessionStorage.getItem('token');
@@ -500,8 +523,8 @@ const storeArticle = async () => {
         formData.append('slug', form.value.slug); 
         formData.append('category_id', form.value.category_id);
         
-        formData.append('content', editorId.value.getHTML());
-        formData.append('content_en', editorEn.value.getHTML()); 
+        formData.append('content', contentHtml);
+        formData.append('content_en', editorEn.value?.getHTML() || ''); 
         
         formData.append('meta_title', form.value.meta_title || form.value.title); 
         formData.append('meta_description', form.value.meta_description || '');
@@ -510,7 +533,7 @@ const storeArticle = async () => {
         
         if (form.value.image) formData.append('image', form.value.image);
 
-        await Api.post('/admin/articles', formData, {
+        const response = await Api.post('/admin/articles', formData, {
             headers: { 'Content-Type': 'multipart/form-data' }
         });
 
@@ -518,13 +541,30 @@ const storeArticle = async () => {
         sessionStorage.removeItem('article_draft');
         hasDraft.value = false;
 
-        alert('Artikel berhasil ditambahkan!');
-        router.push('/admin/articles');
+        // Jika status pending, redirect ke halaman preview
+        if (form.value.published === 'pending' && response.data?.data?.id) {
+            alert('Artikel berhasil diajukan ke Direktur!');
+            router.push(`/admin/articles/preview/${response.data.data.id}`);
+        } else {
+            alert('Artikel berhasil ditambahkan!');
+            router.push('/admin/articles');
+        }
     } catch (err) {
         if (err.response && err.response.status === 401) {
             alert("Sesi login sudah habis. Silakan login ulang.");
             handleLogout();
-        } else { alert('Gagal menyimpan artikel. Pastikan semua field wajib terisi.'); }
+        } else if (err.response && err.response.data) {
+            // Tampilkan pesan error spesifik dari backend
+            const errors = err.response.data.errors;
+            if (errors) {
+                const messages = Object.values(errors).flat().join('\n');
+                alert('Gagal menyimpan artikel:\n' + messages);
+            } else {
+                alert(err.response.data.message || 'Gagal menyimpan artikel. Pastikan semua field wajib terisi.');
+            }
+        } else {
+            alert('Gagal menyimpan artikel. Terjadi kesalahan jaringan.');
+        }
     } finally { isSaving.value = false; }
 };
 

@@ -279,7 +279,7 @@ const routes = [
   {
     path: "/direktur/dashboard", 
     name: "direktur.dashboard",
-
+    component: () => import("@/views/direktur/DashboardDirekturView.vue"),
     meta: { hideNavbar: true },
   },
 
@@ -330,6 +330,13 @@ const routes = [
     path: '/admin/articles/edit/:id',
     name: 'admin.articles.edit',
     component: () => import('../views/admin/articles/EditView.vue')
+  },
+  {
+    // preview articles (untuk melihat artikel sebelum disetujui direktur)
+    path: '/admin/articles/preview/:id',
+    name: 'admin.articles.preview',
+    component: () => import('../views/admin/articles/PreviewView.vue'),
+    meta: { requiresAuth: true }
   },
   {
     // index gallery
