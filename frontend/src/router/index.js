@@ -145,13 +145,21 @@ const routes = [
     path: "/id/interior-design",
     name: "interior-design-id",
     component: () => import("@/views/pages/service/InteriorDesign.vue"),
-    meta: { hideNavbar: true },
+    meta: { 
+      title: 'Interior Design - PT Cakrawala Parama Internasional',
+      lang: 'id',
+      description: 'Layanan Interior Design kami'
+    },
   },
   {
     path: "/en/interior-design",
     name: "interior-design-en",
     component: () => import("@/views/pages/service/InteriorDesign.vue"),
-    meta: { hideNavbar: true },
+    meta: { 
+      title: 'Interior Design - PT Cakrawala Parama Internasional',
+      lang: 'en',
+      description: 'Our Interior Design Services'
+    },
   },
 
   // ASSESSMENT
@@ -217,6 +225,28 @@ const routes = [
       title: 'Learning Management System - PT Cakrawala Parama Internasional',
       lang: 'en',
       description: 'Integrated e-learning platform for your organizational HR development'
+    },
+  },
+
+  // EVENT ORGANIZER
+  {
+    path: "/id/event-organizer",
+    name: "event-organizer-id",
+    component: () => import("@/views/pages/service/EventOrganizerView.vue"),
+    meta: { 
+      title: 'Event Organizer - PT Cakrawala Parama Internasional',
+      lang: 'id',
+      description: 'Layanan Event Organizer kami'
+    },
+  },
+  {
+    path: "/en/event-organizer",
+    name: "event-organizer-en",
+    component: () => import("@/views/pages/service/EventOrganizerView.vue"),
+    meta: { 
+      title: 'Event Organizer - PT Cakrawala Parama Internasional',
+      lang: 'en',
+      description: 'Our Event Organizer Services'
     },
   },
 
@@ -496,7 +526,7 @@ const router = createRouter({
   }
 })
 
-// Dinamis mengganti judul Tab Browser untuk SEO
+// Dinamis mengganti judul Tab Browser untuk SEOOOOOOO
 router.beforeEach((to, from) => {
   document.title = to.meta.title || 'CPI Group';
   
