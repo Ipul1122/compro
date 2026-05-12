@@ -32,17 +32,19 @@
                   <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase">Nama Kategori</th>
                   <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase">Slug</th>
                   <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase text-center">Total Artikel</th>
+                  <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase text-center">Total Galeri</th>
                   <th class="px-6 py-4 text-[10px] font-black text-slate-400 uppercase text-right">Aksi</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-50">
                 <tr v-if="store.loading">
-                  <td colspan="4" class="p-8 text-center text-slate-500 font-bold animate-pulse">Memuat data...</td>
+                  <td colspan="5" class="p-8 text-center text-slate-500 font-bold animate-pulse">Memuat data...</td>
                 </tr>
                 <tr v-for="cat in store.categories" :key="cat.id" class="hover:bg-slate-50/50 transition-colors">
                   <td class="px-6 py-4 font-bold text-sm text-slate-900">{{ cat.name }}</td>
                   <td class="px-6 py-4 text-xs text-slate-500">{{ cat.slug }}</td>
                   <td class="px-6 py-4 text-center font-bold text-slate-700 text-sm">{{ cat.articles_count }}</td>
+                  <td class="px-6 py-4 text-center font-bold text-slate-700 text-sm">{{ cat.galleries_count }}</td>
                   <td class="px-6 py-4 text-right">
                     <div class="flex justify-end items-center gap-2">
                       <button @click="router.push('/admin/articles/create')" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer" title="Tambah Artikel">
@@ -63,7 +65,7 @@
                         </svg>
                       </router-link>
 
-                      <button @click="confirmDelete(cat.id)" class="p-2 text-red-400 hover:bg-red-50 rounded-lg transition-colors cursor-pointer" title="Hapus Kategori">
+                      <button @click="confirmDelete(cat)" class="p-2 text-red-400 hover:bg-red-50 rounded-lg transition-colors cursor-pointer" title="Hapus Kategori">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
@@ -72,7 +74,7 @@
                   </td>
                 </tr>
                 <tr v-if="!store.loading && store.categories.length === 0">
-                  <td colspan="4" class="p-8 text-center text-slate-400 text-sm">Tidak ada kategori ditemukan.</td>
+                  <td colspan="5" class="p-8 text-center text-slate-400 text-sm">Tidak ada kategori ditemukan.</td>
                 </tr>
               </tbody>
             </table>
@@ -119,7 +121,13 @@
           </svg>
         </div>
         <h3 class="text-lg font-black text-slate-900 mb-2 tracking-tight">Hapus Kategori?</h3>
-        <p class="text-xs text-slate-500 mb-6 font-medium leading-relaxed">Tindakan ini tidak dapat dibatalkan. Kategori ini akan dihapus secara permanen dari sistem.</p>
+        <p class="text-xs text-slate-500 mb-2 font-medium leading-relaxed">Yakin anda ingin delete? Tindakan ini tidak dapat dibatalkan.</p>
+        
+        <p v-if="deleteCategory && (deleteCategory.articles_count > 0 || deleteCategory.galleries_count > 0)" class="text-xs text-red-500 mb-6 font-bold leading-relaxed bg-red-50 p-3 rounded-xl border border-red-100">
+          Category ini telah terdata di <span v-if="deleteCategory.articles_count > 0">{{ deleteCategory.articles_count }} articles</span><span v-if="deleteCategory.articles_count > 0 && deleteCategory.galleries_count > 0"> dan </span><span v-if="deleteCategory.galleries_count > 0">{{ deleteCategory.galleries_count }} gallery</span>.
+        </p>
+        <p v-else class="mb-6"></p>
+
         <div class="flex justify-center gap-3">
           <button @click="isDeleteModalOpen = false" class="px-5 py-3 text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors cursor-pointer w-full">Batal</button>
           <button @click="executeDelete" class="px-5 py-3 text-sm font-bold text-white bg-red-500 hover:bg-red-600 rounded-xl transition-colors cursor-pointer w-full shadow-lg shadow-red-500/30">Ya, Hapus</button>
@@ -186,9 +194,11 @@ const handleLogout = () => {
 // Modal Hapus Kategori
 const isDeleteModalOpen = ref(false);
 const deleteId = ref(null);
+const deleteCategory = ref(null);
 
-const confirmDelete = (id) => { 
-  deleteId.value = id; 
+const confirmDelete = (cat) => { 
+  deleteId.value = cat.id; 
+  deleteCategory.value = cat;
   isDeleteModalOpen.value = true; 
 };
 
@@ -202,6 +212,7 @@ const executeDelete = async () => {
   } finally { 
     isDeleteModalOpen.value = false; 
     deleteId.value = null; 
+    deleteCategory.value = null;
   }
 };
 </script>
