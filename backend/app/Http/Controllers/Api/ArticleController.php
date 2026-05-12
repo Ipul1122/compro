@@ -148,12 +148,18 @@ class ArticleController extends Controller
 
     public function show(Request $request, $id)
     {
-        $article = Article::with('category')
+        $article = Article::with(['category', 'author'])
             ->where('id', $id)
             ->when($request->published, function($query) use ($request) {
                 return $query->where('published', $request->published);
             })
             ->firstOrFail();
+
+        // Tambahkan flag untuk mengecek apakah user bisa edit
+        $article->can_edit = auth()->check() && (
+            auth()->id() === $article->author_id || 
+            auth()->user()->role === 'direktur'
+        );
 
         return response()->json([
             'success' => true,
@@ -195,6 +201,15 @@ class ArticleController extends Controller
     public function update(Request $request, $id)
     {
         $article = Article::findOrFail($id);
+
+        // Cek apakah user adalah author dari artikel ini atau direktur
+        $user = auth()->user();
+        if ($article->author_id !== $user->id && $user->role !== 'direktur') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Anda hanya bisa mengedit artikel yang Anda buat sendiri'
+            ], 403);
+        }
 
         $request->validate([
             'category_id' => 'sometimes|required|exists:categories,id',
@@ -258,6 +273,16 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         $article = Article::findOrFail($id);
+
+        // Cek apakah user adalah author dari artikel ini atau direktur
+        $user = auth()->user();
+        if ($article->author_id !== $user->id && $user->role !== 'direktur') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Anda hanya bisa menghapus artikel yang Anda buat sendiri'
+            ], 403);
+        }
+
         if ($article->image) {
             Storage::disk('public')->delete('articles/' . $article->image);
         }
