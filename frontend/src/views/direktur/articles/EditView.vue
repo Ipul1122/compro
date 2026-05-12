@@ -202,7 +202,10 @@ const isSidebarOpen = ref(false);
 const currentView = ref('articles');
 const isLoading = ref(true);
 const isSaving = ref(false);
-const showConfirmModal = ref(false); 
+const showConfirmModal = ref(false);
+
+// User State
+const user = ref({ role: '' });
 
 // Data States
 const categories = ref([]);
@@ -448,6 +451,12 @@ onMounted(async () => {
         alert("Sesi kamu tidak valid. Silakan relogin.");
         handleLogout();
         return;
+    }
+
+    try {
+        user.value = JSON.parse(savedUser);
+    } catch (e) {
+        console.error('Gagal parse user dari sessionStorage', e);
     }
 
     await fetchCategories();
