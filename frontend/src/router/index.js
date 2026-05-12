@@ -145,13 +145,21 @@ const routes = [
     path: "/id/interior-design",
     name: "interior-design-id",
     component: () => import("@/views/pages/service/InteriorDesign.vue"),
-    meta: { hideNavbar: true },
+    meta: { 
+      title: 'Interior Design - PT Cakrawala Parama Internasional',
+      lang: 'id',
+      description: 'Layanan Interior Design kami'
+    },
   },
   {
     path: "/en/interior-design",
     name: "interior-design-en",
     component: () => import("@/views/pages/service/InteriorDesign.vue"),
-    meta: { hideNavbar: true },
+    meta: { 
+      title: 'Interior Design - PT Cakrawala Parama Internasional',
+      lang: 'en',
+      description: 'Our Interior Design Services'
+    },
   },
 
   // ASSESSMENT
@@ -173,6 +181,28 @@ const routes = [
       title: 'Assessment - PT Cakrawala Parama Internasional',
       lang: 'en',
       description: 'Our Assessment Services'
+    },
+  },
+
+  // EVENT ORGANIZER
+  {
+    path: "/id/event-organizer",
+    name: "event-organizer-id",
+    component: () => import("@/views/pages/service/EventOrganizerView.vue"),
+    meta: { 
+      title: 'Event Organizer - PT Cakrawala Parama Internasional',
+      lang: 'id',
+      description: 'Layanan Event Organizer kami'
+    },
+  },
+  {
+    path: "/en/event-organizer",
+    name: "event-organizer-en",
+    component: () => import("@/views/pages/service/EventOrganizerView.vue"),
+    meta: { 
+      title: 'Event Organizer - PT Cakrawala Parama Internasional',
+      lang: 'en',
+      description: 'Our Event Organizer Services'
     },
   },
 
@@ -279,7 +309,7 @@ const routes = [
   {
     path: "/direktur/dashboard", 
     name: "direktur.dashboard",
-    component: () => import("@/views/direktur/DashboardDirekturView.vue"),
+    component: () => import("@/views/direktur/DashboardDirekturView.vue"), 
     meta: { hideNavbar: true },
   },
 
@@ -332,13 +362,6 @@ const routes = [
     component: () => import('../views/admin/articles/EditView.vue')
   },
   {
-    // preview articles (untuk melihat artikel sebelum disetujui direktur)
-    path: '/admin/articles/preview/:id',
-    name: 'admin.articles.preview',
-    component: () => import('../views/admin/articles/PreviewView.vue'),
-    meta: { requiresAuth: true }
-  },
-  {
     // index gallery
     path: '/admin/gallery',
     name: 'admin.gallery.index',
@@ -386,7 +409,7 @@ const router = createRouter({
   }
 })
 
-// Dinamis mengganti judul Tab Browser untuk SEO
+// Dinamis mengganti judul Tab Browser untuk SEOOOOOOO
 router.beforeEach((to, from) => {
   document.title = to.meta.title || 'CPI Group';
   
