@@ -309,7 +309,7 @@ const routes = [
   {
     path: "/direktur/dashboard", 
     name: "direktur.dashboard",
-    component: () => import("@/views/admin/DashboardView.vue"), 
+    component: () => import("@/views/direktur/DashboardDirekturView.vue"), 
     meta: { hideNavbar: true },
   },
 
