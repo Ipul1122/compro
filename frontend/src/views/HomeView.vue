@@ -14,7 +14,7 @@ import ContactSection from './section/ContactSection.vue'
 const showBackToTop = ref(false)
 
 const checkScroll = () => {
-    showBackToTop.value = window.scrollY > 400
+    showBackToTop.value = window.scrollY > 402
 }
 
 const scrollToTop = () => {

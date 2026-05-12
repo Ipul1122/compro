@@ -175,6 +175,50 @@ const routes = [
       description: 'Our Assessment Services'
     },
   },
+  
+  // EVENT ORGANIZER
+  {
+    path: "/id/event-organizer",
+    name: "event-organizer-id",
+    component: () => import("@/views/pages/service/EventOrganizerView.vue"),
+    meta: { 
+      title: 'Event Organizer - PT Cakrawala Parama Internasional',
+      lang: 'id',
+      description: 'Layanan Event Organizer kami'
+    },
+  },
+  {
+    path: "/en/event-organizer",
+    name: "event-organizer-en",
+    component: () => import("@/views/pages/service/EventOrganizerView.vue"),
+    meta: { 
+      title: 'Event Organizer - PT Cakrawala Parama Internasional',
+      lang: 'en',
+      description: 'Our Event Organizer Services'
+    },
+  },
+
+  // LEARNING MANAGEMENT SYSTEM
+  {
+    path: "/id/learning-management-system",
+    name: "lms-id",
+    component: () => import("@/views/pages/service/LmsView.vue"),
+    meta: {
+      title: 'Learning Management System - PT Cakrawala Parama Internasional',
+      lang: 'id',
+      description: 'Platform e-learning terintegrasi untuk pengembangan SDM organisasi Anda'
+    },
+  },
+  {
+    path: "/en/learning-management-system",
+    name: "lms-en",
+    component: () => import("@/views/pages/service/LmsView.vue"),
+    meta: {
+      title: 'Learning Management System - PT Cakrawala Parama Internasional',
+      lang: 'en',
+      description: 'Integrated e-learning platform for your organizational HR development'
+    },
+  },
 
   {
     path: "/view/login",
@@ -186,6 +230,14 @@ const routes = [
   // ==========================================
   // RUTE ARTICLES / ARTIKEL
   // ==========================================
+  {
+    path: '/articles',
+    redirect: '/id/artikel'
+  },
+  {
+    path: '/artikel',
+    redirect: '/id/artikel'
+  },
   {
     path: '/id/artikel',
     name: 'articles-id',
@@ -279,10 +331,83 @@ const routes = [
   {
     path: "/direktur/dashboard", 
     name: "direktur.dashboard",
-    component: () => import("@/views/admin/DashboardView.vue"), 
+    component: () => import("@/views/direktur/DashboardDirekturView.vue"), 
     meta: { hideNavbar: true },
   },
 
+  // --------------------------
+  // DIREKTUR ROUTES (file terpisah dari Admin)
+  // --------------------------
+  {
+    path: '/direktur/categories',
+    name: 'direktur.categories.index',
+    component: () => import('../views/direktur/category/IndexView.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/direktur/categories/tambah',
+    name: 'direktur.categories.tambah',
+    component: () => import('../views/direktur/category/TambahView.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/direktur/categories/edit/:id',
+    name: 'direktur.categories.edit',
+    component: () => import('../views/direktur/category/EditView.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/direktur/karyawan',
+    name: 'direktur.karyawan.index',
+    component: () => import('../views/direktur/employee/IndexView.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/direktur/karyawan/edit/:id',
+    name: 'direktur.karyawan.edit',
+    component: () => import('../views/direktur/employee/EditView.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/direktur/articles',
+    name: 'direktur.articles.index',
+    component: () => import('../views/direktur/articles/IndexView.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/direktur/articles/create',
+    name: 'direktur.articles.create',
+    component: () => import('../views/direktur/articles/TambahView.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/direktur/articles/edit/:id',
+    name: 'direktur.articles.edit',
+    component: () => import('../views/direktur/articles/EditView.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/direktur/gallery',
+    name: 'direktur.gallery.index',
+    component: () => import('../views/direktur/gallery/IndexView.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/direktur/gallery/tambah',
+    name: 'direktur.gallery.tambah',
+    component: () => import('../views/direktur/gallery/TambahView.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/direktur/gallery/edit/:id',
+    name: 'direktur.gallery.edit',
+    component: () => import('../views/direktur/gallery/EditView.vue'),
+    meta: { requiresAuth: true }
+  },
+
+  // --------------------------
+  // ADMIN ROUTES
+  // --------------------------
   {
     path: '/admin/categories',
     name: 'admin.categories.index',
@@ -302,51 +427,43 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
-    // edit categories
     path: '/admin/categories/edit/:id',
     name: 'admin.categories.edit',
     component: () => import('../views/admin/category/EditView.vue')
   },
   {
-    // tambah categories
     path: '/admin/categories/tambah',
     name: 'admin-categories-tambah',
     component: () => import('@/views/admin/category/TambahView.vue'),
   },
   {
-    // index articles
     path: '/admin/articles',
     name: 'admin.articles.index',
     component: () => import('../views/admin/articles/IndexView.vue') 
   },
   {
-    // create articles
     path: '/admin/articles/create',
     name: 'admin.articles.create',
     component: () => import('../views/admin/articles/TambahView.vue')
   },
   {
-    // edit articles
     path: '/admin/articles/edit/:id',
     name: 'admin.articles.edit',
     component: () => import('../views/admin/articles/EditView.vue')
   },
   {
-    // index gallery
     path: '/admin/gallery',
     name: 'admin.gallery.index',
     component: () => import('../views/admin/gallery/IndexView.vue'),
     meta: { requiresAuth: true }
   },
   {
-    // create gallery 
     path: '/admin/gallery/tambah',
     name: 'admin.gallery.tambah',
     component: () => import('../views/admin/gallery/TambahView.vue'),
     meta: { requiresAuth: true }
   },
   {
-    // edit gallery
     path: '/admin/gallery/edit/:id',
     name: 'admin.gallery.edit',
     component: () => import('../views/admin/gallery/EditView.vue'),
