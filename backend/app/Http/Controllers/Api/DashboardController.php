@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -78,6 +79,17 @@ class DashboardController extends Controller
                 'articles'   => $articles,
                 'categories' => $categories
             ]
+        ], 200);
+    }
+
+    public function getAllUsers()
+    {
+        $users = User::select('id', 'name', 'email')->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Daftar semua penulis/users',
+            'data' => $users
         ], 200);
     }
 }

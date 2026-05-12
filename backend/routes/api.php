@@ -62,6 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // Endpoint khusus untuk dropdown form (Get All tanpa pagination)
     Route::get('categories/list', [CategoryController::class, 'list']);
+    Route::get('users', [DashboardController::class, 'getAllUsers']);
     
     // CRUD Category
     Route::apiResource('categories', CategoryController::class);
@@ -75,6 +76,25 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('galleries', GalleryController::class);
     Route::apiResource('employees', EmployeeController::class);
     Route::post('articles/{id}/approve', [ArticleController::class, 'approve']);
+    });
+
+    // Group khusus Direktur
+    Route::prefix('direktur')->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index']);
+        Route::get('/dashboard/search', [DashboardController::class, 'globalSearch']);
+        
+        Route::get('categories/list', [CategoryController::class, 'list']);
+        Route::apiResource('categories', CategoryController::class);
+        
+        Route::get('articles/preview/{slug}', [ArticleController::class, 'showPreview']);
+        Route::apiResource('articles', ArticleController::class);
+        Route::post('articles/{id}/approve', [ArticleController::class, 'approve']);
+        
+        Route::post('galleries/bulk-store', [GalleryController::class, 'bulkStore']);
+        Route::post('galleries/bulk-delete', [GalleryController::class, 'bulkDestroy']);
+        Route::apiResource('galleries', GalleryController::class);
+        
+        Route::apiResource('employees', EmployeeController::class);
     });
 });
 
