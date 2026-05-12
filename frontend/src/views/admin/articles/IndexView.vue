@@ -22,6 +22,7 @@ const breadcrumbsData = ref([
 
 const articles = ref([])
 const categories = ref([])
+const authors = ref([])
 const isLoading = ref(false)
 
 // State Pagination
@@ -34,6 +35,7 @@ const filters = ref({
     search: route.query.search || '',
     status: route.query.status || '',
     category_id: route.query.category_id || '',
+    author_id: route.query.author_id || '',
     views: route.query.views || ''
 })
 
@@ -48,11 +50,30 @@ const filteredCategories = computed(() => {
     )
 })
 
+// Searchable Author Dropdown Logic
+const authorSearchText = ref('')
+const isAuthorDropdownOpen = ref(false)
+const isAuthorDropdownOpenBottom = ref(false)
+
+const filteredAuthors = computed(() => {
+    return authors.value.filter(author => 
+        author.name.toLowerCase().includes(authorSearchText.value.toLowerCase())
+    )
+})
+
 const selectCategory = (cat) => {
     filters.value.category_id = cat.id
     categorySearchText.value = cat.name
     isCategoryDropdownOpen.value = false
     isCategoryDropdownOpenBottom.value = false
+    applyFilters()
+}
+
+const selectAuthor = (author) => {
+    filters.value.author_id = author.id
+    authorSearchText.value = author.name
+    isAuthorDropdownOpen.value = false
+    isAuthorDropdownOpenBottom.value = false
     applyFilters()
 }
 
@@ -62,6 +83,7 @@ onMounted(() => {
         user.value = JSON.parse(savedUser)
         
         fetchCategories()
+        fetchAuthors()
         const pageFromUrl = parseInt(route.query.page) || 1
         fetchArticles(pageFromUrl)
     } else {
@@ -92,6 +114,22 @@ const fetchCategories = async () => {
     }
 }
 
+// Ambil daftar author untuk dropdown
+const fetchAuthors = async () => {
+    try {
+        const response = await Api.get('/admin/users')
+        authors.value = response.data.data || response.data
+        
+        // Set label teks pencarian jika URL punya filter author_id
+        if (filters.value.author_id) {
+            const currentAuthor = authors.value.find(a => a.id == filters.value.author_id)
+            if (currentAuthor) authorSearchText.value = currentAuthor.name
+        }
+    } catch (error) {
+        console.error("Error fetching authors:", error)
+    }
+}
+
 const fetchArticles = async (page = 1) => {
     isLoading.value = true
     try {
@@ -100,6 +138,7 @@ const fetchArticles = async (page = 1) => {
             search: filters.value.search,
             published: filters.value.status,
             category_id: filters.value.category_id,
+            author_id: filters.value.author_id,
             views: filters.value.views
         }
 
@@ -119,6 +158,7 @@ const fetchArticles = async (page = 1) => {
             if (params.search) queryParams.search = params.search
             if (params.published) queryParams.status = params.published
             if (params.category_id) queryParams.category_id = params.category_id
+            if (params.author_id) queryParams.author_id = params.author_id
             if (params.views) queryParams.views = params.views
 
             router.push({ path: '/admin/articles', query: queryParams })
@@ -135,8 +175,9 @@ const applyFilters = () => {
 }
 
 const resetFilters = () => {
-    filters.value = { search: '', status: '', category_id: '', views: '' }
+    filters.value = { search: '', status: '', category_id: '', author_id: '', views: '' }
     categorySearchText.value = ''
+    authorSearchText.value = ''
     fetchArticles(1)
 }
 
@@ -215,7 +256,7 @@ const approveArticle = async (article) => {
                 </div>
 
                 <div class="bg-white rounded-3xl border border-slate-100 p-6 mb-6 shadow-sm">
-                    <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
                         <div>
                             <label for="search_title" class="text-[10px] font-black text-slate-400 uppercase mb-2 block">Search Title</label>
                             <input id="search_title" name="search_title" v-model="filters.search" @keyup.enter="applyFilters" type="text" placeholder="Ketik judul artikel..." 
@@ -255,6 +296,34 @@ const approveArticle = async (article) => {
                                         {{ cat.name }}
                                     </div>
                                     <div v-if="filteredCategories.length === 0" class="px-4 py-3 text-xs text-slate-400 text-center">
+                                        Tidak ditemukan
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="relative">
+                            <label for="filter_author" class="text-[10px] font-black text-slate-400 uppercase mb-2 block">Author</label>
+                            <div class="relative">
+                                <input 
+                                    id="filter_author"
+                                    name="filter_author"
+                                    aria-label="Cari dan pilih penulis"
+                                    v-model="authorSearchText" 
+                                    @focus="isAuthorDropdownOpen = true"
+                                    placeholder="Cari & pilih penulis..." 
+                                    class="w-full bg-slate-50 border text-black border-slate-100 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/5 transition-all"
+                                />
+                                <div v-if="isAuthorDropdownOpen" class="absolute z-[120] w-full mt-2 bg-white border border-slate-100 rounded-xl shadow-xl max-h-48 overflow-y-auto">
+                                    <div @click="filters.author_id = ''; authorSearchText = ''; isAuthorDropdownOpen = false; applyFilters()" 
+                                        class="px-4 py-3 text-sm hover:bg-slate-50 cursor-pointer text-slate-500 italic font-medium">
+                                        Semua Penulis
+                                    </div>
+                                    <div v-for="author in filteredAuthors" :key="author.id" @click="selectAuthor(author)"
+                                        class="px-4 py-3 text-sm hover:bg-slate-50 cursor-pointer border-t border-slate-50 font-medium text-slate-700">
+                                        {{ author.name }}
+                                    </div>
+                                    <div v-if="filteredAuthors.length === 0" class="px-4 py-3 text-xs text-slate-400 text-center">
                                         Tidak ditemukan
                                     </div>
                                 </div>
@@ -406,7 +475,7 @@ const approveArticle = async (article) => {
                 </div>
 
                 <div class="bg-white rounded-3xl border border-slate-100 p-6 mt-6 shadow-sm">
-                    <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
                         <div>
                             <label for="search_title_bottom" class="text-[10px] font-black text-slate-400 uppercase mb-2 block">Search Title</label>
                             <input id="search_title_bottom" name="search_title_bottom" v-model="filters.search" @keyup.enter="applyFilters" type="text" placeholder="Ketik judul artikel..." 
@@ -446,6 +515,34 @@ const approveArticle = async (article) => {
                                         {{ cat.name }}
                                     </div>
                                     <div v-if="filteredCategories.length === 0" class="px-4 py-3 text-xs text-slate-400 text-center">
+                                        Tidak ditemukan
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="relative">
+                            <label for="filter_author_bottom" class="text-[10px] font-black text-slate-400 uppercase mb-2 block">Author</label>
+                            <div class="relative">
+                                <input 
+                                    id="filter_author_bottom"
+                                    name="filter_author_bottom"
+                                    aria-label="Cari dan pilih penulis"
+                                    v-model="authorSearchText" 
+                                    @focus="isAuthorDropdownOpenBottom = true"
+                                    placeholder="Cari & pilih penulis..." 
+                                    class="w-full bg-slate-50 border text-black border-slate-100 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/5 transition-all"
+                                />
+                                <div v-if="isAuthorDropdownOpenBottom" class="absolute z-[120] bottom-[110%] w-full mb-2 bg-white border border-slate-100 rounded-xl shadow-xl max-h-48 overflow-y-auto">
+                                    <div @click="filters.author_id = ''; authorSearchText = ''; isAuthorDropdownOpenBottom = false; applyFilters()" 
+                                        class="px-4 py-3 text-sm hover:bg-slate-50 cursor-pointer text-slate-500 italic font-medium">
+                                        Semua Penulis
+                                    </div>
+                                    <div v-for="author in filteredAuthors" :key="author.id" @click="selectAuthor(author)"
+                                        class="px-4 py-3 text-sm hover:bg-slate-50 cursor-pointer border-t border-slate-50 font-medium text-slate-700">
+                                        {{ author.name }}
+                                    </div>
+                                    <div v-if="filteredAuthors.length === 0" class="px-4 py-3 text-xs text-slate-400 text-center">
                                         Tidak ditemukan
                                     </div>
                                 </div>

@@ -49,8 +49,11 @@ const submitEmployee = async () => {
         fetchEmployees(1)
     } catch (error) {
         console.error('Gagal menambahkan karyawan:', error)
+        console.error('Error response:', error.response)
         if (error.response && error.response.data && error.response.data.errors) {
             errors.value = error.response.data.errors
+        } else if (error.response?.data?.message) {
+            alert(error.response.data.message)
         } else {
             alert('Terjadi kesalahan. Silakan coba lagi.')
         }
@@ -164,19 +167,19 @@ onMounted(() => {
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-2">Nama Lengkap</label>
-                                <input v-model="form.name" type="text" class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm focus:border-slate-400 outline-none" placeholder="Nama karyawan" />
+                                <input v-model="form.name" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-slate-400 focus:ring-2 focus:ring-slate-100 outline-none" placeholder="Nama karyawan" />
                                 <p v-if="errors?.name" class="text-xs text-red-600 mt-1">{{ errors.name?.[0] }}</p>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-2">Email</label>
-                                <input v-model="form.email" type="email" class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm focus:border-slate-400 outline-none" placeholder="email@domain.com" />
+                                <input v-model="form.email" type="email" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-slate-400 focus:ring-2 focus:ring-slate-100 outline-none" placeholder="email@domain.com" />
                                 <p v-if="errors?.email" class="text-xs text-red-600 mt-1">{{ errors.email?.[0] }}</p>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-2">Password</label>
-                                <input v-model="form.password" type="password" class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm focus:border-slate-400 outline-none" placeholder="Minimal 8 karakter" />
+                                <input v-model="form.password" type="password" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-slate-400 focus:ring-2 focus:ring-slate-100 outline-none" placeholder="Minimal 8 karakter" />
                                 <p v-if="errors?.password" class="text-xs text-red-600 mt-1">{{ errors.password?.[0] }}</p>
                             </div>
 
