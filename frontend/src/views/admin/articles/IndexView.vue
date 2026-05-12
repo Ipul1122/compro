@@ -418,7 +418,7 @@ const approveArticle = async (article) => {
                                     
                                     <td class="px-6 py-4 text-right">
                                         <div class="flex justify-end gap-2">
-                                            <router-link :to="`/admin/articles/edit/${article.id}`" 
+                                            <router-link v-if="(article.author && article.author.id === user.id) || user.role === 'direktur'" :to="`/admin/articles/edit/${article.id}`" 
                                                 class="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
                                                 title="Edit Artikel">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -434,7 +434,7 @@ const approveArticle = async (article) => {
                                                 </svg>
                                             </button>
 
-                                            <button @click="confirmDelete(article.id)" 
+                                            <button v-if="(article.author && article.author.id === user.id) || user.role === 'direktur'" @click="confirmDelete(article.id)" 
                                                 class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all cursor-pointer"
                                                 title="Hapus Artikel">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
