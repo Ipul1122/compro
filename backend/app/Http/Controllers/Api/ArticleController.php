@@ -170,7 +170,7 @@ class ArticleController extends Controller
 
     public function showPublic($slug)
     {
-        $article = Article::with('category')
+        $article = Article::with('category', 'author:id,name')
             ->where('slug', $slug)
             ->where('published', 'publish')
             ->firstOrFail();
