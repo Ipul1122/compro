@@ -138,7 +138,7 @@
             <div class="flex justify-end gap-3 pt-4 border-t border-slate-100">
               <button type="button" @click="clearDraftAndBack" class="bg-slate-100 text-slate-600 px-8 py-3 rounded-xl text-sm font-bold hover:bg-slate-200 transition-colors text-center cursor-pointer">Batal & Hapus Draft</button>
               <button type="submit" :disabled="isSaving" class="bg-slate-900 text-white px-8 py-3 rounded-xl text-sm font-bold hover:bg-[#ea4435] transition-colors cursor-pointer disabled:opacity-50 flex items-center justify-center min-w-[160px]">
-                {{ isSaving ? 'Menyimpan...' : 'Simpan Artikel' }}
+                {{ isSaving ? 'Menyimpan...' : 'Simpan & Lihat Pratinjau' }}
               </button>
             </div>
           </form>
@@ -186,7 +186,7 @@ const form = ref({
     meta_title: '',
     meta_description: '',
     meta_keywords: '',
-    published: 'draft',
+    published: 'publish',
     image: null
 });
 
@@ -222,7 +222,6 @@ const removeLastKeyword = (e) => {
 // LOGIC LOCALSTORAGE DRAFT
 // ==========================================
 const saveDraft = () => {
-    // Kita tidak menyimpan form.image karena objek File tidak bisa di-stringify ke JSON
     const draftData = {
         title: form.value.title,
         title_en: form.value.title_en,
@@ -256,13 +255,7 @@ const loadDraft = () => {
             } else {
                 metaKeywordsArray.value = [];
             }
-
-            // Pastikan published yang di-load sesuai role user
-            const allowedStatuses = user.value.role === 'direktur' 
-                ? ['publish', 'draft'] 
-                : ['pending', 'draft'];
-            const defaultStatus = user.value.role === 'direktur' ? 'publish' : 'pending';
-            form.value.published = allowedStatuses.includes(draft.published) ? draft.published : defaultStatus;
+            form.value.published = draft.published || 'publish';
 
             if (draft.contentId && editorId.value) {
                 editorId.value.commands.setContent(draft.contentId);
@@ -296,7 +289,7 @@ const editorId = useEditor({
     })
   ],
   onUpdate: () => {
-    saveDraft(); // Simpan draft otomatis saat editor diubah
+    saveDraft();
   }
 });
 
@@ -312,11 +305,10 @@ const editorEn = useEditor({
   ],
   editable: true, 
   onUpdate: () => {
-    saveDraft(); // Simpan draft otomatis saat editor diubah
+    saveDraft();
   }
 });
 
-// Pantau perubahan pada form untuk autosave
 watch(() => form.value, () => {
   saveDraft();
 }, { deep: true });
@@ -419,13 +411,11 @@ onMounted(async () => {
     
     user.value = JSON.parse(savedUser);
     
-    // Set default status
     if (user.value.role !== 'direktur') {
         form.value.published = 'pending';
     }
     
     await fetchCategories();
-    // Load draft dipanggil setelah fetch categories agar dropdown bind dengan benar
     loadDraft();
 });
 
@@ -436,12 +426,11 @@ const fetchCategories = async () => {
     } catch (err) { console.error("Error fetching categories:", err); }
 };
 
-// Handle opsi "Tidak ada kategori yang sesuai?" 
 const handleCategoryChange = () => {
     if (form.value.category_id === 'redirect_create') {
-        saveDraft(); // Pastikan draft terbaru tersimpan sebelum pindah rute
-        router.push('/admin/categories/tambah'); // Sesuaikan ini dengan rute untuk membuat Kategori baru di project Anda.
-        form.value.category_id = ''; // Reset opsi yang dipilih
+        saveDraft(); 
+        router.push('/admin/categories/tambah'); 
+        form.value.category_id = ''; 
     }
 };
 
@@ -476,12 +465,9 @@ const autoTranslateTitle = () => {
     }, 600);
 };
 
-
-
 const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-        
         if (file.size > 2 * 1024 * 1024) {
             alert("ups, foto melebih 2MB, mohon dicompress dahulu");
             e.target.value = ''; 
@@ -496,23 +482,6 @@ const handleFileChange = (e) => {
 };
 
 const storeArticle = async () => {
-    // Validasi client-side sebelum kirim ke API
-    const contentHtml = editorId.value?.getHTML() || '';
-    const isContentEmpty = !contentHtml || contentHtml === '<p></p>' || contentHtml.replace(/<[^>]*>/g, '').trim() === '';
-
-    if (!form.value.title.trim()) {
-        alert('Judul Artikel (ID) wajib diisi.');
-        return;
-    }
-    if (!form.value.category_id || form.value.category_id === 'redirect_create') {
-        alert('Kategori wajib dipilih.');
-        return;
-    }
-    if (isContentEmpty) {
-        alert('Isi Konten (ID) wajib diisi.');
-        return;
-    }
-
     isSaving.value = true;
     try {
         const token = sessionStorage.getItem('token');
@@ -523,8 +492,8 @@ const storeArticle = async () => {
         formData.append('slug', form.value.slug); 
         formData.append('category_id', form.value.category_id);
         
-        formData.append('content', contentHtml);
-        formData.append('content_en', editorEn.value?.getHTML() || ''); 
+        formData.append('content', editorId.value.getHTML());
+        formData.append('content_en', editorEn.value.getHTML()); 
         
         formData.append('meta_title', form.value.meta_title || form.value.title); 
         formData.append('meta_description', form.value.meta_description || '');
@@ -533,38 +502,25 @@ const storeArticle = async () => {
         
         if (form.value.image) formData.append('image', form.value.image);
 
+        // 1. Simpan ke variabel response agar datanya bisa diambil
         const response = await Api.post('/admin/articles', formData, {
             headers: { 'Content-Type': 'multipart/form-data' }
         });
 
-        // Sukses Simpan -> Hapus history draft dari LocalStorage
         sessionStorage.removeItem('article_draft');
         hasDraft.value = false;
 
-        // Jika status pending, redirect ke halaman preview
-        if (form.value.published === 'pending' && response.data?.data?.id) {
-            alert('Artikel berhasil diajukan ke Direktur!');
-            router.push(`/admin/articles/preview/${response.data.data.id}`);
-        } else {
-            alert('Artikel berhasil ditambahkan!');
-            router.push('/admin/articles');
-        }
+        // 2. Ambil slug dari backend agar akurat
+        const newSlug = response.data.data.slug;
+
+        // 3. Redirect ke Halaman Preview menggunakan slug baru
+        router.push(`/admin/articles/preview/${newSlug}`);
+        
     } catch (err) {
         if (err.response && err.response.status === 401) {
             alert("Sesi login sudah habis. Silakan login ulang.");
             handleLogout();
-        } else if (err.response && err.response.data) {
-            // Tampilkan pesan error spesifik dari backend
-            const errors = err.response.data.errors;
-            if (errors) {
-                const messages = Object.values(errors).flat().join('\n');
-                alert('Gagal menyimpan artikel:\n' + messages);
-            } else {
-                alert(err.response.data.message || 'Gagal menyimpan artikel. Pastikan semua field wajib terisi.');
-            }
-        } else {
-            alert('Gagal menyimpan artikel. Terjadi kesalahan jaringan.');
-        }
+        } else { alert('Gagal menyimpan artikel. Pastikan semua field wajib terisi.'); }
     } finally { isSaving.value = false; }
 };
 

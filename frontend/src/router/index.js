@@ -482,6 +482,12 @@ const routes = [
     component: () => import('../views/admin/articles/EditView.vue')
   },
   {
+    path: '/admin/articles/preview/:slug',
+    name: 'admin.articles.preview',
+    component: () => import('../views/admin/articles/PreviewView.vue')
+  },
+  {
+    // index gallery
     path: '/admin/gallery',
     name: 'admin.gallery.index',
     component: () => import('../views/admin/gallery/IndexView.vue'),

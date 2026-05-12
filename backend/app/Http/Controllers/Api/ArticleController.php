@@ -94,7 +94,7 @@ class ArticleController extends Controller
         ], 200);
     }
 
-    public function store(Request $request)
+   public function store(Request $request)
     {
         $request->validate([
             'category_id' => 'required|exists:categories,id',
@@ -107,7 +107,20 @@ class ArticleController extends Controller
         ]);
 
         $data = $request->all();
-        $data['slug'] = Str::slug($request->input('title'));
+        
+        // --- LOGIC BARU: MEMBUAT SLUG OTOMATIS UNIK ---
+        $slug = Str::slug($request->input('title'));
+        $originalSlug = $slug;
+        $counter = 1;
+        
+        // Selama slug sudah ada di database, tambahkan angka di belakangnya
+        while (Article::where('slug', $slug)->exists()) {
+            $slug = "{$originalSlug}-{$counter}";
+            $counter++;
+        }
+        $data['slug'] = $slug;
+        // ----------------------------------------------
+
         $data['author_id'] = auth()->id();
         $data['published'] = $request->input('published', 'draft');
         
@@ -157,6 +170,20 @@ class ArticleController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Detail Data Article',
+            'data' => $article
+        ], 200);
+    }
+
+    public function showPreview($slug)
+    {
+        // Ambil artikel beserta kategorinya berdasarkan slug
+        $article = Article::with('category')
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Detail Preview Article',
             'data' => $article
         ], 200);
     }
