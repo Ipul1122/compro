@@ -137,6 +137,10 @@
 
             <div class="flex justify-end gap-3 pt-4 border-t border-slate-100">
               <button type="button" @click="clearDraftAndBack" class="bg-slate-100 text-slate-600 px-8 py-3 rounded-xl text-sm font-bold hover:bg-slate-200 transition-colors text-center cursor-pointer">Batal & Hapus Draft</button>
+              <button type="button" @click="goToPreview" :disabled="isSaving || !form.slug" class="bg-amber-500 text-white px-8 py-3 rounded-xl text-sm font-bold hover:bg-amber-600 transition-colors cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2 min-w-[160px]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                Pratinjau
+              </button>
               <button type="submit" :disabled="isSaving" class="bg-slate-900 text-white px-8 py-3 rounded-xl text-sm font-bold hover:bg-[#ea4435] transition-colors cursor-pointer disabled:opacity-50 flex items-center justify-center min-w-[160px]">
                 {{ isSaving ? 'Menyimpan...' : 'Simpan Artikel' }}
               </button>
@@ -150,7 +154,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import Api from '@/api';
 
 // Import komponen Sidebar dan Navbar
@@ -163,6 +167,7 @@ import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 
 const router = useRouter();
+const route = useRoute();
 
 // UI State
 const isSidebarOpen = ref(false);
@@ -421,6 +426,13 @@ onMounted(async () => {
     await fetchCategories();
     // Load draft dipanggil setelah fetch categories agar dropdown bind dengan benar
     loadDraft();
+
+    // Jika ada category_id dari URL query (dari IndexView kategori atau balik dari TambahView kategori)
+    if (route.query.category_id) {
+        form.value.category_id = Number(route.query.category_id);
+        // Hapus query dari URL agar tidak mengganggu
+        router.replace({ query: {} });
+    }
 });
 
 const fetchCategories = async () => {
@@ -434,7 +446,7 @@ const fetchCategories = async () => {
 const handleCategoryChange = () => {
     if (form.value.category_id === 'redirect_create') {
         saveDraft(); // Pastikan draft terbaru tersimpan sebelum pindah rute
-        router.push('/direktur/categories/tambah'); // Sesuaikan ini dengan rute untuk membuat Kategori baru di project Anda.
+        router.push('/direktur/categories/tambah?from=articles'); // Sesuaikan ini dengan rute untuk membuat Kategori baru di project Anda.
         form.value.category_id = ''; // Reset opsi yang dipilih
     }
 };
@@ -486,6 +498,48 @@ const handleFileChange = (e) => {
 
         form.value.image = file;
         previewImage.value = URL.createObjectURL(file);
+    }
+};
+
+const goToPreview = async () => {
+    if (!form.value.slug) {
+        alert('Judul artikel belum diisi. Mohon isi judul terlebih dahulu.');
+        return;
+    }
+    isSaving.value = true;
+    try {
+        const formData = new FormData();
+        formData.append('title', form.value.title);
+        formData.append('title_en', form.value.title_en);
+        formData.append('slug', form.value.slug);
+        formData.append('category_id', form.value.category_id);
+        formData.append('content', editorId.value?.getHTML() || '');
+        formData.append('content_en', editorEn.value?.getHTML() || '');
+        formData.append('meta_title', form.value.meta_title || form.value.title);
+        formData.append('meta_description', form.value.meta_description || '');
+        formData.append('meta_keywords', form.value.meta_keywords || '');
+        formData.append('published', 'draft'); // Selalu simpan sebagai draft saat preview
+        if (form.value.image) formData.append('image', form.value.image);
+
+        await Api.post('/direktur/articles', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
+
+        sessionStorage.removeItem('article_draft');
+        hasDraft.value = false;
+
+        // Arahkan ke halaman preview
+        router.push(`/direktur/articles/preview/${form.value.slug}`);
+    } catch (err) {
+        console.error("Gagal menyimpan untuk pratinjau:", err);
+        if (err.response?.status === 401) {
+            alert("Sesi login sudah habis. Silakan login ulang.");
+            handleLogout();
+            return;
+        }
+        alert('Gagal menyimpan artikel untuk pratinjau. Pastikan semua field wajib terisi.');
+    } finally {
+        isSaving.value = false;
     }
 };
 

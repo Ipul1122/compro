@@ -12,7 +12,8 @@ class CategoryController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Category::select('id', 'name', 'slug', 'created_at')
+        $query = Category::select('id', 'name', 'slug', 'user_id', 'created_at')
+            ->with('creator:id,name')
             ->withCount(['articles', 'galleries'])
             ->latest();
 
@@ -23,10 +24,24 @@ class CategoryController extends Controller
 
         $categories = $query->paginate(10);
 
+        // Tambahkan info creator_name ke setiap item
+        $items = collect($categories->items())->map(function ($cat) {
+            return [
+                'id'             => $cat->id,
+                'name'           => $cat->name,
+                'slug'           => $cat->slug,
+                'user_id'        => $cat->user_id,
+                'creator_name'   => $cat->creator?->name ?? 'Tidak diketahui',
+                'articles_count' => $cat->articles_count,
+                'galleries_count'=> $cat->galleries_count,
+                'created_at'     => $cat->created_at,
+            ];
+        });
+
         return response()->json([
             'success' => true,
             'message' => 'List Data Categories',
-            'data'    => $categories->items(),
+            'data'    => $items,
             'pagination' => [
                 'total'        => $categories->total(),
                 'per_page'     => $categories->perPage(),
@@ -35,6 +50,7 @@ class CategoryController extends Controller
             ]
         ], 200);
     }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -48,6 +64,7 @@ class CategoryController extends Controller
             'slug' => Str::slug($request->name),
             'meta_title' => $request->meta_title ?? $request->name,
             'meta_description' => $request->meta_description ?? 'Kumpulan artikel dan informasi terbaru seputar kategori ' . $request->name,
+            'user_id' => auth()->id(), // Simpan siapa yang membuat
         ]);
 
         return response()->json([
@@ -69,6 +86,14 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $category = Category::findOrFail($id);
+
+        // Hanya pemilik yang boleh edit
+        if ($category->user_id && $category->user_id !== auth()->id()) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Anda tidak memiliki izin untuk mengedit kategori ini.'
+            ], 403);
+        }
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -93,6 +118,15 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
+
+        // Hanya pemilik yang boleh hapus
+        if ($category->user_id && $category->user_id !== auth()->id()) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Anda tidak memiliki izin untuk menghapus kategori ini.'
+            ], 403);
+        }
+
         $category->delete();
 
         return response()->json([

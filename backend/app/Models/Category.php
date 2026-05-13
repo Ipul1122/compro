@@ -13,8 +13,15 @@ class Category extends Model
         'name',
         'slug',
         'meta_title',
-        'meta_description'
+        'meta_description',
+        'user_id'
     ];
+
+    // Relasi ke User yang membuat kategori ini
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     public function articles()
     {
