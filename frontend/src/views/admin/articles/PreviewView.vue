@@ -7,12 +7,11 @@
 
       <main class="p-4 md:p-8">
         <div class="max-w-4xl mx-auto mb-6">
-          <div class="bg-green-600 text-white p-4 rounded-2xl flex justify-between items-center shadow-lg shadow-green-100">
+          <div class="bg-blue-600 text-white p-4 rounded-2xl flex justify-between items-center shadow-lg shadow-blue-100">
             <div class="flex items-center gap-3">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
-              <span class="font-bold">Pratinjau: Artikel berhasil disimpan!</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+              <span class="font-bold">Pratinjau Artikel: Tinjau sebelum dikirim.</span>
             </div>
-            <router-link to="/admin/articles" class="bg-white text-green-600 px-4 py-2 rounded-xl text-xs font-black uppercase hover:bg-slate-100 transition">Selesai</router-link>
           </div>
         </div>
 
@@ -20,7 +19,7 @@
 
         <article v-else-if="article" class="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 overflow-hidden max-w-4xl mx-auto">
           <div class="relative w-full aspect-video md:aspect-[21/9] overflow-hidden">
-            <img :src="getImageUrl(article.image)" class="w-full h-full object-cover" :alt="article.title" />
+            <img :src="getImageUrl(article.image)" @error="handleImageError" class="w-full h-full object-cover" :alt="article.title" />
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-6 md:p-12">
                <span class="bg-[#ea4435] text-white text-[10px] font-black uppercase tracking-[0.2em] px-4 py-2 rounded-full shadow-lg">
                 {{ article.category?.name }}
@@ -47,7 +46,15 @@
                <div class="flex flex-wrap gap-2">
                   <span v-for="tag in (article.meta_keywords ? article.meta_keywords.split(',') : [])" :key="tag" class="text-[10px] font-bold text-slate-400 border border-slate-200 px-3 py-1 rounded-lg">#{{ tag.trim() }}</span>
                </div>
-               <button @click="$router.push('/admin/articles')" class="text-slate-900 font-black text-xs uppercase tracking-widest hover:text-[#ea4435] transition">Kembali ke Index</button>
+            </div>
+            
+            <div class="mt-8 flex justify-end gap-3">
+              <button @click="handleSaveAsDraft" class="bg-slate-100 text-slate-600 px-8 py-3 rounded-xl text-sm font-bold hover:bg-slate-200 transition-colors text-center cursor-pointer">
+                Simpan sebagai Draft
+              </button>
+              <button @click="handlePublishOrPending" :disabled="isUpdating" class="bg-slate-900 text-white px-8 py-3 rounded-xl text-sm font-bold hover:bg-[#ea4435] transition-colors cursor-pointer disabled:opacity-50 flex items-center justify-center min-w-[160px]">
+                {{ isUpdating ? 'Memproses...' : (user.role === 'direktur' ? 'Publish Artikel' : 'Kirim Artikel') }}
+              </button>
             </div>
           </div>
         </article>
@@ -62,13 +69,15 @@ import { useRoute, useRouter } from 'vue-router';
 import Api from '@/api';
 import Sidebar from '@/components/admin/Sidebar.vue';
 import Navbar from '@/components/admin/Navbar.vue';
+import { getImageUrl, handleImageError } from '@/utils/imageHelper';
 
 const route = useRoute();
 const router = useRouter();
 const isSidebarOpen = ref(false);
 const loading = ref(true);
+const isUpdating = ref(false);
 const article = ref(null);
-const user = ref({ name: 'Admin' });
+const user = ref({ name: 'Admin', role: 'admin' });
 
 const breadcrumbsData = ref([
     { label: 'Artikel', link: '/admin/articles' },
@@ -94,14 +103,34 @@ const fetchArticle = async () => {
     }
 };
 
-const getImageUrl = (path) => {
-    if (!path) return '';
-    const baseURL = Api.defaults.baseURL.replace('/api', '');
-    return `${baseURL}/storage/${path}`;
-};
 
 const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+};
+
+const handleSaveAsDraft = () => {
+    // Karena saat di TambahView.vue status sudah default 'draft', maka kita hanya perlu kembali
+    router.push('/admin/articles');
+};
+
+const handlePublishOrPending = async () => {
+    isUpdating.value = true;
+    try {
+        const newStatus = user.value.role === 'direktur' ? 'publish' : 'pending';
+        // Pastikan endpoint dan method benar, gunakan parameter _method: 'PUT' untuk update di backend API resource
+        await Api.post(`/admin/articles/${article.value.id}`, {
+            _method: 'PUT',
+            published: newStatus
+        });
+        
+        alert(`Artikel berhasil ${newStatus === 'publish' ? 'dipublish' : 'dikirim untuk persetujuan'}!`);
+        router.push('/admin/articles');
+    } catch (error) {
+        console.error("Gagal mengupdate status artikel:", error);
+        alert('Terjadi kesalahan saat memproses artikel.');
+    } finally {
+        isUpdating.value = false;
+    }
 };
 
 const handleLogout = () => {

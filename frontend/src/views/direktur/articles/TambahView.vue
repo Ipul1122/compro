@@ -521,10 +521,16 @@ const storeArticle = async () => {
         alert('Artikel berhasil ditambahkan!');
         router.push('/direktur/articles');
     } catch (err) {
-        if (err.response && err.response.status === 401) {
-            alert("Sesi login sudah habis. Silakan login ulang.");
-            handleLogout();
-        } else { alert('Gagal menyimpan artikel. Pastikan semua field wajib terisi.'); }
+        console.error("Gagal menyimpan:", err);
+        if (err.response) {
+            console.error("Response data:", err.response.data);
+            if (err.response.status === 401) {
+                alert("Sesi login sudah habis. Silakan login ulang.");
+                handleLogout();
+                return;
+            }
+        }
+        alert('Gagal menyimpan artikel. Pastikan semua field wajib terisi atau periksa console untuk detail error.');
     } finally { isSaving.value = false; }
 };
 
