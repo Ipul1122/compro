@@ -124,21 +124,14 @@
                 <textarea id="meta_description" name="meta_description" v-model="form.meta_description" rows="3" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-medium text-black" placeholder="Deskripsi singkat untuk SEO..."></textarea>
               </div>
 
-              <div>
-                <label for="status" class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Status</label>
-                <select id="status" name="status" v-model="form.published" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black bg-white">
-                  <option v-if="user.role === 'direktur'" value="publish">Publish</option>
-                  <option v-else value="pending">Pending (Ajukan ke Direktur)</option>
-                  <option value="draft">Draft</option>
-                </select>
-              </div>
+
 
             </div>
 
             <div class="flex justify-end gap-3 pt-4 border-t border-slate-100">
               <button type="button" @click="clearDraftAndBack" class="bg-slate-100 text-slate-600 px-8 py-3 rounded-xl text-sm font-bold hover:bg-slate-200 transition-colors text-center cursor-pointer">Batal & Hapus Draft</button>
               <button type="submit" :disabled="isSaving" class="bg-slate-900 text-white px-8 py-3 rounded-xl text-sm font-bold hover:bg-[#ea4435] transition-colors cursor-pointer disabled:opacity-50 flex items-center justify-center min-w-[160px]">
-                {{ isSaving ? 'Menyimpan...' : 'Simpan & Lihat Pratinjau' }}
+                {{ isSaving ? 'Menyiapkan Pratinjau...' : 'Preview Artikel' }}
               </button>
             </div>
           </form>
@@ -186,7 +179,7 @@ const form = ref({
     meta_title: '',
     meta_description: '',
     meta_keywords: '',
-    published: 'publish',
+    published: 'draft',
     image: null
 });
 
@@ -234,12 +227,12 @@ const saveDraft = () => {
         contentId: editorId.value?.getHTML() || '',
         contentEn: editorEn.value?.getHTML() || ''
     };
-    sessionStorage.setItem('article_draft', JSON.stringify(draftData));
+    localStorage.setItem('article_draft', JSON.stringify(draftData));
     hasDraft.value = true;
 };
 
 const loadDraft = () => {
-    const draftStr = sessionStorage.getItem('article_draft');
+    const draftStr = localStorage.getItem('article_draft');
     if (draftStr) {
         try {
             const draft = JSON.parse(draftStr);
@@ -255,7 +248,7 @@ const loadDraft = () => {
             } else {
                 metaKeywordsArray.value = [];
             }
-            form.value.published = draft.published || 'publish';
+            form.value.published = draft.published || 'draft';
 
             if (draft.contentId && editorId.value) {
                 editorId.value.commands.setContent(draft.contentId);
@@ -271,7 +264,7 @@ const loadDraft = () => {
 };
 
 const clearDraftAndBack = () => {
-    sessionStorage.removeItem('article_draft');
+    localStorage.removeItem('article_draft');
     router.push('/admin/articles');
 };
 
@@ -411,9 +404,8 @@ onMounted(async () => {
     
     user.value = JSON.parse(savedUser);
     
-    if (user.value.role !== 'direktur') {
-        form.value.published = 'pending';
-    }
+    // Default selalu draft sebelum masuk ke preview
+    form.value.published = 'draft';
     
     await fetchCategories();
     loadDraft();
@@ -498,7 +490,7 @@ const storeArticle = async () => {
         formData.append('meta_title', form.value.meta_title || form.value.title); 
         formData.append('meta_description', form.value.meta_description || '');
         formData.append('meta_keywords', form.value.meta_keywords || '');
-        formData.append('published', form.value.published);
+        formData.append('published', 'draft');
         
         if (form.value.image) formData.append('image', form.value.image);
 
@@ -507,20 +499,42 @@ const storeArticle = async () => {
             headers: { 'Content-Type': 'multipart/form-data' }
         });
 
-        sessionStorage.removeItem('article_draft');
+        localStorage.removeItem('article_draft');
         hasDraft.value = false;
 
-        // 2. Ambil slug dari backend agar akurat
-        const newSlug = response.data.data.slug;
+        // 2. Ambil slug dari backend agar akurat (dengan penanganan jika response.data berupa string)
+        let responseData = response.data;
+        if (typeof responseData === 'string') {
+            try {
+                const jsonStart = responseData.indexOf('{');
+                const jsonEnd = responseData.lastIndexOf('}');
+                if (jsonStart !== -1 && jsonEnd !== -1) {
+                    responseData = JSON.parse(responseData.substring(jsonStart, jsonEnd + 1));
+                }
+            } catch (e) {
+                console.error("Gagal parse response JSON:", e);
+            }
+        }
+
+        const newSlug = responseData?.data?.slug;
+        if (!newSlug) {
+            throw new Error("Slug tidak ditemukan di response. Data: " + JSON.stringify(responseData));
+        }
 
         // 3. Redirect ke Halaman Preview menggunakan slug baru
         router.push(`/admin/articles/preview/${newSlug}`);
         
     } catch (err) {
-        if (err.response && err.response.status === 401) {
-            alert("Sesi login sudah habis. Silakan login ulang.");
-            handleLogout();
-        } else { alert('Gagal menyimpan artikel. Pastikan semua field wajib terisi.'); }
+        console.error("Gagal menyimpan:", err);
+        if (err.response) {
+            console.error("Response data:", err.response.data);
+            if (err.response.status === 401) {
+                alert("Sesi login sudah habis. Silakan login ulang.");
+                handleLogout();
+                return;
+            }
+        }
+        alert('Gagal menyimpan artikel. Pastikan semua field wajib terisi atau periksa console untuk detail error.');
     } finally { isSaving.value = false; }
 };
 

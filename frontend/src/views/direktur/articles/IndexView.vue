@@ -22,6 +22,7 @@ const breadcrumbsData = ref([
 
 const articles = ref([])
 const categories = ref([])
+const users = ref([])
 const isLoading = ref(false)
 
 // State Pagination
@@ -34,7 +35,8 @@ const filters = ref({
     search: route.query.search || '',
     status: route.query.status || '',
     category_id: route.query.category_id || '',
-    views: route.query.views || ''
+    views: route.query.views || '',
+    author_id: route.query.author_id || ''
 })
 
 // Searchable Category Dropdown Logic
@@ -62,6 +64,7 @@ onMounted(() => {
         user.value = JSON.parse(savedUser)
         
         fetchCategories()
+        fetchUsers()
         const pageFromUrl = parseInt(route.query.page) || 1
         fetchArticles(pageFromUrl)
     } else {
@@ -92,6 +95,15 @@ const fetchCategories = async () => {
     }
 }
 
+const fetchUsers = async () => {
+    try {
+        const response = await Api.get('/direktur/users')
+        users.value = response.data.data || response.data
+    } catch (error) {
+        console.error("Error fetching users:", error)
+    }
+}
+
 const fetchArticles = async (page = 1) => {
     isLoading.value = true
     try {
@@ -100,7 +112,8 @@ const fetchArticles = async (page = 1) => {
             search: filters.value.search,
             published: filters.value.status,
             category_id: filters.value.category_id,
-            views: filters.value.views
+            views: filters.value.views,
+            author_id: filters.value.author_id
         }
 
         const response = await Api.get('/direktur/articles', {
@@ -120,6 +133,7 @@ const fetchArticles = async (page = 1) => {
             if (params.published) queryParams.status = params.published
             if (params.category_id) queryParams.category_id = params.category_id
             if (params.views) queryParams.views = params.views
+            if (params.author_id) queryParams.author_id = params.author_id
 
             router.push({ path: '/direktur/articles', query: queryParams })
         }
@@ -135,7 +149,7 @@ const applyFilters = () => {
 }
 
 const resetFilters = () => {
-    filters.value = { search: '', status: '', category_id: '', views: '' }
+    filters.value = { search: '', status: '', category_id: '', views: '', author_id: '' }
     categorySearchText.value = ''
     fetchArticles(1)
 }
@@ -215,7 +229,7 @@ const approveArticle = async (article) => {
                 </div>
 
                 <div class="bg-white rounded-3xl border border-slate-100 p-6 mb-6 shadow-sm">
-                    <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
                         <div>
                             <label for="search_title" class="text-[10px] font-black text-slate-400 uppercase mb-2 block">Search Title</label>
                             <input id="search_title" name="search_title" v-model="filters.search" @keyup.enter="applyFilters" type="text" placeholder="Ketik judul artikel..." 
@@ -268,6 +282,15 @@ const approveArticle = async (article) => {
                                 <option value="">Semua</option>
                                 <option value="desc">Terbanyak</option>
                                 <option value="asc">Tersedikit</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="filter_author" class="text-[10px] font-black text-slate-400 uppercase mb-2 block">Author/Admin</label>
+                            <select id="filter_author" name="filter_author" v-model="filters.author_id" @change="applyFilters" 
+                                class="w-full bg-slate-50 border text-black border-slate-100 rounded-xl px-4 py-2 text-sm focus:outline-none cursor-pointer">
+                                <option value="">Semua Author</option>
+                                <option v-for="user in users" :key="user.id" :value="user.id">{{ user.name }}</option>
                             </select>
                         </div>
 
@@ -406,7 +429,7 @@ const approveArticle = async (article) => {
                 </div>
 
                 <div class="bg-white rounded-3xl border border-slate-100 p-6 mt-6 shadow-sm">
-                    <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
                         <div>
                             <label for="search_title_bottom" class="text-[10px] font-black text-slate-400 uppercase mb-2 block">Search Title</label>
                             <input id="search_title_bottom" name="search_title_bottom" v-model="filters.search" @keyup.enter="applyFilters" type="text" placeholder="Ketik judul artikel..." 
@@ -459,6 +482,15 @@ const approveArticle = async (article) => {
                                 <option value="">Semua</option>
                                 <option value="desc">Terbanyak</option>
                                 <option value="asc">Tersedikit</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="filter_author_bottom" class="text-[10px] font-black text-slate-400 uppercase mb-2 block">Author/Admin</label>
+                            <select id="filter_author_bottom" name="filter_author_bottom" v-model="filters.author_id" @change="applyFilters" 
+                                class="w-full bg-slate-50 border text-black border-slate-100 rounded-xl px-4 py-2 text-sm focus:outline-none cursor-pointer">
+                                <option value="">Semua Author</option>
+                                <option v-for="user in users" :key="user.id" :value="user.id">{{ user.name }}</option>
                             </select>
                         </div>
 

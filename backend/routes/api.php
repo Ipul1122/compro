@@ -82,6 +82,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('direktur')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index']);
         Route::get('/dashboard/search', [DashboardController::class, 'globalSearch']);
+        Route::get('users', [DashboardController::class, 'getAllUsers']);
         
         Route::get('categories/list', [CategoryController::class, 'list']);
         Route::apiResource('categories', CategoryController::class);

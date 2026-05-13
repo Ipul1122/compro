@@ -358,7 +358,7 @@ const saveDraftToLocalStorage = () => {
         // Catatan: File gambar (form.value.image) tidak di-save ke localstorage untuk menghindari memory issue
     };
     
-    sessionStorage.setItem(draftKey, JSON.stringify(draftData));
+    localStorage.setItem(draftKey, JSON.stringify(draftData));
     
     draftSavedText.value = 'Draft Tersimpan ✓';
     if (draftTimeout) clearTimeout(draftTimeout);
@@ -375,7 +375,7 @@ watch(() => form.value, (newVal, oldVal) => {
 }, { deep: true });
 
 const checkAndRestoreDraft = (apiData) => {
-    const savedDraft = sessionStorage.getItem(draftKey);
+    const savedDraft = localStorage.getItem(draftKey);
     if (savedDraft) {
         const confirmRestore = confirm("Ditemukan draft yang belum tersimpan untuk artikel ini (mungkin karena refresh/kembali). Apakah Anda ingin mengembalikan ketikan terakhir Anda?");
         
@@ -412,7 +412,7 @@ const checkAndRestoreDraft = (apiData) => {
             }
         } else {
             // User menolak restore draft, hapus draft
-            sessionStorage.removeItem(draftKey);
+            localStorage.removeItem(draftKey);
         }
     }
     
@@ -581,7 +581,7 @@ const executeSubmit = async () => {
         });
         
         // Jika berhasil di-save ke database, bersihkan draft localstorage
-        sessionStorage.removeItem(draftKey);
+        localStorage.removeItem(draftKey);
 
         alert('Artikel berhasil diperbarui!');
         router.push('/admin/articles');
