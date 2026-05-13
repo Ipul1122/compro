@@ -143,7 +143,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import Api from '@/api';
 
 // Import komponen Sidebar dan Navbar
@@ -156,6 +156,7 @@ import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 
 const router = useRouter();
+const route = useRoute();
 
 // UI State
 const isSidebarOpen = ref(false);
@@ -409,6 +410,13 @@ onMounted(async () => {
     
     await fetchCategories();
     loadDraft();
+
+    // Jika ada category_id dari URL query (dari IndexView kategori atau balik dari TambahView kategori)
+    if (route.query.category_id) {
+        form.value.category_id = Number(route.query.category_id);
+        // Hapus query dari URL agar tidak mengganggu
+        router.replace({ query: {} });
+    }
 });
 
 const fetchCategories = async () => {
@@ -421,7 +429,7 @@ const fetchCategories = async () => {
 const handleCategoryChange = () => {
     if (form.value.category_id === 'redirect_create') {
         saveDraft(); 
-        router.push('/admin/categories/tambah'); 
+        router.push('/admin/categories/tambah?from=articles'); 
         form.value.category_id = ''; 
     }
 };

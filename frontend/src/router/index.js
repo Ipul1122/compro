@@ -417,6 +417,12 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: '/direktur/articles/preview/:slug',
+    name: 'direktur.articles.preview',
+    component: () => import('../views/direktur/articles/PreviewView.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
     path: '/direktur/gallery',
     name: 'direktur.gallery.index',
     component: () => import('../views/direktur/gallery/IndexView.vue'),

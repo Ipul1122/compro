@@ -38,7 +38,7 @@
             <div class="flex justify-end gap-3 pt-4 border-t border-slate-100">
               <button 
                 type="button" 
-                @click="router.push('/direktur/categories')" 
+                @click="router.push(backPath)" 
                 class="px-6 py-3 text-sm font-bold text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors cursor-pointer"
               >
                 Kembali
@@ -60,8 +60,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted, computed } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { useCategoryStore } from '@/stores/category';
 
 // Import komponen reusable
@@ -69,7 +69,12 @@ import Sidebar from '@/components/direktur/Sidebar.vue';
 import Navbar from '@/components/direktur/Navbar.vue';
 
 const router = useRouter();
+const route = useRoute();
 const store = useCategoryStore();
+
+// Jika datang dari halaman artikel, setelah simpan redirect balik ke artikel
+const fromArticles = computed(() => route.query.from === 'articles');
+const backPath = computed(() => fromArticles.value ? '/direktur/articles/create' : '/direktur/categories');
 
 // Layout State
 const isSidebarOpen = ref(false);
@@ -122,10 +127,15 @@ const submitForm = async () => {
       name: form.value.name.trim()
     };
 
-    await store.storeCategory(payload);
+    const response = await store.storeCategory(payload);
+    const newCategoryId = response?.data?.data?.id;
     
-    // Redirect kembali ke tabel setelah sukses menyimpan
-    router.push('/direktur/categories');
+    // Redirect: jika datang dari halaman artikel, kembali ke sana dengan category_id; jika tidak, ke index kategori
+    if (fromArticles.value && newCategoryId) {
+        router.push(`/direktur/articles/create?category_id=${newCategoryId}`);
+    } else {
+        router.push(backPath.value);
+    }
 
   } catch (err) {
     console.error("Gagal menyimpan kategori:", err);
