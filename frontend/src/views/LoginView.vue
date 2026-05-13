@@ -74,8 +74,10 @@ const handleLogin = async () => {
         await axios.get('/sanctum/csrf-cookie')
 
         // 2. Attempt Login
+        const loginEmail = email.value.includes('@') ? email.value : `${email.value}@cakrawala-internasional.co.id`
+        
         const response = await axios.post('/api/login', {
-            email: email.value,
+            email: loginEmail,
             password: password.value
         })
 
@@ -119,56 +121,16 @@ const handleLogin = async () => {
 </script>
 
 <template>
-    <div :class="[
-        'min-h-screen flex items-center justify-center p-4 transition-all duration-500',
-        activeAccount === 'director'
-            ? 'bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-100'
-            : 'bg-gradient-to-br from-slate-50 via-white to-slate-100'
-    ]">
+    <div class="min-h-screen flex items-center justify-center p-4 transition-all duration-500 bg-gradient-to-br from-slate-50 via-white to-slate-100">
         <!-- Background Pattern -->
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            <template v-if="activeAccount === 'director'">
-                <div class="absolute -top-40 -right-40 w-80 h-80 bg-amber-200 rounded-full blur-3xl opacity-20"></div>
-                <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-orange-200 rounded-full blur-3xl opacity-15"></div>
-            </template>
-            <template v-else>
-                <div class="absolute -top-40 -right-40 w-80 h-80 bg-red-50 rounded-full blur-3xl opacity-30"></div>
-                <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-50 rounded-full blur-3xl opacity-20"></div>
-            </template>
+            <div class="absolute -top-40 -right-40 w-80 h-80 bg-red-50 rounded-full blur-3xl opacity-30"></div>
+            <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-50 rounded-full blur-3xl opacity-20"></div>
         </div>
 
         <div class="relative w-full max-w-md">
-            <!-- Director Premium Badge -->
-            <div v-if="activeAccount === 'director'" class="mb-6 flex justify-center">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100 border border-amber-300 shadow-lg">
-                    <svg class="w-5 h-5 text-amber-600" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                    </svg>
-                    <span class="text-sm font-bold text-amber-700">DIREKTUR - AKSES EKSKLUSIF</span>
-                </div>
-            </div>
-
             <!-- Login Card -->
-            <div :class="[
-                'rounded-2xl shadow-xl border p-8 backdrop-blur-sm transition-all duration-300',
-                activeAccount === 'director'
-                    ? 'bg-white/95 border-amber-200/60 shadow-amber-200/20'
-                    : 'bg-white/80 border-slate-200/50'
-            ]">
-                <!-- Role Indicator Header -->
-                <div v-if="activeAccount === 'director'" class="mb-6 pb-6 border-b border-amber-100">
-                    <div class="flex items-center gap-3 mb-2">
-                        <div class="h-10 w-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
-                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <p class="text-xs font-black text-amber-600 uppercase tracking-wider">Portal Direktur</p>
-                            <p class="text-sm font-bold text-slate-900">Selamat Datang</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="rounded-2xl shadow-xl border p-8 backdrop-blur-sm transition-all duration-300 bg-white/80 border-slate-200/50">
 
                 <!-- Error Message -->
                 <div v-if="errorMessage"
@@ -184,10 +146,7 @@ const handleLogin = async () => {
 
                 <!-- Role Switcher -->
                 <div class="mb-8">
-                    <div :class="[
-                        'flex rounded-xl p-1 transition-all duration-300',
-                        activeAccount === 'director' ? 'bg-amber-100' : 'bg-slate-100'
-                    ]">
+                    <div class="flex rounded-xl p-1 transition-all duration-300 bg-slate-100">
                         <button
                             type="button"
                             v-for="(account, role) in accounts"
@@ -196,9 +155,7 @@ const handleLogin = async () => {
                             :class="[
                                 'flex-1 py-3 px-4 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-2',
                                 activeAccount === role
-                                    ? role === 'director'
-                                        ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-lg shadow-amber-400/50'
-                                        : 'bg-red-500 text-white shadow-sm'
+                                    ? 'bg-red-500 text-white shadow-sm'
                                     : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
                             ]"
                         >
@@ -218,56 +175,40 @@ const handleLogin = async () => {
                 <!-- Login Form -->
                 <form @submit.prevent="handleLogin" class="space-y-6">
                     <div>
-                        <label for="email" :class="[
-                            'block text-sm font-semibold mb-2',
-                            activeAccount === 'director' ? 'text-amber-900' : 'text-slate-700'
-                        ]">
-                            Email Address
+                        <label for="email" class="block text-sm font-semibold mb-2 text-slate-700">
+                            Username
                         </label>
-                        <input
-                            id="email"
-                            name="email"
-                            v-model="email"
-                            type="email"
-                            :class="[
-                                'w-full px-4 py-3 rounded-xl border bg-white text-slate-900 placeholder-slate-400 outline-none transition-all duration-200',
-                                activeAccount === 'director'
-                                    ? 'border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/10'
-                                    : 'border-slate-200 focus:border-red-500 focus:ring-2 focus:ring-red-500/10'
-                            ]"
-                            placeholder="Enter your email"
-                            required
-                        />
+                        <div class="flex shadow-sm rounded-xl">
+                            <input
+                                id="email"
+                                name="email"
+                                v-model="email"
+                                type="text"
+                                class="w-full px-4 py-3 rounded-l-xl border bg-white text-slate-900 placeholder-slate-400 outline-none transition-all duration-200 focus:z-10 border-slate-200 focus:border-red-500 focus:ring-2 focus:ring-red-500/10"
+                                placeholder="Enter username"
+                                required
+                            />
+                            <span class="flex items-center px-3 border border-l-0 rounded-r-xl text-xs sm:text-sm font-medium whitespace-nowrap bg-slate-50 border-slate-200 text-slate-600">
+                                @cakrawala-internasional.co.id
+                            </span>
+                        </div>
                     </div>
 
                     <div>
                         <div class="flex items-center justify-between mb-2">
-                            <label for="password" :class="[
-                                'block text-sm font-semibold',
-                                activeAccount === 'director' ? 'text-amber-900' : 'text-slate-700'
-                            ]">
+                            <label for="password" class="block text-sm font-semibold text-slate-700">
                                 Password
                             </label>
-                            <a href="#" :class="[
-                                'text-xs font-medium transition-colors',
-                                activeAccount === 'director'
-                                    ? 'text-amber-500 hover:text-amber-600'
-                                    : 'text-red-500 hover:text-red-600'
-                            ]">
+                            <!-- <a href="#" class="text-xs font-medium transition-colors text-red-500 hover:text-red-600">
                                 Forgot?
-                            </a>
+                            </a> -->
                         </div>
                         <input
                             id="password"
                             name="password"
                             v-model="password"
                             type="password"
-                            :class="[
-                                'w-full px-4 py-3 rounded-xl border bg-white text-slate-900 placeholder-slate-400 outline-none transition-all duration-200',
-                                activeAccount === 'director'
-                                    ? 'border-amber-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/10'
-                                    : 'border-slate-200 focus:border-red-500 focus:ring-2 focus:ring-red-500/10'
-                            ]"
+                            class="w-full px-4 py-3 rounded-xl border bg-white text-slate-900 placeholder-slate-400 outline-none transition-all duration-200 border-slate-200 focus:border-red-500 focus:ring-2 focus:ring-red-500/10"
                             placeholder="Enter your password"
                             required
                         />
@@ -276,12 +217,7 @@ const handleLogin = async () => {
                     <button
                         type="submit"
                         :disabled="isLoading"
-                        :class="[
-                            'w-full py-4 rounded-xl font-semibold transition-all duration-200 shadow-lg flex items-center justify-center group disabled:shadow-none',
-                            activeAccount === 'director'
-                                ? 'bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 disabled:from-amber-300 disabled:to-orange-400 text-white hover:shadow-xl hover:shadow-amber-400/40'
-                                : 'bg-slate-900 hover:bg-slate-800 disabled:bg-slate-400 text-white hover:shadow-xl'
-                        ]"
+                        class="w-full py-4 rounded-xl font-semibold transition-all duration-200 shadow-lg flex items-center justify-center group disabled:shadow-none bg-slate-900 hover:bg-slate-800 disabled:bg-slate-400 text-white hover:shadow-xl"
                     >
                         <span v-if="!isLoading" class="group-hover:scale-105 transition-transform duration-200">
                             Sign In
@@ -297,11 +233,8 @@ const handleLogin = async () => {
                 </form>
 
                 <!-- Footer Text -->
-                <p :class="[
-                    'mt-6 text-xs text-center',
-                    activeAccount === 'director' ? 'text-amber-600' : 'text-slate-500'
-                ]">
-                    {{ activeAccount === 'director' ? 'Portal Eksklusif - Akses Direktur' : 'Secure enterprise login portal' }}
+                <p class="mt-6 text-xs text-center text-slate-500">
+                    Secure enterprise login portal
                 </p>
             </div>
         </div>

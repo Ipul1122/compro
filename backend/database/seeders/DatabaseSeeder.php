@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'syaiful@cakrawala-internasional.co.id'],
             [
-                'name' => 'Administrator',
-                'password' => Hash::make('Sejauhmatamemandang1945'),
+                'name' => 'Syaiful',
+                'password' => Hash::make('Skyfoxmp4'),
                 'role' => 'admin'
             ]
         );

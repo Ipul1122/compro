@@ -108,10 +108,7 @@ const handleLanguageToggle = async () => {
                                 {{ t('nav.our_teams') }}
                             </router-link>
 
-                            <router-link :to="routePaths.articles[locale]" active-class="active-link"
-                                class="text-black hover:text-red-700 px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
-                                {{ t('nav.articles') }}
-                            </router-link>
+                            
 
                             <!-- Dropdown Menu Services -->
                             <div class="relative group">
@@ -130,6 +127,10 @@ const handleLanguageToggle = async () => {
                                             <router-link :to="routePaths.project[locale]" active-class="active-link"
                                                 class="text-black hover:text-red-700 px-3 py-2.5 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 block rounded-lg">
                                                 {{ t('nav.projects') }}
+                                            </router-link>
+                                            <router-link :to="routePaths.articles[locale]" active-class="active-link"
+                                                class="text-black hover:text-red-700 px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
+                                                {{ t('nav.articles') }}
                                             </router-link>
                                             <router-link :to="routePaths.gallery[locale]" active-class="active-link"
                                                 class="text-black hover:text-red-700 px-3 py-2.5 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 block rounded-lg">
@@ -218,11 +219,7 @@ const handleLanguageToggle = async () => {
                         {{ t('nav.our_teams') }}
                     </router-link>
 
-                    <router-link :to="routePaths.articles[locale]" @click="isMenuOpen = false" active-class="active-link"
-                        class="block px-4 py-2.5 text-black hover:text-red-700 hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
-                        {{ t('nav.articles') }}
-                    </router-link>
-
+                    
                     <div class="space-y-1">
                         <button @click="isMobileServiceOpen = !isMobileServiceOpen"
                             :class="['w-full flex justify-between items-center px-4 py-2.5 hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all', isServiceActive ? 'active-link' : 'text-black hover:text-red-700']">
@@ -240,6 +237,11 @@ const handleLanguageToggle = async () => {
                                     class="block px-2 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
                                     {{ t('nav.projects') }}
                                 </router-link>
+                                <router-link :to="routePaths.articles[locale]" @click="isMenuOpen = false" active-class="active-link"
+                                    class="block px-4 py-2.5 text-black hover:text-red-700 hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
+                                    {{ t('nav.articles') }}
+                                </router-link>
+
                                 <router-link :to="routePaths.gallery[locale]" @click="isMenuOpen = false" active-class="active-link"
                                     class="block px-2 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
                                     {{ t('nav.gallery') }}
