@@ -1,6 +1,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 
 const { t, locale } = useI18n()
 
@@ -8,21 +8,29 @@ const getLocalizedPath = (idPath, enPath) => {
   return locale.value === 'en' ? enPath : idPath
 }
 
-const routes = computed(() => ({
-  home: getLocalizedPath('/id/beranda', '/en/home'),
-  about: getLocalizedPath('/id/tentang-kami', '/en/about'),
-  services: getLocalizedPath('/id/layanan', '/en/services'),
-  projects: getLocalizedPath('/id/proyek-kami', '/en/projects'),
-  contact: getLocalizedPath('/id/kontak', '/en/contact')
+const navRoutes = computed(() => ({
+  home: { path: getLocalizedPath('/id/beranda', '/en/home'), label: t('nav.home') },
+  about: { path: getLocalizedPath('/id/tentang-kami', '/en/about'), label: t('nav.about') },
+  contact: { path: getLocalizedPath('/id/kontak', '/en/contact'), label: t('nav.contact') }
 }))
 
-const hoveredLink = ref(null)
-const mapLoaded = ref(false)
+const layanan1Routes = computed(() => ({
+  projects: { path: getLocalizedPath('/id/proyek-kami', '/en/projects'), label: t('nav.projects') },
+  articles: { path: getLocalizedPath('/id/artikel', '/en/articles'), label: t('nav.articles') },
+  gallery: { path: getLocalizedPath('/id/galeri', '/en/gallery'), label: t('nav.gallery') },
+  clients: { path: getLocalizedPath('/id/klien', '/en/clients'), label: t('nav.clients') }
+}))
+
+const layanan2Routes = computed(() => ({
+  'desain-interior': { path: getLocalizedPath('/id/desain-interior', '/en/interior-design'), label: t('nav.interior_design') },
+  assessment: { path: getLocalizedPath('/id/assessment', '/en/assessment'), label: t('nav.assessment') },
+  'event-organizer': { path: getLocalizedPath('/id/event-organizer', '/en/event-organizer'), label: t('nav.event_organizer') },
+  lms: { path: getLocalizedPath('/id/lms', '/en/lms'), label: t('nav.lms') }
+}))
 </script>
 
 <template>
   <footer class="footer font-montserrat">
-
     <!-- Top accent line -->
     <div class="accent-bar"></div>
 
@@ -57,15 +65,33 @@ const mapLoaded = ref(false)
         <div class="col-nav">
           <h4 class="col-title">{{ t('footer.nav_title') }}</h4>
           <ul class="nav-list">
-            <li v-for="(path, key) in routes" :key="key">
-              <router-link
-                :to="path"
-                class="nav-link"
-                @mouseenter="hoveredLink = key"
-                @mouseleave="hoveredLink = null"
-              >
-                <span class="nav-dot" :class="{ active: hoveredLink === key }"></span>
-                {{ t(`footer.nav_${key}`) }}
+            <li v-for="(item, key) in navRoutes" :key="key">
+              <router-link :to="item.path" class="nav-link">
+                {{ item.label }}
+              </router-link>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Layanan 1 -->
+        <div class="col-nav">
+          <h4 class="col-title">{{ t('nav.services') }}</h4>
+          <ul class="nav-list">
+            <li v-for="(item, key) in layanan1Routes" :key="key">
+              <router-link :to="item.path" class="nav-link">
+                {{ item.label }}
+              </router-link>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Layanan 2 -->
+        <div class="col-nav">
+          <h4 class="col-title">{{ t('nav.services') }}</h4>
+          <ul class="nav-list">
+            <li v-for="(item, key) in layanan2Routes" :key="key">
+              <router-link :to="item.path" class="nav-link">
+                {{ item.label }}
               </router-link>
             </li>
           </ul>
@@ -84,14 +110,9 @@ const mapLoaded = ref(false)
             </span>
           </address>
 
-          <!-- Map -->
-          <div class="map-wrap" @mouseenter="mapLoaded = true">
-            <div v-if="!mapLoaded" class="map-placeholder">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              <span>Hover to load map</span>
-            </div>
+          <!-- Map directly without hover -->
+          <div class="map-wrap">
             <iframe
-              v-if="mapLoaded"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.47192667104!2d106.8159193!3d-6.1951556!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f4262cc3c7d1%3A0xc62da2160938fdd3!2sThamrin%20City!5e0!3m2!1sen!2sid!4v1700000000000"
               width="100%" height="100%"
               style="border:0;"
@@ -121,27 +142,22 @@ const mapLoaded = ref(false)
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
 
-/* ── Tokens ── */
-:root {
-  --orange: #ea580c;
-  --orange-dim: rgba(234, 88, 12, 0.12);
-  --bg: #020617;
-  --surface: #0f172a;
-  --border: rgba(255,255,255,0.07);
-  --text-muted: #64748b;
-  --text-body: #94a3b8;
-  --text-white: #f1f5f9;
+/* ── Shell ── */
+.footer {
+  background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+  position: relative;
+  overflow: hidden;
+  color: #ffffff;
+  
+  --surface: rgba(255, 255, 255, 0.1);
+  --border: rgba(255, 255, 255, 0.2);
+  --text-muted: rgba(255, 255, 255, 0.8);
+  --text-body: rgba(255, 255, 255, 0.9);
+  --text-white: #ffffff;
   --radius: 12px;
 }
 
 .font-montserrat { font-family: 'Montserrat', sans-serif; }
-
-/* ── Shell ── */
-.footer {
-  background: var(--bg);
-  position: relative;
-  overflow: hidden;
-}
 
 /* Subtle radial glow */
 .footer::before {
@@ -151,15 +167,14 @@ const mapLoaded = ref(false)
   right: -80px;
   width: 480px;
   height: 480px;
-  background: radial-gradient(circle, rgba(234,88,12,0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
   pointer-events: none;
 }
 
 /* Accent line at top */
 .accent-bar {
   height: 2px;
-  background: linear-gradient(90deg, transparent 0%, var(--orange) 40%, transparent 100%);
-  opacity: 0.7;
+  background: rgba(255,255,255,0.3);
 }
 
 .footer-inner {
@@ -170,26 +185,15 @@ const mapLoaded = ref(false)
 
 /* ── Grid ── */
 .footer-grid {
-  display: grid;
-  grid-template-columns: 1.4fr 0.8fr 1.2fr;
-  gap: 48px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
   margin-bottom: 48px;
 }
 
-@media (max-width: 900px) {
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 36px;
-  }
-  .col-brand { grid-column: 1 / -1; }
-}
-
-@media (max-width: 560px) {
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-}
+.col-brand { flex: 1.5; min-width: 250px; }
+.col-nav { flex: 1; min-width: 120px; }
+.col-location { flex: 1.5; min-width: 250px; }
 
 /* ── Brand col ── */
 .brand-logo {
@@ -197,6 +201,7 @@ const mapLoaded = ref(false)
   object-fit: contain;
   display: block;
   margin-bottom: 16px;
+  filter: brightness(0) invert(1);
 }
 
 .brand-desc {
@@ -221,26 +226,24 @@ const mapLoaded = ref(false)
   height: 36px;
   border-radius: 8px;
   border: 1px solid var(--border);
-  color: var(--text-muted);
+  color: var(--text-white);
   background: var(--surface);
-  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+  transition: background 0.2s, transform 0.2s;
   text-decoration: none;
 }
 
 .social-btn:hover {
-  background: var(--orange);
-  border-color: var(--orange);
-  color: #fff;
+  background: rgba(255,255,255,0.2);
   transform: translateY(-2px);
 }
 
 /* ── Col titles ── */
 .col-title {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--orange);
+  color: var(--text-white);
   margin: 0 0 20px;
 }
 
@@ -251,37 +254,21 @@ const mapLoaded = ref(false)
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
 }
 
 .nav-link {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  display: inline-block;
   font-size: 13px;
   font-weight: 500;
   color: var(--text-body);
   text-decoration: none;
-  padding: 6px 0;
-  transition: color 0.2s;
+  transition: color 0.2s, transform 0.2s;
 }
 
-.nav-link:hover { color: var(--text-white); }
-
-.nav-dot {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--orange);
-  opacity: 0;
-  transform: scale(0);
-  transition: opacity 0.2s, transform 0.2s;
-  flex-shrink: 0;
-}
-
-.nav-dot.active {
-  opacity: 1;
-  transform: scale(1);
+.nav-link:hover { 
+  color: var(--text-white); 
+  transform: translateX(4px);
 }
 
 /* ── Location ── */
@@ -296,7 +283,7 @@ const mapLoaded = ref(false)
 }
 
 .address-icon {
-  color: var(--orange);
+  color: var(--text-white);
   flex-shrink: 0;
   margin-top: 2px;
 }
@@ -309,27 +296,7 @@ const mapLoaded = ref(false)
   overflow: hidden;
   border: 1px solid var(--border);
   background: var(--surface);
-  cursor: pointer;
-  transition: border-color 0.2s;
 }
-
-.map-wrap:hover { border-color: var(--orange); }
-
-.map-placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  color: var(--text-muted);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-}
-
-.map-placeholder svg { opacity: 0.5; }
 
 /* ── Bottom bar ── */
 .footer-bottom {
@@ -361,7 +328,7 @@ const mapLoaded = ref(false)
   transition: color 0.2s;
 }
 
-.legal-link:hover { color: var(--orange); }
+.legal-link:hover { color: var(--text-white); }
 
 .divider {
   color: var(--border);

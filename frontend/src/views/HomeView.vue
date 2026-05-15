@@ -52,10 +52,6 @@ onUnmounted(() => {
                 <AboutSection />
             </div>
 
-            <div class="teams-view">
-                <TeamsSection />
-            </div>
-
             <div class="projects-view">
                 <ProjectsSection />
             </div>
