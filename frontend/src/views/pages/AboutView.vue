@@ -1,11 +1,10 @@
 <script setup>
 import AboutSection from '../section/AboutSection.vue'
+import TeamsSection from '../section/TeamsSection.vue'
 </script>
 
 <template>
   <div class="about-page">
-    <AboutSection :showButton="false" />
-
     <main class="container mx-auto px-6 py-16">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
         
@@ -71,6 +70,9 @@ import AboutSection from '../section/AboutSection.vue'
         </div>
       </section>
     </main>
+
+    <AboutSection :showButton="false" />
+    <TeamsSection />
 
     <footer class="container mx-auto px-6 pb-12">
       <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6">

@@ -13,15 +13,7 @@ onMounted(() => {
 })
 
 const teams = [
-  {
-    id: 1,
-    name: 'Ibu Dian Melani M.Psi',
-    title: { en: 'Chief Executive Officer', id: 'Direktur Utama' },
-    image: '/img/ibu-dian-melani.jpeg',
-    department: { en: 'Executive', id: 'Eksekutif' },
-    social: { linkedin: 'https://www.linkedin.com/in/melani-dian-widiawati-m-psi-4a6b7a36/'},
-    color: '#ea4435'
-  },
+  
   {
     id: 2,
     name: 'Nisrina Adnin Naqiyya',
