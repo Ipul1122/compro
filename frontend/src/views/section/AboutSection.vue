@@ -36,7 +36,7 @@ defineProps({
 
                     <div class="absolute -bottom-6 -left-4 md:-left-6 bg-white p-5 md:p-6 rounded-2xl shadow-xl border border-slate-50 z-10 transition-transform duration-500 hover:-translate-y-1">
                         <p class="font-montserrat text-base font-black text-red-500 uppercase tracking-widest mb-1">
-                            Dian Melani M.Psi
+                            Melani Dian M.Psi
                         </p>
                         <p class="font-quicksand text-sm font-bold text-black tracking-widest mt-2">
                             Direktur Utama

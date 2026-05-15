@@ -4,6 +4,7 @@ import { getImageUrl, handleImageError } from '@/utils/imageHelper' // Import he
 import Navbar from '@/components/Navbar.vue'
 import HomeSection from './section/HomeSection.vue'
 import AboutSection from './section/AboutSection.vue'
+import TeamsSection from './section/TeamsSection.vue'
 import ProjectsSection from './section/ProjectsSection.vue';
 import ServicesSection from './section/ServicesSection.vue';
 import ClientsSection from './section/ClientsSection.vue';
@@ -49,6 +50,10 @@ onUnmounted(() => {
 
             <div class="about-view">
                 <AboutSection />
+            </div>
+
+            <div class="teams-view">
+                <TeamsSection />
             </div>
 
             <div class="projects-view">
