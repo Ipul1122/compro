@@ -69,6 +69,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // --- RUTE BARU UNTUK PREVIEW (Tambahkan baris ini) ---
     Route::get('articles/preview/{slug}', [ArticleController::class, 'showPreview']);
+    Route::get('articles/top-by-author', [ArticleController::class, 'topByAuthor']);
     Route::apiResource('articles', ArticleController::class);
     
     Route::post('galleries/bulk-store', [GalleryController::class, 'bulkStore']);
@@ -88,6 +89,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('categories', CategoryController::class);
         
         Route::get('articles/preview/{slug}', [ArticleController::class, 'showPreview']);
+        Route::get('articles/top-by-author', [ArticleController::class, 'topByAuthor']);
         Route::apiResource('articles', ArticleController::class);
         Route::post('articles/{id}/approve', [ArticleController::class, 'approve']);
         
