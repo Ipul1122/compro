@@ -11,6 +11,7 @@ class Gallery extends Model
 
     protected $fillable = [
         'category_id',
+        'user_id',
         'title_image',
         'image',
         'meta_title_image'
@@ -20,5 +21,11 @@ class Gallery extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    // Relasi ke User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
