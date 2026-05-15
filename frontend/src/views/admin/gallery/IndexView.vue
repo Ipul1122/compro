@@ -88,6 +88,7 @@ const groupedGalleries = computed(() => {
                 category: gallery.category,
                 category_id: gallery.category_id,
                 cover: gallery.image,
+                user: gallery.user,
                 total_images: 0,
                 ids: []
             }
@@ -182,6 +183,7 @@ const confirmDelete = async () => {
         if (paginatedAlbums.value.length === 1 && currentPage.value > 1) {
             changePage(currentPage.value - 1)
         }
+        deleteModal.value.isDeleting = false
         closeDeleteModal()
     } catch (error) {
         alert('Gagal menghapus wadah galeri')
@@ -289,6 +291,7 @@ const handleLogout = () => {
                                     <th class="px-4 sm:px-6 py-4 whitespace-nowrap">Judul Album</th>
                                     <th class="px-4 sm:px-6 py-4 whitespace-nowrap">Kategori</th>
                                     <th class="px-4 sm:px-6 py-4 whitespace-nowrap">Isi Wadah</th>
+                                    <th class="px-4 sm:px-6 py-4 whitespace-nowrap">Author</th>
                                     <th class="px-4 sm:px-6 py-4 text-right whitespace-nowrap">Aksi</th>
                                 </tr>
                             </thead>
@@ -296,7 +299,7 @@ const handleLogout = () => {
                             <tbody class="divide-y divide-slate-100">
                                 <template v-if="isLoading">
                                     <tr v-for="n in 5" :key="n" class="animate-pulse">
-                                        <td colspan="5" class="px-4 py-4"><div class="h-16 bg-slate-100 rounded-xl w-full"></div></td>
+                                        <td colspan="6" class="px-4 py-4"><div class="h-16 bg-slate-100 rounded-xl w-full"></div></td>
                                     </tr>
                                 </template>
 
@@ -323,6 +326,14 @@ const handleLogout = () => {
                                         <td class="px-4 sm:px-6 py-4">
                                             <span class="font-bold text-slate-700 text-sm">{{ album.total_images }} <span class="text-slate-400 font-medium">Foto</span></span>
                                         </td>
+                                        <td class="px-4 sm:px-6 py-4">
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-6 h-6 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-xs uppercase">
+                                                    {{ album.user?.name?.charAt(0) || 'U' }}
+                                                </div>
+                                                <span class="text-sm font-medium text-slate-700">{{ album.user?.name || 'Unknown' }}</span>
+                                            </div>
+                                        </td>
                                         <td class="px-4 sm:px-6 py-4 text-right">
                                             <div class="flex justify-end items-center gap-2">
                                                 <router-link :to="`/admin/gallery/edit/${album.id}`" class="px-4 py-2 text-xs font-bold bg-slate-100 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
@@ -341,7 +352,7 @@ const handleLogout = () => {
                                 <!-- EMPTY STATE SAAT FILTER AKTIF -->
                                 <template v-else-if="!isLoading && filteredAlbums.length === 0">
                                     <tr>
-                                        <td colspan="5" class="px-6 py-16 text-center">
+                                        <td colspan="6" class="px-6 py-16 text-center">
                                             <div class="flex flex-col items-center gap-3 text-slate-400">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-4.35-4.35M17 11A6 6 0 1 0 5 11a6 6 0 0 0 12 0z" />

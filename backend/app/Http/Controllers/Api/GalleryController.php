@@ -11,8 +11,8 @@ class GalleryController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Gallery::select('id', 'category_id', 'title_image', 'meta_title_image', 'image', 'created_at', 'updated_at')
-            ->with('category:id,name,slug')
+        $query = Gallery::select('id', 'category_id', 'user_id', 'title_image', 'meta_title_image', 'image', 'created_at', 'updated_at')
+            ->with(['category:id,name,slug', 'user:id,name'])
             ->latest();
 
         // Filter berdasarkan kategori
@@ -47,6 +47,7 @@ class GalleryController extends Controller
 
         $gallery = Gallery::create([
             'category_id' => $request->category_id,
+            'user_id' => auth()->id(),
             'title_image' => $request->title_image,
             'meta_title_image' => $request->meta_title_image,
             'image' => $imagePath
@@ -126,6 +127,7 @@ class GalleryController extends Controller
             
             $gallery = Gallery::create([
                 'category_id'      => $categoryId,
+                'user_id'          => auth()->id(),
                 'title_image'      => $titleBase . " " . ($index + 1),
                 'image'            => $path,
                 'meta_title_image' => $titleBase . " " . ($index + 1),
