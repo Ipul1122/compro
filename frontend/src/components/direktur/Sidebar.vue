@@ -55,11 +55,64 @@
                             <div class="absolute left-6 top-2 bottom-2 w-px bg-slate-800 rounded-full"></div>
                             <router-link to="/direktur/categories" class="group/sub relative flex items-center py-2.5 text-sm text-slate-400 hover:text-white transition-colors">
                                 <div class="absolute -left-5 w-3 h-px bg-slate-800 group-hover/sub:bg-orange-500 transition-colors"></div>
-                                <span class="group-hover/sub:translate-x-1 transition-transform duration-200">Index (List)</span>
+                                <span class="group-hover/sub:translate-x-1 transition-transform duration-200">Data List Kategori</span>
                             </router-link>
                             <router-link to="/direktur/categories/tambah" class="group/sub relative flex items-center py-2.5 text-sm text-slate-400 hover:text-white transition-colors">
                                 <div class="absolute -left-5 w-3 h-px bg-slate-800 group-hover/sub:bg-orange-500 transition-colors"></div>
                                 <span class="group-hover/sub:translate-x-1 transition-transform duration-200">Tambah Kategori</span>
+                            </router-link>
+                        </div>
+                    </Transition>
+                </div>
+
+
+                <div class="pt-1">
+                    <button @click="toggleMenu('articles')" class="group w-full flex items-center justify-between px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-xl transition-all font-medium border border-transparent hover:border-slate-700/50 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="flex items-center gap-3 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" :class="['h-5 w-5 transition-colors', openMenus.articles ? 'text-orange-500' : 'text-slate-400 group-hover:text-orange-500']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                            </svg>
+                            <span>Artikel</span>
+                        </div>
+                        <svg :class="{'rotate-180 text-orange-500': openMenus.articles, 'text-slate-500': !openMenus.articles}" class="w-4 h-4 transition-all duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <Transition name="slide-fade">
+                        <div v-show="openMenus.articles" class="mt-1 space-y-1 pl-11 pr-4 relative">
+                            <div class="absolute left-6 top-2 bottom-2 w-px bg-slate-800 rounded-full"></div>
+                            <router-link to="/direktur/articles" class="group/sub relative flex items-center py-2.5 text-sm text-slate-400 hover:text-white transition-colors">
+                                <div class="absolute -left-5 w-3 h-px bg-slate-800 group-hover/sub:bg-orange-500 transition-colors"></div>
+                                <span class="group-hover/sub:translate-x-1 transition-transform duration-200">Data List Artikel</span>
+                            </router-link>
+                            <router-link to="/direktur/articles/create" class="group/sub relative flex items-center py-2.5 text-sm text-slate-400 hover:text-white transition-colors">
+                                <div class="absolute -left-5 w-3 h-px bg-slate-800 group-hover/sub:bg-orange-500 transition-colors"></div>
+                                <span class="group-hover/sub:translate-x-1 transition-transform duration-200">Tambah Artikel</span>
+                            </router-link>
+                        </div>
+                    </Transition>
+                </div>
+
+                <div class="pt-1 ">
+                    <button @click="toggleMenu('gallery')" class="group w-full flex items-center justify-between px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-xl transition-all font-medium border border-transparent hover:border-slate-700/50 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="flex items-center gap-3 relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" :class="['h-5 w-5 transition-colors', openMenus.gallery ? 'text-orange-500' : 'text-slate-400 group-hover:text-orange-500']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>Galeri</span>
+                        </div>
+                        <svg :class="{'rotate-180 text-orange-500': openMenus.gallery, 'text-slate-500': !openMenus.gallery}" class="w-4 h-4 transition-all duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <Transition name="slide-fade">
+                        <div v-show="openMenus.gallery" class="mt-1 space-y-1 pl-11 pr-4 relative">
+                            <div class="absolute left-6 top-2 bottom-2 w-px bg-slate-800 rounded-full"></div>
+                            <router-link to="/direktur/gallery" class="group/sub relative flex items-center py-2.5 text-sm text-slate-400 hover:text-white transition-colors">
+                                <div class="absolute -left-5 w-3 h-px bg-slate-800 group-hover/sub:bg-orange-500 transition-colors"></div>
+                                <span class="group-hover/sub:translate-x-1 transition-transform duration-200">Data List Galeri</span>
+                            </router-link>
+                            <router-link to="/direktur/gallery/tambah" class="group/sub relative flex items-center py-2.5 text-sm text-slate-400 hover:text-white transition-colors">
+                                <div class="absolute -left-5 w-3 h-px bg-slate-800 group-hover/sub:bg-orange-500 transition-colors"></div>
+                                <span class="group-hover/sub:translate-x-1 transition-transform duration-200">Tambah Galeri</span>
                             </router-link>
                         </div>
                     </Transition>
@@ -81,63 +134,12 @@
                             <div class="absolute left-6 top-2 bottom-2 w-px bg-slate-800 rounded-full"></div>
                             <router-link to="/direktur/karyawan" class="group/sub relative flex items-center py-2.5 text-sm text-slate-400 hover:text-white transition-colors">
                                 <div class="absolute -left-5 w-3 h-px bg-slate-800 group-hover/sub:bg-orange-500 transition-colors"></div>
-                                <span class="group-hover/sub:translate-x-1 transition-transform duration-200">Index (List)</span>
+                                <span class="group-hover/sub:translate-x-1 transition-transform duration-200">Akun Karyawan</span>
                             </router-link>
                         </div>
                     </Transition>
                 </div>
-
-                <div class="pt-1">
-                    <button @click="toggleMenu('articles')" class="group w-full flex items-center justify-between px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-xl transition-all font-medium border border-transparent hover:border-slate-700/50 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div class="flex items-center gap-3 relative z-10">
-                            <svg xmlns="http://www.w3.org/2000/svg" :class="['h-5 w-5 transition-colors', openMenus.articles ? 'text-orange-500' : 'text-slate-400 group-hover:text-orange-500']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                            </svg>
-                            <span>Artikel</span>
-                        </div>
-                        <svg :class="{'rotate-180 text-orange-500': openMenus.articles, 'text-slate-500': !openMenus.articles}" class="w-4 h-4 transition-all duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <Transition name="slide-fade">
-                        <div v-show="openMenus.articles" class="mt-1 space-y-1 pl-11 pr-4 relative">
-                            <div class="absolute left-6 top-2 bottom-2 w-px bg-slate-800 rounded-full"></div>
-                            <router-link to="/direktur/articles" class="group/sub relative flex items-center py-2.5 text-sm text-slate-400 hover:text-white transition-colors">
-                                <div class="absolute -left-5 w-3 h-px bg-slate-800 group-hover/sub:bg-orange-500 transition-colors"></div>
-                                <span class="group-hover/sub:translate-x-1 transition-transform duration-200">Index (List)</span>
-                            </router-link>
-                            <router-link to="/direktur/articles/create" class="group/sub relative flex items-center py-2.5 text-sm text-slate-400 hover:text-white transition-colors">
-                                <div class="absolute -left-5 w-3 h-px bg-slate-800 group-hover/sub:bg-orange-500 transition-colors"></div>
-                                <span class="group-hover/sub:translate-x-1 transition-transform duration-200">Tambah Artikel</span>
-                            </router-link>
-                        </div>
-                    </Transition>
-                </div>
-
-                <div class="pt-1 pb-4">
-                    <button @click="toggleMenu('gallery')" class="group w-full flex items-center justify-between px-4 py-3 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-xl transition-all font-medium border border-transparent hover:border-slate-700/50 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div class="flex items-center gap-3 relative z-10">
-                            <svg xmlns="http://www.w3.org/2000/svg" :class="['h-5 w-5 transition-colors', openMenus.gallery ? 'text-orange-500' : 'text-slate-400 group-hover:text-orange-500']" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <span>Galeri</span>
-                        </div>
-                        <svg :class="{'rotate-180 text-orange-500': openMenus.gallery, 'text-slate-500': !openMenus.gallery}" class="w-4 h-4 transition-all duration-300 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <Transition name="slide-fade">
-                        <div v-show="openMenus.gallery" class="mt-1 space-y-1 pl-11 pr-4 relative">
-                            <div class="absolute left-6 top-2 bottom-2 w-px bg-slate-800 rounded-full"></div>
-                            <router-link to="/direktur/gallery" class="group/sub relative flex items-center py-2.5 text-sm text-slate-400 hover:text-white transition-colors">
-                                <div class="absolute -left-5 w-3 h-px bg-slate-800 group-hover/sub:bg-orange-500 transition-colors"></div>
-                                <span class="group-hover/sub:translate-x-1 transition-transform duration-200">Index (List)</span>
-                            </router-link>
-                            <router-link to="/direktur/gallery/tambah" class="group/sub relative flex items-center py-2.5 text-sm text-slate-400 hover:text-white transition-colors">
-                                <div class="absolute -left-5 w-3 h-px bg-slate-800 group-hover/sub:bg-orange-500 transition-colors"></div>
-                                <span class="group-hover/sub:translate-x-1 transition-transform duration-200">Tambah Galeri</span>
-                            </router-link>
-                        </div>
-                    </Transition>
-                </div>
+                
 
             </nav>
 

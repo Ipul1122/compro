@@ -19,6 +19,8 @@ const articles = ref([])
 const categories = ref([])
 const galleries = ref([])
 
+const viewsFilter = ref('semua')
+
 const currentTime = ref(new Date())
 let clockInterval = null
 
@@ -59,7 +61,34 @@ const fetchGalleriesStats = async () => {
     try { const r = await Api.get('/direktur/galleries'); galleries.value = r.data.data || r.data } catch (e) { console.error(e) }
 }
 
-const totalViews = computed(() => articles.value.reduce((sum, art) => sum + (art.total_view || 0), 0))
+const filteredArticlesForViews = computed(() => {
+    const now = new Date()
+    return articles.value.filter(art => {
+        if (viewsFilter.value === 'semua') return true
+        
+        const artDate = new Date(art.created_at)
+        
+        if (viewsFilter.value === 'hari') {
+            return artDate.getDate() === now.getDate() &&
+                   artDate.getMonth() === now.getMonth() &&
+                   artDate.getFullYear() === now.getFullYear()
+        }
+        if (viewsFilter.value === 'minggu') {
+            const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+            return artDate >= oneWeekAgo && artDate <= now
+        }
+        if (viewsFilter.value === 'bulan') {
+            return artDate.getMonth() === now.getMonth() &&
+                   artDate.getFullYear() === now.getFullYear()
+        }
+        if (viewsFilter.value === 'tahun') {
+            return artDate.getFullYear() === now.getFullYear()
+        }
+        return true
+    })
+})
+
+const totalViews = computed(() => filteredArticlesForViews.value.reduce((sum, art) => sum + (art.total_view || 0), 0))
 
 const chartData = computed(() => {
     const sorted = [...articles.value].sort((a, b) => (b.total_view || 0) - (a.total_view || 0)).slice(0, 10)
@@ -164,9 +193,21 @@ const statCards = computed(() => [
                         <div class="absolute -right-8 -top-8 w-28 h-28 bg-white/10 rounded-full blur-2xl"></div>
                         <div class="absolute -left-6 -bottom-6 w-20 h-20 bg-black/10 rounded-full blur-2xl"></div>
                         <div class="relative z-10">
-                            <div class="flex justify-between items-center mb-4">
-                                <p class="text-white/70 text-[10px] font-bold uppercase tracking-[0.15em]">Total Views</p>
-                                <div class="w-9 h-9 rounded-xl bg-white/15 backdrop-blur-sm flex items-center justify-center">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <p class="text-white/70 text-[10px] font-bold uppercase tracking-[0.15em] mb-1.5">Total Views</p>
+                                    <div class="relative inline-block">
+                                        <select v-model="viewsFilter" class="bg-white/20 border border-white/20 text-white text-xs font-medium rounded-lg pl-2.5 pr-7 py-1 outline-none focus:ring-2 focus:ring-white/30 cursor-pointer backdrop-blur-sm appearance-none">
+                                            <option value="semua" class="text-slate-800">Semua Waktu</option>
+                                            <option value="hari" class="text-slate-800">Hari Ini</option>
+                                            <option value="minggu" class="text-slate-800">7 Hari Terakhir</option>
+                                            <option value="bulan" class="text-slate-800">Bulan Ini</option>
+                                            <option value="tahun" class="text-slate-800">Tahun Ini</option>
+                                        </select>
+                                        <svg class="w-3.5 h-3.5 text-white absolute top-1/2 right-2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                    </div>
+                                </div>
+                                <div class="w-9 h-9 rounded-xl bg-white/15 backdrop-blur-sm flex items-center justify-center shrink-0">
                                     <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                 </div>
                             </div>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import Api from '@/api'
 
@@ -13,7 +13,35 @@ const employees = ref([])
 const isLoading = ref(false)
 const isSubmitting = ref(false)
 const errors = ref(null)
+const emailPrefix = ref('')
+const EMAIL_DOMAIN = '@cakrawala-internasional.co.id'
 const form = ref({ name: '', email: '', password: '' })
+const showPassword = ref(false)
+const emailShake = ref(false)
+
+watch(emailPrefix, (val) => {
+    form.value.email = val ? val + EMAIL_DOMAIN : ''
+})
+
+// Blokir karakter '@' pada input email prefix
+const handleEmailInput = (e) => {
+    const clean = e.target.value.replace(/@/g, '')
+    if (clean !== e.target.value) {
+        emailPrefix.value = clean
+        // Trigger shake
+        emailShake.value = false
+        requestAnimationFrame(() => { emailShake.value = true })
+        setTimeout(() => { emailShake.value = false }, 500)
+    } else {
+        emailPrefix.value = clean
+    }
+}
+
+// Auto Title Case pada setiap kata nama
+const handleNameInput = (e) => {
+    const val = e.target.value
+    form.value.name = val.replace(/\b\w/g, (c) => c.toUpperCase())
+}
 const pagination = ref({ current_page: 1, last_page: 1, total: 0 })
 
 const breadcrumbsData = ref([
@@ -45,6 +73,7 @@ const submitEmployee = async () => {
     try {
         const response = await Api.post('/direktur/employees', form.value)
         alert(response.data.message || 'Karyawan berhasil ditambahkan')
+        emailPrefix.value = ''
         form.value = { name: '', email: '', password: '' }
         fetchEmployees(1)
     } catch (error) {
@@ -167,19 +196,64 @@ onMounted(() => {
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-2">Nama Lengkap</label>
-                                <input v-model="form.name" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-slate-400 focus:ring-2 focus:ring-slate-100 outline-none" placeholder="Nama karyawan" />
+                                <input
+                                    :value="form.name"
+                                    @input="handleNameInput"
+                                    type="text"
+                                    class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-slate-400 focus:ring-2 focus:ring-slate-100 outline-none"
+                                    placeholder="Nama karyawan"
+                                    autocomplete="off"
+                                />
                                 <p v-if="errors?.name" class="text-xs text-red-600 mt-1">{{ errors.name?.[0] }}</p>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-2">Email</label>
-                                <input v-model="form.email" type="email" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-slate-400 focus:ring-2 focus:ring-slate-100 outline-none" placeholder="email@domain.com" />
-                                <p v-if="errors?.email" class="text-xs text-red-600 mt-1">{{ errors.email?.[0] }}</p>
+                                <div class="email-split-wrapper" :class="{ 'shake': emailShake }">
+                                    <input
+                                        :value="emailPrefix"
+                                        @input="handleEmailInput"
+                                        type="text"
+                                        class="email-prefix-input"
+                                        placeholder="username"
+                                        autocomplete="off"
+                                        spellcheck="false"
+                                    />
+                                    <span class="email-domain-suffix">@cakrawala-internasional.co.id</span>
+                                </div>
+                                <p v-if="emailShake" class="text-xs text-amber-500 mt-1 font-medium">Karakter '@' tidak diizinkan — domain sudah otomatis ditambahkan.</p>
+                                <p v-else-if="errors?.email" class="text-xs text-red-600 mt-1">{{ errors.email?.[0] }}</p>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-2">Password</label>
-                                <input v-model="form.password" type="password" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-slate-400 focus:ring-2 focus:ring-slate-100 outline-none" placeholder="Minimal 8 karakter" />
+                                <div class="password-wrapper">
+                                    <input
+                                        v-model="form.password"
+                                        :type="showPassword ? 'text' : 'password'"
+                                        class="password-input"
+                                        placeholder="Minimal 8 karakter"
+                                        autocomplete="new-password"
+                                    />
+                                    <button
+                                        type="button"
+                                        @click="showPassword = !showPassword"
+                                        class="password-toggle"
+                                        :title="showPassword ? 'Sembunyikan password' : 'Tampilkan password'"
+                                    >
+                                        <!-- Eye open -->
+                                        <svg v-if="showPassword" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon">
+                                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                                            <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                                            <line x1="1" y1="1" x2="23" y2="23"/>
+                                        </svg>
+                                        <!-- Eye closed -->
+                                        <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                            <circle cx="12" cy="12" r="3"/>
+                                        </svg>
+                                    </button>
+                                </div>
                                 <p v-if="errors?.password" class="text-xs text-red-600 mt-1">{{ errors.password?.[0] }}</p>
                             </div>
 
@@ -196,4 +270,104 @@ onMounted(() => {
 
 <style scoped>
 button, a { cursor: pointer; }
+
+/* ── Email split-input ── */
+.email-split-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    background: #fff;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.email-split-wrapper:focus-within {
+    border-color: #94a3b8;
+    box-shadow: 0 0 0 2px #f1f5f9;
+}
+.email-split-wrapper.shake {
+    border-color: #f59e0b;
+    animation: shake 0.45s cubic-bezier(.36,.07,.19,.97) both;
+}
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    15%       { transform: translateX(-6px); }
+    30%       { transform: translateX(6px); }
+    45%       { transform: translateX(-4px); }
+    60%       { transform: translateX(4px); }
+    75%       { transform: translateX(-2px); }
+    90%       { transform: translateX(2px); }
+}
+.email-prefix-input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 0.75rem 0.25rem 0.75rem 1rem;
+    color: #0f172a;
+    font-size: 0.875rem;
+}
+.email-prefix-input::placeholder {
+    color: #94a3b8;
+}
+.email-domain-suffix {
+    flex-shrink: 0;
+    padding: 0.75rem 1rem;
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    border-left: 1px solid #e2e8f0;
+    white-space: nowrap;
+    user-select: none;
+}
+
+/* ── Password wrapper ── */
+.password-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    background: #fff;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.password-wrapper:focus-within {
+    border-color: #94a3b8;
+    box-shadow: 0 0 0 2px #f1f5f9;
+}
+.password-input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 0.75rem 0.5rem 0.75rem 1rem;
+    color: #0f172a;
+    font-size: 0.875rem;
+}
+.password-input::placeholder {
+    color: #94a3b8;
+}
+.password-toggle {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.875rem;
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: color 0.15s;
+}
+.password-toggle:hover {
+    color: #475569;
+}
+.eye-icon {
+    width: 1.125rem;
+    height: 1.125rem;
+    display: block;
+}
 </style>

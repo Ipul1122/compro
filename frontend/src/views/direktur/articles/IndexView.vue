@@ -21,6 +21,7 @@ const breadcrumbsData = ref([
 ])
 
 const articles = ref([])
+const topArticles = ref([])
 const categories = ref([])
 const users = ref([])
 const isLoading = ref(false)
@@ -65,6 +66,7 @@ onMounted(() => {
         
         fetchCategories()
         fetchUsers()
+        fetchTopArticles()
         const pageFromUrl = parseInt(route.query.page) || 1
         fetchArticles(pageFromUrl)
     } else {
@@ -101,6 +103,15 @@ const fetchUsers = async () => {
         users.value = response.data.data || response.data
     } catch (error) {
         console.error("Error fetching users:", error)
+    }
+}
+
+const fetchTopArticles = async () => {
+    try {
+        const response = await Api.get('/direktur/articles/top-by-author')
+        topArticles.value = response.data.data
+    } catch (error) {
+        console.error("Error fetching top articles:", error)
     }
 }
 
@@ -226,6 +237,45 @@ const approveArticle = async (article) => {
                     <router-link to="/direktur/articles/create" class="bg-blue-600 text-white px-6 py-2 rounded-xl text-sm font-bold hover:bg-orange-600 transition-colors cursor-pointer w-full md:w-auto text-center inline-block">
                         Create New
                     </router-link>
+                </div>
+
+                <!-- Top Views By Author Section -->
+                <div v-if="topArticles.length > 0" class="mb-6">
+                    <h4 class="font-black text-sm text-slate-800 uppercase tracking-tight mb-3 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        Top 3 Views Bulan Ini Berdasarkan Author
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div v-for="(article, index) in topArticles" :key="'top-'+article.id" class="bg-gradient-to-br from-white to-amber-50 rounded-2xl border border-amber-100 p-4 shadow-sm flex flex-col gap-3 hover:shadow-md transition-shadow relative overflow-hidden group">
+                            <div class="absolute top-0 right-0 bg-amber-500 text-white text-[10px] font-black px-3 py-1 rounded-bl-xl shadow-sm z-10">
+                                Peringkat #{{ index + 1 }}
+                            </div>
+                            <div class="flex items-start gap-3 relative z-10">
+                                <img :src="getImageUrl(article.image)" @error="handleImageError" class="w-16 h-16 rounded-xl object-cover border-2 border-white shadow-sm shrink-0 group-hover:scale-105 transition-transform" alt="Cover" />
+                                <div class="flex-1 min-w-0 pt-1">
+                                    <div class="flex items-center gap-1.5 mb-1">
+                                        <div class="w-5 h-5 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-[10px] font-bold">
+                                            {{ article.author?.name ? article.author.name.charAt(0).toUpperCase() : '?' }}
+                                        </div>
+                                        <p class="text-xs text-amber-700 font-bold truncate">{{ article.author?.name || 'Unknown Author' }}</p>
+                                    </div>
+                                    <h5 class="text-sm font-black text-slate-800 leading-tight mb-1 truncate" :title="article.title">{{ article.title }}</h5>
+                                    <div class="flex items-center gap-1 text-[11px] font-bold text-slate-600 bg-white inline-flex px-2 py-0.5 rounded-full border border-slate-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
+                                        {{ article.total_view || 0 }} Views
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-[11px] text-slate-500 italic mt-1 bg-white/50 p-2 rounded-lg border border-amber-50 leading-relaxed">
+                                "{{ article.author?.name || 'Unknown' }} bulan ini mendapatkan view terbanyak di artikel <span class="font-bold text-slate-700">{{ article.title }}</span> dengan total <span class="font-bold text-emerald-600">{{ article.total_view || 0 }}</span> views."
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="bg-white rounded-3xl border border-slate-100 p-6 mb-6 shadow-sm">

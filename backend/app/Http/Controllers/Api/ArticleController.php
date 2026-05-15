@@ -168,14 +168,20 @@ class ArticleController extends Controller
         ], 200);
     }
 
-    public function showPublic($slug)
+    public function showPublic(Request $request, $slug)
     {
         $article = Article::with('category', 'author:id,name')
             ->where('slug', $slug)
             ->where('published', 'publish')
             ->firstOrFail();
 
-        $article->increment('total_view');
+        $ip = $request->ip();
+        $cacheKey = 'article_view_' . $article->id . '_' . $ip;
+
+        if (!\Illuminate\Support\Facades\Cache::has($cacheKey)) {
+            $article->increment('total_view');
+            \Illuminate\Support\Facades\Cache::put($cacheKey, true, now()->addMinutes(5));
+        }
 
         return response()->json([
             'success' => true,
@@ -290,6 +296,38 @@ class ArticleController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Article Deleted Successfully'
+        ], 200);
+    }
+
+    public function topByAuthor()
+    {
+        $currentMonth = \Carbon\Carbon::now()->month;
+        $currentYear = \Carbon\Carbon::now()->year;
+
+        $articles = Article::with('author:id,name')
+            ->whereMonth('created_at', $currentMonth)
+            ->whereYear('created_at', $currentYear)
+            ->orderBy('total_view', 'desc')
+            ->get();
+
+        $authorsTopArticles = [];
+        $authorIds = [];
+
+        foreach ($articles as $article) {
+            if (!in_array($article->author_id, $authorIds) && $article->author) {
+                $authorIds[] = $article->author_id;
+                $authorsTopArticles[] = $article;
+            }
+
+            if (count($authorsTopArticles) >= 3) {
+                break;
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Top Articles By Author This Month',
+            'data' => $authorsTopArticles
         ], 200);
     }
 }
