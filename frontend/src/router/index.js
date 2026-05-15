@@ -423,6 +423,12 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: '/direktur/articles/persetujuan/:slug',
+    name: 'direktur.articles.persetujuan',
+    component: () => import('../views/direktur/articles/PersetujuanArticlesView.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
     path: '/direktur/gallery',
     name: 'direktur.gallery.index',
     component: () => import('../views/direktur/gallery/IndexView.vue'),

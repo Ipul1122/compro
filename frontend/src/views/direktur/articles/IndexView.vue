@@ -192,22 +192,7 @@ const confirmDelete = async (id) => {
     }
 }
 
-const approveArticle = async (article) => {
-    if (!confirm('Setujui artikel ini untuk dipublikasikan?')) return
 
-    try {
-        await Api.post(`/direktur/articles/${article.id}/approve`)
-        alert('Artikel berhasil disetujui')
-        fetchArticles(currentPage.value)
-    } catch (error) {
-        console.error('Error approving article:', error)
-        if (error.response && error.response.data && error.response.data.message) {
-            alert(error.response.data.message)
-        } else {
-            alert('Gagal menyetujui artikel. Silakan coba lagi.')
-        }
-    }
-}
 </script>
 
 <template>
@@ -430,13 +415,14 @@ const approveArticle = async (article) => {
                                                 </svg>
                                             </router-link>
 
-                                            <button v-if="user.role === 'direktur' && article.published !== 'publish'" @click="approveArticle(article)"
-                                                class="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all cursor-pointer"
-                                                title="Setujui Artikel">
+                                            <router-link v-if="user.role === 'direktur' && article.published !== 'publish'" :to="`/direktur/articles/persetujuan/${article.slug}`"
+                                                class="p-2 text-slate-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-all cursor-pointer"
+                                                title="Pratinjau Persetujuan Artikel">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                 </svg>
-                                            </button>
+                                            </router-link>
 
                                             <button @click="confirmDelete(article.id)" 
                                                 class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all cursor-pointer"
