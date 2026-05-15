@@ -1,15 +1,23 @@
 <script setup>
+import { ref } from 'vue'
 import AboutSection from '../section/AboutSection.vue'
 import TeamsSection from '../section/TeamsSection.vue'
+
+const activeAccordion = ref(1)
+
+const toggleAccordion = (index) => {
+  activeAccordion.value = activeAccordion.value === index ? null : index
+}
 </script>
 
 <template>
   <div class="about-page">
     <main class="container mx-auto px-6 py-16">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
         
-        <div class="lg:col-span-7 group">
-          <div class="h-full p-8 md:p-12 rounded-3xl bg-white/70 backdrop-blur-md border border-red-100 shadow-xl shadow-red-50/50 hover:shadow-2xl hover:shadow-red-100/50 transition-all duration-500 hover:-translate-y-1">
+        <!-- LEFT: VISI -->
+        <div class="flex flex-col gap-6 group lg:sticky lg:top-24 relative z-10">
+          <div class="p-8 md:p-12 rounded-3xl bg-white/70 backdrop-blur-md border border-red-100 shadow-xl shadow-red-50/50 hover:shadow-2xl hover:shadow-red-100/50 transition-all duration-500 hover:-translate-y-1">
             <div class="flex items-center gap-4 mb-6">
               <div class="p-3 bg-red-500 rounded-2xl shadow-lg shadow-red-200">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -29,10 +37,8 @@ import TeamsSection from '../section/TeamsSection.vue'
               <div class="h-1 w-24 bg-gradient-to-r from-red-500 to-transparent rounded-full"></div>
             </div>
           </div>
-        </div>
 
-        <div class="lg:col-span-5 flex flex-col gap-6">
-          <div class="flex-1 p-8 rounded-3xl bg-slate-900 text-white shadow-2xl relative overflow-hidden group">
+          <div class="p-8 rounded-3xl bg-slate-900 text-white shadow-2xl relative overflow-hidden group">
             <div class="absolute -right-4 -bottom-4 w-32 h-32 bg-red-500/10 rounded-full blur-3xl group-hover:bg-red-500/20 transition-colors"></div>
             <h3 class="font-montserrat font-bold text-xl mb-4 relative z-10">{{ $t('about.vision_title') }}</h3>
             <p class="font-quicksand text-slate-300 text-sm leading-relaxed mb-6 relative z-10">
@@ -44,31 +50,53 @@ import TeamsSection from '../section/TeamsSection.vue'
             </div>
           </div>
         </div>
-      </div>
 
-      <section class="mt-20">
-        <div class="text-center mb-12">
-          <h2 class="font-montserrat font-black text-3xl md:text-4xl text-slate-900 mb-4">
-            {{ $t('about.our_missions') }}
-          </h2>
-          <div class="w-20 h-1.5 bg-red-500 mx-auto rounded-full"></div>
-        </div>
+        <!-- RIGHT: MISI WITH ACCORDION -->
+        <div class="misi-section relative z-20">
+          <div class="mb-8">
+            <h2 class="font-montserrat font-black text-3xl md:text-4xl text-slate-900 mb-4 flex items-center gap-4">
+              <div class="w-12 h-1.5 bg-red-500 rounded-full"></div>
+              {{ $t('about.our_missions') }}
+            </h2>
+          </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div v-for="n in 7" :key="n" 
-               class="group p-6 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:border-red-200 transition-all duration-300"
-               :class="{'lg:col-span-1': true, 'md:col-span-2 lg:col-span-1': n === 7}">
-            <div class="flex items-start gap-4">
-              <span class="font-montserrat font-black text-3xl text-red-100 group-hover:text-red-500 transition-colors duration-300">
-                0{{ n }}
-              </span>
-              <p class="font-quicksand text-slate-600 group-hover:text-slate-900 leading-snug transition-colors pt-1">
-                {{ $t(`about.mission_${n}`) }}
-              </p>
+          <div class="space-y-4">
+            <div v-for="n in 7" :key="n" 
+                 class="group rounded-2xl bg-white border shadow-sm transition-all duration-300"
+                 :class="activeAccordion === n ? 'border-red-200 shadow-md' : 'border-slate-100 hover:border-red-100'">
+              <button @click="toggleAccordion(n)" class="w-full flex items-center justify-between p-5 md:p-6 focus:outline-none">
+                <div class="flex items-center gap-4">
+                  <span class="font-montserrat font-black text-2xl transition-colors duration-300"
+                        :class="activeAccordion === n ? 'text-red-500' : 'text-red-100 group-hover:text-red-300'">
+                    0{{ n }}
+                  </span>
+                  <span class="font-quicksand font-bold text-lg text-left transition-colors duration-300"
+                        :class="activeAccordion === n ? 'text-slate-900' : 'text-slate-600 group-hover:text-slate-800'">
+                    Misi 0{{ n }}
+                  </span>
+                </div>
+                <div class="p-2 rounded-full transition-colors duration-300"
+                     :class="activeAccordion === n ? 'bg-red-50' : 'bg-slate-50 group-hover:bg-red-50/50'">
+                  <svg class="w-5 h-5 transform transition-transform duration-300" 
+                       :class="activeAccordion === n ? 'rotate-180 text-red-500' : 'text-slate-400 group-hover:text-red-400'" 
+                       fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </button>
+              <div class="transition-all duration-500 ease-in-out overflow-hidden" 
+                   :style="{ maxHeight: activeAccordion === n ? '300px' : '0', opacity: activeAccordion === n ? '1' : '0' }">
+                <div class="px-5 md:px-6 pb-6 pt-0 md:ml-12 border-t border-slate-50 mt-2">
+                  <p class="font-quicksand text-slate-600 leading-relaxed text-justify pt-4">
+                    {{ $t(`about.mission_${n}`) }}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </section>
+        
+      </div>
     </main>
 
     <AboutSection :showButton="false" />

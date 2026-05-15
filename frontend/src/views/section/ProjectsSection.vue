@@ -44,7 +44,7 @@ const dummyProjects = [
     { id: 'iso_9001', title: 'ISO 9001:2015 – Quality Management System for the Health Service Unit of DPR RI, 2025', category: 'Coaching and Counseling' }
 ];
 
-const itemsToShow = 6
+const itemsToShow = 3
 const selectedCategory = ref('All')
 
 // Extract unique categories
@@ -71,101 +71,85 @@ const filteredProjects = computed(() => {
 </script>
 
 <template>
-    <section id="our-project" class="py-32 bg-white selection:bg-brand selection:text-white overflow-hidden">
+    <section id="our-project" class="py-24 bg-transparent overflow-hidden font-['Quicksand']">
         <div class="max-w-7xl mx-auto px-6">
 
-            <header class="mb-24">
-                <div class="flex items-center gap-4 mb-8">
-                    <span class="h-2px w-12 bg-brand rounded-full"></span>
-                    <h2 class="text-[10px] font-black text-brand uppercase tracking-[0.5em]">{{ $t('projects.badge') ||
-                        'Global Portfolio' }}</h2>
+            <header class="mb-16 text-center">
+                <div class="inline-flex items-center gap-3 mb-4">
+                    <span class="h-1 w-12 bg-gradient-to-r from-red-600 to-red-600 rounded-full"></span>
+                    <h2 class="text-xs font-bold text-red-600 uppercase tracking-widest font-['Montserrat']">
+                        {{ $t('projects.badge') || 'Global Portfolio' }}
+                    </h2>
+                    <span class="h-1 w-12 bg-gradient-to-r from-red-600 to-red-600 rounded-full"></span>
                 </div>
 
-                <div class="mb-12">
-                    <h3 class="text-6xl md:text-8xl font-black tracking-tighter leading-[0.85]">
-                        <span class="text-transparent" style="-webkit-text-stroke: 1.5px #ea4435;">
-                            {{ $t('projects.title_our') || 'Our' }}
-                        </span>
-                        <br />
-                        <span class="text-slate-900">
+                <div class="mb-10">
+                    <h3 class="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 font-['Montserrat']">
+                        {{ $t('projects.title_our') || 'Our' }}
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-600">
                             {{ $t('projects.title_projects') || 'Projects.' }}
                         </span>
                     </h3>
-                    <p class="mt-6 text-slate-400 font-bold uppercase tracking-widest text-xs">Cakrawala Parama
-                        Internasional</p>
+                    <p class="mt-4 text-slate-500 font-medium text-sm md:text-base max-w-2xl mx-auto">
+                        Cakrawala Parama Internasional
+                    </p>
                 </div>
 
-                <div class="pt-8 border-t border-slate-100 overflow-x-auto no-scrollbar" v-if="showFilter">
-                    <div class="flex flex-nowrap md:flex-wrap items-center gap-3">
-                        <span
-                            class="hidden md:block text-[10px] font-black text-slate-300 uppercase tracking-widest mr-4">{{
-                                $t('projects.filter_label') || 'Filter By:' }}</span>
+                <div class="pt-6 overflow-x-auto no-scrollbar" v-if="showFilter">
+                    <div class="flex flex-nowrap md:flex-wrap justify-center items-center gap-3 md:gap-4 pb-4">
                         <button v-for="cat in categories" :key="cat" @click="setCategory(cat)"
-                            :class="selectedCategory === cat ? 'bg-slate-900 text-white border-slate-900 shadow-xl shadow-slate-900/10' : 'bg-white text-slate-500 border-slate-100 hover:border-slate-300'"
-                            class="whitespace-nowrap px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest border transition-all duration-300 cursor-pointer active:scale-95">
+                            :class="selectedCategory === cat ? 'bg-gradient-to-r from-red-600 to-red-600 text-white shadow-lg shadow-red-600/30 border-transparent' : 'bg-white text-slate-600 border-slate-200 hover:border-red-400 hover:text-red-600'"
+                            class="whitespace-nowrap px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer active:scale-95 border">
                             {{ cat }}
                         </button>
                     </div>
                 </div>
             </header>
 
-            <transition-group name="list" tag="div" class="space-y-6">
+            <transition-group name="list" tag="div" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div v-for="(project, index) in filteredProjects" :key="project.id"
-                    class="group relative bg-white border border-slate-100 rounded-[2.5rem] p-8 md:p-14 flex flex-col md:flex-row gap-8 items-center transition-all duration-500 hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] hover:-translate-y-2 cursor-pointer">
+                    class="group relative bg-white border border-slate-100 rounded-2xl p-8 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-red-600/10 hover:-translate-y-1 cursor-pointer overflow-hidden">
+                    
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-red-50 to-red-50 rounded-bl-full -z-10 group-hover:scale-110 transition-transform duration-500"></div>
 
-                    <div class="hidden md:block w-20">
-                        <span
-                            class="text-6xl font-black text-slate-50 group-hover:text-brand/10 transition-colors duration-500 leading-none">
-                            {{ (index + 1).toString().padStart(2, '0') }}
-                        </span>
-                    </div>
-
-                    <div class="flex-1 space-y-4 text-center md:text-left">
-                        <div class="flex flex-wrap items-center justify-center md:justify-start gap-3">
-                            <span
-                                class="px-4 py-1.5 bg-slate-50 text-slate-400 text-[10px] font-black uppercase tracking-widest rounded-xl border border-slate-100 group-hover:bg-brand group-hover:text-white group-hover:border-brand transition-all duration-300">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="px-3 py-1 bg-red-50 text-red-600 text-xs font-bold rounded-lg border border-red-100">
                                 {{ project.category }}
                             </span>
+                            <span class="text-4xl font-black text-slate-100 group-hover:text-red-100 transition-colors font-['Montserrat']">
+                                {{ (index + 1).toString().padStart(2, '0') }}
+                            </span>
                         </div>
-                        <h4
-                            class="text-2xl md:text-3xl font-black text-slate-800 leading-[1.15] group-hover:text-slate-900 transition-colors max-w-4xl tracking-tight">
+                        <h4 class="text-xl font-bold text-slate-800 leading-snug group-hover:text-red-600 transition-colors font-['Montserrat']">
                             {{ $t('projects.list.' + project.id) || project.title }}
                         </h4>
                     </div>
 
-                    <div class="shrink-0">
-                        <div
-                            class="w-16 h-16 rounded-full border border-slate-100 flex items-center justify-center group-hover:bg-[#ea4435] group-hover:border-[#ea4435] group-hover:shadow-2xl group-hover:shadow-red-500/40 transition-all duration-500 transform group-hover:rotate-45">
-                            <svg class="w-7 h-7 text-slate-300 group-hover:text-white transition-colors" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </div>
+                    <div class="mt-8 flex items-center gap-3 text-sm font-bold text-slate-400 group-hover:text-red-500 transition-colors">
+                        <span>View Details</span>
+                        <svg class="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
                     </div>
                 </div>
             </transition-group>
 
-            <div class="mt-24 flex flex-col items-center gap-8">
-                <router-link  :to="$i18n.locale === 'id' ? '/id/proyek-kami' : '/en/projects'" v-if="showButton"
-                    class="group relative px-14 py-6 bg-slate-900 text-white rounded-full font-black text-[11px] uppercase tracking-[0.3em] overflow-hidden transition-all active:scale-95 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] flex items-center justify-center inline-flex">
-                    <span class="relative z-10 flex items-center gap-6">
-                        {{ $t('projects.button_more') || 'View Full Project Library' }}
-                        <div class="w-6 h-6 bg-white/10 rounded-full flex items-center justify-center">
-                            <svg class="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
-                        </div>
+            <div class="mt-16 flex flex-col items-center gap-6" v-if="showButton">
+                <router-link :to="$i18n.locale === 'id' ? '/id/proyek-kami' : '/en/projects'" 
+                    class="group relative px-8 py-4 bg-gradient-to-r from-red-600 to-red-600 text-white rounded-full font-bold text-sm uppercase tracking-wider overflow-hidden transition-all active:scale-95 shadow-lg shadow-red-600/30 flex items-center gap-4">
+                    <span class="relative z-10 flex items-center gap-3 font-['Montserrat']">
+                        {{ $t('projects.button_more') || 'View All Projects' }}
+                        <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
                     </span>
-                    <div
-                        class="absolute inset-0 bg-[#ea4435] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out">
-                    </div>
                 </router-link>
-                
-                <p class="text-slate-300 text-[10px] font-black uppercase tracking-[0.3em]">
-                    {{ $t('projects.stats_prefix') || 'Showing' }} {{ filteredProjects.length }} Projects
+            </div>
+
+            <div class="mt-12 text-center" v-if="showFilter">
+                <p class="text-slate-400 text-sm font-medium">
+                    {{ $t('projects.stats_prefix') || 'Showing' }} <span class="font-bold text-slate-700">{{ filteredProjects.length }}</span> Projects
                 </p>
             </div>
 
@@ -174,14 +158,7 @@ const filteredProjects = computed(() => {
 </template>
 
 <style scoped>
-/* Red Brand Colors */
-.text-brand {
-    color: #ea4435;
-}
-
-.bg-brand {
-    background-color: #ea4435;
-}
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap');
 
 /* Hide scrollbar for category filter on mobile */
 .no-scrollbar::-webkit-scrollbar {
@@ -202,6 +179,10 @@ const filteredProjects = computed(() => {
 .list-enter-from,
 .list-leave-to {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
+}
+
+.list-move {
+    transition: transform 0.5s ease;
 }
 </style>

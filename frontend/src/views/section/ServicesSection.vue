@@ -204,9 +204,9 @@ import { RouterLink } from 'vue-router'
     font-weight: 800;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: #ea580c;
-    background: #fff7ed;
-    border: 1px solid #fed7aa;
+    color: #dc2626;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
     padding: 0.35rem 0.85rem;
     border-radius: 999px;
 }
@@ -257,9 +257,9 @@ import { RouterLink } from 'vue-router'
 }
 
 .cta-btn:hover {
-    background: #ea580c;
+    background: #dc2626;
     transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(234, 88, 12, 0.25);
+    box-shadow: 0 12px 32px rgba(220, 38, 38, 0.25);
 }
 
 .cta-btn svg {
@@ -330,7 +330,7 @@ import { RouterLink } from 'vue-router'
 }
 
 .card-featured .highlight {
-    color: #fb923c;
+    color: #f87171;
 }
 
 .card-accent {
@@ -339,7 +339,7 @@ import { RouterLink } from 'vue-router'
     right: -1.5rem;
     width: 6rem;
     height: 6rem;
-    background: #ea580c;
+    background: #dc2626;
     border-radius: 50%;
     opacity: 0.15;
     transition: transform 0.4s ease, opacity 0.4s ease;
@@ -366,7 +366,7 @@ import { RouterLink } from 'vue-router'
 }
 
 .service-card:hover:not(.card-featured) .card-number {
-    color: #fed7aa;
+    color: #fecaca;
 }
 
 /* ── Card Body ── */
@@ -395,7 +395,7 @@ import { RouterLink } from 'vue-router'
 }
 
 .highlight {
-    color: #ea580c;
+    color: #dc2626;
     font-weight: 700;
 }
 
@@ -420,7 +420,7 @@ import { RouterLink } from 'vue-router'
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background: #ea580c;
+    background: #dc2626;
     margin-top: 0.45rem;
 }
 

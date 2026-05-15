@@ -74,6 +74,7 @@ const groupedAlbums = computed(() => {
                 title_en: baseTitleEn,
                 category: gallery.category,
                 category_id: gallery.category_id,
+                author: gallery.user ? gallery.user.name : 'Admin',
                 cover: null,
                 images: [] 
             }
@@ -269,6 +270,12 @@ onUnmounted(() => {
                                     <h3 class="album-card__title">
                                         {{ locale === 'en' && album.title_en ? album.title_en : album.title }}
                                     </h3>
+                                    <div class="flex items-center gap-1.5 text-[10px] font-semibold text-orange-400 mb-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        </svg>
+                                        {{ album.author }}
+                                    </div>
                                     <span class="album-card__cta">
                                         {{ locale === 'en' ? 'Open Collection' : 'Buka Koleksi' }}
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 ml-1" viewBox="0 0 20 20" fill="currentColor">
@@ -391,6 +398,12 @@ onUnmounted(() => {
                             <h2 class="lb-title">
                                 {{ locale === 'en' && activeAlbum.title_en ? activeAlbum.title_en : activeAlbum.title }}
                             </h2>
+                            <div class="flex items-center gap-1.5 text-xs text-slate-300 mb-2 font-dm">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                                By {{ activeAlbum.author }}
+                            </div>
                             <div v-if="activeAlbum.images.length > 1" class="lb-counter">
                                 <span class="lb-counter-current">{{ currentIndex + 1 }}</span>
                                 <span class="lb-counter-sep">/</span>
