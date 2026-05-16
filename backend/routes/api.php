@@ -59,6 +59,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // Dashboard Rekapitulasi
     Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::get('/dashboard/search', [DashboardController::class, 'globalSearch']);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 92a43e72cebbbbed91af592e6268f013c2ddcef7
     
     // Endpoint khusus untuk dropdown form (Get All tanpa pagination)
     Route::get('categories/list', [CategoryController::class, 'list']);
@@ -83,6 +87,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('direktur')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index']);
         Route::get('/dashboard/search', [DashboardController::class, 'globalSearch']);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 92a43e72cebbbbed91af592e6268f013c2ddcef7
         Route::get('users', [DashboardController::class, 'getAllUsers']);
         
         Route::get('categories/list', [CategoryController::class, 'list']);

@@ -6,7 +6,11 @@ import Api from '@/api' //
 defineProps({
     user: {
         type: Object,
+<<<<<<< HEAD
         required: true
+=======
+        default: () => ({ name: 'Direktur', email: '', role: 'direktur' })
+>>>>>>> 92a43e72cebbbbed91af592e6268f013c2ddcef7
     },
     breadcrumbs: {
         type: Array,
@@ -42,7 +46,15 @@ const handleLogout = async () => {
 </script>
 
 <template>
+<<<<<<< HEAD
     <div v-if="isProfileOpen" @click="isProfileOpen = false" class="fixed inset-0 z-[100] bg-transparent"></div>
+=======
+    <div
+        v-if="isProfileOpen"
+        @click="isProfileOpen = false"
+        class="fixed inset-0 z-[100] bg-transparent"
+    ></div>
+>>>>>>> 92a43e72cebbbbed91af592e6268f013c2ddcef7
 
     <nav class="h-20 bg-white border-b border-slate-100 px-4 md:px-8 flex items-center justify-between sticky top-0 z-[50]">
         <div class="flex items-center gap-4 min-w-0">
@@ -67,7 +79,11 @@ const handleLogout = async () => {
             </nav>
         </div>
 
+<<<<<<< HEAD
         <div class="relative z-[110]">
+=======
+        <div class="relative z-[110] flex items-center gap-2">
+>>>>>>> 92a43e72cebbbbed91af592e6268f013c2ddcef7
             <button @click="isProfileOpen = !isProfileOpen" class="flex items-center gap-3 md:gap-4 hover:bg-slate-50 p-1.5 rounded-2xl transition-all cursor-pointer outline-none shrink-0">
                 <div class="text-right hidden sm:block">
                     <p class="text-sm font-black text-slate-900 leading-none">{{ user?.name }}</p>

@@ -49,7 +49,10 @@ onMounted(() => {
     }
 })
 
-onUnmounted(() => { clearInterval(clockInterval) })
+onUnmounted(() => {
+    clearInterval(clockInterval)
+    clearInterval(activityInterval)
+})
 
 const fetchArticlesStats = async () => {
     try { const r = await Api.get('/direktur/articles'); articles.value = r.data.data || r.data } catch (e) { console.error(e) }

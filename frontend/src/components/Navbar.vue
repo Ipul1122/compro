@@ -100,7 +100,13 @@ const handleLanguageToggle = async () => {
                             <router-link :to="routePaths.about[locale]" active-class="active-link"
                                 class="text-black hover:text-red-700 px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
                                 {{ t('nav.about') }}
+<<<<<<< HEAD
                             </router-link>                            
+=======
+                            </router-link>
+
+                            
+>>>>>>> 92a43e72cebbbbed91af592e6268f013c2ddcef7
 
                             <!-- Dropdown Menu Services -->
                             <div class="relative group">
@@ -209,6 +215,11 @@ const handleLanguageToggle = async () => {
                         {{ t('nav.about') }}
                     </router-link>
 
+<<<<<<< HEAD
+=======
+                   
+
+>>>>>>> 92a43e72cebbbbed91af592e6268f013c2ddcef7
                     
                     <div class="space-y-1">
                         <button @click="isMobileServiceOpen = !isMobileServiceOpen"
