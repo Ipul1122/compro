@@ -18,11 +18,13 @@ const isLoading = ref(true)
 const articles = ref([])
 const categories = ref([])
 const galleries = ref([])
+const articleActivities = ref([])
 
 const viewsFilter = ref('semua')
 
 const currentTime = ref(new Date())
 let clockInterval = null
+let activityInterval = null
 
 const formattedDate = computed(() => currentTime.value.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }))
 const formattedTime = computed(() => currentTime.value.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }))
@@ -42,14 +44,18 @@ onMounted(() => {
         user.value = JSON.parse(savedUser)
         showSuccessNotif.value = true
         setTimeout(() => { showSuccessNotif.value = false }, 4000)
-        Promise.all([fetchArticlesStats(), fetchCategoriesStats(), fetchGalleriesStats()])
+        Promise.all([fetchArticlesStats(), fetchCategoriesStats(), fetchGalleriesStats(), fetchArticleActivities()])
             .finally(() => { isLoading.value = false })
+        activityInterval = setInterval(fetchArticleActivities, 60000)
     } else {
         router.push('/view/login')
     }
 })
 
-onUnmounted(() => { clearInterval(clockInterval) })
+onUnmounted(() => {
+    clearInterval(clockInterval)
+    clearInterval(activityInterval)
+})
 
 const fetchArticlesStats = async () => {
     try { const r = await Api.get('/direktur/articles'); articles.value = r.data.data || r.data } catch (e) { console.error(e) }
@@ -59,6 +65,14 @@ const fetchCategoriesStats = async () => {
 }
 const fetchGalleriesStats = async () => {
     try { const r = await Api.get('/direktur/galleries'); galleries.value = r.data.data || r.data } catch (e) { console.error(e) }
+}
+const fetchArticleActivities = async () => {
+    try {
+        const r = await Api.get('/direktur/dashboard/article-activities', { params: { limit: 8 } })
+        articleActivities.value = r.data?.data || []
+    } catch (e) {
+        console.error(e)
+    }
 }
 
 const filteredArticlesForViews = computed(() => {
@@ -89,6 +103,7 @@ const filteredArticlesForViews = computed(() => {
 })
 
 const totalViews = computed(() => filteredArticlesForViews.value.reduce((sum, art) => sum + (art.total_view || 0), 0))
+const recentActivityCount = computed(() => articleActivities.value.filter((item) => item.is_recent).length)
 
 const chartData = computed(() => {
     const sorted = [...articles.value].sort((a, b) => (b.total_view || 0) - (a.total_view || 0)).slice(0, 10)
@@ -155,7 +170,12 @@ const statCards = computed(() => [
         <Sidebar v-model:is-open="isSidebarOpen" @logout="handleLogout" />
 
         <div class="flex-1 flex flex-col min-w-0">
-            <Navbar :user="user" :breadcrumbs="breadcrumbsData" @toggle-sidebar="isSidebarOpen = !isSidebarOpen" @logout="handleLogout" />
+            <Navbar
+                :user="user"
+                :breadcrumbs="breadcrumbsData"
+                @toggle-sidebar="isSidebarOpen = !isSidebarOpen"
+                @logout="handleLogout"
+            />
 
             <main class="p-4 md:p-6 lg:p-8 space-y-6">
                 <div class="dash-greeting flex flex-col sm:flex-row sm:items-end justify-between gap-4">
