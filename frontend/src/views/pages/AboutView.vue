@@ -52,7 +52,7 @@ const toggleAccordion = (index) => {
         </div>
 
         <!-- RIGHT: MISI WITH ACCORDION -->
-        <div class="misi-section relative z-20">
+        <div class="misi-section relative z-20 py-12">
           <div class="mb-8">
             <h2 class="font-montserrat font-black text-3xl md:text-4xl text-slate-900 mb-4 flex items-center gap-4">
               <div class="w-12 h-1.5 bg-red-500 rounded-full"></div>

@@ -51,18 +51,10 @@
                                     Parama
                                 </span>
                                 <!-- Underline accent -->
-                                <span class="absolute -bottom-1 left-0 w-full h-[3px] bg-gradient-to-r from-red-500 to-amber-400 rounded-full opacity-60"></span>
                             </span>
                             <span class="text-slate-800 ml-3">Internasional</span>
                         </span>
                     </h1>
-
-                    <!-- Divider line -->
-                    <div class="mt-6 flex items-center gap-3">
-                        <div class="w-12 h-[2px] bg-red-500 rounded-full"></div>
-                        <div class="w-3 h-[2px] bg-red-300 rounded-full"></div>
-                        <div class="w-1.5 h-[2px] bg-red-200 rounded-full"></div>
-                    </div>
 
                     <!-- Description -->
                     <p class="font-quicksand mt-7 text-sm md:text-base text-slate-500 tracking-wide leading-relaxed max-w-xl">
