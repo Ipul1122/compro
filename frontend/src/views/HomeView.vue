@@ -44,9 +44,6 @@ onUnmounted(() => {
                 <AboutSection />
             </section>
 
-           
-
-            <section class="projects-view section-gap">
                 <ProjectsSection />
             </section>
 

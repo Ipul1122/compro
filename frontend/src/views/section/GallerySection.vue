@@ -40,6 +40,7 @@ const groupedAlbums = computed(() => {
                 title: baseTitle,
                 title_en: baseTitleEn,
                 category: gallery.category,
+                author: gallery.user ? gallery.user.name : 'Admin',
                 cover: null,
                 images: [] 
             }
@@ -163,6 +164,12 @@ onMounted(() => {
                             <h3 class="overlay-title">
                                 {{ locale === 'en' && album.title_en ? album.title_en : album.title }}
                             </h3>
+                            <div class="mt-2 flex items-center gap-1.5 text-xs font-semibold text-red-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                                {{ album.author }}
+                            </div>
                             <div class="overlay-cta">
                                 <span class="overlay-cta-text">{{ t('gallerySection.openGallery') }}</span>
                                 <span class="overlay-cta-icon">
@@ -173,7 +180,7 @@ onMounted(() => {
                             </div>
                         </div>
 
-                        <!-- Orange corner accent -->
+                        <!-- red 6orner accent -->
                         <!-- <div class="corner-accent"></div> -->
                     </div>
 
@@ -185,6 +192,12 @@ onMounted(() => {
                         <h3 class="mobile-label-title">
                             {{ locale === 'en' && album.title_en ? album.title_en : album.title }}
                         </h3>
+                        <div class="mt-1 flex items-center gap-1 text-[10px] text-slate-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            {{ album.author }}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -100,7 +100,6 @@ const handleLanguageToggle = async () => {
                             <router-link :to="routePaths.about[locale]" active-class="active-link"
                                 class="text-black hover:text-red-700 px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
                                 {{ t('nav.about') }}
-                            </router-link>
 
                             <!-- Dropdown Menu Services -->
                             <div class="relative group">
@@ -112,8 +111,8 @@ const handleLanguageToggle = async () => {
                                 </button>
 
                                 <!-- Isi Dropdown -->
-                                <div class="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-80 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                                    <div class="bg-white rounded-xl shadow-xl border border-slate-100 p-2 grid grid-cols-2 gap-2 overflow-hidden">
+                                <div class="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-[600px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                                    <div class="bg-white rounded-xl shadow-xl border border-slate-100 p-2 grid grid-cols-3 gap-2 overflow-hidden">
                                         <!-- Kiri -->
                                         <div class="flex flex-col space-y-1">
                                             <router-link :to="routePaths.project[locale]" active-class="active-link"
@@ -121,7 +120,7 @@ const handleLanguageToggle = async () => {
                                                 {{ t('nav.projects') }}
                                             </router-link>
                                             <router-link :to="routePaths.articles[locale]" active-class="active-link"
-                                                class="text-black hover:text-red-700 px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
+                                                class="text-black hover:text-red-700 px-3 py-2.5 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 block rounded-lg">
                                                 {{ t('nav.articles') }}
                                             </router-link>
                                             <router-link :to="routePaths.gallery[locale]" active-class="active-link"
@@ -133,12 +132,8 @@ const handleLanguageToggle = async () => {
                                                 {{ t('nav.clients') }}
                                             </a>
                                         </div>
-                                        <!-- Kanan -->
+                                        <!-- Tengah -->
                                         <div class="flex flex-col space-y-1 border-l border-slate-100 pl-2">
-                                            <router-link :to="routePaths.InteriorDesign[locale]" active-class="active-link"
-                                                class="text-black hover:text-red-700 px-3 py-2.5 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 block rounded-lg">
-                                                {{ t('nav.interior_design') }}
-                                            </router-link>
                                             <router-link :to="routePaths.assessment[locale]" active-class="active-link"
                                                 class="text-black hover:text-red-700 px-3 py-2.5 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 block rounded-lg">
                                                 {{ t('nav.assessment') }}
@@ -150,6 +145,13 @@ const handleLanguageToggle = async () => {
                                             <router-link :to="routePaths.lms[locale]" active-class="active-link"
                                                 class="text-black hover:text-red-700 px-3 py-2.5 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 block rounded-lg">
                                                 {{ t('nav.lms') }}
+                                            </router-link>
+                                        </div>
+                                        <!-- Kanan -->
+                                        <div class="flex flex-col space-y-1 border-l border-slate-100 pl-2">
+                                            <router-link :to="routePaths.InteriorDesign[locale]" active-class="active-link"
+                                                class="text-black hover:text-red-700 px-3 py-2.5 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 block rounded-lg">
+                                                {{ t('nav.interior_design') }}
                                             </router-link>
                                         </div>
                                     </div>
@@ -195,7 +197,7 @@ const handleLanguageToggle = async () => {
 
                 <!-- MOBILE -->
                 <div v-show="isMenuOpen"
-                    class="md:hidden border-t border-slate-100 p-4 space-y-1 bg-white rounded-b-2xl">
+                    class="md:hidden border-t border-slate-100 p-4 space-y-1 bg-white rounded-b-2xl max-h-[calc(100vh-8rem)] overflow-y-auto">
                     <router-link :to="routePaths.home[locale]" @click="isMenuOpen = false" active-class="active-link"
                         class="block px-4 py-2.5 text-black hover:text-red-700 hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
                         {{ t('nav.home') }}
@@ -205,6 +207,7 @@ const handleLanguageToggle = async () => {
                         class="block px-4 py-2.5 text-black hover:text-red-700 hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
                         {{ t('nav.about') }}
                     </router-link>
+
 
                     <div class="space-y-1">
                         <button @click="isMobileServiceOpen = !isMobileServiceOpen"
@@ -216,44 +219,52 @@ const handleLanguageToggle = async () => {
                             </svg>
                         </button>
 
-                        <div v-show="isMobileServiceOpen" class="bg-slate-50/50 rounded-xl p-2 mt-2 grid grid-cols-2 gap-2">
+                        <div v-show="isMobileServiceOpen" class="bg-slate-50/50 rounded-xl p-3 mt-2 flex flex-col space-y-3">
                             <!-- Kiri -->
-                            <div class="flex flex-col space-y-1 border-r border-slate-200 pr-2">
+                            <div class="flex flex-col space-y-1">
                                 <router-link :to="routePaths.project[locale]" @click="isMenuOpen = false" active-class="active-link"
-                                    class="block px-2 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
+                                    class="block px-3 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
                                     {{ t('nav.projects') }}
                                 </router-link>
                                 <router-link :to="routePaths.articles[locale]" @click="isMenuOpen = false" active-class="active-link"
-                                    class="block px-4 py-2.5 text-black hover:text-red-700 hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
+                                    class="block px-3 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
                                     {{ t('nav.articles') }}
                                 </router-link>
-
                                 <router-link :to="routePaths.gallery[locale]" @click="isMenuOpen = false" active-class="active-link"
-                                    class="block px-2 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
+                                    class="block px-3 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
                                     {{ t('nav.gallery') }}
                                 </router-link>
                                 <a href="/#clients" @click="isMenuOpen = false"
-                                    class="block px-2 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
+                                    class="block px-3 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
                                     {{ t('nav.clients') }}
                                 </a>
                             </div>
-                            <!-- Kanan -->
-                            <div class="flex flex-col space-y-1 pl-1">
-                                <router-link :to="routePaths.InteriorDesign[locale]" @click="isMenuOpen = false" active-class="active-link"
-                                    class="block px-2 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
-                                    {{ t('nav.interior_design') }}
-                                </router-link>
+
+                            <div class="h-px bg-slate-200/60 w-full my-1"></div>
+
+                            <!-- Tengah -->
+                            <div class="flex flex-col space-y-1">
                                 <router-link :to="routePaths.assessment[locale]" @click="isMenuOpen = false" active-class="active-link"
-                                    class="block px-2 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
+                                    class="block px-3 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
                                     {{ t('nav.assessment') }}
                                 </router-link>
                                 <router-link :to="routePaths.event_organizer[locale]" @click="isMenuOpen = false" active-class="active-link"
-                                    class="block px-2 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
+                                    class="block px-3 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
                                     {{ t('nav.event_organizer') }}
                                 </router-link>
                                 <router-link :to="routePaths.lms[locale]" @click="isMenuOpen = false" active-class="active-link"
-                                    class="block px-2 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
+                                    class="block px-3 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
                                     {{ t('nav.lms') }}
+                                </router-link>
+                            </div>
+
+                            <div class="h-px bg-slate-200/60 w-full my-1"></div>
+
+                            <!-- Kanan -->
+                            <div class="flex flex-col space-y-1">
+                                <router-link :to="routePaths.InteriorDesign[locale]" @click="isMenuOpen = false" active-class="active-link"
+                                    class="block px-3 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
+                                    {{ t('nav.interior_design') }}
                                 </router-link>
                             </div>
                         </div>

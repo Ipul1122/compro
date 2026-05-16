@@ -36,15 +36,15 @@ const sendToWhatsApp = () => {
             <div class="text-center mb-20">
                 <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full badge-pill mb-6">
                     <span class="dot-pulse"></span>
-                    <span class="text-xs font-black uppercase tracking-[0.2em] text-orange-600">
+                    <span class="text-xs font-black uppercase tracking-[0.2em] text-red-600">
                         {{ t('contact_section.badge') }}
                     </span>
                 </div>
                 <h2 class="text-4xl md:text-6xl font-black text-slate-900 mb-5 tracking-tight leading-none">
-                    <span class="block text-orange-500 relative inline-block mt-1">
+                    <span class="block text-red-500 relative inline-block mt-1">
                         {{ t('contact_section.title') }}
                         <svg class="underline-svg" viewBox="0 0 300 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2 9C60 3 120 1 180 5C220 8 260 10 298 8" stroke="#f97316" stroke-width="3.5" stroke-linecap="round"/>
+                            <path d="M2 9C60 3 120 1 180 5C220 8 260 10 298 8" stroke="#f70707" stroke-width="3.5" stroke-linecap="round"/>
                         </svg>
                     </span>
                 </h2>
@@ -247,7 +247,7 @@ const sendToWhatsApp = () => {
 }
 .dot-pulse {
     width: 7px; height: 7px;
-    background: #f97316;
+    background: #f70707;
     border-radius: 50%;
     display: inline-block;
     animation: pulse 1.5s ease-in-out infinite;
@@ -279,8 +279,8 @@ const sendToWhatsApp = () => {
 .corner-accent {
     position: absolute;
     width: 24px; height: 24px;
-    border-top: 2.5px solid #f97316;
-    border-left: 2.5px solid #f97316;
+    border-top: 2.5px solid #f70707;
+    border-left: 2.5px solid #f70707;
     border-radius: 4px 0 0 0;
     z-index: 10;
 }
@@ -296,7 +296,7 @@ const sendToWhatsApp = () => {
 }
 .loc-icon {
     width: 34px; height: 34px;
-    background: #f97316;
+    background: #f70707;
     border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
@@ -336,7 +336,7 @@ const sendToWhatsApp = () => {
 }
 .styled-input::placeholder { color: #94a3b8; font-weight: 400; }
 .styled-input:focus {
-    border-color: #f97316;
+    border-color: #f70707;
     background: #fff;
     box-shadow: 0 0 0 4px rgba(249,115,22,0.08);
 }
@@ -344,7 +344,7 @@ const sendToWhatsApp = () => {
     position: absolute;
     bottom: 0; left: 12px; right: 12px;
     height: 2px;
-    background: linear-gradient(90deg, #f97316, #fb923c);
+    background: linear-gradient(90deg, #f70707, #fb923c);
     border-radius: 1px;
     transform: scaleX(0);
     transform-origin: left;
@@ -367,7 +367,7 @@ const sendToWhatsApp = () => {
 
 .wa-button-bg {
     position: absolute; inset: 0;
-    background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%);
+    background: linear-gradient(135deg, #f70707 0%, #cf5d1f 50%, #c2410c 100%);
     transition: opacity 0.3s;
 }
 .wa-button:hover .wa-button-bg { opacity: 0.92; }
@@ -390,7 +390,7 @@ const sendToWhatsApp = () => {
     width: 42px; height: 42px;
     border-radius: 12px;
     background: rgba(249,115,22,0.08);
-    color: #f97316;
+    color: #f70707;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
     transition: background 0.2s;

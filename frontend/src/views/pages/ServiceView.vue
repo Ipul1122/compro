@@ -49,7 +49,7 @@ const closeModal = () => {
 
                         <h2 class="text-4xl md:text-5xl font-black text-gray-900 leading-[1.1] tracking-tight uppercase mb-6">
                             {{ $t('service_view.lms.title1') }} <br />
-                            <span class="text-orange-600">{{ $t('service_view.lms.title_highlight') }}</span>
+                            <span class="text-red-600">{{ $t('service_view.lms.title_highlight') }}</span>
                         </h2>
 
                         <p class="text-lg text-gray-500 leading-relaxed font-medium max-w-2xl mb-8">
@@ -77,10 +77,10 @@ const closeModal = () => {
                                     {{ $t('service_view.lms.features_title') }}
                                 </h4>
                                 <ul class="space-y-3">
-                                    <li class="flex items-start gap-3 text-sm text-gray-600 font-medium"><span class="text-orange-600">✔</span> {{ $t('service_view.lms.feature1') }}</li>
-                                    <li class="flex items-start gap-3 text-sm text-gray-600 font-medium"><span class="text-orange-600">✔</span> {{ $t('service_view.lms.feature2') }}</li>
-                                    <li class="flex items-start gap-3 text-sm text-gray-600 font-medium"><span class="text-orange-600">✔</span> {{ $t('service_view.lms.feature3') }}</li>
-                                    <li class="flex items-start gap-3 text-sm text-gray-600 font-medium"><span class="text-orange-600">✔</span> {{ $t('service_view.lms.feature4') }}</li>
+                                    <li class="flex items-start gap-3 text-sm text-gray-600 font-medium"><span class="text-red-600">✔</span> {{ $t('service_view.lms.feature1') }}</li>
+                                    <li class="flex items-start gap-3 text-sm text-gray-600 font-medium"><span class="text-red-600">✔</span> {{ $t('service_view.lms.feature2') }}</li>
+                                    <li class="flex items-start gap-3 text-sm text-gray-600 font-medium"><span class="text-red-600">✔</span> {{ $t('service_view.lms.feature3') }}</li>
+                                    <li class="flex items-start gap-3 text-sm text-gray-600 font-medium"><span class="text-red-600">✔</span> {{ $t('service_view.lms.feature4') }}</li>
                                 </ul>
                             </div>
                             <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100">
@@ -105,7 +105,7 @@ const closeModal = () => {
                         </div>
 
                         <div class="flex items-center gap-6">
-                            <button class="bg-gray-900 text-white px-8 py-4 rounded-full font-bold text-sm hover:bg-orange-600 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                            <button class="bg-gray-900 text-white px-8 py-4 rounded-full font-bold text-sm hover:bg-red-600 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                                 {{ $t('service_view.lms.cta_btn') }}
                             </button>
                             <div class="flex flex-col">
@@ -132,7 +132,7 @@ const closeModal = () => {
                                 </div>
                             </div>
                         </div>
-                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-orange-100 rounded-full blur-[100px] -z-10"></div>
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-red-100 rounded-full blur-[100px] -z-10"></div>
                     </div>
 
                 </div>
@@ -146,7 +146,7 @@ const closeModal = () => {
                     @click.self="closeModal">
 
                     <button @click="closeModal"
-                        class="mb-6 text-gray-400 hover:text-orange-500 transition-colors flex items-center gap-2 font-bold uppercase tracking-[0.2em] text-xs">
+                        class="mb-6 text-gray-400 hover:text-red-500 transition-colors flex items-center gap-2 font-bold uppercase tracking-[0.2em] text-xs">
                         {{ $t('service_view.modal.close') }} <span class="text-3xl leading-none">×</span>
                     </button>
 
