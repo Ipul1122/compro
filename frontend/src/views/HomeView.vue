@@ -1,6 +1,5 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { getImageUrl, handleImageError } from '@/utils/imageHelper' // Import helper gambar
 import Navbar from '@/components/Navbar.vue'
 import HomeSection from './section/HomeSection.vue'
 import AboutSection from './section/AboutSection.vue'
@@ -32,53 +31,44 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-white text-slate-900 font-sans selection:bg-brand/30 relative overflow-x-hidden">
-
-        <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-            <div class="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] bg-brand/5 blur-[120px] rounded-full"></div>
-            <div class="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-blue-500/5 blur-[100px] rounded-full">
-            </div>
-        </div>
-
+    <div class="min-h-screen bg-white text-slate-900 font-sans selection:bg-brand/30">
         <Navbar />
 
-        <main id="home" class="relative mt-3">
+        <main id="home" class="pt-3">
 
-            <div class="home-view">
+            <section class="home-view">
                 <HomeSection />
-            </div>
+            </section>
 
-            <div class="about-view">
+            <section class="about-view section-gap">
                 <AboutSection />
-            </div>
+            </section>
 
-            <div class="teams-view">
-                <TeamsSection />
-            </div>
+           
 
-            <div class="projects-view">
+            <section class="projects-view section-gap">
                 <ProjectsSection />
-            </div>
+            </section>
 
-            <div class="articles-view">
+            <section class="articles-view section-gap">
                 <ArticlesSection />
-            </div>
+            </section>
             
-            <div class="gallery-view">
+            <section class="gallery-view section-gap">
                 <GallerySection />
-            </div>
+            </section>
 
-            <div class="services-view">
+            <section class="services-view section-gap">
                 <ServicesSection />
-            </div>
+            </section>
 
-            <div class="clients-view">
+            <section class="clients-view section-gap">
                 <ClientsSection />
-            </div>
+            </section>
 
-            <div class="contact-view">
+            <section class="contact-view section-gap">
                 <ContactSection />
-            </div>
+            </section>
         </main>
     </div>
 
@@ -117,5 +107,15 @@ onUnmounted(() => {
 
 .hover\:border-brand:hover {
     border-color: #ea4435;
+}
+
+.section-gap {
+    margin-top: 2rem;
+}
+
+@media (min-width: 768px) {
+    .section-gap {
+        margin-top: 2.5rem;
+    }
 }
 </style>

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\AppNotification;
 use App\Models\Article;
+use App\Models\ArticleActivity;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -138,6 +141,12 @@ class ArticleController extends Controller
         }
 
         $article = Article::create($data);
+        ArticleActivity::create([
+            'article_id' => $article->id,
+            'user_id' => auth()->id(),
+            'action' => 'created',
+        ]);
+        $this->notifyDirectors($article, 'article_created', 'membuat artikel');
 
         return response()->json([
             'success' => true,
@@ -248,6 +257,11 @@ class ArticleController extends Controller
         }
 
         $article->update($data);
+        ArticleActivity::create([
+            'article_id' => $article->id,
+            'user_id' => $user->id,
+            'action' => 'edited',
+        ]);
 
         return response()->json([
             'success' => true,
@@ -329,5 +343,32 @@ class ArticleController extends Controller
             'message' => 'Top Articles By Author This Month',
             'data' => $authorsTopArticles
         ], 200);
+    }
+
+    private function notifyDirectors(Article $article, string $eventType, string $actionLabel): void
+    {
+        $actor = auth()->user();
+        if (!$actor) {
+            return;
+        }
+
+        $directors = User::query()
+            ->where('role', 'direktur')
+            ->select('id')
+            ->get();
+
+        foreach ($directors as $director) {
+            $targetUrl = '/direktur/articles?status=pending';
+            AppNotification::create([
+                'recipient_user_id' => $director->id,
+                'actor_user_id' => $actor->id,
+                'event_type' => $eventType,
+                'target_type' => 'article',
+                'target_id' => $article->id,
+                'title' => 'Persetujuan Artikel',
+                'message' => $actor->name . ' telah ' . $actionLabel . ': ' . $article->title,
+                'url' => $targetUrl,
+            ]);
+        }
     }
 }

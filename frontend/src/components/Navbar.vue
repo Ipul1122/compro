@@ -102,14 +102,6 @@ const handleLanguageToggle = async () => {
                                 {{ t('nav.about') }}
                             </router-link>
 
-                            <!-- OUR TEAMS -->
-                            <router-link :to="routePaths.our_teams[locale]" active-class="active-link"
-                                class="text-black hover:text-red-700 px-4 py-2 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 rounded-xl">
-                                {{ t('nav.our_teams') }}
-                            </router-link>
-
-                            
-
                             <!-- Dropdown Menu Services -->
                             <div class="relative group">
                                 <button :class="['px-4 py-2 text-sm font-bold tracking-wide transition-all group-hover:bg-slate-50 rounded-xl flex items-center gap-1', isServiceActive ? 'active-link' : 'text-black group-hover:text-red-700']">
@@ -214,12 +206,6 @@ const handleLanguageToggle = async () => {
                         {{ t('nav.about') }}
                     </router-link>
 
-                    <router-link :to="routePaths.our_teams[locale]" @click="isMenuOpen = false" active-class="active-link"
-                        class="block px-4 py-2.5 text-black hover:text-red-700 hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all">
-                        {{ t('nav.our_teams') }}
-                    </router-link>
-
-                    
                     <div class="space-y-1">
                         <button @click="isMobileServiceOpen = !isMobileServiceOpen"
                             :class="['w-full flex justify-between items-center px-4 py-2.5 hover:bg-slate-50 rounded-xl text-sm font-bold tracking-wide transition-all', isServiceActive ? 'active-link' : 'text-black hover:text-red-700']">
