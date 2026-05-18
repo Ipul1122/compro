@@ -92,6 +92,10 @@ class DashboardController extends Controller
             'data' => $users
         ], 200);
     }
+<<<<<<< HEAD
+}
+=======
 
 
 }
+>>>>>>> 92a43e72cebbbbed91af592e6268f013c2ddcef7

@@ -144,7 +144,7 @@ const layanan2Routes = computed(() => ({
 
 /* ── Shell ── */
 .footer {
-  background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
+  background: linear-gradient(135deg, #ED0226 0%, #FF6A00 100%);
   position: relative;
   overflow: hidden;
   color: #ffffff;
@@ -233,7 +233,7 @@ const layanan2Routes = computed(() => ({
 }
 
 .social-btn:hover {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.24);
   transform: translateY(-2px);
 }
 

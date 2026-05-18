@@ -1,12 +1,20 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router' //
-import Api from '@/api' //
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
+import Api from '@/api'
 
 const props = defineProps({
     user: {
         type: Object,
         default: () => ({ name: 'Direktur', email: '', role: 'direktur' })
+    },
+    notificationCount: {
+        type: Number,
+        default: null
+    },
+    notifications: {
+        type: Array,
+        default: () => null
     },
     breadcrumbs: {
         type: Array,
@@ -14,37 +22,91 @@ const props = defineProps({
     }
 })
 
-// Tetap deklarasikan 'logout' di emits untuk menghilangkan Vue Warn, 
-// meskipun kita menangani logikanya langsung di sini.
-const emit = defineEmits(['toggle-sidebar', 'logout']) 
+const emit = defineEmits(['toggle-sidebar', 'logout'])
 
 const router = useRouter()
 const isProfileOpen = ref(false)
+const isNotifOpen = ref(false)
+const localNotifications = ref([])
+const localUnreadCount = ref(0)
+let notifInterval = null
+
+const displayedNotifications = computed(() => {
+    if (localNotifications.value.length > 0) return localNotifications.value
+    return Array.isArray(props.notifications) ? props.notifications : []
+})
+
+const displayedNotificationCount = computed(() => {
+    if (localUnreadCount.value > 0) return localUnreadCount.value
+    if (typeof props.notificationCount === 'number') return props.notificationCount
+    return localUnreadCount.value
+})
+
+const fetchLocalNotifications = async () => {
+    try {
+        const r = await Api.get('/direktur/notifications', { params: { limit: 8 } })
+        localNotifications.value = r.data?.data || []
+        localUnreadCount.value = r.data?.meta?.unread_count || 0
+    } catch (error) {
+        console.error('Notif fetch error:', error)
+    }
+}
+
+const markAllAsRead = async () => {
+    try {
+        await Api.post('/direktur/notifications/read')
+        localUnreadCount.value = 0
+        localNotifications.value = localNotifications.value.map((item) => ({ ...item, is_read: true }))
+    } catch (error) {
+        console.error('Mark read error:', error)
+    }
+}
+
+const openNotification = async (item) => {
+    const targetUrl = item?.url || '/direktur/articles?status=pending'
+    try {
+        if (!item?.is_read && item?.id) {
+            await Api.post('/direktur/notifications/read', { ids: [item.id] })
+            localNotifications.value = localNotifications.value.map((n) =>
+                n.id === item.id ? { ...n, is_read: true } : n
+            )
+            localUnreadCount.value = Math.max(0, localUnreadCount.value - 1)
+        }
+    } catch (error) {
+        console.error('Open notif error:', error)
+    } finally {
+        isNotifOpen.value = false
+        router.push(targetUrl)
+    }
+}
+
+onMounted(() => {
+    fetchLocalNotifications()
+    notifInterval = setInterval(fetchLocalNotifications, 5000)
+})
+
+onUnmounted(() => {
+    clearInterval(notifInterval)
+})
 
 const handleLogout = async () => {
     try {
-        // 1. Panggil API Logout ke backend (menggunakan token yang ada di interceptor)
-        await Api.post('/logout') //
+        await Api.post('/logout')
     } catch (error) {
         console.error('Logout error:', error)
     } finally {
-        // 2. Hapus data autentikasi dari penyimpanan lokal
-        sessionStorage.removeItem('token') //
+        sessionStorage.removeItem('token')
         sessionStorage.removeItem('user')
-
-        // 3. Arahkan kembali ke halaman login
-        router.push({ name: 'login' }) //
-        
-        // 4. (Opsional) Beritahu parent jika perlu
-        emit('logout') 
+        router.push({ name: 'login' })
+        emit('logout')
     }
 }
 </script>
 
 <template>
     <div
-        v-if="isProfileOpen"
-        @click="isProfileOpen = false"
+        v-if="isProfileOpen || isNotifOpen"
+        @click="isProfileOpen = false; isNotifOpen = false"
         class="fixed inset-0 z-[100] bg-transparent"
     ></div>
 
@@ -63,8 +125,10 @@ const handleLogout = async () => {
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
                     </span>
-                    <span :class="index === breadcrumbs.length - 1 ? 'text-slate-900' : 'text-slate-400 font-medium'" 
-                          class="uppercase tracking-tight truncate max-w-[100px] md:max-w-none">
+                    <span
+                        :class="index === breadcrumbs.length - 1 ? 'text-slate-900' : 'text-slate-400 font-medium'"
+                        class="uppercase tracking-tight truncate max-w-[100px] md:max-w-none"
+                    >
                         {{ item.label }}
                     </span>
                 </div>
@@ -72,7 +136,49 @@ const handleLogout = async () => {
         </div>
 
         <div class="relative z-[110] flex items-center gap-2">
-            <button @click="isProfileOpen = !isProfileOpen" class="flex items-center gap-3 md:gap-4 hover:bg-slate-50 p-1.5 rounded-2xl transition-all cursor-pointer outline-none shrink-0">
+            <div class="relative">
+                <button
+                    @click="isNotifOpen = !isNotifOpen; isProfileOpen = false; fetchLocalNotifications(); if (isNotifOpen) markAllAsRead()"
+                    class="relative h-10 w-10 rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors flex items-center justify-center"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+                    <span
+                        v-if="displayedNotificationCount > 0"
+                        class="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center"
+                    >
+                        {{ displayedNotificationCount > 99 ? '99+' : displayedNotificationCount }}
+                    </span>
+                </button>
+
+                <transition name="pop">
+                    <div v-if="isNotifOpen" class="absolute right-0 mt-3 w-80 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-100 overflow-hidden z-[120]">
+                        <div class="px-4 py-3 border-b border-slate-100">
+                            <p class="text-sm font-bold text-slate-900">Notifikasi Direktur</p>
+                            <p class="text-[11px] text-slate-400 mt-1">Aktivitas terbaru artikel.</p>
+                        </div>
+                        <div class="max-h-80 overflow-y-auto divide-y divide-slate-100">
+                            <button
+                                v-for="item in displayedNotifications"
+                                :key="item.id"
+                                type="button"
+                                class="w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors cursor-pointer"
+                                :class="!item.is_read ? 'bg-amber-50/40' : ''"
+                                @click.stop="openNotification(item)"
+                            >
+                                <p class="text-xs text-slate-700 leading-5">{{ item.message }}</p>
+                                <p class="text-[11px] text-slate-400 mt-1">{{ item.created_at_human }}</p>
+                            </button>
+                            <div v-if="!displayedNotifications.length" class="px-4 py-6 text-center text-xs text-slate-400">
+                                Belum ada aktivitas artikel.
+                            </div>
+                        </div>
+                    </div>
+                </transition>
+            </div>
+
+            <button @click="isProfileOpen = !isProfileOpen; isNotifOpen = false" class="flex items-center gap-3 md:gap-4 hover:bg-slate-50 p-1.5 rounded-2xl transition-all cursor-pointer outline-none shrink-0">
                 <div class="text-right hidden sm:block">
                     <p class="text-sm font-black text-slate-900 leading-none">{{ user?.name }}</p>
                     <p class="text-[10px] text-slate-400 mt-1 uppercase tracking-widest font-bold">{{ user?.role === 'direktur' ? 'Direktur' : user?.role === 'admin' ? 'Admin' : user?.role }}</p>
@@ -86,13 +192,6 @@ const handleLogout = async () => {
                         <p class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Active Email</p>
                         <p class="text-sm font-bold text-slate-900 truncate">{{ user.email }}</p>
                     </div>
-                    
-                    <!-- <button @click="handleLogout" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold text-red-500 hover:bg-red-50 text-left cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                        </svg>
-                        Sign Out
-                    </button> -->
                 </div>
             </transition>
         </div>

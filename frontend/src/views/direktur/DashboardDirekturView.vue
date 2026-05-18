@@ -51,6 +51,7 @@ onMounted(() => {
 
 onUnmounted(() => {
     clearInterval(clockInterval)
+    clearInterval(activityInterval)
 })
 
 const fetchArticlesStats = async () => {
@@ -157,12 +158,7 @@ const statCards = computed(() => [
         <Sidebar v-model:is-open="isSidebarOpen" @logout="handleLogout" />
 
         <div class="flex-1 flex flex-col min-w-0">
-            <Navbar
-                :user="user"
-                :breadcrumbs="breadcrumbsData"
-                @toggle-sidebar="isSidebarOpen = !isSidebarOpen"
-                @logout="handleLogout"
-            />
+            <Navbar :user="user" :breadcrumbs="breadcrumbsData" @toggle-sidebar="isSidebarOpen = !isSidebarOpen" @logout="handleLogout" />
 
             <main class="p-4 md:p-6 lg:p-8 space-y-6">
                 <div class="dash-greeting flex flex-col sm:flex-row sm:items-end justify-between gap-4">
