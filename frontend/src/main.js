@@ -9,6 +9,7 @@ import "./style.css";
 import router from "./router";
 import en from './locales/en.json'
 import id from './locales/id.json'
+// Locale updated: Sat working hours added
 import axios from 'axios';
 
 // Konfigurasi i18n

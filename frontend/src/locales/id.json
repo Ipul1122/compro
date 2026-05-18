@@ -396,7 +396,19 @@
     },
     "info": {
       "title": "Hubungi Kami",
-      "status": "Online"
+      "status": "Online",
+      "work_hours": "Jam Kerja: Sen–Jum 09.00–17.00 | Sabtu 09.00–14.00",
+      "status_open": "Buka",
+      "status_closed": "Tutup"
+    },
+    "offline_modal": {
+      "title": "Di Luar Jam Kerja",
+      "subtitle": "Maaf, pesan Anda belum bisa kami proses sekarang. Kami hanya dapat merespons selama jam kerja operasional.",
+      "hours_label": "Jam Kerja:",
+      "hours_value": "Sen–Jum 09.00–17.00 | Sabtu 09.00–14.00 WIB",
+      "current_time": "Waktu sekarang:",
+      "cta_text": "Silakan kirim pesan kembali pada jam kerja kami. Kami akan segera membantu Anda!",
+      "btn_close": "Baik, Mengerti"
     },
     "whatsapp_greeting": "Halo PT Cakrawala Parama Internasional,%0A%0ASaya *{name}* ({email}) ingin menanyakan:%0A{message}"
   },

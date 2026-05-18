@@ -397,7 +397,19 @@
     },
     "info": {
       "title": "Call Us",
-      "status": "Online"
+      "status": "Online",
+      "work_hours": "Working Hours: Mon–Fri 09:00–17:00 | Sat 09:00–14:00",
+      "status_open": "Open",
+      "status_closed": "Closed"
+    },
+    "offline_modal": {
+      "title": "Outside Working Hours",
+      "subtitle": "Sorry, we are unable to process your message right now. We only respond during our operational working hours.",
+      "hours_label": "Working Hours:",
+      "hours_value": "Mon–Fri 09:00–17:00 | Sat 09:00–14:00 WIB",
+      "current_time": "Current time:",
+      "cta_text": "Please send your message during our working hours. We will assist you as soon as possible!",
+      "btn_close": "Got It"
     },
     "whatsapp_greeting": "Hello PT Cakrawala Parama Internasional,%0A%0AI am *{name}* ({email}) and I would like to ask:%0A{message}"
   },
