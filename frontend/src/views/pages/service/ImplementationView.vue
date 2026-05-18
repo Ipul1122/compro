@@ -160,6 +160,18 @@ const workScopes = computed(() => isEnglish.value ? [
         ]
     },
 ])
+
+const gallery = computed(() => isEnglish.value ? [
+    { title: 'Desk Transformation', desc: 'Modern marble finish upgrade', category: 'Before & After', image: '/img/tubel1.jpg' },
+    { title: 'Lounge Makeover', desc: 'Complete seating area renovation', category: 'Before & After', image: '/img/interior.jpg' },
+    { title: 'Office Layout Concept', desc: '3D spatial planning', category: 'Design Concept', image: '/img/interior-design.jpg' },
+    { title: 'Interior Details Concept', desc: '3D rendering of meeting area', category: 'Design Concept', image: '/img/section-two.jpg' }
+] : [
+    { title: 'Transformasi Meja', desc: 'Pembaruan dengan finishing marmer modern', category: 'Before & After', image: '/img/tubel1.jpg' },
+    { title: 'Renovasi Ruang Tunggu', desc: 'Renovasi total area tempat duduk', category: 'Before & After', image: '/img/interior.jpg' },
+    { title: 'Konsep Tata Letak Kantor', desc: 'Perencanaan ruang 3D', category: 'Konsep Desain', image: '/img/interior-design.jpg' },
+    { title: 'Konsep Detail Interior', desc: 'Render 3D area pertemuan', category: 'Konsep Desain', image: '/img/section-two.jpg' }
+])
 </script>
 
 <template>
@@ -232,7 +244,6 @@ const workScopes = computed(() => isEnglish.value ? [
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div v-for="scope in workScopes" :key="scope.title" class="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all text-white">
-                        <div class="text-4xl mb-4">{{ scope.icon }}</div>
                         <h3 class="text-xl font-black mb-4 text-white">{{ scope.title }}</h3>
                         <ul class="space-y-2.5">
                             <li v-for="(item, idx) in scope.responsibilities" :key="idx" class="flex gap-3 text-sm leading-relaxed">
@@ -245,8 +256,44 @@ const workScopes = computed(() => isEnglish.value ? [
             </div>
         </section>
 
-        <!-- Implementation flow removed as requested -->
+        <!-- GALLERY SECTION -->
+        <section class="py-24 bg-slate-50 border-t border-slate-200">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-100 text-[#ED0226] text-xs font-bold uppercase tracking-[0.2em] mb-4">
+                        {{ isEnglish ? 'Portfolio' : 'Portofolio' }}
+                    </div>
+                    <h2 class="text-3xl lg:text-5xl font-black text-slate-950 mb-6">{{ isEnglish ? 'Our Recent Work' : 'Hasil Pekerjaan Kami' }}</h2>
+                    <p class="text-slate-600 text-lg leading-relaxed">{{ isEnglish ? 'From 3D design concepts to real-world before and after transformations.' : 'Dari konsep desain 3D hingga transformasi nyata sebelum dan sesudah pengerjaan.' }}</p>
+                </div>
 
-        <!-- CTA section removed as requested -->
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Gallery Item -->
+                    <div v-for="(item, idx) in gallery" :key="idx" class="group relative rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 bg-white border border-slate-100 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                        <div class="aspect-[4/3] relative overflow-hidden bg-slate-200">
+                            <!-- Image -->
+                            <img :src="item.image" :alt="item.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                            
+                            <!-- Gradient Overlay -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/30 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            
+                            <!-- Badge -->
+                            <div class="absolute top-6 left-6 z-10">
+                                <div class="px-4 py-2 rounded-xl bg-white/95 backdrop-blur shadow-sm text-[#ED0226] text-xs font-black uppercase tracking-wider">
+                                    {{ item.category }}
+                                </div>
+                            </div>
+
+                            <!-- Text Content -->
+                            <div class="absolute bottom-0 left-0 right-0 p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 z-10">
+                                <h3 class="text-2xl font-black text-white mb-2">{{ item.title }}</h3>
+                                <p class="text-slate-300 text-sm font-medium leading-relaxed">{{ item.desc }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 </template>
