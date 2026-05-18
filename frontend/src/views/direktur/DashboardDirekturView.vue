@@ -51,7 +51,6 @@ onMounted(() => {
 
 onUnmounted(() => {
     clearInterval(clockInterval)
-    clearInterval(activityInterval)
 })
 
 const fetchArticlesStats = async () => {
