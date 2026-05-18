@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -208,12 +209,12 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
 
-        // Cek apakah user adalah author dari artikel ini atau direktur
+        // Cek apakah user adalah author dari artikel ini, direktur, atau admin
         $user = auth()->user();
-        if ($article->author_id !== $user->id && $user->role !== 'direktur') {
+        if ($article->author_id != $user->id && $user->role !== 'direktur' && $user->role !== 'admin') {
             return response()->json([
                 'success' => false,
-                'message' => 'Anda hanya bisa mengedit artikel yang Anda buat sendiri'
+                'message' => 'Anda tidak memiliki akses untuk mengedit artikel ini'
             ], 403);
         }
 
@@ -280,12 +281,12 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
 
-        // Cek apakah user adalah author dari artikel ini atau direktur
+        // Cek apakah user adalah author dari artikel ini, direktur, atau admin
         $user = auth()->user();
-        if ($article->author_id !== $user->id && $user->role !== 'direktur') {
+        if ($article->author_id != $user->id && $user->role !== 'direktur' && $user->role !== 'admin') {
             return response()->json([
                 'success' => false,
-                'message' => 'Anda hanya bisa menghapus artikel yang Anda buat sendiri'
+                'message' => 'Anda tidak memiliki akses untuk menghapus artikel ini'
             ], 403);
         }
 
@@ -330,4 +331,5 @@ class ArticleController extends Controller
             'data' => $authorsTopArticles
         ], 200);
     }
+
 }
