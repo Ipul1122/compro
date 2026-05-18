@@ -380,11 +380,10 @@ const handleContentClick = (e) => {
                                 <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                                 <span>{{ article.total_view || 0 }} Views</span>
                             </div>
-                            <!-- Share -->
+                            <!-- Social Links -->
                             <div class="ml-auto flex items-center gap-2">
-                                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-300">Share</span>
-                                <button class="share-btn text-pink-500 hover:bg-pink-50" aria-label="Share to Instagram">IG</button>
-                                <button class="share-btn text-blue-500 hover:bg-blue-50" aria-label="Share to Facebook">FB</button>
+                                <a href="https://www.instagram.com/cakrawala.parama?igsh=eHczc3hhYW82MWoy" target="_blank" rel="noopener noreferrer" class="share-btn text-pink-500 hover:bg-pink-50 flex items-center justify-center" style="text-decoration: none;" aria-label="Instagram">IG</a>
+                                <a href="https://www.linkedin.com/in/pt-cakrawala-parama-internasional-b06182356" target="_blank" rel="noopener noreferrer" class="share-btn text-blue-500 hover:bg-blue-50 flex items-center justify-center" style="text-decoration: none;" aria-label="LinkedIn">IN</a>
                             </div>
                         </div>
 
