@@ -87,8 +87,9 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
 
-        // Hanya pemilik yang boleh edit
-        if ($category->user_id && $category->user_id !== auth()->id()) {
+        $user = auth()->user();
+        // Hanya pemilik, admin, atau direktur yang boleh edit
+        if ($category->user_id && $category->user_id != $user->id && $user->role !== 'direktur' && $user->role !== 'admin') {
             return response()->json([
                 'status'  => 'error',
                 'message' => 'Anda tidak memiliki izin untuk mengedit kategori ini.'
@@ -119,8 +120,9 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
 
-        // Hanya pemilik yang boleh hapus
-        if ($category->user_id && $category->user_id !== auth()->id()) {
+        $user = auth()->user();
+        // Hanya pemilik, admin, atau direktur yang boleh hapus
+        if ($category->user_id && $category->user_id != $user->id && $user->role !== 'direktur' && $user->role !== 'admin') {
             return response()->json([
                 'status'  => 'error',
                 'message' => 'Anda tidak memiliki izin untuk menghapus kategori ini.'

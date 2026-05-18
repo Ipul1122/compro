@@ -52,7 +52,7 @@
                       </div>
                       <div>
                         <p class="text-xs font-bold text-slate-700">{{ cat.creator_name || 'Tidak diketahui' }}</p>
-                        <span v-if="cat.user_id === user.id" class="text-[9px] font-black text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded">Anda</span>
+                        <span v-if="cat.user_id == user.id" class="text-[9px] font-black text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded">Anda</span>
                       </div>
                     </div>
                   </td>
@@ -214,11 +214,11 @@ const handleLogout = () => {
   router.push('/view/login');
 };
 
-// Cek apakah user yang login adalah pemilik kategori
+// Cek apakah user yang login adalah pemilik kategori, atau admin/direktur
 const isOwner = (cat) => {
   // Jika user_id null (kategori lama tanpa pemilik), semua bisa edit
   if (!cat.user_id) return true;
-  return cat.user_id === user.value.id;
+  return cat.user_id == user.value.id || user.value.role === 'admin' || user.value.role === 'direktur';
 };
 
 // Modal Hapus Kategori
