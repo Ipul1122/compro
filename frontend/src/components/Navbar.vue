@@ -23,6 +23,7 @@ const routePaths = {
     assessment: { en: '/en/assessment', id: '/id/assessment' },
     event_organizer: { en: '/en/event-organizer', id: '/id/event-organizer' },
     lms: { en: '/en/learning-management-system', id: '/id/learning-management-system' },
+    implementation: { en: '/en/implementation', id: '/id/implementasi' },
     contact: { en: '/en/contact', id: '/id/kontak' },
 }
 
@@ -34,6 +35,7 @@ const isServiceActive = computed(() => {
         routePaths.assessment.en, routePaths.assessment.id,
         routePaths.event_organizer.en, routePaths.event_organizer.id,
         routePaths.lms.en, routePaths.lms.id,
+        routePaths.implementation.en, routePaths.implementation.id,
         routePaths.project.en, routePaths.project.id,
         routePaths.gallery.en, routePaths.gallery.id
     ].includes(currentPath);
@@ -153,6 +155,13 @@ const handleLanguageToggle = async () => {
                                                 class="text-black hover:text-red-700 px-3 py-2.5 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 block rounded-lg">
                                                 {{ t('nav.interior_design') }}
                                             </router-link>
+                                            <router-link :to="routePaths.implementation[locale]" active-class="active-link"
+                                                class="nav-impl-card block">
+                                                <div class="text-left">
+                                                    <div class="font-bold text-slate-900">implementation</div>
+                                                    <div class="text-xs text-slate-500 mt-0.5">{{ isIndonesian ? 'Rencana • Eksekusi • Monitoring' : 'Plan • Execute • Monitor' }}</div>
+                                                </div>
+                                            </router-link>
                                         </div>
                                     </div>
                                 </div>
@@ -265,6 +274,12 @@ const handleLanguageToggle = async () => {
                                     class="block px-3 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
                                     {{ t('nav.interior_design') }}
                                 </router-link>
+                                <router-link :to="routePaths.implementation[locale]" @click="isMenuOpen = false" active-class="active-link"
+                                    class="block nav-impl-card-mobile px-3 py-2">
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-sm font-bold text-slate-900">implementation</div>
+                                    </div>
+                                </router-link>
                             </div>
                         </div>
                     </div>
@@ -311,4 +326,24 @@ const handleLanguageToggle = async () => {
 a:active {
     transform: translateY(1px);
 }
+
+.nav-impl-card {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.75rem;
+    transition: all 200ms ease;
+    border: 1px solid rgba(15, 23, 42, 0.03);
+}
+.nav-impl-card:hover {
+    background: linear-gradient(90deg, rgba(237,2,38,0.04), rgba(255,106,0,0.02));
+    box-shadow: 0 6px 18px rgba(234,68,53,0.06);
+}
+.nav-impl-card-mobile {
+    border-radius: 0.75rem;
+    transition: background 150ms ease, transform 120ms ease;
+}
+.nav-impl-card-mobile:hover {
+    background-color: #fff1f0;
+    transform: translateY(-2px);
+}
+/* icon styles removed for implementation nav */
 </style>

@@ -334,6 +334,47 @@
     },
     "modal": {
       "close": "Tutup"
+    },
+    "hc": {
+      "badge": "Layanan Konsultasi",
+      "title": "Pengembangan HC dan Organisasi",
+      "desc": "Solusi komprehensif untuk meningkatkan potensi individu dan kinerja organisasi Anda melalui berbagai program pengembangan yang inovatif.",
+      "list1": "Psikotes dan asesmen center (online, offline, Hybrid)",
+      "list2": "Pelatihan (Softskill, hardskill, kompetensi)",
+      "list3": "Coaching dan Conselling",
+      "list4": "EO (Event Organizer)",
+      "list5": "Sertifikasi ISO",
+      "list6": "Pembuatan Sistem Informasi (ICT)",
+      "list7": "Pembuatan Struktur Organisasi",
+      "list8": "Analisa Beban Kerja",
+      "list9": "Dll"
+    },
+    "alur": {
+      "badge": "Metodologi Kerja",
+      "title": "Alur Project",
+      "subtitle": "PT CAKRAWALA PARAMA INTERNASIONAL",
+      "desc": "Proses kerja sistematis kami dari awal hingga akhir untuk memastikan kualitas terbaik di setiap proyek.",
+      "step1_title": "Site Visit",
+      "step1_time": "0-2 Hari Kerja",
+      "step1_item1": "Pengukuran oleh Site Surveyor",
+      "step1_item2": "Konsultasi dengan Designer",
+      "step2_title": "Design",
+      "step2_time": "14-21 Hari Kerja",
+      "step2_item1": "Presentasi Design 3D (Tanpa Render)",
+      "step2_item2": "Persetujuan Penawaran Harga (BoQ)",
+      "step2_item3": "Persetujuan Material",
+      "step3_title": "Pra Produksi",
+      "step3_time": "2-14 Hari Kerja",
+      "step3_item1": "Pembuatan Gambar Kerja",
+      "step4_title": "Produksi",
+      "step4_time": "32-40 Hari Kerja",
+      "step4_item1": "Penyelesaian Dokumen Izin Instalasi oleh Klien **)",
+      "step5_title": "Instalasi",
+      "step5_time": "8-14 Hari Kerja",
+      "step5_item1": "Proses Instalasi di Lokasi",
+      "step6_title": "Serah Terima",
+      "step6_time": "Selesai",
+      "step6_item1": "Proses Checklist"
     }
   },
   "contact_section": {

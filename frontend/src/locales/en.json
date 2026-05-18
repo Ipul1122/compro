@@ -335,6 +335,47 @@
     },
     "modal": {
       "close": "Close"
+    },
+    "hc": {
+      "badge": "Consulting Services",
+      "title": "HC & Organization Development",
+      "desc": "Comprehensive solutions to enhance individual potential and organizational performance through various innovative development programs.",
+      "list1": "Psychotest and Assessment Center (Online, Offline, Hybrid)",
+      "list2": "Training (Soft skills, Hard skills, Competency)",
+      "list3": "Coaching and Counseling",
+      "list4": "Event Organizer (EO)",
+      "list5": "ISO Certification",
+      "list6": "Information System (ICT) Development",
+      "list7": "Organizational Structure Design",
+      "list8": "Workload Analysis",
+      "list9": "Etc."
+    },
+    "alur": {
+      "badge": "Working Methodology",
+      "title": "Project Workflow",
+      "subtitle": "PT CAKRAWALA PARAMA INTERNASIONAL",
+      "desc": "Our systematic workflow from start to finish to ensure the best quality in every project.",
+      "step1_title": "Site Visit",
+      "step1_time": "0-2 Working Days",
+      "step1_item1": "Measurement by Site Surveyor",
+      "step1_item2": "Consultation with Designer",
+      "step2_title": "Design",
+      "step2_time": "14-21 Working Days",
+      "step2_item1": "3D Design Presentation (No Render)",
+      "step2_item2": "Price Quote Approval (BoQ)",
+      "step2_item3": "Material Approval",
+      "step3_title": "Pre-Production",
+      "step3_time": "2-14 Working Days",
+      "step3_item1": "Creation of Working Drawings",
+      "step4_title": "Production",
+      "step4_time": "32-40 Working Days",
+      "step4_item1": "Completion of Installation Permit Documents by Client **)",
+      "step5_title": "Installation",
+      "step5_time": "8-14 Working Days",
+      "step5_item1": "Installation Process on Site",
+      "step6_title": "Handover",
+      "step6_time": "Done",
+      "step6_item1": "Checklist Process"
     }
   },
   "contact_section": {

@@ -20,6 +20,15 @@ const lmsPreviews = computed(() => [
     { name: t('service_view.lms.preview.results'), path: '/img/kuis-dua.png' }
 ]);
 
+const projectSteps = [
+    { id: 1, items: 2 },
+    { id: 2, items: 3 },
+    { id: 3, items: 1 },
+    { id: 6, items: 1 },
+    { id: 5, items: 1 },
+    { id: 4, items: 1 }
+];
+
 const isModalOpen = ref(false)
 const selectedImage = ref(null)
 
@@ -135,6 +144,186 @@ const closeModal = () => {
                         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-red-100 rounded-full blur-[100px] -z-10"></div>
                     </div>
 
+                </div>
+            </div>
+        </section>
+
+        <section id="hc-development" class="py-32 relative bg-gray-50 border-t border-gray-100">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="text-center mb-16">
+                    <div class="inline-block px-4 py-1.5 rounded-full bg-white border border-gray-200 text-gray-900 text-[10px] font-bold uppercase tracking-[0.3em] mb-4 shadow-sm">
+                        {{ $t('service_view.hc.badge') }}
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-black text-gray-900 leading-tight uppercase mb-6">
+                        {{ $t('service_view.hc.title') }}
+                    </h2>
+                    <p class="text-lg text-gray-500 max-w-3xl mx-auto font-medium">
+                        {{ $t('service_view.hc.desc') }}
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    <div v-for="i in 9" :key="i" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                        <div class="w-12 h-12 bg-red-50 text-red-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                            <svg v-if="i===1" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                            <svg v-else-if="i===2" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
+                            <svg v-else-if="i===3" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path></svg>
+                            <svg v-else-if="i===4" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <svg v-else-if="i===5" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                            <svg v-else-if="i===6" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            <svg v-else-if="i===7" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                            <svg v-else-if="i===8" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                            <svg v-else class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>
+                        </div>
+                        <h3 class="text-gray-900 font-bold text-sm leading-relaxed">{{ $t(`service_view.hc.list${i}`) }}</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="alur-project" class="py-32 relative bg-[#fefdf8] border-t border-gray-100 overflow-hidden font-montserrat">
+            <!-- Graph Paper Background -->
+            <div class="absolute inset-0 z-0" style="background-image: linear-gradient(to right, #f0f0f0 1px, transparent 1px), linear-gradient(to bottom, #f0f0f0 1px, transparent 1px); background-size: 40px 40px;"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 relative z-10">
+                <div class="text-center mb-24">
+                    <h2 class="text-5xl md:text-7xl font-black text-gray-900 uppercase tracking-tighter mb-4" style="text-shadow: 2px 2px 0px rgba(0,0,0,0.1);">
+                        {{ $t('service_view.alur.title') }}
+                    </h2>
+                    <h3 class="text-xl md:text-2xl font-bold text-gray-900 tracking-tight">
+                        {{ $t('service_view.alur.subtitle') }}
+                    </h3>
+                </div>
+
+                <div class="relative max-w-6xl mx-auto flex flex-col items-center">
+                    
+                    <!-- Top Row -->
+                    <div class="flex flex-col md:flex-row w-full justify-between items-start relative">
+                        <!-- Step 1: Site Visit -->
+                        <div class="w-full md:w-[28%] flex flex-col z-10 relative">
+                            <div class="bg-[#ccff00] text-gray-900 font-black px-6 py-4 rounded-full shadow-md text-center text-lg md:text-xl border-2 border-transparent hover:scale-105 transition-transform cursor-default">
+                                {{ $t('service_view.alur.step1_title') }}
+                            </div>
+                            <ul class="mt-6 text-sm font-bold text-gray-900 space-y-3 px-2">
+                                <li class="flex items-start gap-3">
+                                    <span class="text-gray-900 text-[8px] mt-1.5">●</span> 
+                                    <span class="leading-tight">{{ $t('service_view.alur.step1_item1') }}</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="text-gray-900 text-[8px] mt-1.5">●</span> 
+                                    <span class="leading-tight">{{ $t('service_view.alur.step1_item2') }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Arrow 1 to 2 -->
+                        <div class="hidden md:flex flex-col items-center justify-center absolute left-[29%] top-7 w-[10%] z-0">
+                            <span class="text-[11px] font-extrabold text-gray-900 mb-2 whitespace-nowrap">{{ $t('service_view.alur.step1_time') }}</span>
+                            <div class="w-full h-1 bg-red-600 relative flex items-center">
+                                <div class="absolute -right-1 w-0 h-0 border-t-[5px] border-t-transparent border-l-[8px] border-l-red-600 border-b-[5px] border-b-transparent"></div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Design -->
+                        <div class="w-full md:w-[28%] flex flex-col z-10 relative mt-12 md:mt-0">
+                            <div class="bg-[#ccff00] text-gray-900 font-black px-6 py-4 rounded-full shadow-md text-center text-lg md:text-xl border-2 border-transparent hover:scale-105 transition-transform cursor-default">
+                                {{ $t('service_view.alur.step2_title') }}
+                            </div>
+                            <ul class="mt-6 text-sm font-bold text-gray-900 space-y-3 px-2">
+                                <li class="flex items-start gap-3">
+                                    <span class="text-gray-900 text-[8px] mt-1.5">●</span> 
+                                    <span class="leading-tight">{{ $t('service_view.alur.step2_item1') }}</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="text-gray-900 text-[8px] mt-1.5">●</span> 
+                                    <span class="leading-tight">{{ $t('service_view.alur.step2_item2') }}</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="text-gray-900 text-[8px] mt-1.5">●</span> 
+                                    <span class="leading-tight">{{ $t('service_view.alur.step2_item3') }}</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Arrow 2 to 3 -->
+                        <div class="hidden md:flex flex-col items-center justify-center absolute left-[63%] top-7 w-[10%] z-0">
+                            <span class="text-[11px] font-extrabold text-gray-900 mb-2 whitespace-nowrap">{{ $t('service_view.alur.step2_time') }}</span>
+                            <div class="w-full h-1 bg-red-600 relative flex items-center">
+                                <div class="absolute -right-1 w-0 h-0 border-t-[5px] border-t-transparent border-l-[8px] border-l-red-600 border-b-[5px] border-b-transparent"></div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Pra Produksi -->
+                        <div class="w-full md:w-[28%] flex flex-col z-10 relative mt-12 md:mt-0">
+                            <div class="bg-[#ccff00] text-gray-900 font-black px-6 py-4 rounded-full shadow-md text-center text-lg md:text-xl border-2 border-transparent hover:scale-105 transition-transform cursor-default">
+                                {{ $t('service_view.alur.step3_title') }}
+                            </div>
+                            <ul class="mt-6 text-sm font-bold text-gray-900 space-y-3 px-2">
+                                <li class="flex items-start gap-3">
+                                    <span class="text-gray-900 text-[8px] mt-1.5">●</span> 
+                                    <span class="leading-tight">{{ $t('service_view.alur.step3_item1') }}<br/>{{ $t('service_view.alur.step3_time') }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Dashed connection line from right top to right bottom -->
+                    <div class="hidden md:block absolute top-[60px] right-[14%] w-10 h-[180px] border-r-[3px] border-b-[3px] border-dashed border-red-600 rounded-br-[20px] z-0">
+                        <div class="absolute bottom-[-4px] left-[-4px] w-0 h-0 border-t-[5px] border-t-transparent border-r-[8px] border-r-red-600 border-b-[5px] border-b-transparent"></div>
+                    </div>
+
+                    <!-- Bottom Row (Reverse Direction) -->
+                    <div class="flex flex-col md:flex-row w-full justify-between items-start relative mt-16 md:mt-[80px]">
+                        
+                        <!-- Step 6: Serah Terima (Visual Left) -->
+                        <div class="w-full md:w-[28%] flex flex-col z-10 relative mt-12 md:mt-0 order-3 md:order-1">
+                            <div class="bg-[#ccff00] text-gray-900 font-black px-6 py-4 rounded-full shadow-md text-center text-lg md:text-xl border-2 border-transparent hover:scale-105 transition-transform cursor-default">
+                                {{ $t('service_view.alur.step6_title') }}
+                            </div>
+                            <ul class="mt-6 text-sm font-bold text-gray-900 space-y-3 px-2">
+                                <li class="flex items-start gap-3">
+                                    <span class="text-gray-900 text-[8px] mt-1.5">●</span> 
+                                    <span class="leading-tight">{{ $t('service_view.alur.step6_item1') }}</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Arrow 5 to 6 -->
+                        <div class="hidden md:flex flex-col items-center justify-center absolute left-[29%] top-7 w-[10%] z-0 order-2">
+                            <span class="text-[11px] font-extrabold text-gray-900 mb-2 whitespace-nowrap">{{ $t('service_view.alur.step5_time') }}</span>
+                            <div class="w-full h-1 bg-red-600 relative flex items-center">
+                                <div class="absolute -left-1 w-0 h-0 border-t-[5px] border-t-transparent border-r-[8px] border-r-red-600 border-b-[5px] border-b-transparent"></div>
+                            </div>
+                        </div>
+
+                        <!-- Step 5: Instalasi (Visual Middle) -->
+                        <div class="w-full md:w-[28%] flex flex-col z-10 relative mt-12 md:mt-0 order-2 md:order-2">
+                            <div class="bg-[#ccff00] text-gray-900 font-black px-6 py-4 rounded-full shadow-md text-center text-lg md:text-xl border-2 border-transparent hover:scale-105 transition-transform cursor-default">
+                                {{ $t('service_view.alur.step5_title') }}
+                            </div>
+                        </div>
+
+                        <!-- Arrow 4 to 5 -->
+                        <div class="hidden md:flex flex-col items-center justify-center absolute left-[63%] top-7 w-[10%] z-0 order-4">
+                            <span class="text-[11px] font-extrabold text-gray-900 mb-2 whitespace-nowrap">{{ $t('service_view.alur.step4_time') }}</span>
+                            <div class="w-full h-1 bg-red-600 relative flex items-center">
+                                <div class="absolute -left-1 w-0 h-0 border-t-[5px] border-t-transparent border-r-[8px] border-r-red-600 border-b-[5px] border-b-transparent"></div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Produksi (Visual Right) -->
+                        <div class="w-full md:w-[28%] flex flex-col z-10 relative order-1 md:order-3">
+                            <div class="bg-[#ccff00] text-gray-900 font-black px-6 py-4 rounded-full shadow-md text-center text-lg md:text-xl border-2 border-transparent hover:scale-105 transition-transform cursor-default">
+                                {{ $t('service_view.alur.step4_title') }}
+                            </div>
+                            <ul class="mt-6 text-sm font-bold text-gray-900 space-y-3 px-2">
+                                <li class="flex items-start gap-3">
+                                    <span class="text-gray-900 text-[8px] mt-1.5">●</span> 
+                                    <span class="leading-tight">{{ $t('service_view.alur.step4_item1') }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </section>

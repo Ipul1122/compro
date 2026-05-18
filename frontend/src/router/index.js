@@ -205,6 +205,28 @@ const routes = [
     },
   },
 
+  // IMPLEMENTASI
+  {
+    path: "/id/implementasi",
+    name: "implementation-id",
+    component: () => import("@/views/pages/service/ImplementationView.vue"),
+    meta: {
+      title: 'Implementasi - PT Cakrawala Parama Internasional',
+      lang: 'id',
+      description: 'Layanan implementasi solusi organisasi, teknologi, dan program pengembangan SDM'
+    },
+  },
+  {
+    path: "/en/implementation",
+    name: "implementation-en",
+    component: () => import("@/views/pages/service/ImplementationView.vue"),
+    meta: {
+      title: 'Implementation - PT Cakrawala Parama Internasional',
+      lang: 'en',
+      description: 'Implementation services for organization, technology, and HR development programs'
+    },
+  },
+
   // EVENT ORGANIZER
   {
     path: "/id/event-organizer",
