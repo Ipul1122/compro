@@ -212,7 +212,7 @@ const teams = [
 /* Image */
 .card-image-wrap {
   position: relative;
-  aspect-ratio: 3/3.5;
+  aspect-ratio: 3/4;
   overflow: hidden;
   background: #f1f5f9;
 }
@@ -360,10 +360,9 @@ const teams = [
   .team-grid {
     grid-template-columns: 1fr;
     gap: 20px;
-    max-width: 400px;
+    max-width: 320px;
     margin: 0 auto;
   }
-  .card-image-wrap { aspect-ratio: 3/2.5; }
 
   /* On mobile, always show overlay elements */
   .card-socials { opacity: 1; transform: translateY(0); }
