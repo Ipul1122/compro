@@ -70,7 +70,6 @@ const routes = [
       description: "Get to know our professional team in the field of human resource development and management"
     }
   },
-
   {
     // Rute Our Projects (Bahasa Indonesia)
     path: '/id/proyek-kami',

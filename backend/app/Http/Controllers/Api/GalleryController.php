@@ -164,4 +164,5 @@ class GalleryController extends Controller
             'message' => count($galleries) . ' item berhasil dihapus.'
         ]);
     }
+
 }

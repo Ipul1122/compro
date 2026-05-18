@@ -23,7 +23,9 @@ const i18n = createI18n({
   }
 })
 
-axios.defaults.baseURL = 'https://api.cakrawala-internasional.co.id';
+// Gunakan environment variable untuk URL API
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+axios.defaults.baseURL = apiBaseUrl.replace(/\/api\/?$/, '');
 axios.defaults.withCredentials = true; 
 axios.defaults.withXSRFToken = true;
 
