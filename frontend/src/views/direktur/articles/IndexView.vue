@@ -146,7 +146,7 @@ const fetchArticles = async (page = 1) => {
             if (params.views) queryParams.views = params.views
             if (params.author_id) queryParams.author_id = params.author_id
 
-            router.push({ path: '/direktur/articles', query: queryParams })
+            router.push({ path: '/direktur/articles', query: queryParams }).catch(() => {})
         }
     } catch (error) {
         console.error("Error fetching articles:", error)

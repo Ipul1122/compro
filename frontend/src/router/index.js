@@ -70,30 +70,6 @@ const routes = [
       description: "Get to know our professional team in the field of human resource development and management"
     }
   },
-
-  // ==========================================
-  // RUTE OUR TEAMS / TIM KAMI
-  // ==========================================
-  {
-    path: '/id/tim-kami',
-    name: 'our-teams-id',
-    component: () => import('../views/pages/OurTeamsView.vue'), 
-    meta: { 
-      title: 'Tim Kami - PT Cakrawala Parama Internasional',
-      lang: 'id',
-      description: 'Kenali tim profesional di balik PT Cakrawala Parama Internasional'
-    }
-  },
-  {
-    path: '/en/our-teams',
-    name: 'our-teams-en',
-    component: () => import('../views/pages/OurTeamsView.vue'), 
-    meta: { 
-      title: 'Our Teams - PT Cakrawala Parama Internasional',
-      lang: 'en',
-      description: 'Meet the professional team behind PT Cakrawala Parama Internasional'
-    }
-  },
   {
     // Rute Our Projects (Bahasa Indonesia)
     path: '/id/proyek-kami',

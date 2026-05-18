@@ -146,7 +146,7 @@ const handleLogin = async () => {
 
                 <!-- Role Switcher -->
                 <div class="mb-8">
-                    <div class="flex rounded-xl p-1 transition-all duration-300 bg-slate-100">
+                    <div class="flex rounded-xl p-1 transition-all duration-300 bg-slate-100 role-switcher">
                         <button
                             type="button"
                             v-for="(account, role) in accounts"
@@ -178,20 +178,18 @@ const handleLogin = async () => {
                         <label for="email" class="block text-sm font-semibold mb-2 text-slate-700">
                             Username
                         </label>
-                        <div class="flex shadow-sm rounded-xl">
-                            <input
-                                id="email"
-                                name="email"
-                                v-model="email"
-                                type="text"
-                                class="w-full px-4 py-3 rounded-l-xl border bg-white text-slate-900 placeholder-slate-400 outline-none transition-all duration-200 focus:z-10 border-slate-200 focus:border-red-500 focus:ring-2 focus:ring-red-500/10"
-                                placeholder="Enter username"
-                                required
-                            />
-                            <span class="flex items-center px-3 border border-l-0 rounded-r-xl text-xs sm:text-sm font-medium whitespace-nowrap bg-slate-50 border-slate-200 text-slate-600">
-                                @cakrawala-internasional.co.id
-                            </span>
-                        </div>
+                        <input
+                            id="email"
+                            name="email"
+                            v-model="email"
+                            type="text"
+                            class="w-full px-4 py-3 rounded-xl border shadow-sm bg-white text-slate-900 placeholder-slate-400 outline-none transition-all duration-200 border-slate-200 focus:border-red-500 focus:ring-2 focus:ring-red-500/10"
+                            placeholder="Masukkan email tanpa @"
+                            required
+                        />
+                        <p class="mt-2 text-sm text-slate-500">
+                            @cakrawala-internasional.co.id
+                        </p>
                     </div>
 
                     <div>
@@ -209,7 +207,7 @@ const handleLogin = async () => {
                             v-model="password"
                             type="password"
                             class="w-full px-4 py-3 rounded-xl border bg-white text-slate-900 placeholder-slate-400 outline-none transition-all duration-200 border-slate-200 focus:border-red-500 focus:ring-2 focus:ring-red-500/10"
-                            placeholder="Enter your password"
+                            placeholder="Masukkan Password"
                             required
                         />
                     </div>
@@ -295,37 +293,14 @@ button:disabled {
         padding: 1rem;
     }
 
-    .bg-white\/80 {
-        background-color: rgba(255, 255, 255, 0.98);
+    /* Pastikan input username full width di mobile karena domain suffix dipindah ke bawah */
+    #email {
+        border-radius: 0.75rem !important;
     }
 
-    .flex.bg-slate-100 {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .flex.bg-slate-100 > button {
-        width: 100%;
-    }
-}
-
-/* Dark mode support (optional) */
-@media (prefers-color-scheme: dark) {
-    .bg-gradient-to-br {
-        background: linear-gradient(to bottom right, #0f172a, #1e293b, #334155);
-    }
-
-    .bg-white\/80 {
-        background-color: rgba(30, 41, 59, 0.8);
-        border-color: rgba(51, 65, 85, 0.5);
-    }
-
-    .text-slate-900 {
-        color: #f1f5f9;
-    }
-
-    .text-slate-600 {
-        color: #94a3b8;
+    /* Role switcher tetap horizontal di mobile */
+    .role-switcher {
+        flex-direction: row;
     }
 }
 </style>

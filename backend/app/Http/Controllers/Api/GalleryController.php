@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\AppNotification;
 use App\Models\Gallery;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -54,12 +53,6 @@ class GalleryController extends Controller
             'meta_title_image' => $request->meta_title_image,
             'image' => $imagePath
         ]);
-        $this->notifyDirectorsForGallery(
-            'gallery_created',
-            'membuat galeri',
-            $gallery->title_image,
-            '/direktur/gallery?search=' . urlencode($gallery->title_image)
-        );
 
         return response()->json([
             'status' => 'success',
@@ -95,12 +88,6 @@ class GalleryController extends Controller
         }
 
         $gallery->update($data);
-        $this->notifyDirectorsForGallery(
-            'gallery_edited',
-            'mengedit galeri',
-            $gallery->title_image,
-            '/direktur/gallery?search=' . urlencode($gallery->title_image)
-        );
 
         return response()->json([
             'status' => 'success',
@@ -149,12 +136,6 @@ class GalleryController extends Controller
 
             $uploadedData[] = $gallery;
         }
-        $this->notifyDirectorsForGallery(
-            'gallery_bulk_created',
-            'mengunggah galeri',
-            count($uploadedData) . ' item galeri baru',
-            '/direktur/gallery'
-        );
 
         return response()->json([
             'status'  => 'success',
@@ -185,29 +166,4 @@ class GalleryController extends Controller
         ]);
     }
 
-    private function notifyDirectorsForGallery(string $eventType, string $actionLabel, string $targetLabel, string $url): void
-    {
-        $actor = auth()->user();
-        if (!$actor) {
-            return;
-        }
-
-        $directors = User::query()
-            ->where('role', 'direktur')
-            ->select('id')
-            ->get();
-
-        foreach ($directors as $director) {
-            AppNotification::create([
-                'recipient_user_id' => $director->id,
-                'actor_user_id' => $actor->id,
-                'event_type' => $eventType,
-                'target_type' => 'gallery',
-                'target_id' => null,
-                'title' => 'Aktivitas Galeri Baru',
-                'message' => $actor->name . ' ' . $actionLabel . ': ' . $targetLabel,
-                'url' => $url,
-            ]);
-        }
-    }
 }

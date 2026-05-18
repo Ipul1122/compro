@@ -24,30 +24,10 @@
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
-    # Handle OPTIONS preflight requests (CORS)
-    RewriteCond %{REQUEST_METHOD} OPTIONS
-    RewriteRule ^(.*)$ $1 [R=200,L]
-
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
-</IfModule>
-
-# ============================================
-# CORS HEADERS (Fallback untuk shared hosting)
-# ============================================
-<IfModule mod_headers.c>
-    # Izinkan origin dari domain frontend
-    SetEnvIf Origin "^https://(www\.)?cakrawala-internasional\.co\.id$" CORS_ALLOW_ORIGIN=$0
-    Header always set Access-Control-Allow-Origin "%{CORS_ALLOW_ORIGIN}e" env=CORS_ALLOW_ORIGIN
-    Header always set Access-Control-Allow-Methods "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With, X-XSRF-TOKEN, Accept, Origin"
-    Header always set Access-Control-Allow-Credentials "true"
-    Header always set Access-Control-Max-Age "86400"
-
-    # Respons untuk preflight OPTIONS request
-    Header always set Vary "Origin"
 </IfModule>
 
 # ============================================

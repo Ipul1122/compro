@@ -25,10 +25,10 @@ class DatabaseSeeder extends Seeder
 
         // Membuat akun Direktur khusus untuk switch akun di halaman login
         User::updateOrCreate(
-            ['email' => 'direktur@cakrawala-internasional.co.id'],
+            ['email' => 'melanidian@cakrawala-internasional.co.id'],
             [
                 'name' => 'Direktur',
-                'password' => Hash::make('DirekturPassword2026!'),
+                'password' => Hash::make('ParamaDoraemon100'),
                 'role' => 'direktur'
             ]
         );

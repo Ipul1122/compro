@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\AppNotification;
 use App\Models\Article;
-use App\Models\ArticleActivity;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -141,12 +139,6 @@ class ArticleController extends Controller
         }
 
         $article = Article::create($data);
-        ArticleActivity::create([
-            'article_id' => $article->id,
-            'user_id' => auth()->id(),
-            'action' => 'created',
-        ]);
-        $this->notifyDirectors($article, 'article_created', 'membuat artikel');
 
         return response()->json([
             'success' => true,
@@ -217,12 +209,12 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
 
-        // Cek apakah user adalah author dari artikel ini atau direktur
+        // Cek apakah user adalah author dari artikel ini, direktur, atau admin
         $user = auth()->user();
-        if ($article->author_id !== $user->id && $user->role !== 'direktur') {
+        if ($article->author_id != $user->id && $user->role !== 'direktur' && $user->role !== 'admin') {
             return response()->json([
                 'success' => false,
-                'message' => 'Anda hanya bisa mengedit artikel yang Anda buat sendiri'
+                'message' => 'Anda tidak memiliki akses untuk mengedit artikel ini'
             ], 403);
         }
 
@@ -257,11 +249,6 @@ class ArticleController extends Controller
         }
 
         $article->update($data);
-        ArticleActivity::create([
-            'article_id' => $article->id,
-            'user_id' => $user->id,
-            'action' => 'edited',
-        ]);
 
         return response()->json([
             'success' => true,
@@ -294,12 +281,12 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
 
-        // Cek apakah user adalah author dari artikel ini atau direktur
+        // Cek apakah user adalah author dari artikel ini, direktur, atau admin
         $user = auth()->user();
-        if ($article->author_id !== $user->id && $user->role !== 'direktur') {
+        if ($article->author_id != $user->id && $user->role !== 'direktur' && $user->role !== 'admin') {
             return response()->json([
                 'success' => false,
-                'message' => 'Anda hanya bisa menghapus artikel yang Anda buat sendiri'
+                'message' => 'Anda tidak memiliki akses untuk menghapus artikel ini'
             ], 403);
         }
 
@@ -345,30 +332,4 @@ class ArticleController extends Controller
         ], 200);
     }
 
-    private function notifyDirectors(Article $article, string $eventType, string $actionLabel): void
-    {
-        $actor = auth()->user();
-        if (!$actor) {
-            return;
-        }
-
-        $directors = User::query()
-            ->where('role', 'direktur')
-            ->select('id')
-            ->get();
-
-        foreach ($directors as $director) {
-            $targetUrl = '/direktur/articles?status=pending';
-            AppNotification::create([
-                'recipient_user_id' => $director->id,
-                'actor_user_id' => $actor->id,
-                'event_type' => $eventType,
-                'target_type' => 'article',
-                'target_id' => $article->id,
-                'title' => 'Persetujuan Artikel',
-                'message' => $actor->name . ' telah ' . $actionLabel . ': ' . $article->title,
-                'url' => $targetUrl,
-            ]);
-        }
-    }
 }
