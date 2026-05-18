@@ -56,6 +56,22 @@
         </div>
       </main>
     </div>
+
+    <!-- Error Popover / Toast -->
+    <div 
+      v-if="showError" 
+      class="fixed top-4 right-4 z-50 bg-red-500 text-white px-6 py-3 rounded-xl shadow-lg flex items-center gap-3 transition-opacity duration-300"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span class="font-medium text-sm">{{ errorMessage }}</span>
+      <button @click="showError = false" class="ml-4 text-white hover:text-red-200 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -92,6 +108,20 @@ const form = ref({
   name: ''
 });
 
+// Error Popover State
+const showError = ref(false);
+const errorMessage = ref('');
+let errorTimeout = null;
+
+const showPopover = (msg) => {
+  errorMessage.value = msg;
+  showError.value = true;
+  if (errorTimeout) clearTimeout(errorTimeout);
+  errorTimeout = setTimeout(() => {
+    showError.value = false;
+  }, 4000);
+};
+
 onMounted(() => {
   const savedUser = sessionStorage.getItem('user');
   const token = sessionStorage.getItem('token');
@@ -115,7 +145,7 @@ const handleLogout = () => {
 // Form Submission
 const submitForm = async () => {
   if (!form.value.name || !form.value.name.trim()) {
-    alert("Nama kategori tidak boleh kosong!");
+    showPopover("Nama kategori tidak boleh kosong!");
     return;
   }
 
@@ -140,26 +170,30 @@ const submitForm = async () => {
   } catch (err) {
     console.error("Gagal menyimpan kategori:", err);
 
-    let errorMessage = "Terjadi kesalahan sistem saat menyimpan!";
+    let errorMsg = "Terjadi kesalahan sistem saat menyimpan!";
     
     if (err.response && err.response.data) {
       // Menangkap status Unauthenticated (401) secara spesifik
       if (err.response.status === 401 || err.response.data.message === 'Unauthenticated.') {
-         alert("Sesi login kamu sudah habis (Unauthenticated). Silakan login ulang ya.");
-         handleLogout();
+         showPopover("Sesi login kamu sudah habis (Unauthenticated). Silakan login ulang ya.");
+         setTimeout(handleLogout, 2000);
          return;
       }
       
-      if (err.response.data.errors) {
-        errorMessage = Object.values(err.response.data.errors).flat().join('\n');
+      // Menangkap error duplikat entry dari database
+      const dbMessage = err.response.data.message || '';
+      if (dbMessage.includes("Integrity constraint violation") && dbMessage.includes("Duplicate entry") && dbMessage.includes("categories_slug_unique")) {
+         errorMsg = "Kategori sudah ada! Silakan gunakan nama kategori yang berbeda.";
+      } else if (err.response.data.errors) {
+        errorMsg = Object.values(err.response.data.errors).flat().join('\n');
       } else if (err.response.data.message) {
-        errorMessage = err.response.data.message;
+        errorMsg = err.response.data.message;
       }
     } else if (err.message) {
-      errorMessage = err.message; 
+      errorMsg = err.message; 
     }
 
-    alert(errorMessage);
+    showPopover(errorMsg);
   } finally {
     isSubmitting.value = false;
   }
