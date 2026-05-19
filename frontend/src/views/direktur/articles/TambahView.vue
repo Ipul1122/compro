@@ -75,6 +75,21 @@
                   <div class="w-px h-6 bg-slate-300 mx-1 self-center"></div>
                   <button type="button" @click="editorId.chain().focus().toggleHeading({ level: 2 }).run()" :class="{'bg-slate-200': editorId.isActive('heading', { level: 2 })}" class="px-3 py-1 text-black rounded hover:bg-slate-200 text-sm font-bold">H2</button>
                   <button type="button" @click="editorId.chain().focus().toggleHeading({ level: 3 }).run()" :class="{'bg-slate-200': editorId.isActive('heading', { level: 3 })}" class="px-3 py-1 text-black rounded hover:bg-slate-200 text-sm font-bold">H3</button>
+                  <div class="w-px h-6 bg-slate-300 mx-1 self-center"></div>
+                  <button type="button" @click="editorId.chain().focus().toggleBulletList().run()" :class="{'bg-slate-200': editorId.isActive('bulletList')}" class="px-3 py-1 text-black rounded hover:bg-slate-200 text-sm font-bold flex items-center gap-1">• Bullet</button>
+                  <button type="button" @click="editorId.chain().focus().toggleOrderedList().run()" :class="{'bg-slate-200': editorId.isActive('orderedList')}" class="px-3 py-1 text-black rounded hover:bg-slate-200 text-sm font-bold flex items-center gap-1">1. Number</button>
+                  <div class="w-px h-6 bg-slate-300 mx-1 self-center"></div>
+                  <div class="relative group">
+                    <button type="button" class="px-3 py-1 text-black rounded hover:bg-slate-200 text-sm font-bold flex items-center gap-1">Tabel ▾</button>
+                    <div class="absolute left-0 mt-1 hidden group-hover:flex flex-col bg-white border border-slate-200 shadow-lg rounded z-10 w-40">
+                      <button type="button" @click="editorId.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-black">Buat Tabel (3x3)</button>
+                      <button type="button" @click="editorId.chain().focus().addColumnAfter().run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-black">Tambah Kolom</button>
+                      <button type="button" @click="editorId.chain().focus().deleteColumn().run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-black">Hapus Kolom</button>
+                      <button type="button" @click="editorId.chain().focus().addRowAfter().run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-black">Tambah Baris</button>
+                      <button type="button" @click="editorId.chain().focus().deleteRow().run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-black">Hapus Baris</button>
+                      <button type="button" @click="editorId.chain().focus().deleteTable().run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-red-600 font-bold">Hapus Tabel</button>
+                    </div>
+                  </div>
                 </div>
                 <EditorContent :editor="editorId" class="prose  text-black prose-slate max-w-none border border-slate-300 rounded-b-xl p-4 min-h-[300px] bg-white focus:outline-none" />
               </div>
@@ -95,6 +110,21 @@
                   <div class="w-px h-6 bg-slate-300 mx-1 self-center"></div>
                   <button type="button" @click="editorEn.chain().focus().toggleHeading({ level: 2 }).run()" :class="{'bg-slate-200': editorEn.isActive('heading', { level: 2 })}" class="px-3 py-1 rounded text-black hover:bg-slate-200 text-sm font-bold">H2</button>
                   <button type="button" @click="editorEn.chain().focus().toggleHeading({ level: 3 }).run()" :class="{'bg-slate-200': editorEn.isActive('heading', { level: 3 })}" class="px-3 py-1 rounded text-black hover:bg-slate-200 text-sm font-bold">H3</button>
+                  <div class="w-px h-6 bg-slate-300 mx-1 self-center"></div>
+                  <button type="button" @click="editorEn.chain().focus().toggleBulletList().run()" :class="{'bg-slate-200': editorEn.isActive('bulletList')}" class="px-3 py-1 text-black rounded hover:bg-slate-200 text-sm font-bold flex items-center gap-1">• Bullet</button>
+                  <button type="button" @click="editorEn.chain().focus().toggleOrderedList().run()" :class="{'bg-slate-200': editorEn.isActive('orderedList')}" class="px-3 py-1 text-black rounded hover:bg-slate-200 text-sm font-bold flex items-center gap-1">1. Number</button>
+                  <div class="w-px h-6 bg-slate-300 mx-1 self-center"></div>
+                  <div class="relative group">
+                    <button type="button" class="px-3 py-1 text-black rounded hover:bg-slate-200 text-sm font-bold flex items-center gap-1">Tabel ▾</button>
+                    <div class="absolute left-0 mt-1 hidden group-hover:flex flex-col bg-white border border-slate-200 shadow-lg rounded z-10 w-40">
+                      <button type="button" @click="editorEn.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-black">Buat Tabel (3x3)</button>
+                      <button type="button" @click="editorEn.chain().focus().addColumnAfter().run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-black">Tambah Kolom</button>
+                      <button type="button" @click="editorEn.chain().focus().deleteColumn().run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-black">Hapus Kolom</button>
+                      <button type="button" @click="editorEn.chain().focus().addRowAfter().run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-black">Tambah Baris</button>
+                      <button type="button" @click="editorEn.chain().focus().deleteRow().run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-black">Hapus Baris</button>
+                      <button type="button" @click="editorEn.chain().focus().deleteTable().run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-red-600 font-bold">Hapus Tabel</button>
+                    </div>
+                  </div>
                 </div>
                 <EditorContent :editor="editorEn" class="prose prose-slate max-w-none border border-slate-300 text-black rounded-b-xl p-4 min-h-[300px] bg-white focus:outline-none" />
               </div>
@@ -164,7 +194,11 @@ import Navbar from '@/components/direktur/Navbar.vue';
 // TIPTAP IMPORTS
 import { useEditor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
-import Link from '@tiptap/extension-link';
+import { Link } from '@tiptap/extension-link';
+import { Table } from '@tiptap/extension-table';
+import { TableRow } from '@tiptap/extension-table-row';
+import { TableCell } from '@tiptap/extension-table-cell';
+import { TableHeader } from '@tiptap/extension-table-header';
 
 const router = useRouter();
 const route = useRoute();
@@ -287,12 +321,15 @@ const clearDraftAndBack = () => {
 const editorId = useEditor({
   content: '',
   extensions: [
-    StarterKit.configure({
-      link: {
-        openOnClick: false,
-        HTMLAttributes: { class: 'text-blue-600 underline' }
-      }
-    })
+    StarterKit.configure({ link: false }),
+    Link.configure({
+      openOnClick: false,
+      HTMLAttributes: { class: 'text-blue-600 underline' }
+    }),
+    Table.configure({ resizable: true }),
+    TableRow,
+    TableHeader,
+    TableCell,
   ],
   onUpdate: () => {
     saveDraft(); // Simpan draft otomatis saat editor diubah
@@ -302,12 +339,15 @@ const editorId = useEditor({
 const editorEn = useEditor({
   content: '',
   extensions: [
-    StarterKit.configure({
-      link: {
-        openOnClick: false,
-        HTMLAttributes: { class: 'text-blue-600 underline' }
-      }
-    })
+    StarterKit.configure({ link: false }),
+    Link.configure({
+      openOnClick: false,
+      HTMLAttributes: { class: 'text-blue-600 underline' }
+    }),
+    Table.configure({ resizable: true }),
+    TableRow,
+    TableHeader,
+    TableCell,
   ],
   editable: true, 
   onUpdate: () => {
@@ -609,5 +649,11 @@ const handleLogout = () => {
 .prose h2 { font-size: 1.25rem; font-weight: 800; margin-top: 1rem; margin-bottom: 0.5rem; color: #0f172a;}
 .prose h3 { font-size: 1.1rem; font-weight: 700; margin-top: 1rem; margin-bottom: 0.5rem; color: #334155;}
 .prose a { color: #2563eb; text-decoration: underline; cursor: pointer; }
+.prose ul { list-style-type: disc; padding-left: 1.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem; }
+.prose ol { list-style-type: decimal; padding-left: 1.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem; }
+.prose li { margin-bottom: 0.25rem; }
+.prose table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+.prose th, .prose td { border: 1px solid #cbd5e1; padding: 0.5rem; text-align: left; }
+.prose th { background-color: #f1f5f9; font-weight: bold; }
 button, a, .cursor-pointer { cursor: pointer !important; }
 </style>
