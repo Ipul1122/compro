@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { locale } = useI18n()
@@ -162,16 +162,71 @@ const workScopes = computed(() => isEnglish.value ? [
 ])
 
 const gallery = computed(() => isEnglish.value ? [
-    { title: 'Desk Transformation', desc: 'Modern marble finish upgrade', category: 'Before & After', image: '/img/tubel1.jpg' },
-    { title: 'Lounge Makeover', desc: 'Complete seating area renovation', category: 'Before & After', image: '/img/interior.jpg' },
-    { title: 'Office Layout Concept', desc: '3D spatial planning', category: 'Design Concept', image: '/img/interior-design.jpg' },
-    { title: 'Interior Details Concept', desc: '3D rendering of meeting area', category: 'Design Concept', image: '/img/section-two.jpg' }
+    {
+        title: 'Before & After',
+        desc: 'Real transformation results from our implementation projects',
+        category: 'Before & After',
+        images: [
+            '/img/implemen/before.png',
+            '/img/implemen/after.png',
+            '/img/implemen/before-1.png',
+            '/img/implemen/after-1.png',
+        ]
+    },
+    {
+        title: 'Implementation Planning',
+        desc: 'Design references and spatial planning for implementation projects',
+        category: 'Planning',
+        images: [
+            '/img/implemen/ruang-kepala-biroo.png',
+            '/img/implemen/ruang-meeting.png',
+            '/img/implemen/another-reference.png',
+            '/img/implemen/another-reference-1.png',
+        ]
+    },
+    { title: 'Public Toilet & Ablution Area', desc: 'Design result for public toilet and ablution area', category: 'Result Design', driveVideo: 'https://drive.google.com/file/d/14Gr0I55zHOnj0a_IsZ6wksM79YYX7U4w/preview' },
+    { title: 'Finance Bureau Secretariat Room', desc: 'Design result for secretariat room', category: 'Result Design', driveVideo: 'https://drive.google.com/file/d/1v98BR5B3Ef0VzjM0jLgML15K25BrQQsS/preview' }
 ] : [
-    { title: 'Transformasi Meja', desc: 'Pembaruan dengan finishing marmer modern', category: 'Before & After', image: '/img/tubel1.jpg' },
-    { title: 'Renovasi Ruang Tunggu', desc: 'Renovasi total area tempat duduk', category: 'Before & After', image: '/img/interior.jpg' },
-    { title: 'Konsep Tata Letak Kantor', desc: 'Perencanaan ruang 3D', category: 'Konsep Desain', image: '/img/interior-design.jpg' },
-    { title: 'Konsep Detail Interior', desc: 'Render 3D area pertemuan', category: 'Konsep Desain', image: '/img/section-two.jpg' }
+    {
+        title: 'Sebelum & Sesudah',
+        desc: 'Hasil transformasi nyata dari proyek implementasi kami',
+        category: 'Before & After',
+        images: [
+            '/img/implemen/before.png',
+            '/img/implemen/after.png',
+            '/img/implemen/before-1.png',
+            '/img/implemen/after-1.png',
+        ]
+    },
+    {
+        title: 'Rencana Implementasi',
+        desc: 'Referensi desain dan perencanaan ruang untuk proyek implementasi',
+        category: 'Rencana',
+        images: [
+            '/img/implemen/ruang-kepala-biroo.png',
+            '/img/implemen/ruang-meeting.png',
+            '/img/implemen/another-reference.png',
+            '/img/implemen/another-reference-1.png',
+        ]
+    },
+    { title: 'Toilet Umum & Tempat Wudhu', desc: 'Hasil desain toilet umum dan tempat wudhu', category: 'Hasil Design', driveVideo: 'https://drive.google.com/file/d/14Gr0I55zHOnj0a_IsZ6wksM79YYX7U4w/preview' },
+    { title: 'Ruang Sekretariat Biro Keuangan', desc: 'Hasil desain ruang sekretariat', category: 'Hasil Design', driveVideo: 'https://drive.google.com/file/d/1v98BR5B3Ef0VzjM0jLgML15K25BrQQsS/preview' }
 ])
+
+// Carousel state
+const carouselIndexes = ref({})
+
+function getCarouselIndex(idx) {
+    return carouselIndexes.value[idx] || 0
+}
+
+function nextSlide(idx, total) {
+    carouselIndexes.value = { ...carouselIndexes.value, [idx]: ((carouselIndexes.value[idx] || 0) + 1) % total }
+}
+
+function prevSlide(idx, total) {
+    carouselIndexes.value = { ...carouselIndexes.value, [idx]: ((carouselIndexes.value[idx] || 0) - 1 + total) % total }
+}
 </script>
 
 <template>
@@ -271,24 +326,82 @@ const gallery = computed(() => isEnglish.value ? [
                     <!-- Gallery Item -->
                     <div v-for="(item, idx) in gallery" :key="idx" class="group relative rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 bg-white border border-slate-100 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                         <div class="aspect-[4/3] relative overflow-hidden bg-slate-200">
+                            <!-- Carousel -->
+                            <template v-if="item.images">
+                                <div class="relative w-full h-full">
+                                    <img
+                                        v-for="(img, imgIdx) in item.images"
+                                        :key="imgIdx"
+                                        :src="img"
+                                        :alt="item.title + ' ' + (imgIdx + 1)"
+                                        class="absolute inset-0 w-full h-full object-contain transition-opacity duration-500"
+                                        :class="imgIdx === getCarouselIndex(idx) ? 'opacity-100' : 'opacity-0'"
+                                        style="object-fit: contain;"
+                                    />
+                                    <!-- Carousel Controls -->
+                                    <button
+                                        @click.stop="prevSlide(idx, item.images.length)"
+                                        class="absolute left-4 top-1/2 -translate-y-1/2 z-20 h-10 w-10 rounded-full bg-white/90 backdrop-blur shadow-lg flex items-center justify-center text-slate-700 hover:bg-white hover:text-[#ED0226] transition-all active:scale-90"
+                                        aria-label="Previous slide"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                                    </button>
+                                    <button
+                                        @click.stop="nextSlide(idx, item.images.length)"
+                                        class="absolute right-4 top-1/2 -translate-y-1/2 z-20 h-10 w-10 rounded-full bg-white/90 backdrop-blur shadow-lg flex items-center justify-center text-slate-700 hover:bg-white hover:text-[#ED0226] transition-all active:scale-90"
+                                        aria-label="Next slide"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                                    </button>
+                                    <!-- Carousel Dots -->
+                                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+                                        <button
+                                            v-for="(img, dotIdx) in item.images"
+                                            :key="'dot-' + dotIdx"
+                                            @click.stop="carouselIndexes = { ...carouselIndexes, [idx]: dotIdx }"
+                                            class="h-2.5 rounded-full transition-all duration-300"
+                                            :class="dotIdx === getCarouselIndex(idx) ? 'w-7 bg-[#ED0226]' : 'w-2.5 bg-white/70 hover:bg-white'"
+                                            :aria-label="'Go to slide ' + (dotIdx + 1)"
+                                        ></button>
+                                    </div>
+                                    <!-- Slide Counter -->
+                                    <div class="absolute top-6 right-6 z-20 px-3 py-1.5 rounded-lg bg-slate-950/60 backdrop-blur text-white text-xs font-bold">
+                                        {{ getCarouselIndex(idx) + 1 }} / {{ item.images.length }}
+                                    </div>
+                                </div>
+                            </template>
+                            <!-- Video (Google Drive Embed) -->
+                            <iframe v-else-if="item.driveVideo" :src="item.driveVideo" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                             <!-- Image -->
-                            <img :src="item.image" :alt="item.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                            <img v-else :src="item.image" :alt="item.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                             
-                            <!-- Gradient Overlay -->
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/30 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
+                            <!-- Gradient Overlay (only for single images) -->
+                            <div v-if="!item.driveVideo && !item.images" class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/30 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500"></div>
                             
                             <!-- Badge -->
-                            <div class="absolute top-6 left-6 z-10">
+                            <div v-if="!item.images" class="absolute top-6 left-6 z-10">
                                 <div class="px-4 py-2 rounded-xl bg-white/95 backdrop-blur shadow-sm text-[#ED0226] text-xs font-black uppercase tracking-wider">
                                     {{ item.category }}
                                 </div>
                             </div>
 
-                            <!-- Text Content -->
-                            <div class="absolute bottom-0 left-0 right-0 p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 z-10">
+                            <!-- Text Content (only for single images) -->
+                            <div v-if="!item.driveVideo && !item.images" class="absolute bottom-0 left-0 right-0 p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 z-10">
                                 <h3 class="text-2xl font-black text-white mb-2">{{ item.title }}</h3>
                                 <p class="text-slate-300 text-sm font-medium leading-relaxed">{{ item.desc }}</p>
                             </div>
+                        </div>
+                        <!-- Text Content below video -->
+                        <div v-if="item.driveVideo" class="p-6">
+                            <div class="inline-block px-3 py-1 rounded-lg bg-red-50 text-[#ED0226] text-xs font-bold uppercase tracking-wider mb-3">{{ item.category }}</div>
+                            <h3 class="text-xl font-black text-slate-900 mb-1">{{ item.title }}</h3>
+                            <p class="text-slate-500 text-sm font-medium leading-relaxed">{{ item.desc }}</p>
+                        </div>
+                        <!-- Text Content below carousel -->
+                        <div v-if="item.images" class="p-6">
+                            <div class="inline-block px-3 py-1 rounded-lg bg-red-50 text-[#ED0226] text-xs font-bold uppercase tracking-wider mb-3">{{ item.category }}</div>
+                            <h3 class="text-xl font-black text-slate-900 mb-1">{{ item.title }}</h3>
+                            <p class="text-slate-500 text-sm font-medium leading-relaxed">{{ item.desc }}</p>
                         </div>
                     </div>
                 </div>
