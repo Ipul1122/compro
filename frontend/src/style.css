@@ -11,6 +11,13 @@
   /* 3. Tambahkan Custom Fonts Anda di sini */
   --font-montserrat: "Montserrat", sans-serif;
   --font-poppins: "Poppins", sans-serif;
+  --font-quicksand: "Quicksand", "Montserrat", sans-serif;
+
+  /* 4. Brand color aliases */
+  --color-primary: var(--color-red-600);
+  --color-primary-hover: var(--color-red-700);
+  --color-secondary: var(--color-orange-600);
+  --color-secondary-hover: var(--color-orange-700);
 }
 /* 3. Apply it to the body globally */
 @layer base {
