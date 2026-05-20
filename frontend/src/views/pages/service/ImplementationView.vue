@@ -178,7 +178,7 @@ const gallery = computed(() => isEnglish.value ? [
         desc: 'Design references and spatial planning for implementation projects',
         category: 'Planning',
         images: [
-            '/img/implemen/ruang-kepala-biroo.png',
+            '/img/implemen/ruang-kepala-biro.png',
             '/img/implemen/ruang-meeting.png',
             '/img/implemen/another-reference.png',
             '/img/implemen/another-reference-1.png',
@@ -203,7 +203,7 @@ const gallery = computed(() => isEnglish.value ? [
         desc: 'Referensi desain dan perencanaan ruang untuk proyek implementasi',
         category: 'Rencana',
         images: [
-            '/img/implemen/ruang-kepala-biroo.png',
+            '/img/implemen/ruang-kepala-biro.png',
             '/img/implemen/ruang-meeting.png',
             '/img/implemen/another-reference.png',
             '/img/implemen/another-reference-1.png',
