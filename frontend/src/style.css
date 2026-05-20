@@ -11,6 +11,7 @@
   /* 3. Tambahkan Custom Fonts Anda di sini */
   --font-montserrat: "Montserrat", sans-serif;
   --font-poppins: "Poppins", sans-serif;
+  --font-quicksand: "Quicksand", sans-serif;
 }
 /* 3. Apply it to the body globally */
 @layer base {

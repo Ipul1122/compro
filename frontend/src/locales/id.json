@@ -18,7 +18,7 @@
     "gallery": "Galeri",
     "psikotest": "Psikotes",
     "assessment": "Assessment",
-    "event_organizer": "Event Organizer",
+    "event_organizer": "Organisasi",
     "lms": "LMS"
   },
   "footer": {
@@ -308,7 +308,32 @@
       "quote_title": "Keahlian Terbukti",
       "quote1": "\"Salah satu pencapaian luar biasa kami adalah sukses menggelar seminar internasional di masa pandemi COVID-19, berkolaborasi dengan",
       "quote_highlight": "DPR RI",
-      "quote2": "dan delegasi global.\""
+      "quote2": "dan delegasi global.\"",
+      "org_badge": "Jasa Konsultasi & Struktur",
+      "org_title": "Jasa Pembuatan Struktur Organisasi",
+      "org_desc": "Kami menyediakan jasa konsultasi profesional untuk merancang, menganalisis, dan merumuskan struktur organisasi yang efektif, ramping, serta berorientasi pada pencapaian kinerja.",
+      "org_features": {
+        "feat1_title": "Desain Struktur Hierarki",
+        "feat1_desc": "Perancangan bagan organisasi, alur pelaporan, dan wewenang pengambilan keputusan yang jelas.",
+        "feat2_title": "Analisis Beban Kerja (ABK)",
+        "feat2_desc": "Pengukuran beban kerja karyawan untuk menentukan jumlah staf yang ideal dan efisiensi biaya SDM.",
+        "feat3_title": "Penyusunan Job Description",
+        "feat3_desc": "Formulasi detail tanggung jawab, wewenang, dan persyaratan kompetensi di setiap posisi.",
+        "feat4_title": "Job Evaluation & Grading",
+        "feat4_desc": "Penilaian bobot nilai setiap jabatan untuk menyusun skala upah dan struktur karir yang adil."
+      },
+      "org_process_title": "Alur Kerja Pembuatan Struktur",
+      "org_process_desc": "Metodologi terstruktur kami dalam merancang tata kelola organisasi Anda secara komprehensif.",
+      "org_steps": {
+        "step1_title": "Asesmen & Wawancara",
+        "step1_desc": "Mempelajari model bisnis, visi, misi, dan melakukan wawancara dengan manajemen puncak.",
+        "step2_title": "Pengumpulan Data & ABK",
+        "step2_desc": "Melakukan survei aktivitas harian untuk menghitung beban kerja riil seluruh divisi.",
+        "step3_title": "Draf & Formulasi Struktur",
+        "step3_desc": "Merancang opsi-opsi bagan struktur organisasi baru yang optimal dan mendiskusikannya.",
+        "step4_title": "Finalisasi & Job Desc",
+        "step4_desc": "Menyusun dokumen final job description lengkap dan sistem grading untuk implementasi."
+      }
     },
     "lms": {
       "badge": "Ekosistem Digital",
