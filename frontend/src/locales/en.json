@@ -18,7 +18,7 @@
     "gallery": "Gallery",
     "psikotest": "Psychotest",
     "assessment": "Assessment",
-    "event_organizer": "Event Organizer",
+    "event_organizer": "Organizer",
     "lms": "LMS"
   },
   "footer": {
@@ -308,7 +308,32 @@
       "quote_title": "Proven Expertise",
       "quote1": "\"One of our notable achievements was successfully organizing an international seminar during the COVID-19 pandemic, in collaboration with the",
       "quote_highlight": "House of Representatives",
-      "quote2": "and global delegates.\""
+      "quote2": "and global delegates.\"",
+      "org_badge": "Consulting & Structure Service",
+      "org_title": "Organizational Structure Design Service",
+      "org_desc": "We provide professional consulting services to design, analyze, and formulate effective, lean, and performance-oriented organizational structures.",
+      "org_features": {
+        "feat1_title": "Hierarchy Structure Design",
+        "feat1_desc": "Designing organizational charts, reporting lines, and clear decision-making authorities.",
+        "feat2_title": "Workload Analysis (WLA)",
+        "feat2_desc": "Measuring employee workloads to determine ideal staffing levels and optimize HR costs.",
+        "feat3_title": "Job Description Formulation",
+        "feat3_desc": "Detailing responsibilities, authorities, and competency requirements for each position.",
+        "feat4_title": "Job Evaluation & Grading",
+        "feat4_desc": "Evaluating job weights to establish fair grading systems, career paths, and salary scales."
+      },
+      "org_process_title": "Structure Creation Workflow",
+      "org_process_desc": "Our structured methodology to comprehensively design your organization's governance.",
+      "org_steps": {
+        "step1_title": "Assessment & Interview",
+        "step1_desc": "Understanding the business model, vision, mission, and interviewing top executives.",
+        "step2_title": "Data Collection & WLA",
+        "step2_desc": "Conducting daily activity surveys to calculate actual workloads across all divisions.",
+        "step3_title": "Draft & Structure Design",
+        "step3_desc": "Designing and discussing optimal alternative organizational chart drafts.",
+        "step4_title": "Finalization & Job Desc",
+        "step4_desc": "Compiling final complete job descriptions and grading system for implementation."
+      }
     },
     "lms": {
       "badge": "Digital Ecosystem",

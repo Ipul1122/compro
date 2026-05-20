@@ -5,6 +5,7 @@ import { Autoplay, Pagination, EffectFade } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
+import { computed } from 'vue';
 
 const { t } = useI18n();
 
@@ -15,6 +16,66 @@ const images = [
     '/img/tubel4.jpeg',
     '/img/tubel5.jpeg'
 ];
+
+const orgService = computed(() => ({
+  badge: t('service_view.event.org_badge'),
+  title: t('service_view.event.org_title'),
+  desc: t('service_view.event.org_desc'),
+  features: [
+    {
+      title: t('service_view.event.org_features.feat1_title'),
+      desc: t('service_view.event.org_features.feat1_desc'),
+      icon: 'hierarchy',
+      accent: 'red'
+    },
+    {
+      title: t('service_view.event.org_features.feat2_title'),
+      desc: t('service_view.event.org_features.feat2_desc'),
+      icon: 'wla',
+      accent: 'orange'
+    },
+    {
+      title: t('service_view.event.org_features.feat3_title'),
+      desc: t('service_view.event.org_features.feat3_desc'),
+      icon: 'jobdesc',
+      accent: 'red'
+    },
+    {
+      title: t('service_view.event.org_features.feat4_title'),
+      desc: t('service_view.event.org_features.feat4_desc'),
+      icon: 'grading',
+      accent: 'orange'
+    }
+  ],
+  processTitle: t('service_view.event.org_process_title'),
+  processDesc: t('service_view.event.org_process_desc'),
+  steps: [
+    {
+      step: '01',
+      title: t('service_view.event.org_steps.step1_title'),
+      desc: t('service_view.event.org_steps.step1_desc'),
+      accentColor: 'red'
+    },
+    {
+      step: '02',
+      title: t('service_view.event.org_steps.step2_title'),
+      desc: t('service_view.event.org_steps.step2_desc'),
+      accentColor: 'orange'
+    },
+    {
+      step: '03',
+      title: t('service_view.event.org_steps.step3_title'),
+      desc: t('service_view.event.org_steps.step3_desc'),
+      accentColor: 'red'
+    },
+    {
+      step: '04',
+      title: t('service_view.event.org_steps.step4_title'),
+      desc: t('service_view.event.org_steps.step4_desc'),
+      accentColor: 'orange'
+    }
+  ]
+}));
 </script>
 
 <template>
@@ -130,6 +191,112 @@ const images = [
                         </div>
                     </div>
 
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Jasa Pembuatan Struktur Organisasi -->
+        <section id="org-service" class="py-24 relative overflow-hidden bg-white border-t border-gray-100">
+            <!-- Background Decorative Grid -->
+            <div class="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px] opacity-60 pointer-events-none"></div>
+
+            <div class="max-w-7xl mx-auto px-4 relative z-10">
+                <!-- Section Header -->
+                <div class="text-center max-w-3xl mx-auto mb-20">
+                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-100 text-red-600 text-xs font-bold uppercase tracking-[0.2em] mb-4 font-quicksand">
+                        {{ orgService.badge }}
+                    </span>
+                    <h2 class="text-3xl md:text-5xl font-black text-gray-900 tracking-tight uppercase font-montserrat">
+                        {{ orgService.title }}
+                    </h2>
+                    <p class="mt-4 text-gray-500 text-lg leading-relaxed font-medium font-quicksand">
+                        {{ orgService.desc }}
+                    </p>
+                    <div class="flex items-center justify-center gap-2 mt-6">
+                        <div class="w-12 h-1 bg-red-600 rounded"></div>
+                        <div class="w-4 h-1 bg-orange-600 rounded"></div>
+                        <div class="w-12 h-1 bg-red-600 rounded"></div>
+                    </div>
+                </div>
+
+                <!-- Scope of Services (Features) Grid -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-24">
+                    <div v-for="feat in orgService.features" :key="feat.title" class="bg-white p-8 rounded-3xl border border-slate-100 hover:border-red-100 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group transform hover:-translate-y-2 relative overflow-hidden">
+                        <!-- Left decorative accent bar -->
+                        <div :class="feat.accent === 'red' ? 'bg-red-600' : 'bg-orange-600'" class="absolute inset-y-0 left-0 w-1.5 group-hover:w-2 transition-all"></div>
+                        
+                        <div class="pl-4">
+                            <!-- Icon Circle with background -->
+                            <div :class="feat.accent === 'red' ? 'bg-red-50 text-red-600' : 'bg-orange-50 text-orange-600'" class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 shadow-inner">
+                                <!-- Dynamic SVG based on icon key -->
+                                <!-- 1. hierarchy -->
+                                <svg v-if="feat.icon === 'hierarchy'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                                </svg>
+                                <!-- 2. wla -->
+                                <svg v-else-if="feat.icon === 'wla'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
+                                <!-- 3. jobdesc -->
+                                <svg v-else-if="feat.icon === 'jobdesc'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                </svg>
+                                <!-- 4. grading -->
+                                <svg v-else-if="feat.icon === 'grading'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+                                </svg>
+                            </div>
+                            <!-- Title -->
+                            <h3 class="text-xl font-bold font-montserrat text-gray-900 group-hover:text-red-600 transition-colors mb-3">
+                                {{ feat.title }}
+                            </h3>
+                            <!-- Description -->
+                            <p class="text-sm text-gray-500 font-quicksand font-medium leading-relaxed">
+                                {{ feat.desc }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Workflow (Process) Title & Desc -->
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h3 class="text-2xl md:text-3xl font-black text-gray-900 tracking-tight uppercase font-montserrat">
+                        {{ orgService.processTitle }}
+                    </h3>
+                    <p class="mt-3 text-gray-500 font-quicksand font-medium">
+                        {{ orgService.processDesc }}
+                    </p>
+                </div>
+
+                <!-- Process Steps Grid -->
+                <div class="relative">
+                    <!-- Progress Line (Desktop) -->
+                    <div class="hidden lg:block absolute top-1/2 left-8 right-8 h-0.5 bg-gradient-to-r from-red-600 via-orange-500 to-orange-600 -translate-y-1/2 -z-10"></div>
+                    
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div v-for="step in orgService.steps" :key="step.step" class="bg-slate-50 p-6 rounded-2xl relative overflow-hidden group border border-slate-100 hover:border-orange-200 transition-all duration-300">
+                            <!-- Step Number Top Right -->
+                            <div class="absolute -right-4 -top-4 text-7xl font-black opacity-5 group-hover:opacity-10 transition-opacity font-montserrat">
+                                {{ step.step }}
+                            </div>
+                            
+                            <!-- Small Accent dot/bar -->
+                            <div class="flex items-center gap-3 mb-4">
+                                <div :class="step.accentColor === 'red' ? 'bg-red-600' : 'bg-orange-600'" class="w-8 h-8 rounded-lg text-white flex items-center justify-center font-bold text-sm font-montserrat">
+                                    {{ step.step }}
+                                </div>
+                                <div :class="step.accentColor === 'red' ? 'bg-red-600' : 'bg-orange-600'" class="h-0.5 w-12 rounded"></div>
+                            </div>
+
+                            <!-- Content -->
+                            <h4 class="text-lg font-bold text-gray-900 font-montserrat mb-2">
+                                {{ step.title }}
+                            </h4>
+                            <p class="text-xs text-gray-500 leading-relaxed font-quicksand font-semibold">
+                                {{ step.desc }}
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
