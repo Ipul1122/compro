@@ -4,7 +4,6 @@ import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
 import Api from '@/api'
-import Navbar from '@/components/Navbar.vue'
 import { getImageUrl, handleImageError } from '@/utils/imageHelper'
 
 const route = useRoute()
@@ -335,7 +334,6 @@ const handleContentClick = (e) => {
 
 <template>
     <div class="min-h-screen bg-white flex flex-col font-montserrat">
-        <Navbar />
 
         <main class="flex-grow container mx-auto px-4 sm:px-6 py-10 md:py-16 max-w-6xl">
             <div class="flex flex-col lg:flex-row gap-10 lg:gap-14">
@@ -343,7 +341,7 @@ const handleContentClick = (e) => {
                 <!-- Main Content -->
                 <div class="lg:w-2/3">
                     <!-- Loading Skeleton -->
-                    <div v-if="isLoading" class="space-y-6">
+                    <div v-if="isLoading" class="space-y-6" aria-busy="true" aria-live="polite">
                         <div class="h-8 bg-slate-100 rounded-lg w-2/3 animate-pulse"></div>
                         <div class="h-5 bg-slate-100 rounded-lg w-1/3 animate-pulse"></div>
                         <div class="h-80 bg-slate-100 rounded-2xl animate-pulse"></div>
@@ -353,18 +351,18 @@ const handleContentClick = (e) => {
                     <!-- Article -->
                     <div v-else-if="article" class="detail-fade-in mt-14">
                         <!-- Category Badge -->
-                        <span v-if="article.category" class="inline-block px-4 py-1.5 bg-orange-50 text-orange-600 text-[11px] font-bold uppercase tracking-widest rounded-full mb-6">
+                        <span v-if="article.category" class="inline-block px-4 py-1.5 bg-red-50 text-red-600 text-[11px] font-montserrat font-bold uppercase tracking-widest rounded-full mb-6">
                             {{ locale === 'en' && article.category?.name_en ? article.category.name_en : article.category?.name }}
                         </span>
 
-                        <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 leading-snug mb-6">
+                        <h1 class="font-montserrat text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 leading-snug tracking-tight mb-6">
                             {{ locale === 'en' && article.title_en ? article.title_en : article.title }}
                         </h1>
 
                         <!-- Meta Row -->
-                        <div class="flex flex-wrap items-center gap-4 mb-8 text-xs text-slate-400 font-medium">
+                        <div class="flex flex-wrap items-center gap-4 mb-8 text-xs text-slate-500 font-quicksand font-medium">
                             <div v-if="article.author" class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                 </svg>
                                 <span>{{ article.author.name }}</span>
@@ -372,30 +370,35 @@ const handleContentClick = (e) => {
                             <span v-if="article.author" class="w-1 h-1 bg-slate-300 rounded-full"></span>
                             
                             <div class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                 <span>{{ formatDate(article.created_at) }}</span>
                             </div>
                             <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
                             <div class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                                 <span>{{ article.total_view || 0 }} Views</span>
                             </div>
                             <!-- Social Links -->
                             <div class="ml-auto flex items-center gap-2">
-                                <a href="https://www.instagram.com/cakrawala.parama?igsh=eHczc3hhYW82MWoy" target="_blank" rel="noopener noreferrer" class="share-btn text-pink-500 hover:bg-pink-50 flex items-center justify-center" style="text-decoration: none;" aria-label="Instagram">IG</a>
-                                <a href="https://www.linkedin.com/in/pt-cakrawala-parama-internasional-b06182356" target="_blank" rel="noopener noreferrer" class="share-btn text-blue-500 hover:bg-blue-50 flex items-center justify-center" style="text-decoration: none;" aria-label="LinkedIn">IN</a>
+                                <span class="font-montserrat text-[10px] font-bold uppercase tracking-wider text-slate-400">Share</span>
+                                <a href="https://www.instagram.com/cakrawala.parama?igsh=eHczc3hhYW82MWoy" target="_blank" rel="noopener noreferrer" class="share-btn font-montserrat text-red-600 hover:bg-red-50 hover:border-red-200 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 flex items-center justify-center" style="text-decoration: none;" aria-label="Share to Instagram">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                                </a>
+                                <a href="https://www.linkedin.com/in/pt-cakrawala-parama-internasional-b06182356" target="_blank" rel="noopener noreferrer" class="share-btn font-montserrat text-orange-600 hover:bg-orange-50 hover:border-orange-200 focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 flex items-center justify-center" style="text-decoration: none;" aria-label="Share to LinkedIn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                                </a>
                             </div>
                         </div>
 
                         <!-- Featured Image -->
-                        <div class="rounded-2xl overflow-hidden mb-10 shadow-sm hover:shadow-lg transition-shadow duration-300">
+                        <div class="rounded-2xl overflow-hidden mb-10 shadow-sm hover:shadow-lg hover:shadow-red-100/50 transition-shadow duration-300">
                             <img :src="getImageUrl(article.image)" @error="handleImageError" class="w-full h-auto object-cover" />
                         </div>
 
                         <!-- Article Body -->
                         <article
                             @click="handleContentClick"
-                            class="article-body rounded-2xl border border-slate-100 bg-white p-6 sm:p-8 md:p-10 text-slate-700 prose prose-slate prose-lg max-w-none prose-a:text-orange-600 prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl"
+                            class="article-body font-quicksand rounded-2xl border border-slate-100 bg-white p-6 sm:p-8 md:p-10 text-slate-700 prose prose-slate prose-lg max-w-none prose-a:text-orange-600 prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl"
                             v-html="locale === 'en' && article.content_en ? article.content_en : article.content">
                         </article>
                     </div>
@@ -406,22 +409,22 @@ const handleContentClick = (e) => {
                     <div class="sticky top-24 space-y-8">
                         <!-- Latest Articles -->
                         <div>
-                            <h2 class="text-sm font-bold text-slate-900 uppercase tracking-widest mb-5 flex items-center gap-2">
-                                <span class="w-6 h-0.5 bg-orange-500 rounded-full"></span>
+                            <h2 class="font-montserrat text-sm font-bold text-slate-900 uppercase tracking-widest mb-5 flex items-center gap-2">
+                                <span class="w-6 h-0.5 bg-red-600 rounded-full"></span>
                                 {{ locale === 'en' ? 'Latest Articles' : 'Artikel Terbaru' }}
                             </h2>
 
                             <div class="flex flex-col gap-4">
                                 <router-link v-for="lat in latestArticles" :key="lat.id" :to="`/articles/${lat.slug}`"
-                                    class="group flex gap-4 p-3 rounded-xl bg-slate-50/70 hover:bg-orange-50 border border-transparent hover:border-orange-100 transition-all duration-200">
+                                    class="group flex gap-4 p-3 rounded-xl bg-slate-50 hover:bg-red-50 border border-transparent hover:border-red-100 transition-all duration-200 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2">
                                     <div class="w-20 h-16 flex-shrink-0 overflow-hidden rounded-lg">
                                         <img :src="getImageUrl(lat.image)" @error="handleImageError" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                                     </div>
                                     <div class="flex flex-col justify-center min-w-0">
-                                        <span class="text-[10px] font-bold text-orange-500 uppercase tracking-wider mb-1">
+                                        <span class="font-montserrat text-[10px] font-bold text-red-600 uppercase tracking-wider mb-1">
                                             {{ locale === 'en' && lat.category?.name_en ? lat.category?.name_en : lat.category?.name }}
                                         </span>
-                                        <h3 class="text-sm font-semibold text-slate-800 line-clamp-2 leading-snug group-hover:text-orange-600 transition-colors duration-200">
+                                        <h3 class="font-quicksand text-sm font-semibold text-slate-800 line-clamp-2 leading-snug group-hover:text-red-600 transition-colors duration-200">
                                             {{ locale === 'en' && lat.title_en ? lat.title_en : lat.title }}
                                         </h3>
                                     </div>
@@ -430,12 +433,12 @@ const handleContentClick = (e) => {
                         </div>
 
                         <!-- CTA Card -->
-                        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 p-7 text-white">
+                        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-red-600 via-red-600 to-orange-600 p-7 text-white">
                             <div class="absolute -top-8 -right-8 w-28 h-28 bg-white/10 rounded-full"></div>
                             <div class="absolute -bottom-6 -left-6 w-20 h-20 bg-white/10 rounded-full"></div>
-                            <h4 class="text-lg font-extrabold mb-2 relative z-10">{{ locale === 'en' ? 'Need Help?' : 'Butuh Bantuan?' }}</h4>
-                            <p class="text-orange-100 text-sm mb-5 relative z-10">{{ locale === 'en' ? 'Contact our team for a free consultation.' : 'Hubungi tim kami untuk konsultasi gratis.' }}</p>
-                            <button class="relative z-10 w-full bg-white text-orange-600 py-3 rounded-xl font-bold text-xs uppercase tracking-wider hover:bg-orange-50 hover:shadow-lg transition-all duration-200">
+                            <h4 class="font-montserrat text-lg font-extrabold mb-2 relative z-10">{{ locale === 'en' ? 'Need Help?' : 'Butuh Bantuan?' }}</h4>
+                            <p class="font-quicksand text-red-50/90 text-sm mb-5 relative z-10">{{ locale === 'en' ? 'Contact our team for a free consultation.' : 'Hubungi tim kami untuk konsultasi gratis.' }}</p>
+                            <button class="relative z-10 w-full bg-white text-red-600 py-3 rounded-xl font-montserrat font-bold text-xs uppercase tracking-wider hover:bg-red-50 hover:text-red-700 hover:shadow-lg transition-all duration-200 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-red-600">
                                 {{ locale === 'en' ? 'Start Now' : 'Mulai Sekarang' }}
                             </button>
                         </div>
@@ -445,22 +448,22 @@ const handleContentClick = (e) => {
 
             <!-- Related Articles -->
             <div v-if="relatedArticles.length > 0" class="mt-20 pt-12 border-t border-slate-100">
-                <h2 class="text-xl md:text-2xl font-extrabold text-slate-900 mb-8 flex items-center gap-3">
-                    <span class="w-8 h-1 bg-orange-500 rounded-full"></span>
+                <h2 class="font-montserrat text-xl md:text-2xl font-extrabold text-slate-900 mb-8 flex items-center gap-3">
+                    <span class="w-8 h-1 bg-red-600 rounded-full"></span>
                     {{ locale === 'en' ? 'Related Articles' : 'Artikel Terkait' }}
                 </h2>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                     <router-link v-for="rel in relatedArticles" :key="rel.id" :to="`/articles/${rel.slug}`"
-                        class="group rounded-2xl border border-slate-100 bg-white hover:shadow-xl hover:shadow-orange-100/40 transition-all duration-300 overflow-hidden flex flex-col h-full hover:-translate-y-1">
+                        class="group rounded-2xl border border-slate-100 bg-white hover:shadow-xl hover:shadow-red-100/50 transition-all duration-300 overflow-hidden flex flex-col h-full hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2">
                         <div class="w-full h-48 overflow-hidden">
                             <img :src="getImageUrl(rel.image)" @error="handleImageError" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                         <div class="p-5 flex flex-col flex-grow">
-                            <span class="text-[10px] font-bold text-orange-500 uppercase mb-2 tracking-wider">
+                            <span class="font-montserrat text-[10px] font-bold text-red-600 uppercase mb-2 tracking-wider">
                                 {{ locale === 'en' && rel.category?.name_en ? rel.category?.name_en : rel.category?.name }}
                             </span>
-                            <h3 class="text-base font-semibold text-slate-800 line-clamp-2 leading-snug group-hover:text-orange-600 transition-colors duration-200">
+                            <h3 class="font-quicksand text-base font-semibold text-slate-800 line-clamp-2 leading-snug group-hover:text-red-600 transition-colors duration-200">
                                 {{ locale === 'en' && rel.title_en ? rel.title_en : rel.title }}
                             </h3>
                         </div>
@@ -516,7 +519,7 @@ html {
     margin-top: 2.25rem;
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
-    border-bottom: 2px solid #fed7aa;
+    border-bottom: 2px solid var(--color-red-100);
 }
 
 .article-body :deep(h3) {
@@ -540,6 +543,7 @@ html {
 }
 
 .article-body :deep(p) {
+    font-family: 'Quicksand', sans-serif;
     margin-top: 0;
     margin-bottom: 1.25rem;
     line-height: 1.8;
@@ -553,18 +557,24 @@ html {
 }
 
 .article-body :deep(li) {
+    font-family: 'Quicksand', sans-serif;
     margin-bottom: 0.4rem;
-    line-height: 1.75;
+    line-height: 1.8;
 }
 
 .article-body :deep(blockquote) {
-    border-left: 4px solid #ea580c;
+    font-family: 'Quicksand', sans-serif;
+    border-left: 4px solid var(--color-red-600);
     padding: 0.75rem 1.25rem;
     margin: 1.5rem 0;
-    background: #fff7ed;
+    background: var(--color-red-50);
     border-radius: 0 0.5rem 0.5rem 0;
-    color: #9a3412;
+    color: #7f1d1d;
     font-style: italic;
+}
+
+.article-body :deep(strong) {
+    color: var(--color-red-700);
 }
 
 .article-body :deep(img) {
@@ -579,5 +589,15 @@ html {
 .article-body :deep(hr) {
     margin: 2rem 0;
     border-color: #f1f5f9;
+}
+
+/* Reduced motion: disable fade-in animation and smooth scroll */
+@media (prefers-reduced-motion: reduce) {
+    .detail-fade-in {
+        animation: none;
+    }
+    html {
+        scroll-behavior: auto;
+    }
 }
 </style>
