@@ -151,34 +151,36 @@ const orgService = computed(() => ({
                         <div class="lg:sticky lg:top-32">
                             <div class="relative group">
                                 
-                                <div class="aspect-[4/3] w-full bg-gray-100 rounded-[2rem] border border-gray-100 overflow-hidden shadow-xl relative z-10">
-                                    <Swiper
-                                        :modules="[Autoplay, Pagination, EffectFade]"
-                                        :effect="'fade'"
-                                        :pagination="{ clickable: true }"
-                                        :autoplay="{ delay: 3500, disableOnInteraction: false }"
-                                        :loop="true"
-                                        class="w-full h-full"
-                                    >
-                                        <SwiperSlide v-for="(img, index) in images" :key="index" class="w-full h-full relative">
-                                            <img :src="img" class="absolute inset-0 w-full h-full object-cover" :alt="'Event ' + index" />
-                                            <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/20 to-transparent"></div>
-                                            
-                                            <!-- Logo Overlay -->
-                                            <div class="absolute top-6 left-6 md:top-8 md:left-8 z-20">
-                                                <div class="bg-white/90 backdrop-blur-sm p-3 rounded-2xl shadow-xl flex items-center justify-center">
-                                                    <img src="/img/DPR-RI-LOGO.png" alt="DPR RI Logo" class="h-10 w-auto object-contain" />
+                                <div class="w-full h-64 sm:h-[400px] lg:h-auto lg:aspect-[4/3] bg-gray-100 rounded-[2rem] border border-gray-100 overflow-hidden shadow-xl relative z-10">
+                                    <div class="absolute inset-0 w-full h-full">
+                                        <Swiper
+                                            :modules="[Autoplay, Pagination, EffectFade]"
+                                            :effect="'fade'"
+                                            :pagination="{ clickable: true }"
+                                            :autoplay="{ delay: 3500, disableOnInteraction: false }"
+                                            :loop="true"
+                                            class="w-full h-full"
+                                        >
+                                            <SwiperSlide v-for="(img, index) in images" :key="index">
+                                                <img :src="img" class="w-full h-full object-cover" :alt="'Event ' + index" />
+                                                <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/20 to-transparent"></div>
+                                                
+                                                <!-- Logo Overlay -->
+                                                <div class="absolute top-6 left-6 md:top-8 md:left-8 z-20">
+                                                    <div class="bg-white/90 backdrop-blur-sm p-3 rounded-2xl shadow-xl flex items-center justify-center">
+                                                        <img src="/img/DPR-RI-LOGO.png" alt="DPR RI Logo" class="h-10 w-auto object-contain" />
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="absolute bottom-12 left-6 md:bottom-14 md:left-8 z-20">
-                                                <p class="text-orange-500 font-bold tracking-[0.2em] uppercase text-xs mb-2">Moment 0{{ index + 1 }}</p>
-                                                <h3 class="text-2xl md:text-4xl font-black text-white tracking-tighter drop-shadow-lg font-montserrat">
-                                                    Event Highlight
-                                                </h3>
-                                            </div>
-                                        </SwiperSlide>
-                                    </Swiper>
+                                                <div class="absolute bottom-12 left-6 md:bottom-14 md:left-8 z-20">
+                                                    <p class="text-orange-500 font-bold tracking-[0.2em] uppercase text-xs mb-2">Moment 0{{ index + 1 }}</p>
+                                                    <h3 class="text-2xl md:text-4xl font-black text-white tracking-tighter drop-shadow-lg font-montserrat">
+                                                        Event Highlight
+                                                    </h3>
+                                                </div>
+                                            </SwiperSlide>
+                                        </Swiper>
+                                    </div>
                                 </div>
 
                                 <div class="absolute -bottom-8 -right-8 px-8 py-5 bg-white border border-gray-100 rounded-2xl shadow-xl z-20 hidden md:block group-hover:-translate-y-2 transition-transform duration-300">
@@ -302,3 +304,19 @@ const orgService = computed(() => ({
         </section>
     </main>
 </template>
+
+<style scoped>
+:deep(.swiper-pagination-bullet) {
+    background: rgba(255, 255, 255, 0.6) !important;
+    opacity: 1;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+:deep(.swiper-pagination-bullet-active) {
+    background: #ea580c !important; /* orange-600 */
+    width: 24px;
+}
+</style>

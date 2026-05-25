@@ -10,7 +10,6 @@ const route = useRoute();
 // Fungsi untuk mengecek apakah URL saat ini adalah halaman Admin atau halaman dengan meta `hideNavbar`
 const hideLayoutNav = computed(() => {
   const shouldHide = route.path.startsWith('/admin') || route.path.startsWith('/direktur') || Boolean(route.meta.hideNavbar);
-  console.log('Current route:', route.path, 'Meta hideNavbar:', route.meta.hideNavbar, 'Should hide:', shouldHide);
   return shouldHide;
 });
 </script>
