@@ -323,7 +323,7 @@ const courseExpanded = ref(null)
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20ingin%20konsultasi%20tentang%20LMS%20dari%20PT%20Cakrawala%20Parama%20Internasional."
+                    <a href="https://wa.me/6285284201428?text=Halo%2C%20saya%20ingin%20konsultasi%20tentang%20LMS%20dari%20PT%20Cakrawala%20Parama%20Internasional."
                         target="_blank"
                         class="group relative inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-green-500 to-green-600 text-white font-bold rounded-xl shadow-lg shadow-green-500/30 hover:shadow-green-500/50 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 overflow-hidden">
                         <span class="relative z-10 flex items-center gap-2">
