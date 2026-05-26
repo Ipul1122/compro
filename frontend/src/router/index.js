@@ -298,7 +298,7 @@ const routes = [
   {
     path: '/id/galeri',
     name: 'gallery-id',
-    component: () => import('../views/galerry/IndexView.vue'),
+    component: () => import('../views/gallery/IndexView.vue'),
     meta: { 
       title: 'Galeri Kegiatan - PT Cakrawala Parama Internasional',
       lang: 'id',
@@ -308,7 +308,7 @@ const routes = [
   {
     path: '/en/gallery',
     name: 'gallery-en',
-    component: () => import('../views/galerry/IndexView.vue'),
+    component: () => import('../views/gallery/IndexView.vue'),
     meta: { 
       title: 'Activity Gallery - PT Cakrawala Parama Internasional',
       lang: 'en',

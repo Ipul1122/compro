@@ -3,7 +3,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import Navbar from '@/components/Navbar.vue'
 import HomeSection from './section/HomeSection.vue'
 import AboutSection from './section/AboutSection.vue'
-import TeamsSection from './section/TeamsSection.vue'
+
 import ProjectsSection from './section/ProjectsSection.vue';
 import ServicesSection from './section/ServicesSection.vue';
 import ClientsSection from './section/ClientsSection.vue';
@@ -32,7 +32,6 @@ onUnmounted(() => {
 
 <template>
     <div class="min-h-screen bg-white text-slate-900 font-sans selection:bg-brand/30">
-        <Navbar />
 
         <main id="home" class="pt-3">
 
