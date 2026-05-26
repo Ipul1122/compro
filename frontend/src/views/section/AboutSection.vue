@@ -1,9 +1,8 @@
 <script setup>
-// Menambahkan konfigurasi prop agar tombol bisa dikontrol dari luar
 defineProps({
     showButton: {
         type: Boolean,
-        default: true // Secara default tombol akan tampil (misal saat dipanggil di HomeView)
+        default: true
     }
 })
 </script>
@@ -30,7 +29,7 @@ defineProps({
                     <div class="absolute -top-6 -left-6 w-32 h-32 bg-red/10 rounded-full blur-3xl group-hover:bg-red/20 transition-all duration-700"></div>
 
                     <div class="relative rounded-3xl overflow-hidden shadow-2xl transition-transform duration-500 hover:scale-[1.02]">
-                        <img src="/img/ibu-dian-melani.jpeg" alt="Dian Melani M.Psi - CEO" class="w-full h-[400px] md:h-[500px] object-cover" />
+                        <img src="/img/ibu-dian-melani.jpeg" alt="Melani Dian M.Psi - Direktur Utama" class="w-full h-[400px] md:h-[500px] object-cover" />
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
                     </div>
 
