@@ -552,6 +552,21 @@ router.beforeEach((to, from) => {
     metaDesc.setAttribute('content', to.meta.description || 'Deskripsi default website');
   }
 
+  // Update HTML lang attribute dinamis
+  const currentLang = to.meta.lang || 'id';
+  document.documentElement.setAttribute('lang', currentLang);
+
+  // Update Canonical Link secara dinamis
+  let canonicalLink = document.querySelector('link[rel="canonical"]');
+  const baseDomain = 'https://cakrawala-internasional.co.id';
+  const canonicalPath = to.path === '/' ? '/id/beranda' : to.path;
+  if (!canonicalLink) {
+    canonicalLink = document.createElement('link');
+    canonicalLink.setAttribute('rel', 'canonical');
+    document.head.appendChild(canonicalLink);
+  }
+  canonicalLink.setAttribute('href', baseDomain + canonicalPath);
+
   const token = sessionStorage.getItem('token')
   const requiresAuth = to.meta.requiresAuth || to.path.startsWith('/admin') || to.path.startsWith('/direktur')
   if (requiresAuth && !token) {
