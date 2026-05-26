@@ -1,6 +1,5 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import Navbar from '@/components/Navbar.vue'
 import HomeSection from './section/HomeSection.vue'
 import AboutSection from './section/AboutSection.vue'
 

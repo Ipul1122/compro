@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /direktur/
+Disallow: /view/login
+
+Sitemap: https://cakrawala-internasional.co.id/sitemap.xml

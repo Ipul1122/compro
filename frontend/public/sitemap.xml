@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Beranda / Home -->
+  <url>
+    <loc>https://cakrawala-internasional.co.id/id/beranda</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/beranda"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/home"/>
+    <priority>1.0</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://cakrawala-internasional.co.id/en/home</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/beranda"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/home"/>
+    <priority>1.0</priority>
+    <changefreq>daily</changefreq>
+  </url>
+
+  <!-- Tentang Kami / About -->
+  <url>
+    <loc>https://cakrawala-internasional.co.id/id/tentang-kami</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/tentang-kami"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/about"/>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://cakrawala-internasional.co.id/en/about</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/tentang-kami"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/about"/>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- Proyek Kami / Projects -->
+  <url>
+    <loc>https://cakrawala-internasional.co.id/id/proyek-kami</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/proyek-kami"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/projects"/>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://cakrawala-internasional.co.id/en/projects</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/proyek-kami"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/projects"/>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- Layanan / Services -->
+  <url>
+    <loc>https://cakrawala-internasional.co.id/id/layanan</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/layanan"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/services"/>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://cakrawala-internasional.co.id/en/services</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/layanan"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/services"/>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- Interior Design -->
+  <url>
+    <loc>https://cakrawala-internasional.co.id/id/interior-design</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/interior-design"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/interior-design"/>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://cakrawala-internasional.co.id/en/interior-design</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/interior-design"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/interior-design"/>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- Assessment -->
+  <url>
+    <loc>https://cakrawala-internasional.co.id/id/assessment</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/assessment"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/assessment"/>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://cakrawala-internasional.co.id/en/assessment</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/assessment"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/assessment"/>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- Event Organizer -->
+  <url>
+    <loc>https://cakrawala-internasional.co.id/id/event-organizer</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/event-organizer"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/event-organizer"/>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://cakrawala-internasional.co.id/en/event-organizer</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/event-organizer"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/event-organizer"/>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- LMS -->
+  <url>
+    <loc>https://cakrawala-internasional.co.id/id/learning-management-system</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/learning-management-system"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/learning-management-system"/>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://cakrawala-internasional.co.id/en/learning-management-system</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/learning-management-system"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/learning-management-system"/>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- Implementasi -->
+  <url>
+    <loc>https://cakrawala-internasional.co.id/id/implementasi</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/implementasi"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/implementation"/>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://cakrawala-internasional.co.id/en/implementation</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/implementasi"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/implementation"/>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- Artikel / Articles -->
+  <url>
+    <loc>https://cakrawala-internasional.co.id/id/artikel</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/artikel"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/articles"/>
+    <priority>0.7</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://cakrawala-internasional.co.id/en/articles</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/artikel"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/articles"/>
+    <priority>0.7</priority>
+    <changefreq>daily</changefreq>
+  </url>
+
+  <!-- Galeri / Gallery -->
+  <url>
+    <loc>https://cakrawala-internasional.co.id/id/galeri</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/galeri"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/gallery"/>
+    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://cakrawala-internasional.co.id/en/gallery</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/galeri"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/gallery"/>
+    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- Kontak / Contact -->
+  <url>
+    <loc>https://cakrawala-internasional.co.id/id/kontak</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/kontak"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/contact"/>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://cakrawala-internasional.co.id/en/contact</loc>
+    <xhtml:link rel="alternate" hreflang="id" href="https://cakrawala-internasional.co.id/id/kontak"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cakrawala-internasional.co.id/en/contact"/>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <!-- Kebijakan Privasi / Privacy Policy -->
+  <url>
+    <loc>https://cakrawala-internasional.co.id/privacy-policy</loc>
+    <priority>0.3</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <!-- Syarat & Ketentuan / Terms of Service -->
+  <url>
+    <loc>https://cakrawala-internasional.co.id/terms-of-service</loc>
+    <priority>0.3</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+</urlset>
