@@ -26,7 +26,7 @@
           <div v-if="isLoading" class="text-center py-10 font-bold text-black animate-pulse text-sm">Memuat data...</div>
 
           <form v-else @submit.prevent="confirmUpdate" enctype="multipart/form-data">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div id="top_section" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               
               <div class="md:col-span-2">
                 <label for="gambar_utama" class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Gambar Utama (Kosongkan jika tidak diubah)</label>
@@ -74,10 +74,15 @@
               <div class="md:col-span-2 mt-4">
                 <div class="flex justify-between items-end mb-2">
                   <label id="label_konten_id" class="block text-xs font-bold text-black uppercase tracking-widest" aria-label="Isi Konten ID">Isi Konten (ID) <span class="text-red-500">*</span></label>
-                  <button type="button" @click="generateTOC(editorId)" class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-blue-100 transition-colors flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
-                    Buat TOC (Daftar Isi)
-                  </button>
+                  <div class="flex gap-2">
+                    <button type="button" @click="scrollToElement('label_konten_en')" class="bg-slate-100 text-slate-700 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors flex items-center gap-1">
+                      Ke Editor EN ↓
+                    </button>
+                    <button type="button" @click="generateTOC(editorId)" class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-blue-100 transition-colors flex items-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+                      Buat TOC (Daftar Isi)
+                    </button>
+                  </div>
                 </div>
                 
                 <div v-if="editorId" class="border border-slate-300 border-b-0 rounded-t-xl p-2 bg-slate-50 flex flex-wrap gap-1">
@@ -103,16 +108,49 @@
                     </div>
                   </div>
                 </div>
-                <EditorContent :editor="editorId" class="prose text-black prose-slate max-w-none border border-slate-300 rounded-b-xl p-4 min-h-[300px] bg-white focus:outline-none" />
+                <EditorContent :editor="editorId" class="prose text-black prose-slate max-w-none border border-slate-300 border-b-0 p-4 min-h-[300px] bg-white focus:outline-none" />
+                <div v-if="editorId" class="border border-slate-300 border-t-0 rounded-b-xl p-2 bg-slate-50 flex flex-wrap gap-1 mb-1">
+                  <button type="button" @click="editorId.chain().focus().toggleBold().run()" :class="{'bg-slate-200': editorId.isActive('bold')}" class="p-2 rounded text-black hover:bg-slate-200 text-sm font-bold w-8 h-8 flex items-center justify-center">B</button>
+                  <button type="button" @click="editorId.chain().focus().toggleItalic().run()" :class="{'bg-slate-200': editorId.isActive('italic')}" class="p-2 rounded text-black hover:bg-slate-200 text-sm italic serif w-8 h-8 flex items-center justify-center">I</button>
+                  <button type="button" @click="setLink(editorId)" :class="{'bg-slate-200': editorId.isActive('link')}" class="px-3 py-1 rounded hover:bg-slate-200 text-black text-sm font-medium flex items-center gap-1">🔗 Link</button>
+                  <div class="w-px h-6 bg-slate-300 mx-1 self-center"></div>
+                  <button type="button" @click="editorId.chain().focus().toggleHeading({ level: 2 }).run()" :class="{'bg-slate-200': editorId.isActive('heading', { level: 2 })}" class="px-3 py-1 text-black rounded hover:bg-slate-200 text-sm font-bold">H2</button>
+                  <button type="button" @click="editorId.chain().focus().toggleHeading({ level: 3 }).run()" :class="{'bg-slate-200': editorId.isActive('heading', { level: 3 })}" class="px-3 py-1 text-black rounded hover:bg-slate-200 text-sm font-bold">H3</button>
+                  <div class="w-px h-6 bg-slate-300 mx-1 self-center"></div>
+                  <button type="button" @click="editorId.chain().focus().toggleBulletList().run()" :class="{'bg-slate-200': editorId.isActive('bulletList')}" class="px-3 py-1 text-black rounded hover:bg-slate-200 text-sm font-bold flex items-center gap-1">• Bullet</button>
+                  <button type="button" @click="editorId.chain().focus().toggleOrderedList().run()" :class="{'bg-slate-200': editorId.isActive('orderedList')}" class="px-3 py-1 text-black rounded hover:bg-slate-200 text-sm font-bold flex items-center gap-1">1. Number</button>
+                  <div class="w-px h-6 bg-slate-300 mx-1 self-center"></div>
+                  <div class="relative group">
+                    <button type="button" class="px-3 py-1 text-black rounded hover:bg-slate-200 text-sm font-bold flex items-center gap-1">Tabel ▾</button>
+                    <div class="absolute left-0 bottom-full mb-1 hidden group-hover:flex flex-col bg-white border border-slate-200 shadow-lg rounded z-10 w-40">
+                      <button type="button" @click="editorId.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-black">Buat Tabel (3x3)</button>
+                      <button type="button" @click="editorId.chain().focus().addColumnAfter().run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-black">Tambah Kolom</button>
+                      <button type="button" @click="editorId.chain().focus().deleteColumn().run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-black">Hapus Kolom</button>
+                      <button type="button" @click="editorId.chain().focus().addRowAfter().run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-black">Tambah Baris</button>
+                      <button type="button" @click="editorId.chain().focus().deleteRow().run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-black">Hapus Baris</button>
+                      <button type="button" @click="editorId.chain().focus().deleteTable().run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-red-600 font-bold">Hapus Tabel</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex justify-end mt-1">
+                  <button type="button" @click="scrollToElement('label_konten_en')" class="text-[11px] font-bold text-slate-500 hover:text-slate-800 transition-colors flex items-center gap-1 py-1">
+                    Lompat ke Konten (EN) ↓
+                  </button>
+                </div>
               </div>
 
               <div class="md:col-span-2 mt-4">
                 <div class="flex justify-between items-end mb-2">
                   <label id="label_konten_en" class="block text-xs font-bold text-black uppercase tracking-widest" aria-label="Isi Konten EN">Isi Konten (EN)</label>
-                  <button type="button" @click="generateTOC(editorEn)" class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-blue-100 transition-colors flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
-                    Buat TOC (Daftar Isi)
-                  </button>
+                  <div class="flex gap-2">
+                    <button type="button" @click="scrollToElement('label_konten_id')" class="bg-slate-100 text-slate-700 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors flex items-center gap-1">
+                      Ke Editor ID ↑
+                    </button>
+                    <button type="button" @click="generateTOC(editorEn)" class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-blue-100 transition-colors flex items-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+                      Buat TOC (Daftar Isi)
+                    </button>
+                  </div>
                 </div>
                 
                 <div v-if="editorEn" class="border border-slate-300 border-b-0 rounded-t-xl p-2 bg-slate-50 flex flex-wrap gap-1">
@@ -138,10 +176,41 @@
                     </div>
                   </div>
                 </div>
-                <EditorContent :editor="editorEn" class="prose prose-slate max-w-none border border-slate-300 text-black rounded-b-xl p-4 min-h-[300px] bg-white focus:outline-none" />
+                <EditorContent :editor="editorEn" class="prose prose-slate max-w-none border border-slate-300 border-b-0 text-black p-4 min-h-[300px] bg-white focus:outline-none" />
+                <div v-if="editorEn" class="border border-slate-300 rounded-b-xl p-2 bg-slate-50 flex flex-wrap gap-1">
+                  <button type="button" @click="editorEn.chain().focus().toggleBold().run()" :class="{'bg-slate-200': editorEn.isActive('bold')}" class="p-2 rounded text-black hover:bg-slate-200 text-sm font-bold w-8 h-8 flex items-center justify-center">B</button>
+                  <button type="button" @click="editorEn.chain().focus().toggleItalic().run()" :class="{'bg-slate-200': editorEn.isActive('italic')}" class="p-2 rounded text-black hover:bg-slate-200 text-sm italic serif w-8 h-8 flex items-center justify-center">I</button>
+                  <button type="button" @click="setLink(editorEn)" :class="{'bg-slate-200': editorEn.isActive('link')}" class="px-3 py-1 rounded text-black hover:bg-slate-200 text-sm font-medium flex items-center gap-1">🔗 Link</button>
+                  <div class="w-px h-6 bg-slate-300 mx-1 self-center"></div>
+                  <button type="button" @click="editorEn.chain().focus().toggleHeading({ level: 2 }).run()" :class="{'bg-slate-200': editorEn.isActive('heading', { level: 2 })}" class="px-3 py-1 rounded text-black hover:bg-slate-200 text-sm font-bold">H2</button>
+                  <button type="button" @click="editorEn.chain().focus().toggleHeading({ level: 3 }).run()" :class="{'bg-slate-200': editorEn.isActive('heading', { level: 3 })}" class="px-3 py-1 rounded text-black hover:bg-slate-200 text-sm font-bold">H3</button>
+                  <div class="w-px h-6 bg-slate-300 mx-1 self-center"></div>
+                  <button type="button" @click="editorEn.chain().focus().toggleBulletList().run()" :class="{'bg-slate-200': editorEn.isActive('bulletList')}" class="px-3 py-1 text-black rounded hover:bg-slate-200 text-sm font-bold flex items-center gap-1">• Bullet</button>
+                  <button type="button" @click="editorEn.chain().focus().toggleOrderedList().run()" :class="{'bg-slate-200': editorEn.isActive('orderedList')}" class="px-3 py-1 text-black rounded hover:bg-slate-200 text-sm font-bold flex items-center gap-1">1. Number</button>
+                  <div class="w-px h-6 bg-slate-300 mx-1 self-center"></div>
+                  <div class="relative group">
+                    <button type="button" class="px-3 py-1 text-black rounded hover:bg-slate-200 text-sm font-bold flex items-center gap-1">Tabel ▾</button>
+                    <div class="absolute left-0 bottom-full mb-1 hidden group-hover:flex flex-col bg-white border border-slate-200 shadow-lg rounded z-10 w-40">
+                      <button type="button" @click="editorEn.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-black">Buat Tabel (3x3)</button>
+                      <button type="button" @click="editorEn.chain().focus().addColumnAfter().run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-black">Tambah Kolom</button>
+                      <button type="button" @click="editorEn.chain().focus().deleteColumn().run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-black">Hapus Kolom</button>
+                      <button type="button" @click="editorEn.chain().focus().addRowAfter().run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-black">Tambah Baris</button>
+                      <button type="button" @click="editorEn.chain().focus().deleteRow().run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-black">Hapus Baris</button>
+                      <button type="button" @click="editorEn.chain().focus().deleteTable().run()" class="px-4 py-2 text-left text-sm hover:bg-slate-100 text-red-600 font-bold">Hapus Tabel</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex justify-between items-center mt-1">
+                  <button type="button" @click="copyContentFromIdToEn" class="text-[11px] font-bold text-blue-600 bg-blue-50 hover:bg-blue-100 px-2 py-1 rounded transition-colors flex items-center gap-1">
+                    📋 Salin Struktur Konten (ID → EN)
+                  </button>
+                  <button type="button" @click="scrollToElement('label_konten_id')" class="text-[11px] font-bold text-slate-500 hover:text-slate-800 transition-colors flex items-center gap-1 py-1">
+                    Lompat ke Konten (ID) ↑
+                  </button>
+                </div>
               </div>
 
-              <div>
+              <div id="seo_section">
                 <label for="meta_title" class="block text-xs font-bold text-black uppercase tracking-widest mb-2">Meta Title (SEO)</label>
                 <input id="meta_title" name="meta_title" v-model="form.meta_title" type="text" class="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-slate-900 outline-none font-bold text-black" placeholder="Judul untuk SEO">
               </div>
@@ -206,6 +275,23 @@
             </button>
           </div>
         </div>
+      </div>
+
+      <!-- Floating Navigation Panel -->
+      <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-1 bg-white/90 backdrop-blur-md p-2 rounded-2xl border border-slate-200 shadow-2xl transition-all duration-300 opacity-90 hover:opacity-100">
+        <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest text-center border-b border-slate-100 pb-1 mb-1 hidden md:block">Navigasi</span>
+        <button type="button" @click="scrollToElement('top_section')" class="p-1.5 rounded-xl hover:bg-slate-100 text-slate-700 transition-colors text-xs font-bold flex items-center gap-2 justify-center md:justify-start" title="Ke Atas">
+          <span class="text-sm">📝</span> <span class="hidden md:inline">Atas / Detail</span>
+        </button>
+        <button type="button" @click="scrollToElement('label_konten_id')" class="p-1.5 rounded-xl hover:bg-slate-100 text-slate-700 transition-colors text-xs font-bold flex items-center gap-2 justify-center md:justify-start" title="Ke Editor ID">
+          <span class="text-sm">🇮🇩</span> <span class="hidden md:inline">Konten (ID)</span>
+        </button>
+        <button type="button" @click="scrollToElement('label_konten_en')" class="p-1.5 rounded-xl hover:bg-slate-100 text-slate-700 transition-colors text-xs font-bold flex items-center gap-2 justify-center md:justify-start" title="Ke Editor EN">
+          <span class="text-sm">🇬🇧</span> <span class="hidden md:inline">Konten (EN)</span>
+        </button>
+        <button type="button" @click="scrollToElement('seo_section')" class="p-1.5 rounded-xl hover:bg-slate-100 text-slate-700 transition-colors text-xs font-bold flex items-center gap-2 justify-center md:justify-start" title="Ke SEO & Simpan">
+          <span class="text-sm">🔍</span> <span class="hidden md:inline">SEO & Simpan</span>
+        </button>
       </div>
 
     </div>
@@ -413,6 +499,26 @@ watch(() => form.value, (newVal, oldVal) => {
         saveDraftToLocalStorage();
     }
 }, { deep: true });
+
+const scrollToElement = (id) => {
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+};
+
+const copyContentFromIdToEn = () => {
+  if (!editorId.value || !editorEn.value) return;
+  const idContent = editorId.value.getHTML();
+  if (!idContent || idContent === '<p></p>') {
+    alert("Isi Konten (ID) masih kosong.");
+    return;
+  }
+  if (confirm("Apakah Anda yakin ingin menyalin struktur konten dari ID ke EN? Ini akan menimpa konten EN saat ini.")) {
+    editorEn.value.commands.setContent(idContent);
+    saveDraftToLocalStorage();
+  }
+};
 
 const checkAndRestoreDraft = (apiData) => {
     const savedDraft = sessionStorage.getItem(draftKey);
