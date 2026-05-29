@@ -549,11 +549,40 @@ html {
     line-height: 1.8;
 }
 
+.article-body :deep(ul:not(.list-none)) {
+    list-style-type: disc;
+}
+
+.article-body :deep(ol:not(.list-none)) {
+    list-style-type: decimal;
+}
+
 .article-body :deep(ul),
 .article-body :deep(ol) {
     margin-top: 0.5rem;
     margin-bottom: 1.25rem;
     padding-left: 1.5rem;
+}
+
+.article-body :deep(table) {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1.5rem 0;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.95rem;
+}
+
+.article-body :deep(th),
+.article-body :deep(td) {
+    border: 1px solid #cbd5e1;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.article-body :deep(th) {
+    background-color: #f8fafc;
+    font-weight: 700;
+    color: #0f172a;
 }
 
 .article-body :deep(li) {
