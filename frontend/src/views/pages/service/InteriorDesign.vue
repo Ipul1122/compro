@@ -7,7 +7,7 @@ const { t, locale } = useI18n();
 // Data Gambar Carousel
 const interiorImages = [
     {
-        src: '/img/interior.jpg',
+        src: '/img/interior.webp',
         title: 'Premium Office Room',
         vibe: 'Warm, Elegant'
     },
@@ -238,7 +238,7 @@ onUnmounted(() => {
         <!-- WHY CHOOSE US -->
         <div class="py-24 relative overflow-hidden bg-[#EAE8E3]">
             <div class="absolute inset-0">
-                <img src="/img/interior.jpg" alt="Background" class="w-full h-full object-cover opacity-20 mix-blend-multiply" />
+                <img src="/img/interior.webp" alt="Background" class="w-full h-full object-cover opacity-20 mix-blend-multiply" />
                 <div class="absolute inset-0 bg-gradient-to-r from-[#F0EDDF]/95 via-[#F0EDDF]/85 to-[#F0EDDF]/95"></div>
             </div>
 

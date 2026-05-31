@@ -68,7 +68,6 @@ const doubledLogos = [...partnerLogos, ...partnerLogos];
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap');
 
 section {
     font-family: 'Montserrat', sans-serif;

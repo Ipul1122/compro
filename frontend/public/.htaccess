@@ -55,6 +55,18 @@
     ExpiresByType font/woff "access plus 1 year"
 </IfModule>
 
+<IfModule mod_headers.c>
+    # Caching untuk aset statis selama 1 tahun (CSS, JS, Gambar, Font)
+    <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|webp|svg|js|css|woff|woff2)$">
+        Header set Cache-Control "max-age=31536000, public, immutable"
+    </FilesMatch>
+    
+    # Jangan cache file HTML, JSON agar pembaruan langsung terdeteksi
+    <FilesMatch "\.(html|htm|json)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
 # ============================================
 # GZIP COMPRESSION
 # ============================================

@@ -10,7 +10,7 @@ const teams = [
     id: 2,
     name: 'Nisrina Adnin Naqiyya',
     title: { en: 'Learning, Development Spesialis and Multimedia', id: 'Spesialis Pembelajaran, Pengembangan dan Multimedia' },
-    image: '/img/Foto-Nisrina-Adnin-Naqiyya.jpeg',
+    image: '/img/Foto-Nisrina-Adnin-Naqiyya.webp',
     social: { linkedin: 'https://id.linkedin.com/in/nisrinaqiyyaa?trk=people-guest_people_search-card'},
     color: '#1a1a2e'
   },
@@ -18,7 +18,7 @@ const teams = [
     id: 3,
     name: 'Muhammad Ariiq Fawwazi',
     title: { en: 'Quantity Surveyor', id: 'Survey Kuantitas' },
-    image: '/img/arik.jpeg',
+    image: '/img/arik.webp',
     social: { linkedin: 'https://id.linkedin.com/in/ariiqfawwazi'},
     color: '#1a1a2e'
   },
@@ -26,7 +26,7 @@ const teams = [
     id: 4,
     name: 'Lely Hidayah Rohmah',
     title: { en: 'Human Capital Specialist', id: 'Spesialis Sumber Daya Manusia' },
-    image: '/img/Lely.jpeg',
+    image: '/img/Lely.webp',
     social: { linkedin: '#'},
     color: '#16213e'
   },
@@ -34,7 +34,7 @@ const teams = [
     id: 5,
     name: 'Prammudito Dwi Prakoso',
     title: { en: 'Quality Control', id: 'Kontrol Kualitas' },
-    image: '/img/dito.png',
+    image: '/img/dito.webp',
     social: { linkedin: 'https://www.linkedin.com/in/prammudito'},
     color: '#16213e'
   },
@@ -42,7 +42,7 @@ const teams = [
     id: 6,
     name: 'Muhammad Syaifulloh',
     title: { en: 'IT (FULLSTACK DEVELOPER)', id: 'IT (Pengembang Fullstack)' },
-    image: '/img/ipul.jpeg',
+    image: '/img/ipul.webp',
     social: { linkedin: 'https://id.linkedin.com/in/muhammad-syaifulloh-99a233305?trk=people-guest_people_search-card'},
     color: '#0f3460'
   },
@@ -50,7 +50,7 @@ const teams = [
     id: 7,
     name: 'Muhammad Azzam',
     title: { en: 'Learning and Development Specialist', id: 'Spesialis Pembelajaran dan Pengembangan' },
-    image: '/img/azzam.png',
+    image: '/img/azzam.webp',
     social: { linkedin: 'https://www.linkedin.com/in/muhammad-syaifulloh-99a233305/'},
     color: '#0f3460'
   },
@@ -58,7 +58,7 @@ const teams = [
     id: 8,
     name: 'Wahyu Nur A',
     title: { en: 'IT (FULLSTACK DEVELOPER)', id: 'IT (Pengembang Fullstack)' },
-    image: '/img/wahyu.jpeg',
+    image: '/img/wahyu.webp',
     social: { linkedin: 'https://www.linkedin.com/in/wahyu-nur-a7247923a?utm_source=share_via&utm_content=profile&utm_medium=member_android'},
     color: '#0f3460'
   }
@@ -135,7 +135,6 @@ const teams = [
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap');
 
 .team-section {
   padding: 40px 0 80px;

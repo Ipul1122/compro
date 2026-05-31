@@ -301,8 +301,6 @@ const closeModal = () => {
 </template>
 
 <style scoped>
-/* Seluruh blok CSS/Style tidak berubah, dibiarkan seperti file aslinya */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
 
 /* ─── Base ─── */
 .contact-section {

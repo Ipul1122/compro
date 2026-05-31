@@ -79,10 +79,6 @@ onMounted(() => {
 </script>
 
 <template>
-    <!-- Import Montserrat font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-
     <section class="gallery-section py-28 relative overflow-hidden">
 
         <!-- Decorative background elements -->

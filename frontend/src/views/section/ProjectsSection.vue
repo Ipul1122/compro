@@ -414,7 +414,6 @@ const filteredProjects = computed(() => {
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap');
 
 /* Hide scrollbar for category filter on mobile */
 .no-scrollbar::-webkit-scrollbar {
