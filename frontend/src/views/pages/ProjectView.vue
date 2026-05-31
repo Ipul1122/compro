@@ -39,8 +39,4 @@ onMounted(() => {
     <ProjectsSection :showButton="false" :showFilter="true" />
 
   </div>
-</template>
-
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap');
-</style>
+</template>

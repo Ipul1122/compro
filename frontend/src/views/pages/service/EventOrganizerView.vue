@@ -10,9 +10,9 @@ import { computed } from 'vue';
 const { t } = useI18n();
 
 const images = [
-    '/img/tubel1.jpg',
-    '/img/tubel2.jpg',
-    '/img/tubel3.jpeg',
+    '/img/tubel1.webp',
+    '/img/tubel2.webp',
+    '/img/tubel3.webp',
     '/img/tubel4.jpeg',
     '/img/tubel5.jpeg'
 ];
