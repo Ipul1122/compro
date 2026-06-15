@@ -1,4 +1,4 @@
-<script setup>
+    <script setup>
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -209,8 +209,8 @@ const gallery = computed(() => isEnglish.value ? [
             '/img/implemen/another-reference-1.png',
         ]
     },
-    { title: 'Toilet Umum & Tempat Wudhu', desc: 'Hasil desain toilet umum dan tempat wudhu', category: 'Hasil Design', driveVideo: 'https://drive.google.com/file/d/14Gr0I55zHOnj0a_IsZ6wksM79YYX7U4w/preview' },
-    { title: 'Ruang Sekretariat Biro Keuangan', desc: 'Hasil desain ruang sekretariat', category: 'Hasil Design', driveVideo: 'https://drive.google.com/file/d/1v98BR5B3Ef0VzjM0jLgML15K25BrQQsS/preview' }
+    { title: 'Ruang Sekretariat Biro Keuangan', desc: 'Hasil desain ruang sekretariat', category: 'Hasil Design', driveVideo: 'https://drive.google.com/file/d/14Gr0I55zHOnj0a_IsZ6wksM79YYX7U4w/preview' },
+    { title: 'Toilet Umum & Tempat Wudhu', desc: 'Hasil desain toilet umum dan tempat wudhu ', category: 'Hasil Design', driveVideo: 'https://drive.google.com/file/d/1v98BR5B3Ef0VzjM0jLgML15K25BrQQsS/preview' }
 ])
 
 // Carousel state
