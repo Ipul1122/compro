@@ -62,6 +62,26 @@ const whatsappData = computed(() => {
       icon: '💻'
     },
     {
+      id: 'event_organizer',
+      title: isEn ? 'Event Organizer' : 'Event Organizer',
+      subtitle: isEn ? 'PIC: Event Planning & Management' : 'PIC: Manajemen & Perencanaan Acara',
+      number: '6285284201428',
+      message: isEn
+        ? 'Hello CPI, I am interested in inquiring about your Event Organizer services.'
+        : 'Halo CPI, saya tertarik dan ingin berkonsultasi mengenai layanan Event Organizer.',
+      icon: '🎉'
+    },
+    {
+      id: 'org_structure',
+      title: isEn ? 'Organizational Structure Design' : 'Jasa Pembuatan Struktur Organisasi',
+      subtitle: isEn ? 'PIC: Workload Analysis & Org Design' : 'PIC: Analisis Beban Kerja & Desain Organisasi',
+      number: '6285284201428',
+      message: isEn
+        ? 'Hello CPI, I would like to consult about your Organizational Structure Design & Workload Analysis (WLA) services.'
+        : 'Halo CPI, saya ingin berkonsultasi mengenai jasa Pembuatan Struktur Organisasi & Analisis Beban Kerja (ABK).',
+      icon: '🏢'
+    },
+    {
       id: 'general',
       title: isEn ? 'General & Business Relations' : 'Umum & Hubungan Kerja Sama',
       subtitle: isEn ? 'PIC: General Inquiry & Partnerships' : 'PIC: Informasi Umum & Kemitraan',
