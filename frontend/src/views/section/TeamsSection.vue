@@ -32,10 +32,10 @@ const teams = [
   },
   {
     id: 5,
-    name: 'Prammudito Dwi Prakoso',
-    title: { en: 'Quality Control', id: 'Kontrol Kualitas' },
-    image: '/img/dito.webp',
-    social: { linkedin: 'https://www.linkedin.com/in/prammudito'},
+    name: 'Diah Sartika Azah',
+    title: { en: 'Interior Design', id: ' Desain Interior' },
+    image: '/img/azah.webp',
+    social: { linkedin: 'https://www.linkedin.com/in/diah-sartika-azah-0304881b4/'},
     color: '#16213e'
   },
   {

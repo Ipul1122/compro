@@ -145,8 +145,8 @@ const layanan2Routes = computed(() => ({
   
   --surface: rgba(255, 255, 255, 0.1);
   --border: rgba(255, 255, 255, 0.2);
-  --text-muted: rgba(255, 255, 255, 0.8);
-  --text-body: rgba(255, 255, 255, 0.9);
+  --text-muted: rgba(255, 255, 255, 0.92);
+  --text-body: #ffffff;
   --text-white: #ffffff;
   --radius: 12px;
 }
