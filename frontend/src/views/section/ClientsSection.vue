@@ -32,7 +32,7 @@ const doubledLogos = [...partnerLogos, ...partnerLogos];
 
             <!-- Section Label -->
             <div class="text-center">
-                <span class="inline-block text-[10px] font-bold text-red-500 uppercase tracking-[0.35em] mb-3">
+                <span class="inline-block text-[10px] font-bold text-red-600 uppercase tracking-[0.35em] mb-3">
                     {{ t('clients_section.trusted_partners') }}
                 </span>
                 <h2 class="text-4xl font-black text-slate-900 tracking-tighter leading-tight">

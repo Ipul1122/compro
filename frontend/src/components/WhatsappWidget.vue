@@ -99,6 +99,7 @@ const getWhatsappLink = (number, text) => {
           <button 
             @click="toggleWidget" 
             class="absolute top-3 right-3 sm:top-4 sm:right-4 text-white/70 hover:text-white hover:bg-white/10 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-colors cursor-pointer"
+            :aria-label="locale === 'en' ? 'Close WhatsApp Widget' : 'Tutup Widget WhatsApp'"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -185,6 +186,8 @@ const getWhatsappLink = (number, text) => {
         isOpen ? 'rotate-90 scale-90 bg-slate-900 hover:bg-slate-800' : 'hover:-translate-y-1 hover:scale-105 active:scale-95'
       ]"
       :title="locale === 'en' ? 'Contact Us on WhatsApp' : 'Hubungi kami di WhatsApp'"
+      :aria-label="locale === 'en' ? 'Contact Us on WhatsApp' : 'Hubungi kami di WhatsApp'"
+      :aria-expanded="isOpen"
     >
       <!-- Notification Badge -->
       <span 

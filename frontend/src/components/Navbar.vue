@@ -170,7 +170,8 @@ const handleLanguageToggle = async () => {
                             
                             <button @click.prevent="handleLanguageToggle"
                                 class="ml-2 flex items-center justify-center text-black w-10 h-10 rounded-xl border border-slate-200 hover:bg-slate-50 transition-all active:scale-95"
-                                :title="isIndonesian ? 'Switch to English' : 'Ganti ke Bahasa Indonesia'">
+                                :title="isIndonesian ? 'Switch to English' : 'Ganti ke Bahasa Indonesia'"
+                                :aria-label="isIndonesian ? 'Switch to English' : 'Ganti ke Bahasa Indonesia'">
                                 <span class="text-xs font-black">{{ isIndonesian ? 'EN' : 'ID' }}</span>
                             </button>
 
@@ -183,12 +184,15 @@ const handleLanguageToggle = async () => {
                         <div class="md:hidden flex items-center gap-2">
                             <button @click.prevent="handleLanguageToggle"
                                 class="flex items-center justify-center text-black w-10 h-10 rounded-xl border border-slate-200 hover:bg-slate-50 transition-all active:scale-95"
-                                :title="isIndonesian ? 'Switch to English' : 'Ganti ke Bahasa Indonesia'">
+                                :title="isIndonesian ? 'Switch to English' : 'Ganti ke Bahasa Indonesia'"
+                                :aria-label="isIndonesian ? 'Switch to English' : 'Ganti ke Bahasa Indonesia'">
                                 <span class="text-xs font-black">{{ isIndonesian ? 'EN' : 'ID' }}</span>
                             </button>
 
                             <button @click="isMenuOpen = !isMenuOpen"
-                                class="p-2 text-black hover:bg-slate-100 rounded-lg transition-colors">
+                                class="p-2 text-black hover:bg-slate-100 rounded-lg transition-colors"
+                                aria-label="Toggle Menu"
+                                :aria-expanded="isMenuOpen">
                                 <svg v-if="!isMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

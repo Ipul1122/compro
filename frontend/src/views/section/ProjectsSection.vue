@@ -328,7 +328,7 @@ const filteredProjects = computed(() => {
                     <!-- Tahun Filter -->
                     <div class="overflow-x-auto no-scrollbar w-full flex justify-center">
                         <div class="flex flex-nowrap md:flex-wrap items-center gap-3 md:gap-4 pb-2">
-                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mr-2 hidden md:inline-block">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider mr-2 hidden md:inline-block">
                                 {{ $t('projects.year_label') || 'Tahun:' }}
                             </span>
                             <button v-for="yr in years" :key="yr" @click="setYear(yr)"
@@ -361,7 +361,7 @@ const filteredProjects = computed(() => {
                             {{ $t('projects.list.' + project.id) || project.title }}
                         </h4>
 
-                        <div class="flex items-center gap-4 text-xs font-semibold text-slate-400">
+                        <div class="flex items-center gap-4 text-xs font-semibold text-slate-600">
                             <span class="flex items-center gap-1">
                                 <svg class="w-3.5 h-3.5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -377,12 +377,12 @@ const filteredProjects = computed(() => {
                             </span>
                         </div>
 
-                        <p class="text-xs text-slate-400 font-medium line-clamp-2" v-if="project.client">
+                        <p class="text-xs text-slate-600 font-medium line-clamp-2" v-if="project.client">
                             {{ project.client }}
                         </p>
                     </div>
 
-                    <div class="mt-8 flex items-center gap-3 text-sm font-bold text-slate-400 group-hover:text-red-500 transition-colors">
+                    <div class="mt-8 flex items-center gap-3 text-sm font-bold text-slate-600 group-hover:text-red-500 transition-colors">
                         <span>View Details</span>
                         <svg class="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -404,7 +404,7 @@ const filteredProjects = computed(() => {
             </div>
 
             <div class="mt-12 text-center" v-if="showFilter">
-                <p class="text-slate-400 text-sm font-medium">
+                <p class="text-slate-600 text-sm font-medium">
                     {{ $t('projects.stats_text', { count: filteredProjects.length, total: dummyProjects.length }) }}
                 </p>
             </div>

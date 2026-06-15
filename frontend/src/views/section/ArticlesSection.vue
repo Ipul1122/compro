@@ -158,7 +158,7 @@ onMounted(() => {
                             <!-- red accent line -->
                             <div class="absolute left-0 top-0 bottom-0 w-[3px] bg-red-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             
-                            <div class="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                            <div class="flex items-center gap-2 text-[10px] font-bold text-slate-600 uppercase tracking-wider mb-1">
                                 <span>{{ article.created_at ? new Date(article.created_at).toLocaleDateString(locale === 'en' ? 'en-US' : 'id-ID', { month: 'short', day: 'numeric', year: 'numeric' }) : '' }}</span>
                                 <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
                                 <span>{{ locale === 'en' ? 'Latest' : 'Terbaru' }}</span>

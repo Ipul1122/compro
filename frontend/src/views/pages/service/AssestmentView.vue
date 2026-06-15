@@ -88,12 +88,12 @@ onUnmounted(() => {
                                 </div>
 
                                 <!-- Navigation Arrows -->
-                                <button @click.stop="prevImage" class="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-md text-white border border-white/30 hover:bg-white hover:text-orange-600 transition-all duration-300 shadow-[0_4px_20px_rgb(0,0,0,0.1)] opacity-0 group-hover:opacity-100 hover:scale-110">
+                                <button @click.stop="prevImage" aria-label="Previous slide" class="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-md text-white border border-white/30 hover:bg-white hover:text-orange-600 transition-all duration-300 shadow-[0_4px_20px_rgb(0,0,0,0.1)] opacity-0 group-hover:opacity-100 hover:scale-110">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
                                     </svg>
                                 </button>
-                                <button @click.stop="nextImage" class="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-md text-white border border-white/30 hover:bg-white hover:text-orange-600 transition-all duration-300 shadow-[0_4px_20px_rgb(0,0,0,0.1)] opacity-0 group-hover:opacity-100 hover:scale-110">
+                                <button @click.stop="nextImage" aria-label="Next slide" class="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 flex items-center justify-center rounded-full bg-white/20 backdrop-blur-md text-white border border-white/30 hover:bg-white hover:text-orange-600 transition-all duration-300 shadow-[0_4px_20px_rgb(0,0,0,0.1)] opacity-0 group-hover:opacity-100 hover:scale-110">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
                                     </svg>

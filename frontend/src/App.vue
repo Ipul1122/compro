@@ -32,7 +32,9 @@ onUnmounted(() => {
 <template>
   <Navbar v-if="!hideLayoutNav" />
 
-  <router-view></router-view>
+  <main class="min-h-screen">
+    <router-view></router-view>
+  </main>
   <Footer v-if="!hideLayoutNav" />
 
   <!-- Floating WhatsApp Widget -->

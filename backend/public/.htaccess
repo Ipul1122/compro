@@ -52,6 +52,24 @@
 </IfModule>
 
 # ============================================
+# CACHING STATIC ASSETS
+# ============================================
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+</IfModule>
+
+<IfModule mod_headers.c>
+    # Caching untuk aset statis selama 1 tahun (CSS, JS, Gambar, Font)
+    <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|webp|svg|js|css|woff|woff2)$">
+        Header set Cache-Control "max-age=31536000, public, immutable"
+    </FilesMatch>
+</IfModule>
+
+# ============================================
 # GZIP COMPRESSION
 # ============================================
 <IfModule mod_deflate.c>
