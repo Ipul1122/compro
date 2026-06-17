@@ -168,7 +168,8 @@ const routes = [
     meta: {
       title: 'Trial Psikotes Online - PT Cakrawala Parama Internasional',
       lang: 'id',
-      description: 'Simulasi trial psikotes online gratis dengan 30 soal penalaran verbal, numerik, dan logika.'
+      description: 'Simulasi trial psikotes online gratis dengan 30 soal penalaran verbal, numerik, dan logika.',
+      hideNavbar: true
     }
   },
   {
@@ -178,7 +179,8 @@ const routes = [
     meta: {
       title: 'Online Psychological Test Trial - PT Cakrawala Parama Internasional',
       lang: 'en',
-      description: 'Free online psychological test trial simulation with 30 reasoning questions.'
+      description: 'Free online psychological test trial simulation with 30 reasoning questions.',
+      hideNavbar: true
     }
   },
   
