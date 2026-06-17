@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onUnmounted, watch } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { questions } from '../../../data/psikotesQuestions.js';
@@ -22,11 +22,26 @@ const showSubmitModal = ref(false);
 const timeSpent = ref(0);
 const isSidebarOpen = ref(false);
 
+const STORAGE_KEY = 'psikotes_quiz_progress';
+
 // Helper to format remaining time
 const formatTime = (seconds) => {
   const m = Math.floor(seconds / 60);
   const s = seconds % 60;
   return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+};
+
+// Timer resume helper
+const resumeTimer = () => {
+  if (intervalId) clearInterval(intervalId);
+  intervalId = setInterval(() => {
+    if (timer.value > 0) {
+      timer.value--;
+      timeSpent.value++;
+    } else {
+      autoSubmit();
+    }
+  }, 1000);
 };
 
 // Start Quiz logic
@@ -39,16 +54,8 @@ const startQuiz = () => {
   currentQuestionIndex.value = 0;
   timeSpent.value = 0;
   isSidebarOpen.value = false;
-  
-  if (intervalId) clearInterval(intervalId);
-  intervalId = setInterval(() => {
-    if (timer.value > 0) {
-      timer.value--;
-      timeSpent.value++;
-    } else {
-      autoSubmit();
-    }
-  }, 1000);
+  saveProgress();
+  resumeTimer();
 };
 
 // Navigate index
@@ -113,9 +120,58 @@ const autoSubmit = () => {
   submitQuiz();
 };
 
+// LocalStorage helpers
+const saveProgress = () => {
+  const data = {
+    isStarted: isStarted.value,
+    isSubmitted: isSubmitted.value,
+    currentQuestionIndex: currentQuestionIndex.value,
+    userAnswers: userAnswers.value,
+    flaggedQuestions: flaggedQuestions.value,
+    timer: timer.value,
+    timeSpent: timeSpent.value
+  };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+};
+
+const loadProgress = () => {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    try {
+      const data = JSON.parse(saved);
+      isStarted.value = data.isStarted ?? false;
+      isSubmitted.value = data.isSubmitted ?? false;
+      currentQuestionIndex.value = data.currentQuestionIndex ?? 0;
+      userAnswers.value = data.userAnswers ?? {};
+      flaggedQuestions.value = data.flaggedQuestions ?? {};
+      timer.value = data.timer ?? TOTAL_TIME;
+      timeSpent.value = data.timeSpent ?? 0;
+
+      if (isStarted.value && !isSubmitted.value) {
+        resumeTimer();
+      }
+    } catch (e) {
+      console.error('Error loading quiz progress from localStorage:', e);
+    }
+  }
+};
+
+onMounted(() => {
+  loadProgress();
+});
+
 onUnmounted(() => {
   if (intervalId) clearInterval(intervalId);
 });
+
+// Watch reactive state to persist changes
+watch(
+  [isStarted, isSubmitted, currentQuestionIndex, userAnswers, flaggedQuestions, timer, timeSpent],
+  () => {
+    saveProgress();
+  },
+  { deep: true }
+);
 
 // Scoring results
 const correctAnswersCount = computed(() => {
