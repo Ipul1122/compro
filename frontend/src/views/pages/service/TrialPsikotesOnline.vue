@@ -228,8 +228,8 @@ watch(currentQuestionIndex, (newIdx) => {
 </script>
 
 <template>
-  <!-- Main wrapper with pt-20 padding offset ONLY on mobile when test is started -->
-  <main class="relative bg-slate-50 font-montserrat z-0 overflow-x-hidden min-h-screen pb-20" :class="isStarted && !isSubmitted ? 'pt-20 lg:pt-0 pb-0 h-screen overflow-hidden' : 'pt-24'">
+  <!-- Main wrapper (without global navbar offset) -->
+  <main class="relative bg-slate-50 font-montserrat z-0 overflow-x-hidden min-h-screen pb-20" :class="isStarted && !isSubmitted ? 'pt-0 pb-0 h-screen overflow-hidden' : 'pt-12 md:pt-16'">
     <!-- Grid Background Decoration (Visible in welcome and results screens) -->
     <div v-if="!isStarted || isSubmitted" class="absolute inset-0 bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px),linear-gradient(to_bottom,#f1f5f9_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_100%)] -z-10 pointer-events-none"></div>
 
@@ -254,8 +254,8 @@ watch(currentQuestionIndex, (newIdx) => {
 
       <!-- INSTRUCTIONS / WELCOME SCREEN -->
       <div v-if="!isSubmitted" class="bg-white rounded-3xl border border-slate-100 shadow-xl overflow-hidden max-w-3xl mx-auto transition-all duration-300">
-        <div class="bg-gradient-to-r from-[#af1719] to-[#bca281] p-6 sm:p-10 md:p-12 text-[#af1719]">
-          <h2 class="text-xl sm:text-2xl md:text-3xl font-black mb-3 text-red-600">
+        <div class="bg-white border-b border-slate-100 p-6 sm:p-10 md:p-12">
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-black mb-3 text-[#af1719]">
             {{ $t('service_view.trial_psikotes.instructions.title') }}
           </h2>
           <div class="flex flex-wrap gap-3 mt-6">
@@ -306,22 +306,22 @@ watch(currentQuestionIndex, (newIdx) => {
       <div v-if="isSubmitted" class="space-y-8 max-w-4xl mx-auto transition-all duration-500">
         <!-- Score Overview block -->
         <div class="bg-white rounded-3xl border border-slate-100 shadow-xl overflow-hidden grid md:grid-cols-3">
-          <!-- Main score meter (orange gradient) -->
-          <div class="bg-gradient-to-br from-[#af1719] to-[#bca281] p-8 sm:p-10 text-orange-600 flex flex-col justify-between items-center text-center relative">
-            <h3 class="text-xs sm:text-sm font-black uppercase tracking-wider opacity-85">
+          <!-- Main score meter (white background) -->
+          <div class="bg-white p-8 sm:p-10 flex flex-col justify-between items-center text-center relative border-b md:border-b-0 md:border-r border-slate-100">
+            <h3 class="text-xs sm:text-sm font-black uppercase tracking-wider text-slate-400">
               {{ $t('service_view.trial_psikotes.results.score_label') }}
             </h3>
 
             <div class="my-6 sm:my-8 relative w-36 h-36 sm:w-40 sm:h-40 flex items-center justify-center">
               <!-- Animated radial background SVG -->
               <svg class="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="8"></circle>
+                <circle cx="50" cy="50" r="42" fill="none" stroke="#f1f5f9" stroke-width="8"></circle>
                 <circle 
                   cx="50" 
                   cy="50" 
                   r="42" 
                   fill="none" 
-                  stroke="currentColor" 
+                  stroke="#f97316" 
                   stroke-width="8" 
                   stroke-linecap="round"
                   :stroke-dasharray="2 * Math.PI * 42"
@@ -331,16 +331,16 @@ watch(currentQuestionIndex, (newIdx) => {
               </svg>
               <!-- Score label inside -->
               <div class="text-center">
-                <span class="text-4xl sm:text-5xl font-black tracking-tight leading-none text-red-600">{{ scorePercentage }}</span>
-                <span class="text-xs block font-bold opacity-80 mt-1">/ 100</span>
+                <span class="text-4xl sm:text-5xl font-black tracking-tight leading-none text-[#af1719]">{{ scorePercentage }}</span>
+                <span class="text-xs block font-bold text-slate-400 mt-1">/ 100</span>
               </div>
             </div>
 
             <div class="space-y-0.5">
-              <p class="text-[10px] sm:text-xs font-black tracking-wider uppercase opacity-85">
+              <p class="text-[10px] sm:text-xs font-black tracking-wider uppercase text-slate-400">
                 {{ $t('service_view.trial_psikotes.results.correct_answers') }}
               </p>
-              <p class="text-base sm:text-lg font-bold text-red-600">
+              <p class="text-base sm:text-lg font-bold text-[#af1719]">
                 {{ correctAnswersCount }} / {{ questions.length }}
               </p>
             </div>
@@ -521,14 +521,13 @@ watch(currentQuestionIndex, (newIdx) => {
     </div>
 
     <!-- 2. ACTIVE TEST INTERFACE (FULL-WIDTH FLUID LAYOUT MATCHING IMAGE REFERENCE) -->
-    <!-- mt-20 offset ONLY on mobile, no offset mt-0 on desktop -->
-    <div v-else class="flex flex-col bg-[#f7f6f5] relative text-slate-800 mt-20 lg:mt-0 h-[calc(100vh-80px)] lg:h-screen overflow-hidden">
+    <div v-else class="flex flex-col bg-[#f7f6f5] relative text-slate-800 h-screen overflow-hidden">
       
-      <!-- Top header bar spanning 100% width -->
-      <header class="h-16 flex items-center justify-between bg-[#1a365d] text-orange-600 px-6 border-b border-[#0f2444] shrink-0 sticky top-0 z-30 shadow-md">
+      <!-- Top header bar spanning 100% width (aligned with default site theme) -->
+      <header class="h-16 flex items-center justify-between bg-white text-slate-800 px-6 border-b border-slate-200 shrink-0 sticky top-0 z-30 shadow-sm">
         <div class="flex flex-col">
-          <span class="text-[11px] sm:text-xs font-black tracking-widest text-[#93c5fd] uppercase">COMPETENCY ASSESSMENT</span>
-          <span class="text-xs text-orange-600/80 font-bold mt-0.5">
+          <span class="text-[11px] sm:text-xs font-black tracking-widest text-slate-400 uppercase">COMPETENCY ASSESSMENT</span>
+          <span class="text-xs text-[#af1719] font-bold mt-0.5">
             {{ totalAnswered }} of {{ questions.length }} answered
           </span>
         </div>
@@ -537,7 +536,7 @@ watch(currentQuestionIndex, (newIdx) => {
           <!-- Mobile sidebar toggle hamburger -->
           <button 
             @click="isSidebarOpen = !isSidebarOpen" 
-            class="lg:hidden flex items-center gap-1.5 text-orange-600 hover:text-orange-500 bg-orange-600/10 hover:bg-orange-600/20 px-3 py-1.5 rounded-lg text-xs font-black transition-colors"
+            class="lg:hidden flex items-center gap-1.5 text-slate-700 hover:text-[#af1719] bg-slate-50 hover:bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-black transition-colors"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16" />
@@ -546,11 +545,11 @@ watch(currentQuestionIndex, (newIdx) => {
           </button>
 
           <!-- Real-time Countdown Timer -->
-          <div class="flex items-center gap-2 bg-[#0f2444] border border-[#2c5282]/40 px-3.5 py-1.5 rounded-lg font-mono text-sm sm:text-base font-bold shadow-inner">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-orange-400 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div class="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3.5 py-1.5 rounded-lg font-mono text-sm sm:text-base font-bold shadow-xs">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#af1719] animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span class="text-orange-600">{{ formatTime(timer) }}</span>
+            <span class="text-slate-800">{{ formatTime(timer) }}</span>
           </div>
         </div>
       </header>
@@ -574,15 +573,15 @@ watch(currentQuestionIndex, (newIdx) => {
               :class="[
                 'w-full flex items-center gap-3.5 px-6 py-4 border-b border-slate-100 text-left transition-all duration-150 relative',
                 currentQuestionIndex === index 
-                  ? 'bg-[#1a365d] text-orange-600 shadow-sm' 
-                  : 'hover:bg-slate-50 text-slate-700'
+                  ? 'bg-slate-50 text-[#af1719] shadow-sm font-bold' 
+                  : 'hover:bg-slate-50/50 text-slate-700'
               ]"
             >
               <!-- Square indicator matching active selection state -->
               <span :class="[
                 'w-8 h-8 rounded border flex items-center justify-center font-bold text-xs shrink-0 transition-all',
                 currentQuestionIndex === index
-                  ? 'border-orange-500/30 bg-orange-500/10 text-orange-600 font-black'
+                  ? 'border-[#af1719]/30 bg-[#af1719]/10 text-[#af1719] font-black'
                   : userAnswers[q.id]
                     ? 'border-emerald-600 bg-emerald-50 text-emerald-700 font-bold'
                     : 'border-slate-200 bg-slate-50 text-slate-400'
@@ -600,13 +599,13 @@ watch(currentQuestionIndex, (newIdx) => {
                 <!-- Checked answered indicator -->
                 <span v-if="userAnswers[q.id] && currentQuestionIndex !== index" class="w-2 h-2 rounded-full bg-emerald-600"></span>
                 <!-- Flag bookmark overlay -->
-                <svg v-if="flaggedQuestions[q.id]" class="h-3.5 w-3.5 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
+                <svg v-if="flaggedQuestions[q.id]" class="h-3.5 w-3.5 text-[#af1719]" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                 </svg>
               </div>
 
               <!-- Left active bar indicator -->
-              <span v-if="currentQuestionIndex === index" class="absolute left-0 top-0 bottom-0 w-1 bg-orange-500"></span>
+              <span v-if="currentQuestionIndex === index" class="absolute left-0 top-0 bottom-0 w-1 bg-[#af1719]"></span>
             </button>
           </div>
         </aside>
@@ -635,14 +634,14 @@ watch(currentQuestionIndex, (newIdx) => {
                 :class="[
                   'w-full flex items-center gap-3 px-6 py-4 border-b border-slate-100 text-left transition-colors relative',
                   currentQuestionIndex === index 
-                    ? 'bg-[#1a365d] text-orange-600' 
-                    : 'hover:bg-slate-50 text-slate-700'
+                    ? 'bg-slate-50 text-[#af1719] font-bold' 
+                    : 'hover:bg-slate-50/50 text-slate-700'
                 ]"
               >
                 <span :class="[
                   'w-8 h-8 rounded border flex items-center justify-center font-bold text-xs shrink-0',
                   currentQuestionIndex === index
-                    ? 'border-orange-500/30 bg-orange-500/10 text-orange-600 font-black'
+                    ? 'border-[#af1719]/30 bg-[#af1719]/10 text-[#af1719] font-black'
                     : userAnswers[q.id]
                       ? 'border-emerald-600 bg-emerald-50 text-emerald-700 font-bold'
                       : 'border-slate-200 bg-slate-50 text-slate-400'
@@ -655,12 +654,12 @@ watch(currentQuestionIndex, (newIdx) => {
                 
                 <div class="flex items-center gap-1.5 shrink-0">
                   <span v-if="userAnswers[q.id] && currentQuestionIndex !== index" class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
-                  <svg v-if="flaggedQuestions[q.id]" class="h-3.5 w-3.5 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
+                  <svg v-if="flaggedQuestions[q.id]" class="h-3.5 w-3.5 text-[#af1719]" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                   </svg>
                 </div>
                 
-                <span v-if="currentQuestionIndex === index" class="absolute left-0 top-0 bottom-0 w-1 bg-orange-500"></span>
+                <span v-if="currentQuestionIndex === index" class="absolute left-0 top-0 bottom-0 w-1 bg-[#af1719]"></span>
               </button>
             </div>
           </div>
@@ -676,7 +675,7 @@ watch(currentQuestionIndex, (newIdx) => {
             <div class="flex items-start justify-between mb-8 border-b border-slate-200/50 pb-5">
               <div>
                 <!-- Category badge -->
-                <span class="inline-flex px-3.5 py-1.5 rounded-lg bg-blue-50 text-blue-700 text-[10px] font-black uppercase tracking-wider">
+                <span class="inline-flex px-3.5 py-1.5 rounded-lg bg-red-50 text-[#af1719] text-[10px] font-black uppercase tracking-wider">
                   {{ getCategoryLabel(questions[currentQuestionIndex].category) }}
                 </span>
                 
@@ -691,7 +690,7 @@ watch(currentQuestionIndex, (newIdx) => {
                 :class="[
                   'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-bold transition-all active:scale-95 shadow-xs',
                   isCurrentFlagged 
-                    ? 'bg-orange-50 border-orange-200 text-orange-600' 
+                    ? 'bg-red-50 border-red-200 text-[#af1719]' 
                     : 'bg-white border-slate-200 text-slate-400 hover:text-slate-600 hover:bg-slate-50'
                 ]"
               >
@@ -716,7 +715,7 @@ watch(currentQuestionIndex, (newIdx) => {
                 :class="[
                   'w-full flex items-stretch border rounded-xl bg-white overflow-hidden text-left transition-all duration-200 shadow-sm group min-h-[56px]',
                   userAnswers[questions[currentQuestionIndex].id] === key 
-                    ? 'border-[#1a365d] ring-2 ring-[#1a365d]/10' 
+                    ? 'border-[#af1719] ring-2 ring-[#af1719]/10' 
                     : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50/50'
                 ]"
               >
@@ -724,7 +723,7 @@ watch(currentQuestionIndex, (newIdx) => {
                 <span :class="[
                   'w-12 border-r flex items-center justify-center font-bold text-sm shrink-0 transition-colors',
                   userAnswers[questions[currentQuestionIndex].id] === key
-                    ? 'border-[#1a365d] bg-[#1a365d] text-orange-600 font-black'
+                    ? 'border-[#af1719] bg-[#af1719] text-white font-black'
                     : 'border-slate-200 bg-slate-50 text-slate-500 group-hover:bg-slate-100/70 group-hover:text-slate-700'
                 ]">
                   {{ key }}
@@ -756,7 +755,7 @@ watch(currentQuestionIndex, (newIdx) => {
                   :class="[
                     'w-3 h-3 rounded-xs transition-all shrink-0',
                     currentQuestionIndex === index 
-                      ? 'bg-[#1a365d] scale-120' 
+                      ? 'bg-[#af1719] scale-120' 
                       : userAnswers[q.id] 
                         ? 'bg-emerald-500' 
                         : 'bg-slate-200 hover:bg-slate-300'
@@ -769,14 +768,14 @@ watch(currentQuestionIndex, (newIdx) => {
               <button 
                 v-if="currentQuestionIndex < questions.length - 1"
                 @click="nextQuestion"
-                class="px-6 py-2.5 bg-[#1a365d] hover:bg-[#152c4c] text-orange-600 rounded-lg font-bold text-xs transition-colors shadow-sm flex items-center gap-1.5 active:scale-98"
+                class="px-6 py-2.5 bg-slate-900 hover:bg-red-700 text-white rounded-lg font-bold text-xs transition-colors shadow-sm flex items-center gap-1.5 active:scale-98"
               >
                 Next &rarr;
               </button>
               <button 
                 v-else
                 @click="triggerSubmit"
-                class="px-6 py-2.5 bg-orange-600 hover:bg-orange-700 text-slate-950 rounded-lg font-bold text-xs transition-colors shadow-sm active:scale-98"
+                class="px-6 py-2.5 bg-[#af1719] hover:bg-red-700 text-white rounded-lg font-bold text-xs transition-colors shadow-sm active:scale-98"
               >
                 {{ $t('service_view.trial_psikotes.active.btn_submit') }}
               </button>
