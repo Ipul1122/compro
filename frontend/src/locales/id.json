@@ -236,7 +236,59 @@
       "desc": "Mengukur kompetensi dan kinerja untuk menilai kesesuaian posisi saat ini serta mengidentifikasi potensi transfer atau promosi ke peran lainnya.",
       "point1": "Analisis Kinerja Komprehensif",
       "point2": "Identifikasi Promosi yang Disesuaikan",
-      "btn_cta": "Pelajari Lebih Lanjut"
+      "btn_cta": "Mulai Trial Psikotes Online"
+    },
+    "trial_psikotes": {
+      "title": "Trial Psikotes Online",
+      "subtitle": "Simulasi Asesmen Potensi & Kompetensi",
+      "back_to_services": "Kembali ke Assessment",
+      "instructions": {
+        "title": "Petunjuk Pengerjaan",
+        "duration": "Durasi Pengerjaan: 20 Menit",
+        "total_questions": "Jumlah Soal: 30 Pilihan Ganda",
+        "p1": "Tes ini terdiri dari 3 bagian: Penalaran Verbal (10 soal), Penalaran Numerik (10 soal), dan Penalaran Logika (10 soal).",
+        "p2": "Anda dapat berpindah antar soal secara bebas dan menandai soal untuk ditinjau kembali.",
+        "p3": "Gunakan tombol daftar soal di sebelah kanan untuk melihat status pengerjaan Anda.",
+        "p4": "Hasil tes akan langsung ditampilkan setelah Anda mengirimkan lembar jawaban.",
+        "btn_start": "Mulai Tes Sekarang"
+      },
+      "active": {
+        "timer": "Sisa Waktu",
+        "progress": "Progres",
+        "question": "Pertanyaan",
+        "verbal": "Penalaran Verbal",
+        "numerical": "Penalaran Numerik",
+        "logical": "Penalaran Logika",
+        "btn_prev": "Sebelumnya",
+        "btn_next": "Berikutnya",
+        "btn_flag": "Tandai Soal",
+        "btn_unflag": "Hapus Tanda",
+        "btn_submit": "Selesai & Kirim"
+      },
+      "modal": {
+        "title": "Kirim Jawaban?",
+        "desc_all_answered": "Apakah Anda yakin ingin menyelesaikan tes dan melihat hasilnya?",
+        "desc_unanswered": "Anda masih memiliki {count} soal yang belum dijawab. Yakin ingin mengirimkan jawaban?",
+        "btn_cancel": "Kembali Mengerjakan",
+        "btn_confirm": "Ya, Kirim Sekarang"
+      },
+      "results": {
+        "title": "Hasil Trial Psikotes",
+        "subtitle": "Analisis Potensi dan Rekomendasi Karir Anda",
+        "score_label": "Skor Anda",
+        "correct_answers": "Jawaban Benar",
+        "correct_count": "{correct} dari 30 Soal",
+        "time_spent": "Waktu Pengerjaan",
+        "recommendation": "Rekomendasi Karir",
+        "details_title": "Tinjauan Jawaban",
+        "btn_retake": "Ulangi Tes",
+        "your_answer": "Jawaban Anda",
+        "correct_answer": "Jawaban Benar",
+        "explanation": "Penjelasan",
+        "cat_verbal_desc": "Mengukur kemampuan memahami konsep berbasis kata, logika bahasa, serta hubungan antar kata.",
+        "cat_numerical_desc": "Mengukur kemampuan berhitung, analisis data angka, serta pemecahan masalah matematika.",
+        "cat_logical_desc": "Mengukur kemampuan berpikir logis, deduktif, serta analisis pola abstrak."
+      }
     },
     "psychological_assessment": {
       "title": "Psychological",

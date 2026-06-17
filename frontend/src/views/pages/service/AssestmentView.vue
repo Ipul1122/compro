@@ -2,7 +2,7 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const assessmentImages = [
     '/img/servicesSection/assestmen-1.jpg',
@@ -142,12 +142,12 @@ onUnmounted(() => {
                         </ul>
 
                         <div class="mt-10">
-                            <button class="group flex items-center gap-3 text-white bg-gray-900 px-8 py-4 rounded-full font-bold text-sm hover:bg-orange-600 transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1">
+                            <router-link :to="locale === 'id' ? '/id/trial-psikotes-online' : '/en/trial-psikotes-online'" class="group inline-flex items-center gap-3 text-white bg-gray-900 px-8 py-4 rounded-full font-bold text-sm hover:bg-orange-600 transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1">
                                 {{ $t('service_view.assessment.btn_cta') }}
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                 </svg>
-                            </button>
+                            </router-link>
                         </div>
                     </div>
 

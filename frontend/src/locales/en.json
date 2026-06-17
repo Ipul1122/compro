@@ -236,7 +236,59 @@
       "desc": "Measuring competencies and performance to assess the suitability for their current position and to identify potential for transfer or promotion to other roles.",
       "point1": "Comprehensive Performance Analytics",
       "point2": "Tailored Promotion Identification",
-      "btn_cta": "Learn More About Assessments"
+      "btn_cta": "Start Online Psychological Test Trial"
+    },
+    "trial_psikotes": {
+      "title": "Online Psychological Test Trial",
+      "subtitle": "Potential & Competency Assessment Simulation",
+      "back_to_services": "Back to Assessment",
+      "instructions": {
+        "title": "Test Instructions",
+        "duration": "Duration: 20 Minutes",
+        "total_questions": "Total Questions: 30 Multiple Choice",
+        "p1": "This test consists of 3 sections: Verbal Reasoning (10 questions), Numerical Reasoning (10 questions), and Logical Reasoning (10 questions).",
+        "p2": "You can freely navigate between questions and bookmark/flag questions to review them later.",
+        "p3": "Use the question grid on the right to monitor your progress status.",
+        "p4": "Your results will be shown instantly once you submit your answers.",
+        "btn_start": "Start Test Now"
+      },
+      "active": {
+        "timer": "Time Remaining",
+        "progress": "Progress",
+        "question": "Question",
+        "verbal": "Verbal Reasoning",
+        "numerical": "Numerical Reasoning",
+        "logical": "Logical Reasoning",
+        "btn_prev": "Previous",
+        "btn_next": "Next",
+        "btn_flag": "Flag Question",
+        "btn_unflag": "Unflag",
+        "btn_submit": "Submit & Finish"
+      },
+      "modal": {
+        "title": "Submit Answers?",
+        "desc_all_answered": "Are you sure you want to finish the test and view your results?",
+        "desc_unanswered": "You have {count} unanswered questions. Are you sure you want to submit?",
+        "btn_cancel": "Go Back to Test",
+        "btn_confirm": "Yes, Submit Now"
+      },
+      "results": {
+        "title": "Psychological Test Results",
+        "subtitle": "Your Potential Analysis and Career Recommendation",
+        "score_label": "Your Score",
+        "correct_answers": "Correct Answers",
+        "correct_count": "{correct} of 30 Questions",
+        "time_spent": "Time Spent",
+        "recommendation": "Career Recommendation",
+        "details_title": "Answer Review",
+        "btn_retake": "Retake Test",
+        "your_answer": "Your Answer",
+        "correct_answer": "Correct Answer",
+        "explanation": "Explanation",
+        "cat_verbal_desc": "Measures the ability to understand word-based concepts, language logic, and relations between words.",
+        "cat_numerical_desc": "Measures mathematical computation skills, numerical data analysis, and mathematical problem-solving.",
+        "cat_logical_desc": "Measures logical thinking, deductive skills, and abstract pattern analysis."
+      }
     },
     "psychological_assessment": {
       "title": "Psychological",

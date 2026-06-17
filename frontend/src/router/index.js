@@ -160,6 +160,28 @@ const routes = [
     },
   },
   
+  // TRIAL PSIKOTES ONLINE
+  {
+    path: "/id/trial-psikotes-online",
+    name: "trial-psikotes-online-id",
+    component: () => import("@/views/pages/service/TrialPsikotesOnline.vue"),
+    meta: {
+      title: 'Trial Psikotes Online - PT Cakrawala Parama Internasional',
+      lang: 'id',
+      description: 'Simulasi trial psikotes online gratis dengan 30 soal penalaran verbal, numerik, dan logika.'
+    }
+  },
+  {
+    path: "/en/trial-psikotes-online",
+    name: "trial-psikotes-online-en",
+    component: () => import("@/views/pages/service/TrialPsikotesOnline.vue"),
+    meta: {
+      title: 'Online Psychological Test Trial - PT Cakrawala Parama Internasional',
+      lang: 'en',
+      description: 'Free online psychological test trial simulation with 30 reasoning questions.'
+    }
+  },
+  
   // EVENT ORGANIZER
   {
     path: "/id/event-organizer",
