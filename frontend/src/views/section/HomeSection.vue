@@ -1,3 +1,36 @@
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+
+const heroImages = [
+    '/img/heroSection/lcc.jpeg',
+    '/img/heroSection/lcc-2.jpeg',
+    '/img/heroSection/lcc-3.jpeg'
+];
+
+const activeIndex = ref(0);
+let timer = null;
+
+const nextSlide = () => {
+    activeIndex.value = (activeIndex.value + 1) % heroImages.length;
+};
+
+const prevSlide = () => {
+    activeIndex.value = (activeIndex.value - 1 + heroImages.length) % heroImages.length;
+};
+
+const goToSlide = (index) => {
+    activeIndex.value = index;
+};
+
+onMounted(() => {
+    timer = setInterval(nextSlide, 5000);
+});
+
+onUnmounted(() => {
+    if (timer) clearInterval(timer);
+});
+</script>
+
 <template>
     <main id="home" class="relative mt-3 overflow-hidden">
 
@@ -139,22 +172,50 @@
                         <!-- Image card -->
                         <div class="w-[440px] h-[460px] bg-white rounded-[2.5rem] border border-slate-100 relative overflow-hidden flex items-center justify-center shadow-[0_40px_80px_-15px_rgba(0,0,0,0.12),0_0_0_1px_rgba(234,68,53,0.06)] z-20 transition-all duration-700 group-hover:shadow-[0_60px_100px_-15px_rgba(234,68,53,0.18)]">
 
-                            <img src="/src/img/phising.jpg" alt="PT Cakrawala Project"
-                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
+                            <transition-group name="fade">
+                                <div v-for="(imgSrc, index) in heroImages"
+                                     v-show="activeIndex === index"
+                                     :key="imgSrc"
+                                     class="absolute inset-0">
+                                    <img :src="imgSrc" alt="PT Cakrawala Project"
+                                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
+                                </div>
+                            </transition-group>
 
                             <!-- Overlay gradient -->
-                            <div class="absolute inset-0 bg-gradient-to-tr from-red-600/10 via-transparent to-amber-400/5"></div>
+                            <div class="absolute inset-0 bg-gradient-to-tr from-red-600/10 via-transparent to-amber-400/5 pointer-events-none z-10"></div>
 
-                            <!-- Bottom info bar -->
-                            <div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/40 to-transparent z-10">
+                            <!-- Navigation Buttons (appears on hover) -->
+                            <button @click="prevSlide" aria-label="Previous slide"
+                                    class="absolute left-4 top-1/2 -translate-y-1/2 w-9 h-9 bg-black/35 backdrop-blur-md rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-red-500 border border-white/10 z-30">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+                            <button @click="nextSlide" aria-label="Next slide"
+                                    class="absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 bg-black/35 backdrop-blur-md rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-red-500 border border-white/10 z-30">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+
+                            <!-- Bottom info bar & dots -->
+                            <div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/60 to-transparent z-25 flex items-center justify-between">
                                 <div class="flex items-center gap-2">
-                                    <div class="w-2 h-2 rounded-full bg-green-600 animate-pulse"></div>
-                                    <span class="text-white/80 text-xs font-medium tracking-widest uppercase">Active Projects</span>
+                                    <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                                    <span class="text-white/90 text-xs font-semibold tracking-widest uppercase">Active Projects</span>
+                                </div>
+                                <div class="flex gap-1.5">
+                                    <button v-for="(_, index) in heroImages" :key="index" @click="goToSlide(index)"
+                                            :aria-label="'Go to slide ' + (index + 1)"
+                                            class="h-1.5 rounded-full transition-all duration-300"
+                                            :class="activeIndex === index ? 'w-5 bg-red-500' : 'w-1.5 bg-white/40 hover:bg-white/60'">
+                                    </button>
                                 </div>
                             </div>
 
                             <!-- Grid overlay subtle -->
-                            <div class="absolute inset-0 opacity-[0.03]"
+                            <div class="absolute inset-0 opacity-[0.03] pointer-events-none z-10"
                                 style="background-image: linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px); background-size: 24px 24px;">
                             </div>
                         </div>
@@ -169,3 +230,17 @@
         </section>
     </main>
 </template>
+
+<style scoped>
+.fade-enter-active, .fade-leave-active {
+    transition: all 0.8s ease-in-out;
+}
+.fade-enter-from {
+    opacity: 0;
+    transform: scale(1.05);
+}
+.fade-leave-to {
+    opacity: 0;
+    transform: scale(0.95);
+}
+</style>
