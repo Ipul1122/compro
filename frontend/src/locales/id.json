@@ -78,6 +78,7 @@
     "categories": {
       "All": "Semua",
       "DPR RI": "DPR RI",
+      "MPR RI": "MPR RI",
       "Bareskrim": "Bareskrim",
       "DPD RI": "DPD RI",
       "Lainnya": "Lainnya"
@@ -110,7 +111,8 @@
       "bareskrim_etilang_phishing_2026": "Konferensi Pers Dittipidsiber Bareskrim Polri \"Pengungkapan Perkara SMS Blast Phishing Website E-Tilang Palsu\"",
       "bareskrim_w3ll_store_phishing_2026": "Konferensi Pers Dittipidsiber Bareskrim Polri \"Pengungkapan Perkara Produksi dan Penjualan Phishing Tools Ilegal w3ll.store Dittipidsiber Bareskrim Polri\"",
       "dpr_tugas_belajar_2026": "Pelaksanaan Seleksi Tugas Belajar Dibiayai APBN 2026 Sekretariat Jenderal DPR RI",
-      "bareskrim_fbi_video_2026": "Pembuatan Video Selayang Pandang, Penghargaan Anggota, dan Kerja Sama FBI Dittipidsiber Bareskrim Polri"
+      "bareskrim_fbi_video_2026": "Pembuatan Video Selayang Pandang, Penghargaan Anggota, dan Kerja Sama FBI Dittipidsiber Bareskrim Polri",
+      "mpr_lcc_sultra_2026": "Penyelenggaraan Lomba Cerdas Cermat MPR RI Tahun 2026 Provinsi Sulawesi Tenggara"
     }
   },
   "articles_index": {

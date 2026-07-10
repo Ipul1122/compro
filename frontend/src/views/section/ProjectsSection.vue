@@ -14,6 +14,14 @@ const props = defineProps({
 
 const dummyProjects = [
     {
+        id: 'mpr_lcc_sultra_2026',
+        title: 'Penyelenggaraan Lomba Cerdas Cermat MPR RI Tahun 2026 Provinsi Sulawesi Tenggara',
+        category: 'MPR RI',
+        year: 2026,
+        location: 'Sulawesi Tenggara',
+        client: 'Sekretariat Jenderal MPR RI'
+    },
+    {
         id: 'dpr_assessment_dec_2026',
         title: 'Pelaksanaan Asesmen Calon Staff Administrasi Anggota DPR RI Desember 2026',
         category: 'DPR RI',
@@ -245,7 +253,7 @@ const selectedYear = ref('All')
 
 // Extract unique categories in custom order
 const categories = computed(() => {
-    const order = ['All', 'DPR RI', 'Bareskrim', 'DPD RI', 'Lainnya']
+    const order = ['All', 'DPR RI', 'MPR RI', 'Bareskrim', 'DPD RI', 'Lainnya']
     const uniqueCategories = new Set(dummyProjects.map(p => p.category))
     return order.filter(cat => cat === 'All' || uniqueCategories.has(cat))
 })

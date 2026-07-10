@@ -78,6 +78,7 @@
     "categories": {
       "All": "All",
       "DPR RI": "DPR RI",
+      "MPR RI": "MPR RI",
       "Bareskrim": "Bareskrim",
       "DPD RI": "DPD RI",
       "Lainnya": "Others"
@@ -110,7 +111,8 @@
       "bareskrim_etilang_phishing_2026": "Press Conference of Dittipidsiber Bareskrim Polri \"Disclosure of SMS Blast Phishing for Fake E-Tilang Website\"",
       "bareskrim_w3ll_store_phishing_2026": "Press Conference of Dittipidsiber Bareskrim Polri \"Disclosure of Illegal Phishing Tools Production and Sales at w3ll.store\"",
       "dpr_tugas_belajar_2026": "Selection of Study Assignments Funded by State Budget (APBN) 2026 Secretariat General of DPR RI",
-      "bareskrim_fbi_video_2026": "Production of Profile, Member Awards, and FBI Cooperation Video for Dittipidsiber Bareskrim Polri"
+      "bareskrim_fbi_video_2026": "Production of Profile, Member Awards, and FBI Cooperation Video for Dittipidsiber Bareskrim Polri",
+      "mpr_lcc_sultra_2026": "Hosting of the 2026 MPR RI Quiz Competition for Southeast Sulawesi Province"
     }
   },
   "articles_index": {
