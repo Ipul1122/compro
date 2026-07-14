@@ -20,7 +20,8 @@
     "psikotest": "Psychotest",
     "assessment": "Assessment",
     "event_organizer": "Organizer",
-    "lms": "Learning Management System"
+    "lms": "Learning Management System",
+    "it_multimedia": "IT & Multimedia"
   },
   "footer": {
     "about_desc": "PT Cakrawala Parama Internasional is a company dedicated to providing the best service, innovative solutions, and international professional standards.",
@@ -84,7 +85,9 @@
       "Lainnya": "Others"
     },
     "list": {
-      "dpr_assessment_dec_2026": "Competency Assessment for Candidates of DPR RI Member Administrative Staff December 2026",
+      "dpr_website_perisai_2026": "Perisai Website Development for DPR RI Functional Positions",
+      "dpr_assessment_dec_2026": "Competency Assessment for Candidates of DPR RI Member Expert Assessment December 2026",
+      "dpr_iso_yankes_2025": "ISO 2015 Quality Management Consultation for DPR RI Health Services (Yankes) 2025",
       "dpr_digital_content_2025": "Digital Content Creation for ASN Training at Pusbangkom Secretariat General of DPR RI 2025",
       "iso_9001_clinic_2025": "Mentoring, Training, and ISO 9001 Certification for Klinik Utama",
       "bareskrim_gambling_2025": "Press Conference of Dittipidsiber Bareskrim Polri \"Development of PPATK LHA Handling and Online Gambling Disclosure\"",
@@ -98,12 +101,12 @@
       "bareskrim_illegal_access_2025": "Press Conference of Dittipidsiber Bareskrim Polri \"Disclosure of Illegal Access to Trading Platform www.markets.com & Threat, Extortion, and Personal Data Leak Cases (Illegal Online Lending)\"",
       "bareskrim_direction_event_2025": "Event Management for Dittipidsiber Bareskrim Polri \"Head of Bareskrim Instruction to Dittipidsiber Bareskrim Polri, Ditressiber, and Regional Police Subdit Siber Personnel\"",
       "bareskrim_charity_event_2025": "Event Management for Dittipidsiber Bareskrim Polri \"Islamic Study and Orphans Charity: Spiritual and Mental Development of Bareskrim Personnel\"",
-      "dpr_assessment_june_2025": "Competency Assessment for Fraction Experts, Member Experts, and Member Administrative Staff of DPR RI June 2025",
-      "dpr_assessment_sept_2025": "Competency Assessment for Fraction Experts, Member Experts, and Member Administrative Staff of DPR RI September 2025",
+      "dpr_assessment_june_2025": "Competency Assessment for Fraction Experts, Member Experts, and Member Expert Assessment of DPR RI June 2025",
+      "dpr_assessment_sept_2025": "Competency Assessment for Fraction Experts, Member Experts, and Member Expert Assessment of DPR RI September 2025",
       "dpr_recruitment_2025": "Recruitment Execution for Candidates of the Secretariat General of DPR RI 2025",
-      "dpr_assessment_oct_2025": "Competency Assessment for Fraction Experts, Member Experts, and Member Administrative Staff of DPR RI October 2025",
-      "dpr_assessment_nov_2025": "Competency Assessment for Fraction Experts, Member Experts, and Member Administrative Staff of DPR RI November 2025",
-      "dpr_assessment_dec_2025": "Competency Assessment for Fraction Experts, Member Experts, and Member Administrative Staff of DPR RI December 2025",
+      "dpr_assessment_oct_2025": "Competency Assessment for Fraction Experts, Member Experts, and Member Expert Assessment of DPR RI October 2025",
+      "dpr_assessment_nov_2025": "Competency Assessment for Fraction Experts, Member Experts, and Member Expert Assessment of DPR RI November 2025",
+      "dpr_assessment_dec_2025": "Competency Assessment for Fraction Experts, Member Experts, and Member Expert Assessment of DPR RI December 2025",
       "dpd_renovation_2025": "Renovation Project of the Room of the Head and Secretariat Staff of the Financial Bureau of DPD RI",
       "dpd_toilet_renovation_2025": "Toilet and Female Ablution Area Renovation Project of DPD RI",
       "bareskrim_gambling_disclosure_2026": "Press Conference of Dittipidsiber Bareskrim Polri \"Online Gambling Disclosure and PPATK LHA Handling Development\"",
@@ -464,6 +467,39 @@
       "step6_title": "Handover",
       "step6_time": "Done",
       "step6_item1": "Checklist Process"
+    },
+    "it_multimedia": {
+      "badge": "Technology & Creative Services",
+      "title": "IT Solutions & Development of",
+      "title_highlight": "Multimedia Content",
+      "desc": "We deliver modern information technology solutions and high-standard interactive multimedia content to support the digitalization of legislative administration and organizational learning effectiveness.",
+      "services": {
+        "website_perisai": {
+          "title": "Perisai Website Development for DPR RI Functional Positions",
+          "desc": "Development of the integrated web-based application system 'Perisai' to manage and monitor administration, work portfolios, and credit score (angka kredit) assessments for functional positions within the Secretariat General of DPR RI transparently, accountably, and efficiently.",
+          "feat1": "Real-time Performance & Credit Score Dashboard",
+          "feat2": "Digital Portfolio & Document Management System",
+          "feat3": "Multi-level Validation & Assessment Workflow",
+          "feat4": "High Data Security & Responsive Design"
+        },
+        "multimedia_content": {
+          "title": "Multimedia Content Creation for Pusbangkom DPR RI",
+          "desc": "Production of digital learning content, educational videos, motion graphics, and interactive animations tailored to support ASN training programs at the Competency Development Center (Pusbangkom) of the Secretariat General of DPR RI.",
+          "feat1": "Interactive E-Learning Modules (SCORM/HTML5)",
+          "feat2": "Engaging 2D & 3D Motion Graphics Videos",
+          "feat3": "Professional Instructional Video Production",
+          "feat4": "Easy-to-Understand Visual Educational Materials"
+        }
+      },
+      "tech_stack": {
+        "title": "Technologies & Tools We Use",
+        "subtitle": "We employ cutting-edge technologies to guarantee exceptional results."
+      },
+      "cta": {
+        "title": "Ready to Build Your Digital Solution?",
+        "desc": "Discuss your organization's needs for system website development or multimedia content production with our expert team.",
+        "button": "Contact Us via WhatsApp"
+      }
     }
   },
   "contact_section": {

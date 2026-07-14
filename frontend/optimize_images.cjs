@@ -10,7 +10,7 @@ const TARGET_DIRS = [
 
 // Kata kunci untuk mendeteksi foto profil/tim agar di-resize lebih kecil (500px)
 const PROFILE_KEYWORDS = [
-  'nisrina', 'arik', 'lely', 'dito', 'ipul', 'azzam', 'wahyu', 'dian', 'team', 'avatar', 'profile'
+  'nisrina', 'arik', 'lely', 'dito', 'ipul', 'azzam', 'wahyu', 'dian', 'team', 'avatar', 'profile', 'ariel', 'tri'
 ];
 
 // Batasan ukuran file (dalam bytes) untuk memicu optimasi (misalnya > 200KB)

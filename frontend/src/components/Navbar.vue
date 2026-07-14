@@ -25,6 +25,7 @@ const routePaths = {
     event_organizer: { en: '/en/event-organizer', id: '/id/event-organizer' },
     lms: { en: '/en/learning-management-system', id: '/id/learning-management-system' },
     implementation: { en: '/en/implementation', id: '/id/implementasi' },
+    it_multimedia: { en: '/en/it-and-multimedia', id: '/id/it-dan-multimedia' },
     contact: { en: '/en/contact', id: '/id/kontak' },
 }
 
@@ -38,6 +39,7 @@ const isServiceActive = computed(() => {
         routePaths.event_organizer.en, routePaths.event_organizer.id,
         routePaths.lms.en, routePaths.lms.id,
         routePaths.implementation.en, routePaths.implementation.id,
+        routePaths.it_multimedia.en, routePaths.it_multimedia.id,
         routePaths.project.en, routePaths.project.id,
         routePaths.gallery.en, routePaths.gallery.id
     ].includes(currentPath);
@@ -156,6 +158,10 @@ const handleLanguageToggle = async () => {
                                             <router-link :to="routePaths.InteriorDesign[locale]" active-class="active-link"
                                                 class="text-black hover:text-red-700 px-3 py-2.5 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 block rounded-lg">
                                                 {{ t('nav.interior_design') }}
+                                            </router-link>
+                                            <router-link :to="routePaths.it_multimedia[locale]" active-class="active-link"
+                                                class="text-black hover:text-red-700 px-3 py-2.5 text-sm font-bold tracking-wide transition-all hover:bg-slate-50 block rounded-lg">
+                                                {{ t('nav.it_multimedia') }}
                                             </router-link>
                                             <router-link :to="routePaths.implementation[locale]" active-class="active-link"
                                                 class="nav-impl-card block">
@@ -279,6 +285,10 @@ const handleLanguageToggle = async () => {
                                 <router-link :to="routePaths.InteriorDesign[locale]" @click="isMenuOpen = false" active-class="active-link"
                                     class="block px-3 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
                                     {{ t('nav.interior_design') }}
+                                </router-link>
+                                <router-link :to="routePaths.it_multimedia[locale]" @click="isMenuOpen = false" active-class="active-link"
+                                    class="block px-3 py-2 text-black hover:text-red-700 hover:bg-slate-100 rounded-lg text-sm font-bold tracking-wide transition-all">
+                                    {{ t('nav.it_multimedia') }}
                                 </router-link>
                                 <router-link :to="routePaths.implementation[locale]" @click="isMenuOpen = false" active-class="active-link"
                                     class="block nav-impl-card-mobile px-3 py-2">
