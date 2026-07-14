@@ -20,7 +20,8 @@
     "psikotest": "Psikotes",
     "assessment": "Assessment",
     "event_organizer": "Organisasi",
-    "lms": "Learning Management System"
+    "lms": "Learning Management System",
+    "it_multimedia": "IT & Multimedia"
   },
   "footer": {
     "about_desc": "PT Cakrawala Parama Internasional adalah perusahaan yang berdedikasi memberikan layanan terbaik, solusi inovatif, dan standar profesional bertaraf internasional.",
@@ -84,7 +85,9 @@
       "Lainnya": "Lainnya"
     },
     "list": {
-      "dpr_assessment_dec_2026": "Pelaksanaan Asesmen Calon Staf Administrasi Anggota DPR RI Desember 2026",
+      "dpr_website_perisai_2026": "Pembuatan Website Perisai untuk Jabatan Fungsional DPR RI",
+      "dpr_assessment_dec_2026": "Pelaksanaan Asesmen Calon Asesmen Tenaga Ahli Anggota DPR RI Desember 2026",
+      "dpr_iso_yankes_2025": "Konsultasi ISO 2015 Manajemen Mutu Yankes DPR RI 2025",
       "dpr_digital_content_2025": "Pekerjaan Pembuatan Konten Digital Pelatihan ASN Pusbangkom Sekretariat Jenderal DPR RI Tahun 2025",
       "iso_9001_clinic_2025": "Pendampingan, Pelatihan, dan Sertifikasi ISO 9001 Klinik Utama",
       "bareskrim_gambling_2025": "Konferensi Pers Dittipidsiber Bareskrim Polri \"Perkembangan Penanganan LHA PPATK dan Pengungkapan Judi Online\"",
@@ -98,12 +101,12 @@
       "bareskrim_illegal_access_2025": "Konferensi Pers Dittipidsiber Bareskrim Polri \"Pengungkapan Tindak Pidana Akses Ilegal Platform Trading www.markets.com & Kasus Pengancaman, Pemerasan, Serta Penyebaran Data Pribadi (Pinjol Ilegal)\"",
       "bareskrim_direction_event_2025": "Pekerjaan Event Dittipidsiber Bareskrim Polri \"Arahan Kabareskrim Polri Kepada Personel Dittipidsiber Bareskrim Polri, Ditressiber, dan Subdit Siber Polda Jajaran\"",
       "bareskrim_charity_event_2025": "Pekerjaan Event Dittipidsiber Bareskrim Polri \"Kajian dan Santunan Anak Yatim: Pembinaan Rohani dan Mental Personel Bareskrim Polri\"",
-      "dpr_assessment_june_2025": "Pelaksanaan Asesmen Tenaga Ahli Fraksi, Tenaga Ahli Anggota, dan Staf Administrasi Anggota DPR RI Juni 2025",
-      "dpr_assessment_sept_2025": "Pelaksanaan Asesmen Tenaga Ahli Fraksi, Tenaga Ahli Anggota, dan Staf Administrasi Anggota DPR RI September 2025",
+      "dpr_assessment_june_2025": "Pelaksanaan Asesmen Tenaga Ahli Fraksi, Tenaga Ahli Anggota, dan Asesmen Tenaga Ahli Anggota DPR RI Juni 2025",
+      "dpr_assessment_sept_2025": "Pelaksanaan Asesmen Tenaga Ahli Fraksi, Tenaga Ahli Anggota, dan Asesmen Tenaga Ahli Anggota DPR RI September 2025",
       "dpr_recruitment_2025": "Pelaksanaan Rekrutmen Calon Pegawai Sekretariat Jenderal DPR RI 2025",
-      "dpr_assessment_oct_2025": "Pelaksanaan Asesmen Tenaga Ahli Fraksi, Tenaga Ahli Anggota, dan Staf Administrasi Anggota DPR RI Oktober 2025",
-      "dpr_assessment_nov_2025": "Pelaksanaan Asesmen Tenaga Ahli Fraksi, Tenaga Ahli Anggota, dan Staf Administrasi Anggota DPR RI November 2025",
-      "dpr_assessment_dec_2025": "Pelaksanaan Asesmen Tenaga Ahli Fraksi, Tenaga Ahli Anggota, dan Staf Administrasi Anggota DPR RI Desember 2025",
+      "dpr_assessment_oct_2025": "Pelaksanaan Asesmen Tenaga Ahli Fraksi, Tenaga Ahli Anggota, dan Asesmen Tenaga Ahli Anggota DPR RI Oktober 2025",
+      "dpr_assessment_nov_2025": "Pelaksanaan Asesmen Tenaga Ahli Fraksi, Tenaga Ahli Anggota, dan Asesmen Tenaga Ahli Anggota DPR RI November 2025",
+      "dpr_assessment_dec_2025": "Pelaksanaan Asesmen Tenaga Ahli Fraksi, Tenaga Ahli Anggota, dan Asesmen Tenaga Ahli Anggota DPR RI Desember 2025",
       "dpd_renovation_2025": "Proyek Renovasi Ruang Kepala dan Staf Sekretariat Biro Keuangan Sekretariat DPD RI",
       "dpd_toilet_renovation_2025": "Proyek Renovasi Toilet dan Tempat Wudhu Wanita DPD RI",
       "bareskrim_gambling_disclosure_2026": "Konferensi Pers Dittipidsiber Bareskrim Polri \"Pengungkapan Praktik Judi Online dan Perkembangan Penanganan LHA PPATK\"",
@@ -464,6 +467,39 @@
       "step6_title": "Serah Terima",
       "step6_time": "Selesai",
       "step6_item1": "Proses Checklist"
+    },
+    "it_multimedia": {
+      "badge": "Layanan Teknologi & Kreatif",
+      "title": "Solusi IT & Pengembangan",
+      "title_highlight": "Konten Multimedia",
+      "desc": "Kami menghadirkan solusi teknologi informasi modern dan konten multimedia interaktif berstandar tinggi untuk mendukung digitalisasi administrasi legislatif dan efektivitas pembelajaran organisasi.",
+      "services": {
+        "website_perisai": {
+          "title": "Pembuatan Website Perisai Jabatan Fungsional DPR RI",
+          "desc": "Pengembangan sistem aplikasi berbasis web terintegrasi 'Perisai' untuk mengelola dan memantau administrasi, portofolio kerja, serta penilaian angka kredit jabatan fungsional di lingkungan Sekretariat Jenderal DPR RI secara transparan, akuntabel, dan efisien.",
+          "feat1": "Dashboard Kinerja & Angka Kredit Real-time",
+          "feat2": "Sistem Manajemen Portofolio & Dokumen Digital",
+          "feat3": "Alur Kerja Validasi & Penilaian Bertingkat",
+          "feat4": "Keamanan Data Tinggi & Desain Responsif"
+        },
+        "multimedia_content": {
+          "title": "Pembuatan Konten Multimedia Pusbangkom DPR RI",
+          "desc": "Produksi konten pembelajaran digital, video edukatif, motion graphics, dan animasi interaktif yang dirancang khusus untuk mendukung program pelatihan ASN di Pusat Pengembangan Kompetensi (Pusbangkom) SDM Legislatif Sekretariat Jenderal DPR RI.",
+          "feat1": "Modul E-Learning Interaktif (SCORM/HTML5)",
+          "feat2": "Video Animasi 2D & 3D Motion Graphics Menarik",
+          "feat3": "Produksi Video Pembelajaran Profesional",
+          "feat4": "Materi Edukasi Visual yang Mudah Dipahami"
+        }
+      },
+      "tech_stack": {
+        "title": "Teknologi & Alat yang Kami Gunakan",
+        "subtitle": "Kami menggunakan teknologi terkini untuk memastikan hasil terbaik."
+      },
+      "cta": {
+        "title": "Siap Membangun Solusi Digital Anda?",
+        "desc": "Konsultasikan kebutuhan pembuatan website sistem informasi atau produksi konten multimedia organisasi Anda bersama tim ahli kami.",
+        "button": "Hubungi Kami via WhatsApp"
+      }
     }
   },
   "contact_section": {

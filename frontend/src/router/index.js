@@ -250,25 +250,25 @@ const routes = [
     },
   },
 
-  // EVENT ORGANIZER
+  // IT & MULTIMEDIA
   {
-    path: "/id/event-organizer",
-    name: "event-organizer-id",
-    component: () => import("@/views/pages/service/EventOrganizerView.vue"),
+    path: "/id/it-dan-multimedia",
+    name: "it-multimedia-id",
+    component: () => import("@/views/pages/service/ItMultimediaView.vue"),
     meta: { 
-      title: 'Event Organizer - PT Cakrawala Parama Internasional',
+      title: 'IT & Multimedia - PT Cakrawala Parama Internasional',
       lang: 'id',
-      description: 'Layanan Event Organizer kami'
+      description: 'Layanan Pembuatan Website Sistem Informasi dan Konten Multimedia interaktif'
     },
   },
   {
-    path: "/en/event-organizer",
-    name: "event-organizer-en",
-    component: () => import("@/views/pages/service/EventOrganizerView.vue"),
+    path: "/en/it-and-multimedia",
+    name: "it-multimedia-en",
+    component: () => import("@/views/pages/service/ItMultimediaView.vue"),
     meta: { 
-      title: 'Event Organizer - PT Cakrawala Parama Internasional',
+      title: 'IT & Multimedia - PT Cakrawala Parama Internasional',
       lang: 'en',
-      description: 'Our Event Organizer Services'
+      description: 'Information Technology and Interactive Multimedia Content Development services'
     },
   },
 

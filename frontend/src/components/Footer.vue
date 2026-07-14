@@ -26,6 +26,7 @@ const layanan2Routes = computed(() => ({
   assessment: { path: getLocalizedPath('/id/assessment', '/en/assessment'), label: t('nav.assessment') },
   'event-organizer': { path: getLocalizedPath('/id/event-organizer', '/en/event-organizer'), label: t('nav.event_organizer') },
   lms: { path: getLocalizedPath('/id/learning-management-system', '/en/learning-management-system'), label: t('nav.lms') },
+  'it-multimedia': { path: getLocalizedPath('/id/it-dan-multimedia', '/en/it-and-multimedia'), label: t('nav.it_multimedia') },
   implementation: { path: getLocalizedPath('/id/implementasi', '/en/implementation'), label: 'implementation' }
 }))
 </script>

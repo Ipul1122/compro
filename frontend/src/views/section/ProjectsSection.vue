@@ -14,6 +14,14 @@ const props = defineProps({
 
 const dummyProjects = [
     {
+        id: 'dpr_website_perisai_2026',
+        title: 'Pembuatan Website Perisai untuk Jabatan Fungsional DPR RI',
+        category: 'DPR RI',
+        year: 2026,
+        location: 'Jakarta',
+        client: 'Sekretariat Jenderal DPR RI'
+    },
+    {
         id: 'mpr_lcc_sultra_2026',
         title: 'Penyelenggaraan Lomba Cerdas Cermat MPR RI Tahun 2026 Provinsi Sulawesi Tenggara',
         category: 'MPR RI',
@@ -23,11 +31,19 @@ const dummyProjects = [
     },
     {
         id: 'dpr_assessment_dec_2026',
-        title: 'Pelaksanaan Asesmen Calon Staff Administrasi Anggota DPR RI Desember 2026',
+        title: 'Pelaksanaan Asesmen Calon Asesmen Tenaga Ahli Anggota DPR RI Desember 2026',
         category: 'DPR RI',
         year: 2026,
         location: 'Jakarta',
         client: 'Biro SDMA Sekretariat Jenderal DPR RI'
+    },
+    {
+        id: 'dpr_iso_yankes_2025',
+        title: 'Konsultasi ISO 2015 Manajemen Mutu Yankes DPR RI 2025',
+        category: 'DPR RI',
+        year: 2025,
+        location: 'Jakarta',
+        client: 'Sekretariat Jenderal DPR RI'
     },
     {
         id: 'dpr_digital_content_2025',
@@ -135,7 +151,7 @@ const dummyProjects = [
     },
     {
         id: 'dpr_assessment_june_2025',
-        title: 'Pelaksanaan Asesmen Tenaga Ahli Fraksi, Tenaga Ahli Anggota, dan Staff Administrasi Anggota DPR RI Juni 2025',
+        title: 'Pelaksanaan Asesmen Tenaga Ahli Fraksi, Tenaga Ahli Anggota, dan Asesmen Tenaga Ahli Anggota DPR RI Juni 2025',
         category: 'DPR RI',
         year: 2025,
         location: 'Jakarta',
@@ -143,7 +159,7 @@ const dummyProjects = [
     },
     {
         id: 'dpr_assessment_sept_2025',
-        title: 'Pelaksanaan Asesmen Tenaga Ahli Fraksi, Tenaga Ahli Anggota, dan Staff Administrasi Anggota DPR RI September 2025',
+        title: 'Pelaksanaan Asesmen Tenaga Ahli Fraksi, Tenaga Ahli Anggota, dan Asesmen Tenaga Ahli Anggota DPR RI September 2025',
         category: 'DPR RI',
         year: 2025,
         location: 'Jakarta',
@@ -159,7 +175,7 @@ const dummyProjects = [
     },
     {
         id: 'dpr_assessment_oct_2025',
-        title: 'Pelaksanaan Asesmen Tenaga Ahli Fraksi, Tenaga Ahli Anggota, dan Staff Administrasi Anggota DPR RI Oktober 2025',
+        title: 'Pelaksanaan Asesmen Tenaga Ahli Fraksi, Tenaga Ahli Anggota, dan Asesmen Tenaga Ahli Anggota DPR RI Oktober 2025',
         category: 'DPR RI',
         year: 2025,
         location: 'Jakarta',
@@ -167,7 +183,7 @@ const dummyProjects = [
     },
     {
         id: 'dpr_assessment_nov_2025',
-        title: 'Pelaksanaan Asesmen Tenaga Ahli Fraksi, Tenaga Ahli Anggota, dan Staff Administrasi Anggota DPR RI November 2025',
+        title: 'Pelaksanaan Asesmen Tenaga Ahli Fraksi, Tenaga Ahli Anggota, dan Asesmen Tenaga Ahli Anggota DPR RI November 2025',
         category: 'DPR RI',
         year: 2025,
         location: 'Jakarta',
@@ -175,7 +191,7 @@ const dummyProjects = [
     },
     {
         id: 'dpr_assessment_dec_2025',
-        title: 'Pelaksanaan Asesmen Tenaga Ahli Fraksi, Tenaga Ahli Anggota, dan Staff Administrasi Anggota DPR RI Desember 2025',
+        title: 'Pelaksanaan Asesmen Tenaga Ahli Fraksi, Tenaga Ahli Anggota, dan Asesmen Tenaga Ahli Anggota DPR RI Desember 2025',
         category: 'DPR RI',
         year: 2025,
         location: 'Jakarta',
