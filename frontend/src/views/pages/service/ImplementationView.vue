@@ -167,10 +167,10 @@ const gallery = computed(() => isEnglish.value ? [
         desc: 'Real transformation results from our implementation projects',
         category: 'Before & After',
         images: [
-            '/img/implemen/before.png',
-            '/img/implemen/after.png',
-            '/img/implemen/before-1.png',
-            '/img/implemen/after-1.png',
+            '/img/implemen/before.webp',
+            '/img/implemen/after.webp',
+            '/img/implemen/before-1.webp',
+            '/img/implemen/after-1.webp',
         ]
     },
     {
@@ -178,10 +178,10 @@ const gallery = computed(() => isEnglish.value ? [
         desc: 'Design references and spatial planning for implementation projects',
         category: 'Planning',
         images: [
-            '/img/implemen/ruang-kepala-biro.png',
-            '/img/implemen/ruang-meeting.png',
-            '/img/implemen/another-reference.png',
-            '/img/implemen/another-reference-1.png',
+            '/img/implemen/ruang-kepala-biro.webp',
+            '/img/implemen/ruang-meeting.webp',
+            '/img/implemen/another-reference.webp',
+            '/img/implemen/another-reference-1.webp',
         ]
     },
     { title: 'Public Toilet & Ablution Area', desc: 'Design result for public toilet and ablution area', category: 'Result Design', driveVideo: 'https://drive.google.com/file/d/14Gr0I55zHOnj0a_IsZ6wksM79YYX7U4w/preview' },
@@ -192,10 +192,10 @@ const gallery = computed(() => isEnglish.value ? [
         desc: 'Hasil transformasi nyata dari proyek implementasi kami',
         category: 'Before & After',
         images: [
-            '/img/implemen/before.png',
-            '/img/implemen/after.png',
-            '/img/implemen/before-1.png',
-            '/img/implemen/after-1.png',
+            '/img/implemen/before.webp',
+            '/img/implemen/after.webp',
+            '/img/implemen/before-1.webp',
+            '/img/implemen/after-1.webp',
         ]
     },
     {
@@ -203,10 +203,10 @@ const gallery = computed(() => isEnglish.value ? [
         desc: 'Referensi desain dan perencanaan ruang untuk proyek implementasi',
         category: 'Rencana',
         images: [
-            '/img/implemen/ruang-kepala-biro.png',
-            '/img/implemen/ruang-meeting.png',
-            '/img/implemen/another-reference.png',
-            '/img/implemen/another-reference-1.png',
+            '/img/implemen/ruang-kepala-biro.webp',
+            '/img/implemen/ruang-meeting.webp',
+            '/img/implemen/another-reference.webp',
+            '/img/implemen/another-reference-1.webp',
         ]
     },
     { title: 'Ruang Sekretariat Biro Keuangan', desc: 'Hasil desain ruang sekretariat', category: 'Hasil Design', driveVideo: 'https://drive.google.com/file/d/14Gr0I55zHOnj0a_IsZ6wksM79YYX7U4w/preview' },

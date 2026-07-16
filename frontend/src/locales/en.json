@@ -231,6 +231,57 @@
           "registered_title": "Registered in the Transparency & Accountability National E-Katalog",
           "registered_desc": "Every stage of the work is carried out transparently with a monitoring system and regular reports to the client."
         }
+      },
+      "project_docs": {
+        "title": "Detailed Planning & Budget Transparency",
+        "subtitle": "DED & RAB PORTFOLIO",
+        "description": "As part of our commitment to professionalism and transparency, every project is designed with precise Detail Engineering Design (DED) and transparent, accountable Bill of Quantities (RAB/Cost Estimation).",
+        "project1_title": "Renovasi Ruang Kepala Biro Keuangan",
+        "project1_desc": "Interior design project for the Head of the Financial Bureau's office. Documentation includes the detailed floor plan (DED) for primary furniture, meeting layout, resting room, and the Bill of Quantities (RAB) details for the pantry and guest area.",
+        "project2_title": "Renovasi Ruang Wudhu - Gedung Nusantara 3 DPD RI",
+        "project2_desc": "Electrical installation plan and renovation project for the ablution (wudhu) room at Gedung Nusantara 3 DPD RI. Documentation includes the electrical lighting plan (DED) and Bill of Quantities (RAB) details for wall, ceramic flooring, ceiling, and sanitary works.",
+        "tab_ded": "Design Detail (DED)",
+        "tab_rab": "Bill of Quantities (RAB)",
+        "zoom_tooltip": "Click to zoom image"
+      },
+      "packages": {
+        "title": "Interior Design Packages",
+        "desc": "Choose the package that best fits your vision and space needs. From basic concept planning to fully customized design.",
+        "lite_name": "Lite Package",
+        "lite_desc": "Practical solution for basic concept visualization and space layout planning.",
+        "lite_f1": "On-Site Survey & Consultation",
+        "lite_f2": "Layout Design + 3D Interior",
+        "lite_f3": "3D Visualization",
+        "lite_f4": "Technical Drawings",
+        "pro_name": "Pro Package",
+        "pro_desc": "Complete package for comprehensive interior design and project cost estimation.",
+        "pro_f1": "On-Site Survey & Consultation",
+        "pro_f2": "Layout Design + 3D Interior",
+        "pro_f3": "3D Visualization",
+        "pro_f4": "Technical Drawings",
+        "pro_f5": "Custom Furniture",
+        "pro_f6": "Bill of Quantities (RAB)",
+        "deluxe_name": "Deluxe Package",
+        "deluxe_desc": "Premium interior design services with exclusive concepts for the best results.",
+        "deluxe_f1": "On-Site Survey & Consultation",
+        "deluxe_f2": "Exclusive Design Concept",
+        "deluxe_f3": "Layout Design + 3D Interior",
+        "deluxe_f4": "3D Visualization",
+        "deluxe_f5": "Technical Drawings",
+        "deluxe_f6": "Custom Furniture",
+        "deluxe_f7": "Bill of Quantities (RAB)"
+      },
+      "faq": {
+        "title": "Frequently Asked Questions",
+        "desc": "Find answers to common questions about our interior design services and process.",
+        "q1": "Does PT Cakrawala Parama Internasional serve projects outside JABODETABEK?",
+        "a1": "Yes, we provide interior design services for projects across all regions of Indonesia. For projects outside JABODETABEK, coordination can be conducted online, and if on-site survey is required, it will be arranged with team mobilization and accommodation fees.",
+        "q2": "Are the interior design packages inclusive of construction costs?",
+        "a2": "No, these design packages focus on visual and technical planning (DED & RAB). However, we do offer integrated contracting services (Design & Build) where the construction cost is estimated separately based on the final detailed budget.",
+        "q3": "How long does it take to complete a design project?",
+        "a3": "The timeline varies based on the scope and complexity of the project. Typically, the Lite Package takes 1-2 weeks, the Pro Package takes 3-4 weeks, and the Custom Package is tailored to the large-scale project schedule.",
+        "q4": "Can I choose my own materials or furniture?",
+        "a4": "Absolutely. We encourage collaboration. Our design team will guide and advise you to ensure your material choices align with the overall aesthetic concept and stay within budget."
       }
     },
     "assessment": {
