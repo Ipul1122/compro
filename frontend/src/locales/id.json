@@ -231,6 +231,57 @@
           "registered_title": "Terdaftar dalam E-Katalog Nasional Transparansi & Akuntabilitas",
           "registered_desc": "Setiap tahap pekerjaan dilakukan secara transparan dengan sistem pemantauan dan laporan berkala kepada klien."
         }
+      },
+      "project_docs": {
+        "title": "Perencanaan Detail & Transparansi Anggaran",
+        "subtitle": "DED & RAB PORTFOLIO",
+        "description": "Sebagai bentuk komitmen kami terhadap profesionalisme dan transparansi, setiap proyek kami rancang secara matang melalui Detail Engineering Design (DED) yang presisi serta Rencana Anggaran Biaya (RAB) yang transparan dan akuntabel.",
+        "project1_title": "Renovasi Ruang Kepala Biro Keuangan",
+        "project1_desc": "Proyek perancangan interior ruang kerja Kepala Biro Keuangan. Dokumentasi mencakup denah tata letak (DED) furnitur utama, area rapat, ruang istirahat, serta rincian estimasi biaya (RAB) untuk area pantry dan ruang tamu.",
+        "project2_title": "Renovasi Ruang Wudhu - Gedung Nusantara 3 DPD RI",
+        "project2_desc": "Proyek perencanaan instalasi elektrikal dan renovasi tempat wudhu di Gedung Nusantara 3 DPD RI. Dokumentasi mencakup rencana elektrikal pencahayaan (DED) serta rincian anggaran biaya (RAB) pekerjaan dinding, lantai keramik, plafon, dan sanitasi.",
+        "tab_ded": "Gambar Desain (DED)",
+        "tab_rab": "Rincian Anggaran (RAB)",
+        "zoom_tooltip": "Klik untuk memperbesar gambar"
+      },
+      "packages": {
+        "title": "Pilihan Paket Desain Interior",
+        "desc": "Pilih paket yang paling sesuai dengan visi dan kebutuhan ruang Anda. Mulai dari perencanaan konsep hingga desain kustom penuh.",
+        "lite_name": "Paket Lite",
+        "lite_desc": "Solusi praktis untuk visualisasi konsep dasar dan penataan tata letak ruang.",
+        "lite_f1": "Survey & Konsultasi di Lokasi",
+        "lite_f2": "Desain Layout + 3D Interior",
+        "lite_f3": "3D Visualisasi",
+        "lite_f4": "Gambar Kerja Teknis",
+        "pro_name": "Paket Pro",
+        "pro_desc": "Paket lengkap untuk desain interior menyeluruh termasuk estimasi biaya proyek.",
+        "pro_f1": "Survey & Konsultasi di Lokasi",
+        "pro_f2": "Desain Layout + 3D Interior",
+        "pro_f3": "3D Visualisasi",
+        "pro_f4": "Gambar Kerja Teknis",
+        "pro_f5": "Furniture Custom",
+        "pro_f6": "Rencana Anggaran Biaya (RAB)",
+        "deluxe_name": "Paket Deluxe",
+        "deluxe_desc": "Layanan desain interior premium dengan konsep eksklusif untuk hasil terbaik.",
+        "deluxe_f1": "Survey & Konsultasi di Lokasi",
+        "deluxe_f2": "Konsep Desain Eksklusif",
+        "deluxe_f3": "Desain Layout + 3D Interior",
+        "deluxe_f4": "3D Visualisasi",
+        "deluxe_f5": "Gambar Kerja Teknis",
+        "deluxe_f6": "Furniture Custom",
+        "deluxe_f7": "Rencana Anggaran Biaya (RAB)"
+      },
+      "faq": {
+        "title": "Pertanyaan yang Sering Diajukan",
+        "desc": "Temukan jawaban atas pertanyaan umum seputar proses dan layanan desain interior kami.",
+        "q1": "Apakah PT Cakrawala Parama Internasional melayani area di luar JABODETABEK?",
+        "a1": "Ya, kami melayani jasa desain interior untuk proyek di seluruh wilayah Indonesia. Untuk proyek di luar JABODETABEK, koordinasi desain dapat dilakukan secara daring (online), dan jika diperlukan survei lokasi langsung, akan disesuaikan dengan biaya transportasi dan akomodasi tim.",
+        "q2": "Apakah paket desain interior ini sudah termasuk biaya konstruksi/pembangunan?",
+        "a2": "Tidak, paket desain ini berfokus pada perencanaan visual dan teknis (DED & RAB). Namun, kami juga menyediakan layanan implementasi/kontraktor (Design & Build) di mana biaya konstruksi akan dihitung terpisah berdasarkan RAB detail yang disepakati.",
+        "q3": "Berapa lama waktu yang dibutuhkan untuk menyelesaikan satu proyek desain?",
+        "a3": "Waktu penyusunan desain bervariasi tergantung skala dan kerumitan proyek. Untuk Paket Lite biasanya memakan waktu 1-2 minggu, Paket Pro sekitar 3-4 minggu, sedangkan Paket Custom disesuaikan dengan timeline proyek besar.",
+        "q4": "Apakah saya bisa memilih material atau furnitur sendiri?",
+        "a4": "Tentu saja. Kami sangat mendukung kolaborasi dengan klien. Tim desainer kami akan membantu mengarahkan agar pilihan material tetap harmonis dengan konsep estetika keseluruhan dan sesuai anggaran."
       }
     },
     "assessment": {

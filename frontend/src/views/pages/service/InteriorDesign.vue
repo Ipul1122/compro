@@ -95,6 +95,34 @@ const goToSlide = (index) => {
     activeIndex.value = index;
 };
 
+// Logika DED & RAB Portfolio
+const projectTabs = ref({
+    project1: 'ded',
+    project2: 'ded'
+});
+
+const isModalOpen = ref(false);
+const modalImgSrc = ref('');
+const modalImgAlt = ref('');
+
+const openModal = (src, alt) => {
+    modalImgSrc.value = src;
+    modalImgAlt.value = alt;
+    isModalOpen.value = true;
+    if (typeof document !== 'undefined') {
+        document.body.style.overflow = 'hidden';
+    }
+};
+
+const closeModal = () => {
+    isModalOpen.value = false;
+    modalImgSrc.value = '';
+    modalImgAlt.value = '';
+    if (typeof document !== 'undefined') {
+        document.body.style.overflow = '';
+    }
+};
+
 onMounted(() => {
     timer = setInterval(nextSlide, 5000);
 });
@@ -102,6 +130,95 @@ onMounted(() => {
 onUnmounted(() => {
     if (timer) clearInterval(timer);
 });
+
+// Data Paket Desain Interior
+const packages = computed(() => [
+    {
+        name: t('service_view.interior.packages.lite_name'),
+        desc: t('service_view.interior.packages.lite_desc'),
+        features: [
+            t('service_view.interior.packages.lite_f1'),
+            t('service_view.interior.packages.lite_f2'),
+            t('service_view.interior.packages.lite_f3'),
+            t('service_view.interior.packages.lite_f4')
+        ],
+        whatsappLink: computed(() => {
+            const text = locale.value === 'id' 
+                ? 'Halo PT Cakrawala Parama Internasional, saya tertarik dengan Layanan Desain Interior Paket Lite.'
+                : 'Hello PT Cakrawala Parama Internasional, I am interested in the Lite Package Interior Design Service.';
+            return `https://wa.me/6285284201428?text=${encodeURIComponent(text)}`;
+        }).value
+    },
+    {
+        name: t('service_view.interior.packages.pro_name'),
+        desc: t('service_view.interior.packages.pro_desc'),
+        features: [
+            t('service_view.interior.packages.pro_f1'),
+            t('service_view.interior.packages.pro_f2'),
+            t('service_view.interior.packages.pro_f3'),
+            t('service_view.interior.packages.pro_f4'),
+            t('service_view.interior.packages.pro_f5'),
+            t('service_view.interior.packages.pro_f6')
+        ],
+        popular: true,
+        whatsappLink: computed(() => {
+            const text = locale.value === 'id' 
+                ? 'Halo PT Cakrawala Parama Internasional, saya tertarik dengan Layanan Desain Interior Paket Pro.'
+                : 'Hello PT Cakrawala Parama Internasional, I am interested in the Pro Package Interior Design Service.';
+            return `https://wa.me/6285284201428?text=${encodeURIComponent(text)}`;
+        }).value
+    },
+    {
+        name: t('service_view.interior.packages.deluxe_name'),
+        desc: t('service_view.interior.packages.deluxe_desc'),
+        features: [
+            t('service_view.interior.packages.deluxe_f1'),
+            t('service_view.interior.packages.deluxe_f2'),
+            t('service_view.interior.packages.deluxe_f3'),
+            t('service_view.interior.packages.deluxe_f4'),
+            t('service_view.interior.packages.deluxe_f5'),
+            t('service_view.interior.packages.deluxe_f6'),
+            t('service_view.interior.packages.deluxe_f7')
+        ],
+        whatsappLink: computed(() => {
+            const text = locale.value === 'id' 
+                ? 'Halo PT Cakrawala Parama Internasional, saya tertarik dengan Layanan Desain Interior Paket Deluxe.'
+                : 'Hello PT Cakrawala Parama Internasional, I am interested in the Deluxe Package Interior Design Service.';
+            return `https://wa.me/6285284201428?text=${encodeURIComponent(text)}`;
+        }).value
+    }
+]);
+
+// Data FAQ Desain Interior
+const faqs = computed(() => [
+    {
+        q: t('service_view.interior.faq.q1'),
+        a: t('service_view.interior.faq.a1')
+    },
+    {
+        q: t('service_view.interior.faq.q2'),
+        a: t('service_view.interior.faq.a2')
+    },
+    {
+        q: t('service_view.interior.faq.q3'),
+        a: t('service_view.interior.faq.a3')
+    },
+    {
+        q: t('service_view.interior.faq.q4'),
+        a: t('service_view.interior.faq.a4')
+    }
+]);
+
+// FAQ Accordion State
+const activeFaqIndex = ref(null);
+
+const toggleFaq = (index) => {
+    if (activeFaqIndex.value === index) {
+        activeFaqIndex.value = null;
+    } else {
+        activeFaqIndex.value = index;
+    }
+};
 </script>
 
 <template>
@@ -279,6 +396,266 @@ onUnmounted(() => {
                 </div>
             </div>
         </div>
+
+        <!-- DED & RAB SECTION -->
+        <div class="py-24 bg-[#FAF9F6] border-b border-red-100/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <p class="text-red-600 font-bold tracking-[0.3em] uppercase text-[10px] mb-2">
+                        {{ $t('service_view.interior.project_docs.subtitle') }}
+                    </p>
+                    <h2 class="text-3xl md:text-4xl font-black text-gray-900 uppercase tracking-tighter">
+                        {{ $t('service_view.interior.project_docs.title') }}
+                    </h2>
+                    <div class="w-16 h-1 bg-red-600 mx-auto mt-4 mb-6 rounded-full"></div>
+                    <p class="font-quicksand text-gray-600 font-medium leading-relaxed text-base md:text-lg">
+                        {{ $t('service_view.interior.project_docs.description') }}
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <!-- Project 1 Card -->
+                    <div class="bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden flex flex-col justify-between transform hover:-translate-y-1 transition-all duration-300">
+                        <div class="p-8">
+                            <h3 class="text-xl md:text-2xl font-black text-gray-900 uppercase tracking-tight mb-3">
+                                {{ $t('service_view.interior.project_docs.project1_title') }}
+                            </h3>
+                            <p class="text-sm text-gray-600 font-medium leading-relaxed mb-6 font-quicksand min-h-[60px]">
+                                {{ $t('service_view.interior.project_docs.project1_desc') }}
+                            </p>
+
+                            <!-- Tabs -->
+                            <div class="flex bg-gray-100 p-1.5 rounded-xl mb-6">
+                                <button @click="projectTabs.project1 = 'ded'"
+                                        class="flex-1 py-2.5 text-xs md:text-sm font-bold rounded-lg transition-all"
+                                        :class="projectTabs.project1 === 'ded' ? 'bg-white text-red-600 shadow-sm' : 'text-gray-500 hover:text-gray-800'">
+                                    {{ $t('service_view.interior.project_docs.tab_ded') }}
+                                </button>
+                                <button @click="projectTabs.project1 = 'rab'"
+                                        class="flex-1 py-2.5 text-xs md:text-sm font-bold rounded-lg transition-all"
+                                        :class="projectTabs.project1 === 'rab' ? 'bg-white text-red-600 shadow-sm' : 'text-gray-500 hover:text-gray-800'">
+                                    {{ $t('service_view.interior.project_docs.tab_rab') }}
+                                </button>
+                            </div>
+
+                            <!-- Image Container -->
+                            <div class="relative bg-gray-50 rounded-2xl overflow-hidden group aspect-[4/3] border border-gray-100 flex items-center justify-center cursor-zoom-in"
+                                 @click="openModal(
+                                     projectTabs.project1 === 'ded' 
+                                         ? '/img/desain-interior/ded-ruang-kepala-biro-keuangan.webp' 
+                                         : '/img/desain-interior/rab-ruang-kepala-biro-keuangan.jpeg',
+                                     projectTabs.project1 === 'ded' 
+                                         ? $t('service_view.interior.project_docs.tab_ded') 
+                                         : $t('service_view.interior.project_docs.tab_rab')
+                                 )"
+                                 :title="$t('service_view.interior.project_docs.zoom_tooltip')">
+                                <img :src="projectTabs.project1 === 'ded' 
+                                         ? '/img/desain-interior/ded-ruang-kepala-biro-keuangan.webp' 
+                                         : '/img/desain-interior/rab-ruang-kepala-biro-keuangan.jpeg'" 
+                                     :alt="$t('service_view.interior.project_docs.project1_title')"
+                                     class="max-h-full max-w-full object-contain p-2 transform group-hover:scale-[1.02] transition-all duration-500" />
+                                
+                                <!-- Hover Zoom Overlay -->
+                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-20">
+                                    <div class="bg-white/90 backdrop-blur-sm p-3 rounded-full text-red-600 shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 Card -->
+                    <div class="bg-white rounded-3xl border border-gray-100 shadow-xl overflow-hidden flex flex-col justify-between transform hover:-translate-y-1 transition-all duration-300">
+                        <div class="p-8">
+                            <h3 class="text-xl md:text-2xl font-black text-gray-900 uppercase tracking-tight mb-3">
+                                {{ $t('service_view.interior.project_docs.project2_title') }}
+                            </h3>
+                            <p class="text-sm text-gray-600 font-medium leading-relaxed mb-6 font-quicksand min-h-[60px]">
+                                {{ $t('service_view.interior.project_docs.project2_desc') }}
+                            </p>
+
+                            <!-- Tabs -->
+                            <div class="flex bg-gray-100 p-1.5 rounded-xl mb-6">
+                                <button @click="projectTabs.project2 = 'ded'"
+                                        class="flex-1 py-2.5 text-xs md:text-sm font-bold rounded-lg transition-all"
+                                        :class="projectTabs.project2 === 'ded' ? 'bg-white text-red-600 shadow-sm' : 'text-gray-500 hover:text-gray-800'">
+                                    {{ $t('service_view.interior.project_docs.tab_ded') }}
+                                </button>
+                                <button @click="projectTabs.project2 = 'rab'"
+                                        class="flex-1 py-2.5 text-xs md:text-sm font-bold rounded-lg transition-all"
+                                        :class="projectTabs.project2 === 'rab' ? 'bg-white text-red-600 shadow-sm' : 'text-gray-500 hover:text-gray-800'">
+                                    {{ $t('service_view.interior.project_docs.tab_rab') }}
+                                </button>
+                            </div>
+
+                            <!-- Image Container -->
+                            <div class="relative bg-gray-50 rounded-2xl overflow-hidden group aspect-[4/3] border border-gray-100 flex items-center justify-center cursor-zoom-in"
+                                 @click="openModal(
+                                     projectTabs.project2 === 'ded' 
+                                         ? '/img/desain-interior/ded-tempat-wudhu.jpeg' 
+                                         : '/img/desain-interior/rab-tempat-wudhu.jpeg',
+                                     projectTabs.project2 === 'ded' 
+                                         ? $t('service_view.interior.project_docs.tab_ded') 
+                                         : $t('service_view.interior.project_docs.tab_rab')
+                                 )"
+                                 :title="$t('service_view.interior.project_docs.zoom_tooltip')">
+                                <img :src="projectTabs.project2 === 'ded' 
+                                         ? '/img/desain-interior/ded-tempat-wudhu.jpeg' 
+                                         : '/img/desain-interior/rab-tempat-wudhu.jpeg'" 
+                                     :alt="$t('service_view.interior.project_docs.project2_title')"
+                                     class="max-h-full max-w-full object-contain p-2 transform group-hover:scale-[1.02] transition-all duration-500" />
+                                
+                                <!-- Hover Zoom Overlay -->
+                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-20">
+                                    <div class="bg-white/90 backdrop-blur-sm p-3 rounded-full text-red-600 shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Zoom Image Modal -->
+        <transition name="fade">
+            <div v-if="isModalOpen" 
+                 class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/90 p-4 md:p-8 overflow-hidden backdrop-blur-md cursor-zoom-out"
+                 @click="closeModal">
+                <button @click="closeModal" 
+                        class="absolute top-6 right-6 text-white hover:text-red-500 bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all duration-300 hover:scale-110 focus:outline-none z-50"
+                        aria-label="Close modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                <div class="relative max-w-5xl max-h-[80vh] flex flex-col items-center justify-center" @click.stop>
+                    <img :src="modalImgSrc" :alt="modalImgAlt" class="max-w-full max-h-[75vh] object-contain rounded-lg shadow-2xl border border-white/10" />
+                    <p class="text-white/80 font-bold mt-4 tracking-wider uppercase text-sm md:text-base font-montserrat">
+                        {{ modalImgAlt }}
+                    </p>
+                </div>
+            </div>
+        </transition>
+
+        <!-- PACKAGES SECTION -->
+        <section class="py-24 bg-white border-t border-red-100/30">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-20">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-100 text-[#ED0226] text-xs font-bold uppercase tracking-[0.2em] mb-4">
+                        {{ locale === 'id' ? 'Paket Layanan' : 'Service Packages' }}
+                    </div>
+                    <h2 class="text-3xl lg:text-5xl font-black text-slate-950 mb-6">
+                        {{ $t('service_view.interior.packages.title') }}
+                    </h2>
+                    <p class="text-slate-600 text-lg leading-relaxed font-quicksand font-medium">
+                        {{ $t('service_view.interior.packages.desc') }}
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8 items-stretch">
+                    <div v-for="pkg in packages" :key="pkg.name" 
+                         class="relative bg-white border rounded-3xl p-8 shadow-xl flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
+                         :class="pkg.popular ? 'border-[#ED0226] ring-2 ring-[#ED0226]/10 lg:scale-105 z-10' : 'border-slate-200/80'">
+                        
+                        <div v-if="pkg.popular" class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#ED0226] to-[#FF6A00] text-white text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-md">
+                            {{ locale === 'id' ? 'Terpopuler' : 'Most Popular' }}
+                        </div>
+
+                        <div>
+                            <div class="mb-6">
+                                <h3 class="text-2xl font-black text-slate-950 mb-3" :class="pkg.popular ? 'text-[#ED0226]' : ''">
+                                    {{ pkg.name }}
+                                </h3>
+                                <p class="text-slate-500 text-sm leading-relaxed min-h-[48px] font-medium font-quicksand">
+                                    {{ pkg.desc }}
+                                </p>
+                            </div>
+
+                            <div class="w-full h-px bg-slate-100 my-6"></div>
+
+                            <ul class="space-y-4">
+                                <li v-for="feature in pkg.features" :key="feature" class="flex items-start gap-3">
+                                    <span class="flex-shrink-0 text-[#ED0226] bg-red-50 rounded-full p-1 mt-0.5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    </span>
+                                    <span class="text-slate-700 text-sm font-semibold font-quicksand text-left">{{ feature }}</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="mt-8 pt-6 border-t border-slate-50">
+                            <a :href="pkg.whatsappLink" 
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="w-full inline-flex items-center justify-center py-4 px-6 rounded-2xl font-bold text-center transition-all duration-300"
+                               :class="pkg.popular 
+                                   ? 'bg-[#ED0226] text-white hover:bg-[#c9001f] shadow-lg shadow-red-600/20' 
+                                   : 'bg-slate-100 text-slate-800 hover:bg-slate-200'">
+                                {{ locale === 'id' ? 'Konsultasi Sekarang' : 'Consult Now' }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ SECTION -->
+        <section class="py-24 bg-[#FAF9F6] border-y border-red-100/30">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-100 text-[#ED0226] text-xs font-bold uppercase tracking-[0.2em] mb-4">
+                        FAQ
+                    </div>
+                    <h2 class="text-3xl lg:text-5xl font-black text-slate-950 mb-6">
+                        {{ $t('service_view.interior.faq.title') }}
+                    </h2>
+                    <p class="text-slate-600 text-lg font-quicksand font-medium">
+                        {{ $t('service_view.interior.faq.desc') }}
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <div v-for="(faq, index) in faqs" :key="index" 
+                         class="bg-white border border-slate-150 rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md transition-all duration-300">
+                        <button @click="toggleFaq(index)" 
+                                class="w-full flex items-center justify-between gap-6 text-left group">
+                            <span class="text-slate-900 font-extrabold text-base md:text-lg transition-colors group-hover:text-[#ED0226]">
+                                {{ faq.q }}
+                            </span>
+                            <span class="transform transition-transform duration-300" 
+                                  :class="activeFaqIndex === index ? 'rotate-180 text-[#ED0226]' : 'rotate-0 text-slate-400'">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </span>
+                        </button>
+                        
+                        <transition
+                            enter-active-class="transition-all duration-300 ease-out"
+                            leave-active-class="transition-all duration-200 ease-in"
+                            enter-from-class="max-h-0 opacity-0 overflow-hidden"
+                            enter-to-class="max-h-[32rem] opacity-100 overflow-hidden"
+                            leave-from-class="max-h-[32rem] opacity-100 overflow-hidden"
+                            leave-to-class="max-h-0 opacity-0 overflow-hidden"
+                        >
+                            <div v-show="activeFaqIndex === index" 
+                                 class="mt-4 text-slate-600 text-sm md:text-base leading-relaxed border-t border-slate-100 pt-4 font-quicksand font-medium text-left">
+                                {{ faq.a }}
+                            </div>
+                        </transition>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <div class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
