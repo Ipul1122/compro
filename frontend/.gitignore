@@ -39,3 +39,16 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
+
+# Public images and user uploads
+/public/img/
+
+# Environment files
+.env
+.env.development
+.env.production
+.env.local
+.env.*.local
+
+# Crash dumps
+*.stackdump

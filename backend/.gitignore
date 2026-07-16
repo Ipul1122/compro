@@ -23,3 +23,11 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Sensitive Seeders containing credentials
+/database/seeders/DatabaseSeeder.php
+/database/seeders/DirekturSeeder.php
+
+# Local Temp Logs
+temp_log.txt
+temp_log_utf8.txt
