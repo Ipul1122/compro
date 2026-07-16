@@ -73,6 +73,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('articles', ArticleController::class);
     
     Route::post('galleries/bulk-store', [GalleryController::class, 'bulkStore']);
+    Route::post('galleries/bulk-approve', [GalleryController::class, 'bulkApprove']);
     Route::post('galleries/bulk-delete', [GalleryController::class, 'bulkDestroy']);
     Route::apiResource('galleries', GalleryController::class);
     Route::apiResource('employees', EmployeeController::class);
@@ -94,6 +95,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('articles/{id}/approve', [ArticleController::class, 'approve']);
         
         Route::post('galleries/bulk-store', [GalleryController::class, 'bulkStore']);
+        Route::post('galleries/bulk-approve', [GalleryController::class, 'bulkApprove']);
         Route::post('galleries/bulk-delete', [GalleryController::class, 'bulkDestroy']);
         Route::apiResource('galleries', GalleryController::class);
         

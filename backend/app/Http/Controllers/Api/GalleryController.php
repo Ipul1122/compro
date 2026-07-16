@@ -5,15 +5,25 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Gallery;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class GalleryController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Gallery::select('id', 'category_id', 'user_id', 'title_image', 'meta_title_image', 'image', 'created_at', 'updated_at')
+        $query = Gallery::select('id', 'category_id', 'user_id', 'title_image', 'meta_title_image', 'image', 'status', 'created_at', 'updated_at')
             ->with(['category:id,name,slug', 'user:id,name'])
             ->latest();
+
+        // Hanya tampilkan galeri yang sudah disetujui (approved) untuk publik
+        if (!request()->is('*admin*') && !request()->is('*direktur*')) {
+            $query->where('status', 'approved');
+        } else {
+            if ($request->filled('status')) {
+                $query->where('status', $request->status);
+            }
+        }
 
         // Filter berdasarkan kategori
         if ($request->filled('category_id')) {
@@ -45,12 +55,15 @@ class GalleryController extends Controller
 
         $imagePath = $request->file('image')->store('galleries', 'public');
 
+        $status = Auth::user()->role === 'direktur' ? 'approved' : 'pending';
+
         $gallery = Gallery::create([
             'category_id' => $request->category_id,
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'title_image' => $request->title_image,
             'meta_title_image' => $request->meta_title_image,
-            'image' => $imagePath
+            'image' => $imagePath,
+            'status' => $status
         ]);
 
         return response()->json([
@@ -121,16 +134,18 @@ class GalleryController extends Controller
         $uploadedData = [];
         $categoryId = $request->category_id;
         $titleBase = $request->title_image ?? 'Gallery';
+        $status = Auth::user()->role === 'direktur' ? 'approved' : 'pending';
 
         foreach ($request->file('images') as $index => $image) {
             $path = $image->store('galleries', 'public');
             
             $gallery = Gallery::create([
                 'category_id'      => $categoryId,
-                'user_id'          => auth()->id(),
+                'user_id'          => Auth::id(),
                 'title_image'      => $titleBase . " " . ($index + 1),
                 'image'            => $path,
                 'meta_title_image' => $titleBase . " " . ($index + 1),
+                'status'           => $status
             ]);
 
             $uploadedData[] = $gallery;
@@ -141,6 +156,29 @@ class GalleryController extends Controller
             'message' => count($uploadedData) . ' gambar berhasil diupload.',
             'data'    => $uploadedData
         ], 201);
+    }
+
+    public function bulkApprove(Request $request)
+    {
+        $user = Auth::user();
+        if ($user->role !== 'direktur') {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Akses persetujuan hanya untuk Direktur'
+            ], 403);
+        }
+
+        $request->validate([
+            'ids'   => 'required|array',
+            'ids.*' => 'exists:galleries,id'
+        ]);
+
+        Gallery::whereIn('id', $request->ids)->update(['status' => 'approved']);
+
+        return response()->json([
+            'status'  => 'success',
+            'message' => count($request->ids) . ' foto galeri berhasil disetujui.'
+        ]);
     }
 
     public function bulkDestroy(Request $request)

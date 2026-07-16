@@ -14,7 +14,8 @@ class Gallery extends Model
         'user_id',
         'title_image',
         'image',
-        'meta_title_image'
+        'meta_title_image',
+        'status'
     ];
 
     // Relasi balik ke Category (Satu gallery dimiliki oleh satu category)

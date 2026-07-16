@@ -90,7 +90,8 @@ const groupedGalleries = computed(() => {
                 cover: gallery.image,
                 user: gallery.user,
                 total_images: 0,
-                ids: []
+                ids: [],
+                status: gallery.status
             }
         }
         groups[key].total_images += 1
@@ -188,6 +189,23 @@ const confirmDelete = async () => {
     } catch (error) {
         alert('Gagal menghapus wadah galeri')
         deleteModal.value.isDeleting = false
+    }
+}
+
+const approveAlbum = async (album) => {
+    if (!confirm(`Setujui semua foto di dalam album "${album.title}"?`)) return
+
+    try {
+        await Api.post('/direktur/galleries/bulk-approve', { ids: album.ids })
+        alert('Album galeri berhasil disetujui')
+        fetchGalleries()
+    } catch (error) {
+        console.error('Error approving gallery album:', error)
+        if (error.response && error.response.data && error.response.data.message) {
+            alert(error.response.data.message)
+        } else {
+            alert('Gagal menyetujui album galeri. Silakan coba lagi.')
+        }
     }
 }
 
@@ -291,6 +309,7 @@ const handleLogout = () => {
                                     <th class="px-4 sm:px-6 py-4 whitespace-nowrap">Judul Album</th>
                                     <th class="px-4 sm:px-6 py-4 whitespace-nowrap">Kategori</th>
                                     <th class="px-4 sm:px-6 py-4 whitespace-nowrap">Isi Wadah</th>
+                                    <th class="px-4 sm:px-6 py-4 whitespace-nowrap">Status</th>
                                     <th class="px-4 sm:px-6 py-4 whitespace-nowrap">Author</th>
                                     <th class="px-4 sm:px-6 py-4 text-right whitespace-nowrap">Aksi</th>
                                 </tr>
@@ -299,7 +318,7 @@ const handleLogout = () => {
                             <tbody class="divide-y divide-slate-100">
                                 <template v-if="isLoading">
                                     <tr v-for="n in 5" :key="n" class="animate-pulse">
-                                        <td colspan="6" class="px-4 py-4"><div class="h-16 bg-slate-100 rounded-xl w-full"></div></td>
+                                        <td colspan="7" class="px-4 py-4"><div class="h-16 bg-slate-100 rounded-xl w-full"></div></td>
                                     </tr>
                                 </template>
 
@@ -327,6 +346,11 @@ const handleLogout = () => {
                                             <span class="font-bold text-slate-700 text-sm">{{ album.total_images }} <span class="text-slate-400 font-medium">Foto</span></span>
                                         </td>
                                         <td class="px-4 sm:px-6 py-4">
+                                            <span :class="album.status === 'approved' ? 'bg-emerald-100 text-emerald-600 border-emerald-200' : 'bg-amber-100 text-amber-700 border-amber-200'" class="px-3 py-1.5 rounded-lg border text-[10px] font-black uppercase tracking-wider">
+                                                {{ album.status === 'approved' ? 'Approved' : 'Pending' }}
+                                            </span>
+                                        </td>
+                                        <td class="px-4 sm:px-6 py-4">
                                             <div class="flex items-center gap-2">
                                                 <div class="w-6 h-6 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-xs uppercase">
                                                     {{ album.user?.name?.charAt(0) || 'U' }}
@@ -336,6 +360,13 @@ const handleLogout = () => {
                                         </td>
                                         <td class="px-4 sm:px-6 py-4 text-right">
                                             <div class="flex justify-end items-center gap-2">
+                                                <button v-if="user.role === 'direktur' && album.status !== 'approved'" @click="approveAlbum(album)"
+                                                    class="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all cursor-pointer"
+                                                    title="Setujui Album">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                    </svg>
+                                                </button>
                                                 <router-link :to="`/direktur/gallery/edit/${album.id}`" class="px-4 py-2 text-xs font-bold bg-slate-100 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
                                                     Buka
                                                 </router-link>
@@ -352,7 +383,7 @@ const handleLogout = () => {
                                 <!-- EMPTY STATE SAAT FILTER AKTIF -->
                                 <template v-else-if="!isLoading && filteredAlbums.length === 0">
                                     <tr>
-                                        <td colspan="6" class="px-6 py-16 text-center">
+                                        <td colspan="7" class="px-6 py-16 text-center">
                                             <div class="flex flex-col items-center gap-3 text-slate-400">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-4.35-4.35M17 11A6 6 0 1 0 5 11a6 6 0 0 0 12 0z" />
