@@ -15,20 +15,20 @@ class DatabaseSeeder extends Seeder
     {
         // Membuat data Admin Default untuk testing
         User::updateOrCreate(
-            ['email' => 'syaiful@cakrawala-internasional.co.id'],
+            ['email' => 'admin@gmail.com'],
             [
-                'name' => 'Syaiful',
-                'password' => Hash::make('Skyfoxmp4'),
+                'name' => 'your name',
+                'password' => Hash::make('Password'),
                 'role' => 'admin'
             ]
         );
 
         // Membuat akun Direktur khusus untuk switch akun di halaman login
         User::updateOrCreate(
-            ['email' => 'melanidian@cakrawala-internasional.co.id'],
+            ['email' => 'direktur@gmail.com'],
             [
-                'name' => 'Direktur',
-                'password' => Hash::make('ParamaDoraemon100'),
+                'name' => 'your name',
+                'password' => Hash::make('Password'),
                 'role' => 'direktur'
             ]
         );
