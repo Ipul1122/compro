@@ -11,6 +11,14 @@ const activeCard = ref(null)
 
 const teams = [
   {
+    id: 1,
+    name: 'Sicilia Nugroho Putri',
+    title: { en: 'Event Organizer Specialist', id: 'Event Organizer Spesialis' },
+    image: '/img/sisi.png',
+    social: { linkedin: 'https://www.linkedin.com/in/sicilia-nugroho-putri-089176179' },
+    color: '#1a1a2e'
+  },
+  {
     id: 2,
     name: 'Ariel Mohammad Rasky',
     title: { en: 'Event Organizer Specialist', id: 'Event Organizer Spesialis' },
@@ -34,16 +42,16 @@ const teams = [
     social: { linkedin: '#'},
     color: '#16213e'
   },
+  // {
+  //   id: 5,
+  //   name: 'Diah Sartika Azah',
+  //   title: { en: 'Interior Design', id: ' Desain Interior' },
+  //   image: '/img/azah.webp',
+  //   social: { linkedin: 'https://www.linkedin.com/in/diah-sartika-azah-0304881b4/'},
+  //   color: '#16213e'
+  // },
   {
     id: 5,
-    name: 'Diah Sartika Azah',
-    title: { en: 'Interior Design', id: ' Desain Interior' },
-    image: '/img/azah.webp',
-    social: { linkedin: 'https://www.linkedin.com/in/diah-sartika-azah-0304881b4/'},
-    color: '#16213e'
-  },
-  {
-    id: 6,
     name: 'Muhammad Syaifulloh',
     title: { en: 'IT (FULLSTACK DEVELOPER)', id: 'IT (Pengembang Fullstack)' },
     image: '/img/ipul.webp',
@@ -59,7 +67,7 @@ const teams = [
   //   color: '#0f3460'
   // },
   {
-    id: 8,
+    id: 6,
     name: 'Wahyu Nur A',
     title: { en: 'IT (FULLSTACK DEVELOPER)', id: 'IT (Pengembang Fullstack)' },
     image: '/img/wahyu.webp',
