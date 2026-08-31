@@ -14,6 +14,14 @@ const props = defineProps({
 
 const dummyProjects = [
     {
+        id: 'parlemen_reamaja',
+        title: 'Membantu DPR RI dalam kegiatan wawancara dan psikologi parlemen remaja',
+        category: 'DPR RI',
+        year: 2026,
+        location: 'Jakarta',
+        client: 'Sekretariat Jenderal DPR RI'
+    },
+    {
         id: 'dpr_website_perisai_2026',
         title: 'Pembuatan Website Perisai untuk Jabatan Fungsional DPR RI',
         category: 'DPR RI',
